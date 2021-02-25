@@ -1,0 +1,83 @@
+<openerp>
+    <data>
+
+        <record id="dp_shipmaster_inviation_form_view" model="ir.ui.view">
+            <field name="name">shipmaster.invitation.form.view</field>
+            <field name="model">shipmaster.invitation</field>
+            <field name="arch" type="xml">
+            <form string="Ship Master Invitation">
+                <sheet>
+                     <group>
+                        <field name="template_file" invisible="1"/>
+                        <field name="template_data" widget="url" string="Download Template" readonly="1" text="shipmaster_invitation.xlsx"/>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="file_import" filename="file_name"/>
+                            <field name="file_name" invisible="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page>
+                            <field name="invitation_lines">
+                                <tree editable="bottom">
+                                    <field name="shipmaster_name"/>
+                                    <field name="shipmaster_email"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <footer>
+                    <button name="import_excel" string="Import Excel" type="object" class="oe_highlight" attrs="{'invisible': [('file_import', '=', False)]}"/>
+                    <button name="send_invitation" string="Send Invitation" type="object" class="oe_highlight" /> or
+                    <button string="Cancel" class="btn-default" special="cancel"/>
+                </footer>
+            </form>
+            </field>
+        </record>
+
+
+
+
+        <!--user_id :- consider as Chandler in saleorder model -->
+        <!--partner_id :- consider as Shipmaster in saleorder model -->
+        <!--user.email :- consider as [current login or super user] in all model -->
+
+        <!--Invitation email from Chandler to Ship Master-->
+        <record id="invitation_shipmaster_onboard_email" model="email.template">
+            <field name="name">invitation_shipmaster_onboard_email</field>
+            <field name="subject">Hi There, ${object.user_id.partner_id.name} Has Invited You To Join BUYTAXFREE</field>
+            <field name="model_id" ref="model_dp_shipmaster_invitation"/>
+            <field name="email_from"><![CDATA["${object.user_id.partner_id.name|safe}" <${(object.user_id.partner_id.email or user_id.email)|safe}>]]></field>
+            <field name="email_to">${object.shipmaster_email |safe}</field>
+            <field name="body_html"><![CDATA[
+                <p>Dear ${object.shipmaster_name}, <br><br></p>
+                <p>On behalf of ${object.user_id.partner_id.name}, welcome to BUYTAXFREE, an online destination to all your bonded needs.
+                The perfect place to stay up-to-date with the ever-expanding range of products, exciting offers and latest stock availability.
+                BUYTAXFREE aims to provide a comprehensive E-catalogue to Ship Owners, Masters and Crews on a voyage passing through the Port of Singapore. <br/><br/></p>
+                <p>You are able to browse products at your convenience, check real-time stock availability, request for quotation from your preferred Ship Chandler and track your orders online.
+                 You can enjoy a seamless journey that introduces you to a wide array of bonded items.</p>
+                <p>Ready to join me on a rewarding experience? Simply click on the link below and start browsing.<br/></p>
+                <p><ul><a href="${ object.get_token_link()}">YES, I AM READY TO JOIN BUYTAXFREE!</a></ul></p>
+                <p>In case you are lost, we have also attached the instruction manual in this email on how to navigate the website.</p>
+                <p>-----</p>
+                <p>If you do not wish to join us, simply ignore this message. But why won’t you join us? Talk to us at hello@buytaxfree.com.sg.</p>
+                <p>Thank you and we look forward to working with you.<br/><br/></p>
+                <p>Yours Sincerely,</p>
+                <p>BUYTAXFREE</p>
+                <p>${object.user_id.company_id.website |safe}<br/></p>
+                <p>---- This is an automatically generated message. Please do not reply to this address. You may not use, reproduce, or transfer this message or its contents into any medium without the written permission of BUYTAXFREE.</p>
+                ]]></field>
+        </record>
+
+        <record id="shipmaster_inv_temp" model="ir.attachment">
+            <field name="name">shipmaster_invitation.xlsx</field>
+            <field name="datas_fname">shipmaster_invitation.xlsx</field>
+            <field name="res_model">shipmaster.invitation</field>
+            <field name="type">url</field>
+            <field name="url">/dp_common/static/src/template/shipmaster.email_template.xlsx</field>
+        </record>
+
+    </data>
+</openerp>

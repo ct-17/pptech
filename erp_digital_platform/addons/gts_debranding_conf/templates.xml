@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- vim:fdn=3:
+-->
+<openerp>
+    <data>
+
+
+        <template id="gts_debranding_conf.layout" inherit_id="web.layout">
+            <xpath expr="//meta[@http-equiv='content-type']" position="after">
+                <link rel="shortcut icon" href="/gts_debranding_conf/static/src/img/favicon.ico" type="image/x-icon"/>
+            </xpath>
+            <xpath expr="//title" position="replace">
+                <title>
+                    <t t-if="title">
+                        <t t-esc="title" />
+                    </t>
+                </title>
+                <h1 id="title_myconf" style="display: none"><t t-esc="title_conf" /></h1>
+            </xpath>
+            <xpath expr="//link[@rel='shortcut icon']" position="replace">
+                <link rel="shortcut icon" href="/gts_debranding_conf/static/src/img/favicon.ico" type="image/x-icon"/>
+            </xpath>
+            <xpath expr="//html/head" position="inside">
+                <link href="/gts_debranding_conf/static/src/css/newport_style.css" rel="stylesheet"/>
+            </xpath>
+        </template>
+        
+        <template id="gts_debranding_conf.qunit_suite" inherit_id="web.qunit_suite">
+            <xpath expr="//title" position="replace">
+                <title>[Elephas] Web Tests</title>
+            </xpath>
+            <xpath expr="//link[@rel='shortcut icon']" position="replace">
+                <link rel="shortcut icon" href="/gts_debranding_conf/static/src/img/favicon.ico" type="image/x-icon"/>
+            </xpath>
+        </template>
+
+        <template id="gts_debranding_conf.menu_secondary" inherit_id="web.menu_secondary">
+            <xpath expr="//div[@class='oe_footer']" position="replace">
+                <div class="oe_footer">
+                    Powered by <a href="http://elephas.solutions" target="_blank">
+                    <t t-if="power_by">
+                        <span><t t-esc="power_by" /></span>
+                    </t>
+                </a>
+                </div>
+            </xpath>
+        </template>
+
+        <template id="gts_debranding_conf.layout_footer_copyright" inherit_id="website.layout_footer_copyright">
+            <xpath expr="//footer/div[last()]" position="replace">
+                 <div class="container mt16 mb8">
+                    <div class="pull-right" t-ignore="true" t-if="not editable">
+                        Powered by
+                        <a class="label label-danger" href="http://www.odoo.com/page/website-builder">Elephas Software Solution</a>,
+                    </div>
+                    <div class="pull-left text-muted">
+                        Copyright &amp;copy; <span t-field="res_company.name">Company name</span>
+                    </div>
+                </div>
+            </xpath>
+        </template>
+
+
+        <!--<template id="rpl_oe_f" inherit_id="web.menu_secondary">-->
+            <!--<xpath expr="//div[@class='oe_footer']" position="replace"></xpath>-->
+        <!--</template>-->
+        <template id="shortcut_icon" inherit_id="web.layout">
+            <xpath expr="//head/link[@rel='shortcut icon']" position="replace">
+                <link rel="shortcut icon" href="/gts_debranding_conf/static/src/img/favicon.ico" type="image/x-icon"/>
+            </xpath>
+            <xpath expr="//head/title" position="replace">
+                <title>
+                    <t t-if="title">
+                        <t t-esc="title" />
+                    </t>
+                </title>
+            </xpath>
+        </template>
+
+        <template id="anlo" inherit_id="web.assets_backend">
+            <xpath expr="//script[@src='/base/static/src/js/apps.js']" position="after">
+                <script type="text/javascript" src="/gts_debranding_conf/static/src/js/branding.js"></script>
+                <link rel="stylesheet" type="text/css" href="/gts_debranding_conf/static/src/css/newport_style.css" />
+            </xpath>
+        </template>
+    </data>
+</openerp>

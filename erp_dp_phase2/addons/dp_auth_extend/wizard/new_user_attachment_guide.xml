@@ -1,0 +1,50 @@
+<openerp>
+    <data>
+        <record id="chandler_admin_upload_user_guide_form_view" model="ir.ui.view">
+            <field name="name">chandler.admin.upload.user.guide.form.view</field>
+            <field name="model">new.user.attachment.guide.wizard</field>
+            <field name="groups">dp_common.group_chandler_admin,dp_common.group_super_admin</field>
+            <field name="arch" type="xml">
+                <form>
+                    <field name="new_attach_line">
+                        <tree editable="bottom" class="new_user_pdf">
+                            <field name="type" style="width:12%%"/>
+                            <field name="file_import" filename="file_name"/>
+                            <field name="file_name" invisible="1"/>
+                        </tree>
+                    </field>
+                    <footer>
+                        <button name="import_user_guide_into_email" string="Import User Guide"
+                                type="object" class="oe_highlight"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="chandler_admin_upload_user_guide" model="ir.actions.act_window">
+            <field name="name">Chandler Admin Upload New User Guide</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">new.user.attachment.guide.wizard</field>
+            <field name="priority">180</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="groups">dp_common.group_chandler_admin,dp_common.group_super_admin</field>
+        </record>
+        <record id="dp_shipmaster_form_action" model="ir.actions.act_window.view">
+            <field name="sequence">1</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="view_id" ref="chandler_admin_upload_user_guide_form_view"/>
+            <field name="act_window_id" ref="chandler_admin_upload_user_guide"/>
+        </record>
+
+
+        <menuitem name="Chandler Admin" id="chandler_admin_settings_menu" parent="base.menu_administration" sequence="2"
+                  groups="dp_common.group_super_admin"/>
+        <menuitem name="New User Email Attachment" id="shipmaster_parent_menu" parent="chandler_admin_settings_menu"
+                  groups="dp_common.group_super_admin"
+                  action="chandler_admin_upload_user_guide"/>
+    </data>
+</openerp>

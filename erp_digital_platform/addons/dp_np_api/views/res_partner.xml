@@ -1,0 +1,27 @@
+<openerp>
+    <data>
+        <record id="dp_res_partner_inherit_form_view" model="ir.ui.view">
+            <field name="name">dp.res.partner.inherit.form.view</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="company_code" placeholder="Company Code"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="dp_chandler_holding_list_form_view_inherit" model="ir.ui.view">
+            <field name="name">dp.chandler.temp.form</field>
+            <field name="model">dp.chandler.temp</field>
+            <field name="inherit_id" ref="dp_auth.dp_chandler_holding_list_form_view" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='email']" position="after">
+                    <field name="code" placeholder="Company Code" attrs="{'readonly': [('state', 'in', ('approved', 'rejected'))]}" invisible="1"/>
+                    <field name="company" placeholder="Company" attrs="{'readonly': [('state', 'in', ('approved', 'rejected'))]}" required="True"  domain="[('is_company','=',True)]"/>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</openerp>

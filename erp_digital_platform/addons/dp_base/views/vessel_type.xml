@@ -1,0 +1,43 @@
+<openerp>
+    <data>
+        <record model="ir.ui.view" id="vessel_tree_id">
+            <field name="name">vessel.tree</field>
+            <field name="model">vessel.type</field>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="code"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="vessel_form_id">
+            <field name="name">vessel.form</field>
+            <field name="model">vessel.type</field>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <field name="code"/>
+                        <field name="name"/>
+                    </group>
+                </form>
+
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="vessel_action">
+            <field name="name">Vessel Type</field>
+            <field name="res_model">vessel.type</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem name="Vessel Type"
+            id="base_menu_vessel"
+            sequence="4"
+            action="vessel_action"
+            parent="base.menu_base_config" groups="dp_common.group_super_admin"/>
+    </data>
+</openerp>

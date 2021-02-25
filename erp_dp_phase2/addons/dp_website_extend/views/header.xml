@@ -1,0 +1,437 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+		<!-- Header -->
+		<!--<template id="theme_header_extend" inherit_id="website.layout">-->
+			<!--<xpath expr="//header" position="replace">-->
+				<!--<header class="header-part">-->
+				    <!--<div class="top-header" style="padding-top: 10px">-->
+				        <!--<div class="container">-->
+				            <!--<div class="row align-items-center">-->
+<!--&lt;!&ndash;				                <div class="col-12">&ndash;&gt;-->
+<!--&lt;!&ndash;				                    <a groups="base.group_public" href="/web/login"><i class="fa fa-sign-in" aria-hidden="true"></i> Login</a>&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;									/&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;				                    <a groups="base.group_public" href="/web/signup"><i class="fa fa-user" aria-hidden="true"></i> Register</a>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;				                    <ul class="nav navbar-nav navbar-right" id="top_menu" t-if="website.user_id != user_id">&ndash;&gt;-->
+<!--&lt;!&ndash;					                  <li class="dropdown" t-ignore="true">&ndash;&gt;-->
+<!--&lt;!&ndash;					                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="margin: 0px">&ndash;&gt;-->
+<!--&lt;!&ndash;					                     <span t-esc="user_id.name"/>&ndash;&gt;-->
+<!--&lt;!&ndash;					                     <span class="caret"/>&ndash;&gt;-->
+<!--&lt;!&ndash;					                     </a>&ndash;&gt;-->
+<!--&lt;!&ndash;					                     <ul class="dropdown-menu js_usermenu" role="menu">&ndash;&gt;-->
+<!--&lt;!&ndash;					                        <li><a t-attf-href="/web/session/logout?redirect=/" role="menuitem">Logout</a></li>&ndash;&gt;-->
+<!--&lt;!&ndash;					                     </ul>&ndash;&gt;-->
+<!--&lt;!&ndash;					                  </li>&ndash;&gt;-->
+<!--&lt;!&ndash;					               </ul>&ndash;&gt;-->
+<!--&lt;!&ndash;				                </div>&ndash;&gt;-->
+				            <!--</div>-->
+				        <!--</div>-->
+				    <!--</div>-->
+				    <!--<div class="container" style="padding-bottom: 10px">-->
+				        <!--<div class="row align-items-center">-->
+				            <!--<div class="col-xs-4 col-sm-4 col-md-4 col-centered">-->
+				                <!--<div class="logo-part col-xs-5 col-sm-5 col-md-5" id="logo_part">-->
+				                     <!--<a href="/"><img src="/logo.png" t-att-alt="'Logo of %s' % res_company.name" t-att-title="res_company.name"/></a>-->
+				                    <!--&lt;!&ndash;<a href="/"><img src="/dp_website/static/src/images/buytaxfree_web.svg" t-att-alt="'Logo of %s' % res_company.name" t-att-title="res_company.name"/></a>&ndash;&gt;-->
+				                <!--</div>-->
+								<!--<div class="col-xs-7 col-sm-7 col-md-7" id="menu_part">-->
+								  <!--<ul class="nav navbar-nav navbar-left col-xs-12 col-sm-12"  >-->
+										<!--<t t-foreach="website.menu_id.child_id" t-as="submenu">-->
+
+											<!--<t t-call="website.submenu"/>-->
+											<!--<li class="divider" t-ignore="true" t-if="website.user_id != user_id"/>-->
+
+										<!--</t>-->
+									<!--</ul>-->
+								<!--</div>-->
+				            <!--</div>-->
+				            <!--<div class="col-xs-4 col-sm-4 col-md-4 col-centered" id="search_bar_part">-->
+								<!--<div class="header-search">-->
+									<!--<form role="search" method="get" action="/shop">-->
+<!--&lt;!&ndash;									<form role="search" method="get" t-att-action="keep('/shop'+ ('/category/'+slug(category)) if category else '', search=0)">&ndash;&gt;-->
+										<!--<div class="select-category">-->
+											<!--<div class="SumoSelect sumo_category" tabindex="0">-->
+												<!--<select class="SlectBox SumoUnder" id="dropdown_pub_cat" name="DropdownCategory">-->
+<!--&lt;!&ndash;													<option value="0">Select category</option>&ndash;&gt;-->
+<!--&lt;!&ndash;													<option value="Beer">Beer</option>&ndash;&gt;-->
+<!--&lt;!&ndash;													<option value="Brandy">Brandy</option>&ndash;&gt;-->
+<!--&lt;!&ndash;													<option value="Champagne">Champagne</option>&ndash;&gt;-->
+<!--&lt;!&ndash;													<option>Foods</option>&ndash;&gt;-->
+<!--&lt;!&ndash;													<option>Gin</option>&ndash;&gt;-->
+<!--&lt;!&ndash;													<option>Liquer/Aperitif</option>&ndash;&gt;-->
+<!--&lt;!&ndash;													<option>Port</option>&ndash;&gt;-->
+<!--&lt;!&ndash;													<option>Rum</option>&ndash;&gt;-->
+<!--&lt;!&ndash;													<option>Ske/Sojo</option>&ndash;&gt;-->
+<!--&lt;!&ndash;													<option>Sherry</option>&ndash;&gt;-->
+<!--&lt;!&ndash;													<option>Tequila</option>&ndash;&gt;-->
+<!--&lt;!&ndash;													<option>Vermouth</option>&ndash;&gt;-->
+<!--&lt;!&ndash;													<option>Vodka</option>&ndash;&gt;-->
+<!--&lt;!&ndash;													<option>Whisky/Bourbon</option>&ndash;&gt;-->
+<!--&lt;!&ndash;													<option>Wines</option>&ndash;&gt;-->
+												<!--</select>-->
+											<!--</div>-->
+										<!--</div>-->
+										<!--<input name="search" type="text"-->
+											<!--placeholder="Search for products" value="" />-->
+										<!--<button type="submit">-->
+											<!--<i class="fa fa-search" aria-hidden="true"></i>-->
+										<!--</button>-->
+									<!--</form>-->
+								<!--</div>-->
+							<!--</div>-->
+
+				            <!--<div class="col-xs-1 col-sm-1 col-md-1 col-centered" groups="dp_common.group_super_admin,dp_common.group_chandler_admin,dp_common.group_shipmaster" id="cart_part">-->
+				                <!--<div class="shopping_cart">-->
+				                    <!--<t t-set="website_sale_order" t-value="website.sale_get_order()"/>-->
+					                <!--<a href="/shop/cart">-->
+						               <!--<span class="icon-cart"><img src="/dp_website/static/src/images/cart-icon.png" alt=""/></span>-->
+						               <!--<span class="line">/</span>-->
+						               <!--<span class="cart-quantity"><span class="my_cart_quantity " t-esc="website_sale_order and website_sale_order.cart_quantity or '0'"/> <b>Items</b></span>-->
+					               	<!--</a>-->
+				                <!--</div>-->
+				            <!--</div>-->
+							<!--<div class="top-header col-xs-2 col-sm-2 col-md-2 col-centered" style="padding-top: 10px" id="user_menu_part">-->
+				        		<!--<div class="container">-->
+				            		<!--<div class="row align-items-center">-->
+										<!--<a groups="base.group_public" href="/web/login"><i class="fa fa-sign-in" aria-hidden="true"></i> Login</a>-->
+	<!--&lt;!&ndash;									/&ndash;&gt;-->
+	<!--&lt;!&ndash;				                    <a groups="base.group_public" href="/web/signup"><i class="fa fa-user" aria-hidden="true"></i> Register</a>&ndash;&gt;-->
+											<!--<ul class="nav navbar-nav navbar-center" id="top_menu" t-if="website.user_id != user_id">-->
+											  <!--<li class="dropdown" t-ignore="true">-->
+												 <!--<a href="#" class="dropdown-toggle" data-toggle="dropdown" style="margin: 0px">-->
+												 <!--<span t-esc="user_id.name"/>-->
+												 <!--<span class="caret"/>-->
+												 <!--</a>-->
+												 <!--<ul class="dropdown-menu js_usermenu" role="menu">-->
+													<!--<li><a t-attf-href="/web/session/logout?redirect=/" role="menuitem">Logout</a></li>-->
+												 <!--</ul>-->
+											  <!--</li>-->
+										   <!--</ul>-->
+									<!--</div>-->
+								<!--</div>-->
+							<!--</div>-->
+				        <!--</div>-->
+<!--&lt;!&ndash;						<div class="col-xs-12 col-sm-12">&ndash;&gt;-->
+<!--&lt;!&ndash;							  <ul class="nav navbar-nav navbar-left col-xs-12 col-sm-12" >&ndash;&gt;-->
+<!--&lt;!&ndash;                                    <t t-foreach="website.menu_id.child_id" t-as="submenu">&ndash;&gt;-->
+
+<!--&lt;!&ndash;                                        <t t-call="website.submenu"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                                        <li class="divider" t-ignore="true" t-if="website.user_id != user_id"/>&ndash;&gt;-->
+
+<!--&lt;!&ndash;                                    </t>&ndash;&gt;-->
+<!--&lt;!&ndash;								</ul>&ndash;&gt;-->
+<!--&lt;!&ndash;						</div>&ndash;&gt;-->
+				        <!--<div class="row">-->
+				            <!--<div class="col-12">-->
+				                <!--<div class="inner_overlay">-->
+				                    <!--<a class="button-menu"><span></span><span></span><span></span></a>-->
+				                    <!--<div class="menu-part">-->
+				                        <!--<ul>-->
+				                            <!--<li><a href="javascript:;">Beer</a></li>-->
+				                            <!--<li><a href="javascript:;">Brandy</a></li>-->
+				                            <!--<li><a href="javascript:;">Champagne</a></li>-->
+				                            <!--<li><a href="javascript:;">Foods</a></li>-->
+				                            <!--<li><a href="javascript:;">Gin</a></li>-->
+				                            <!--<li><a href="javascript:;">Liquer/Aperitif</a></li>-->
+				                            <!--<li><a href="javascript:;">Port</a></li>-->
+				                            <!--<li><a href="javascript:;">Rum</a></li>-->
+				                            <!--<li><a href="javascript:;">Ske/Sojo</a></li>-->
+				                            <!--<li><a href="javascript:;">Sherry</a></li>-->
+				                            <!--<li><a href="javascript:;">Tequila</a></li>-->
+				                            <!--<li><a href="javascript:;">Vermouth</a></li>-->
+				                            <!--<li><a href="javascript:;">Vodka</a></li>-->
+				                            <!--<li><a href="javascript:;">Whisky/Bourbon</a></li>-->
+				                            <!--<li><a href="javascript:;">Wines</a></li>-->
+				                        <!--</ul>-->
+				                    <!--</div>-->
+				                <!--</div>-->
+				            <!--</div>-->
+				        <!--</div>-->
+				    <!--</div>-->
+				<!--</header>-->
+			<!--</xpath>-->
+		<!--</template>-->
+
+		<template id="theme_header_extend" inherit_id="dp_website.theme_header">
+			<xpath expr="//div[@class='top-header']" position="attributes">
+                <attribute name="style">display: none;</attribute>
+             </xpath>
+
+<!--			<xpath expr="//header/div[@class='container']/div[2]" position="attributes">-->
+<!--                <attribute name="style">display: none;</attribute>-->
+<!--             </xpath>-->
+			<xpath expr="//header/div[2]/div[@class='row align-items-center']" position="replace">
+				<div class="row align-items-center one-line-header">
+					<div class="logo-part">
+						 <a href="/"><img src="/logo.png" t-att-alt="'Logo of %s' % res_company.name" t-att-title="res_company.name"/></a>
+						<!--<a href="/"><img src="/dp_website/static/src/images/buytaxfree_web.svg" t-att-alt="'Logo of %s' % res_company.name" t-att-title="res_company.name"/></a>-->
+					</div>
+					<div id="menu_part">
+						  <ul class="nav navbar-nav navbar-left col-xs-12 col-sm-12"  >
+							<t t-foreach="website.menu_id.child_id" t-as="submenu">
+								<t t-call="website.submenu"/>
+								<li class="divider" t-ignore="true" t-if="website.user_id != user_id"/>
+							</t>
+						</ul>
+					</div>
+					<div class="nav-item dropdown" id="menu_part_mob_dropdown">
+					  <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+						Menu<span class="caret"></span>
+					  </a>
+					  <div class="dropdown-menu">
+							<t t-foreach="website.menu_id.child_id" t-as="submenu">
+								<t t-call="website.submenu"/>
+								<li class="divider" t-ignore="true" t-if="website.user_id != user_id"/>
+							</t>
+
+					  </div>
+					</div>
+					<div class="col-xs-4 col-sm-4 col-md-4 col-centered" id="search_bar_part">
+						<div class="header-search">
+							<form role="search" method="get" action="/shop">
+								<div class="select-category">
+									<div class="SumoSelect sumo_category" tabindex="0">
+										<select class="SlectBox SumoUnder" id="dropdown_pub_cat" name="DropdownCategory">
+										</select>
+									</div>
+								</div>
+								<input name="search" type="text"
+									placeholder="Search for products" value="" id="search_bar_input" autocomplete="off"/>
+								<button type="submit">
+									<i class="fa fa-search" aria-hidden="true"></i>
+								</button>
+							</form>
+						</div>
+					</div>
+					<div class="col-xs-6 col-sm-6 col-md-3 col-centered" groups="dp_common.group_super_admin,dp_common.group_chandler_admin,dp_common.group_shipmaster" id="cart_part">
+						<div class="shopping_cart">
+							<t t-set="website_sale_order" t-value="website.sale_get_order()"/>
+							<a href="/shop/cart">
+							   <span class="icon-cart"><img src="/dp_website/static/src/images/cart-icon.png" alt=""/></span>
+							   <span class="line">/</span>
+							   <span class="cart-quantity"><span class="my_cart_quantity " t-esc="website_sale_order and website_sale_order.cart_quantity or '0'"/> <b>Items</b></span>
+							</a>
+						</div>
+					</div>
+					<div class="top-header col-xs-2 col-sm-2 col-md-2 col-centered" id="user_menu_part">
+						<a groups="base.group_public" href="/web/login"><i class="fa fa-sign-in" aria-hidden="true"></i> Login</a>
+
+							<ul class="nav navbar-nav navbar-center" id="top_menu" t-if="website.user_id != user_id">
+							  <li class="dropdown" t-ignore="true">
+								 <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="margin: 0px">
+								 <span t-esc="user_id.name"/>
+								 <span class="caret"/>
+								 </a>
+								 <ul class="dropdown-menu js_usermenu" role="menu">
+									 <li groups="dp_common.group_shipmaster"><a href="/myaccounts" role="menuitem">My Account</a></li>
+									<li><a t-attf-href="/web/session/logout?redirect=/" role="menuitem">Logout</a></li>
+								 </ul>
+							  </li>
+						   </ul>
+					</div>
+				</div>
+
+				<div id="mobile_header">
+				<!--mobile navbar-->
+				<div class="topnav">
+					<!--mobile logo-->
+					<div id="mobile_logo">
+						<a href="/"><img src="/dp_website_extend/static/src/img/(NEW)Buytaxfree-logo_70x35_2.jpg" t-att-title="res_company.name"/></a>
+					</div>
+					<div id="mobile_cart" groups="dp_common.group_super_admin,dp_common.group_chandler_admin,dp_common.group_shipmaster">
+						<div class="shopping_cart">
+							<t t-set="website_sale_order" t-value="website.sale_get_order()"/>
+							<a href="/shop/cart">
+							   <i class="fa fa-shopping-cart"></i>
+							</a>
+						</div>
+					</div>
+
+					<!--mobile user menu-->
+					<div id="mobile_user_menu" >
+						<a groups="base.group_public" href="/web/login"><i class="fa fa-sign-in"></i> Login</a>
+						<ul t-if="website.user_id != user_id">
+						  <li class="dropdown" t-ignore="true">
+							 <a href="#" class="dropdown-toggle" data-toggle="dropdown" >
+							 <i class='fas fa-user'></i>
+<!--								 <span t-esc="user_id.name"/>-->
+							 <span class="caret"/>
+							 </a>
+							 <ul class="dropdown-menu js_usermenu" role="menu" style="right:0">
+								 <li groups="dp_common.group_shipmaster"><a href="/myaccounts" role="menuitem">My Account</a></li>
+								<li><a t-attf-href="/web/session/logout?redirect=/" role="menuitem">Logout</a></li>
+							 </ul>
+						  </li>
+					   </ul>
+					</div>
+					<!--mobile site menu-->
+					  <div id="mobile_menu_drop">
+						<t t-foreach="website.menu_id.child_id" t-as="submenu">
+							<t t-call="website.submenu"/>
+						</t>
+					  </div>
+						<a href="javascript:void(0);" class="icon" onclick="dropdown_function()">
+							<i class="fa fa-bars"></i>
+						</a>
+						<script>
+							function dropdown_function() {
+							  var x = document.getElementById("mobile_menu_drop");
+							  if (x.style.display === "block") {
+								x.style.display = "none";
+							  } else {
+								x.style.display = "block";
+							  }
+							}
+						</script>
+				</div>
+				<!--search bar-->
+				  <div id="mobile_search_bar" class="header-search">
+					  <form role="search" method="get" action="/shop">
+						  <div class="select-category">
+								<div class="SumoSelect sumo_category" tabindex="0">
+									<select class="SlectBox SumoUnder" id="dropdown_pub_cat" name="DropdownCategory">
+									</select>
+								</div>
+							</div>
+						<input id="mobile_search_input" name="search" type="text" placeholder="Search for products" value="" autocomplete="off"/>
+						<button type="submit">
+							<i class="fa fa-search" aria-hidden="true"></i>
+						</button>
+					  </form>
+				  </div>
+				</div>
+
+
+<!--				<div id="mobile_nav_bar">-->
+<!--					<nav class="navbar navbar-inverse">-->
+<!--						&lt;!&ndash;menu&ndash;&gt;-->
+<!--&lt;!&ndash;						  <div id="mobile_menu">&ndash;&gt;-->
+<!--&lt;!&ndash;							  <a class="dropdown-toggle" data-toggle="dropdown" href="#">Menu <span class="caret"></span></a>&ndash;&gt;-->
+<!--&lt;!&ndash;							  <ul class="dropdown-menu">&ndash;&gt;-->
+<!--&lt;!&ndash;								<t t-foreach="website.menu_id.child_id" t-as="submenu">&ndash;&gt;-->
+<!--&lt;!&ndash;									<t t-call="website.submenu"/>&ndash;&gt;-->
+<!--&lt;!&ndash;									<li class="divider" t-ignore="true" t-if="website.user_id != user_id"/>&ndash;&gt;-->
+<!--&lt;!&ndash;								</t>&ndash;&gt;-->
+<!--&lt;!&ndash;							  </ul>&ndash;&gt;-->
+<!--&lt;!&ndash;						  </div>&ndash;&gt;-->
+<!--							<div id="mobile_menu">-->
+<!--								<t t-foreach="website.menu_id.child_id" t-as="submenu">-->
+<!--									<t t-call="website.submenu"/>-->
+<!--								</t>-->
+<!--							</div>-->
+<!--							<a href="javascript:void(0);" class="icon" onclick="mobile_dropdown_menu()">-->
+<!--								<i class="fa fa-bars"></i>-->
+<!--						  	</a>-->
+<!--							<script>-->
+<!--								function mobile_dropdown_menu() {-->
+<!--								  var x = document.getElementById("mobile_menu");-->
+<!--								  if (x.style.display === "block") {-->
+<!--									x.style.display = "none";-->
+<!--								  } else {-->
+<!--									x.style.display = "block";-->
+<!--								  }-->
+<!--								}-->
+<!--							</script>-->
+<!--						&lt;!&ndash;logo&ndash;&gt;-->
+<!--						<div id="mobile_logo">-->
+<!--							<a href="/"><img src="/dp_website_extend/static/src/img/(NEW)Buytaxfree-logo_70x35_2.jpg" t-att-title="res_company.name"/></a>-->
+<!--						</div>-->
+<!--						&lt;!&ndash;cart&ndash;&gt;-->
+<!--						<div id="mobile_cart" groups="dp_common.group_super_admin,dp_common.group_chandler_admin,dp_common.group_shipmaster">-->
+<!--							<div class="shopping_cart">-->
+<!--								<t t-set="website_sale_order" t-value="website.sale_get_order()"/>-->
+<!--								<a href="/shop/cart">-->
+<!--								   <i class="fa fa-shopping-cart"></i>-->
+<!--&lt;!&ndash;								   <span class="line">/</span>&ndash;&gt;-->
+<!--&lt;!&ndash;								   <span class="cart-quantity"><span class="my_cart_quantity " t-esc="website_sale_order and website_sale_order.cart_quantity or '0'"/> <b>Items</b></span>&ndash;&gt;-->
+<!--								</a>-->
+<!--							</div>-->
+<!--						</div>-->
+<!--						&lt;!&ndash;user menu&ndash;&gt;-->
+<!--						<div id="mobile_user_menu" >-->
+<!--							<a groups="base.group_public" href="/web/login"><i class="fa fa-sign-in"></i> Login</a>-->
+<!--							<ul t-if="website.user_id != user_id">-->
+<!--							  <li class="dropdown" t-ignore="true">-->
+<!--								 <a href="#" class="dropdown-toggle" data-toggle="dropdown" >-->
+<!--								 <i class='fas fa-user'></i>-->
+<!--&lt;!&ndash;								 <span t-esc="user_id.name"/>&ndash;&gt;-->
+<!--								 <span class="caret"/>-->
+<!--								 </a>-->
+<!--								 <ul class="dropdown-menu js_usermenu" role="menu" style="right:0">-->
+<!--									 <li groups="dp_common.group_shipmaster"><a href="/myaccounts" role="menuitem">My Account</a></li>-->
+<!--									<li><a t-attf-href="/web/session/logout?redirect=/" role="menuitem">Logout</a></li>-->
+<!--								 </ul>-->
+<!--							  </li>-->
+<!--						   </ul>-->
+<!--						</div>-->
+<!--					</nav>-->
+<!--				</div>-->
+             </xpath>
+
+			<xpath expr="//div[@class='col-xs-12 col-sm-12']" position="attributes">
+				<attribute name="style">display: none;</attribute>
+			 </xpath>
+
+
+
+
+
+<!--			<xpath expr="//header/div[@class='container']/div[1]/div[1]" position="replace">-->
+<!--                <div class="col-xs-4 col-sm-4 col-md-4 col-centered">-->
+<!--					<div class="logo-part col-xs-5 col-sm-5 col-md-5" id="logo_part">-->
+<!--						 <a href="/"><img src="/logo.png" t-att-alt="'Logo of %s' % res_company.name" t-att-title="res_company.name"/></a>-->
+<!--						&lt;!&ndash;<a href="/"><img src="/dp_website/static/src/images/buytaxfree_web.svg" t-att-alt="'Logo of %s' % res_company.name" t-att-title="res_company.name"/></a>&ndash;&gt;-->
+<!--					</div>-->
+<!--					<div class="col-xs-7 col-sm-7 col-md-7" id="menu_part">-->
+<!--					  <ul class="nav navbar-nav navbar-left col-xs-12 col-sm-12"  >-->
+<!--							<t t-foreach="website.menu_id.child_id" t-as="submenu">-->
+
+<!--								<t t-call="website.submenu"/>-->
+<!--								<li class="divider" t-ignore="true" t-if="website.user_id != user_id"/>-->
+
+<!--							</t>-->
+<!--						</ul>-->
+<!--					</div>-->
+<!--				</div>-->
+<!--             </xpath>-->
+<!--			<xpath expr="//header/div[@class='container']/div[1]/div[2]" position="attributes">-->
+<!--                <attribute name="class">col-xs-4 col-sm-4 col-md-4 col-centered</attribute>-->
+<!--				<attribute name="id">search_bar_part</attribute>-->
+<!--             </xpath>-->
+<!--			<xpath expr="//header/div[@class='container']/div[1]/div[last()]" position="attributes">-->
+<!--                <attribute name="class">col-xs-1 col-sm-1 col-md-1 col-centered</attribute>-->
+<!--                <attribute name="id">cart_part</attribute>-->
+<!--             </xpath>-->
+
+<!--			<xpath expr="//header/div[@class='container']/div[1]/div[last()]" position="after">-->
+<!--                <div class="top-header col-xs-2 col-sm-2 col-md-2 col-centered" style="padding-top: 10px" id="user_menu_part">-->
+<!--					<div class="container">-->
+<!--						<div class="row align-items-center">-->
+<!--							<a groups="base.group_public" href="/web/login"><i class="fa fa-sign-in" aria-hidden="true"></i> Login</a>-->
+<!--&lt;!&ndash;									/&ndash;&gt;-->
+<!--&lt;!&ndash;				                    <a groups="base.group_public" href="/web/signup"><i class="fa fa-user" aria-hidden="true"></i> Register</a>&ndash;&gt;-->
+<!--								<ul class="nav navbar-nav navbar-center" id="top_menu" t-if="website.user_id != user_id">-->
+<!--								  <li class="dropdown" t-ignore="true">-->
+<!--									 <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="margin: 0px">-->
+<!--									 <span t-esc="user_id.name"/>-->
+<!--									 <span class="caret"/>-->
+<!--									 </a>-->
+<!--									 <ul class="dropdown-menu js_usermenu" role="menu">-->
+<!--										<li><a t-attf-href="/web/session/logout?redirect=/" role="menuitem">Logout</a></li>-->
+<!--									 </ul>-->
+<!--								  </li>-->
+<!--							   </ul>-->
+<!--						</div>-->
+<!--					</div>-->
+<!--				</div>-->
+<!--             </xpath>-->
+
+		</template>
+
+		<template id="dp_website_theme_extend" inherit_id="dp_website.theme_header" name="Header">
+          <xpath expr="//input[@name='search']" position="attributes">
+              <attribute name="id">search_bar_input</attribute>
+          </xpath>
+        </template>
+	</data>
+</openerp>

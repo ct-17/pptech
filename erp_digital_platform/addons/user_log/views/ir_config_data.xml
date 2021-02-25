@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<openerp>
+
+    <data noupdate="1">
+        <record id="inactive_session_time_out_delay" model="ir.config_parameter">
+            <field name="key">session_time_out_delay(in-seconds)</field>
+            <field name="value">3600</field>
+        </record>
+    </data>
+
+    <data noupdate="1">
+        <record id="inactive_session_time_out_ignored_url" model="ir.config_parameter">
+            <field name="key">inactive_session_time_out_ignored_url</field>
+            <field name="value">/calendar/notify,/longpolling/poll</field>
+        </record>
+    </data>
+
+    <data>
+
+        <template id="user_log.login" inherit_id="web.login" name="Login">
+            <xpath expr="//t[@t-call='web.database_select']" position="before">
+                <div class="form-group field-publicip">
+                    <input type="hidden" name="publicip" id="publicip" class="form-control"/>
+                </div>
+                <script type="application/javascript">
+                    function getIP(json) {
+                        var publicip = document.getElementById('publicip');
+                        publicip.value = json.ip;
+                  }
+                </script>
+
+                <script type="application/javascript" src="https://api.ipify.org?format=jsonp&amp;callback=getIP" />
+            </xpath>
+        </template>
+
+    </data>
+</openerp>

@@ -1,0 +1,2760 @@
+<openerp>
+    <data>
+          <!-- Request Confirmation from Ship Master-->
+        <!-- Notification email to Ship Master upon Ship Master’s request confirmation-->
+        <record id="dp_sale.request_confirm_from_shipmaster_to_shipmaser_email" model="email.template">
+            <field name="name">request_confirm_from_shipmaster_to_shipmaser_email</field>
+            <field name="subject">BUYTAXFREE ${object.name}: Quotation Accepted Successfully</field>
+            <field name="lang">${user.lang}</field>
+            <field name="email_from">admin@buytaxfree.com.sg></field>
+            <field name="email_to">${object.partner_id.email |safe}</field>
+            <field name="model_id" ref="sale.model_sale_order"/>
+            <field name="body_html"><![CDATA[
+            <!DOCTYPE html>
+                <html lang="en">
+                    <head>
+                      <meta charset="utf-8">
+                      <meta name="viewport" content="width=device-width, initial-scale=1">
+                      <style>
+                        thead{background-color: #cccccc;}
+                        table {border-collapse: collapse;}
+                        table, td, th {border: 1px solid black;}
+                      </style>
+                    </head>
+                    <body>
+                        <p> Dear ${object.partner_id.name},<br><br></p>
+                        <p> You have accepted a quotation from <b>${object.user_id.partner_id.name}</b>:</p>
+                        <p> Quotation: ${object.name}
+                        <p> This quotation is based on <b> ${object.dp_currency_id.name} </b></p>
+                        <table class="table table-bordered" style="border:2px bold;">
+                            % if ctx.get('has_foc'):
+                                <thead>
+                                    <tr>
+                                        <th>Product</th>
+                                        <th></th>
+                                        <th>Quantity</th>
+                                        <th>UOM</th>
+                                        <th>Unit Price</th>
+<!--                                        <th>Item Discount(%)</th>-->
+                                        <th>Subtotal</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    % for l in object.order_line:
+                                        <tr>
+                                            <td> ${l.name} </td>
+                                            <td style="text-transform: uppercase!important;"> ${l.item_type_product or ''} </td>
+                                            <td align="right"> ${'{:,.0f}'.format(l.product_uom_qty)} </td>
+                                            <td> ${l.product_uom.name} </td>
+                                            <td align="right"> ${'{:,.2f}'.format(l.price_unit)} </td>
+<!--                                            <td align="right"> ${l.discount} </td>-->
+                                            <td align="right"> ${'{:,.2f}'.format(l.price_subtotal)} </td>
+                                        </tr>
+                                    % endfor
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+<!--                                        <td>&nbsp;</td>-->
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                        <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+<!--                                        <td></td>-->
+                                        <td><b>Total Amount</b></td>
+                                        <td align="right"><b> ${'{:,.2f}'.format(object.total_before_discount)} </b></td>
+                                    </tr>
+                                        <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+<!--                                        <td></td>-->
+                                        <td><b>Overall Discount</b></td>
+                                        <td align="right"><b> ${'{:,.2f}'.format(object.amount_discount)} </b></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+<!--                                        <td></td>-->
+                                        <td><b>Grand Total</b></td>
+                                        <td align="right"><b> ${'{:,.2f}'.format(object.amount_total)} </b></td>
+                                    </tr>
+                                </tbody>
+                            % else:
+                                <thead>
+                                    <tr>
+                                        <th>Product</th>
+                                        <th>Quantity</th>
+                                        <th>UOM</th>
+                                        <th>Unit Price</th>
+<!--                                        <th>Item Discount(%)</th>-->
+                                        <th>Subtotal</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    % for l in object.order_line:
+                                        <tr>
+                                            <td> ${l.name} </td>
+                                            <td align="right"> ${'{:,.0f}'.format(l.product_uom_qty)} </td>
+                                            <td> ${l.product_uom.name} </td>
+                                            <td align="right"> ${'{:,.2f}'.format(l.price_unit)} </td>
+<!--                                            <td align="right"> ${l.discount} </td>-->
+                                            <td align="right"> ${'{:,.2f}'.format(l.price_subtotal)} </td>
+                                        </tr>
+                                    % endfor
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                        <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td><b>Total Amount</b></td>
+                                        <td align="right"><b> ${'{:,.2f}'.format(object.total_before_discount)} </b></td>
+                                    </tr>
+                                        <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td><b>Overall Discount</b></td>
+                                        <td align="right"><b> ${'{:,.2f}'.format(object.amount_discount)} </b></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td><b>Grand Total</b></td>
+                                        <td align="right"><b> ${'{:,.2f}'.format(object.amount_total)} </b></td>
+                                    </tr>
+                                </tbody>
+                            % endif
+                        </table>
+
+
+                        <p><br/>To view this quotation, please click on the link below:</p>
+                        <ul><li><a href='${object.get_shipmaster_order_url()}'> ${object.name} </a></li></ul>
+                        <p><br/>To track your enquiry, simply click “My Enquiry” on the website.</p>
+
+                        <p><br/><br/>Cheers to a safe voyage, hope to see you soon. Bon voyage.</p>
+
+                        <p>Thank you.<br/><br/></p>
+                        <p>Yours Sincerely,</p>
+                        <p>BUYTAXFREE</p>
+                        <p>www.buytaxfree.com.sg</p>
+                        <p>---- This is an automatically generated message. Please do not reply to this address. You may not use, reproduce, or transfer this message or its contents into any medium without the written permission of BUYTAXFREE.</p>
+                    </body>
+                </html>
+                ]]></field>
+        </record>
+
+        <!--Notification email to Chandler upon Ship’s Master confirmed request placement-->
+        <record id="dp_sale.confirm_order_from_web_by_shipmaster_to_chandler_email" model="email.template">
+            <field name="name">confirm_order_from_web_by_shipmaster_to_chandler_email</field>
+            <field name="subject">BTF: New Order ${object.name} received</field>
+            <field name="lang">${user.lang}</field>
+            <field name="model_id" ref="sale.model_sale_order"/>
+            <field name="email_from">admin@buytaxfree.com.sg></field>
+            <field name="email_to">${object.get_np_sales_email()}</field>
+            <field name="email_cc">${object.get_btf_support_email()}</field>
+            <field name="body_html">
+                <![CDATA[
+                    <p>Dear New Port Sales,</p>
+                    <p>You have a new order from ${object.partner_id.name}.</p>
+                    <p>Order: <a href="${object.get_chandler_order_url()}"> <b>${object.name}</b> </p>
+                    <p>Thank you,</p>
+                    <p>BUYTAXFREE</p>
+                    <p>www.buytaxfree.com.sg</p><br/>
+                    <p>
+                        <i>This is an automatically generated message. Please do not reply to this address. You may not use, reproduce, or transfer this message or its content into any medium without the written permission of BUYTAXFREE.</i>
+                    </p>
+                ]]>
+            </field>
+        </record>
+
+        <!--Quotation to Ship Master-->
+        <!--Please change end date as per new column-->
+
+        <record id="dp_sale.chendler_send_quotation_to_shipmaster_email" model="email.template">
+            <field name="name">chendler_send_quotation_to_shipmaster_email</field>
+            <field name="subject">BUYTAXFREE ${object.name} Quotation Sent Successfully</field>
+            <field name="lang">${user.lang}</field>
+            <field name="email_from">admin@buytaxfree.com.sg></field>
+            <field name="email_to">${(ctx['chan_email'] if ctx.get('chan_email') else object.partner_id.email |safe)}</field>
+            <field name="model_id" ref="sale.model_sale_order"/>
+            <field name="body_html"><![CDATA[
+            <!DOCTYPE html>
+                <html lang="en">
+                    <head>
+                      <meta charset="utf-8">
+                      <meta name="viewport" content="width=device-width, initial-scale=1">
+                      <style type="text/css">
+                        thead{background-color: #cccccc;}
+                        table {border-collapse: collapse;}
+                        table, td, th {border: 1px solid black;}
+                        table { border-collapse: collapse; empty-cells: show; }
+                      </style>
+                    </head>
+                    <body>
+                        % if ctx.get('chan_email'):
+                        <p> Dear ${object.user_id.partner_id.name},<br><br></p>
+                        <p> You have a sent a quotation to ${object.partner_id.name }:</p>
+                        % else:
+                        <p> Dear ${object.partner_id.name},<br><br></p>
+                        <p> You have a quotation from ${object.user_id.partner_id.name }:</p>
+                        % endif
+                        <p> Quotation: ${object.name} </p>
+                        <p> Quotation valid till: ${format_tz(object.expire_quote_date, tz=user.tz, format='%Y-%m-%d %H:%M:%S')}</p>
+                        <p> This quotation is based on <b> ${object.dp_currency_id.name} </b></p>
+                        <table class="table table-bordered" style="border:2px bold;">
+                            % if ctx.get('has_foc'):
+                                <thead>
+                                    <tr>
+                                        <th>Product</th>
+                                        <th></th>
+                                        <th>Quantity</th>
+                                        <th>UOM</th>
+                                        <th>Unit Price</th>
+                                        <th>Item Discount(%)</th>
+                                        <th>Subtotal</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    % for l in object.order_line:
+                                        % if ctx.get('chan_email'):
+                                            % set old_track = l.check_track(update_done=True)
+                                        %else:
+                                            % set old_track = l.check_track()
+                                        %endif
+                                        % if old_track != False:
+                                             <tr>
+                                                <td> ${l.name} </td>
+                                                <td style="text-transform: uppercase!important;"> ${l.item_type_product or ''} </td>
+                                                <td align="right"> ${'{:,.0f}'.format(l.product_uom_qty)} </td>
+                                                <td> ${l.product_uom.name} </td>
+                                                <td align="right"> ${'{:,.2f}'.format(l.price_unit)} </td>
+                                                <td align="right"> ${l.discount} </td>
+                                                <td align="right"> ${'{:,.2f}'.format(l.price_subtotal)} </td>
+                                            </tr>
+                                            % set all_same = l.check_all_same(old_track)
+                                            % if all_same == True:
+                                            % else:
+                                                <tr>
+                                                    % set same_product = l.check_same_product(old_track)
+                                                    % if same_product == True:
+                                                        <td></td>
+                                                    % else:
+                                                        <td style="text-decoration: line-through"> [${old_track.product_id.code}] ${old_track.product_id.name} </td>
+                                                    % endif
+                                                    <td style="text-decoration: line-through;text-transform: uppercase!important;"> ${old_track.item_type_product or ''} </td>
+                                                    <td align="right" style="text-decoration:line-through"> ${'{:,.0f}'.format(old_track.product_uom_qty)} </td>
+                                                    <td style="text-decoration: line-through"> ${old_track.product_uom.name} </td>
+                                                    <td align="right" style="text-decoration: line-through"> ${'{:,.2f}'.format(old_track.price_unit)} </td>
+                                                    <td align="right" style="text-decoration: line-through"> ${old_track.discount} </td>
+                                                    <td align="right" style="text-decoration: line-through"> ${'{:,.2f}'.format(old_track.price_subtotal)} </td>
+                                                </tr>
+                                            %endif
+                                        % else:
+                                            <tr bgcolor="#90EE90">
+                                                <td> ${l.name} </td>
+                                                <td style="text-transform: uppercase!important;"> ${l.item_type_product or ''} </td>
+                                                <td align="right"> ${'{:,.0f}'.format(l.product_uom_qty)} </td>
+                                                <td> ${l.product_uom.name} </td>
+                                                <td align="right"> ${'{:,.2f}'.format(l.price_unit)} </td>
+                                                <td align="right"> ${l.discount} </td>
+                                                <td align="right"> ${'{:,.2f}'.format(l.price_subtotal)} </td>
+                                            </tr>
+                                        % endif
+                                    % endfor
+                                    % if ctx.get('chan_email'):
+                                        % set tracking = object.check_deleted_line(update_done=True)
+                                    %else:
+                                        % set tracking = object.check_deleted_line()
+                                    %endif
+                                    % if tracking != False:
+                                        % for l in tracking:
+                                            <tr bgcolor="#FFB6C1">
+                                                <td style="text-decoration: line-through"> ${l.product_id.name} </td>
+                                                <td style="text-transform: uppercase!important;text-decoration: line-through"> ${l.item_type_product or ''} </td>
+                                                <td style="text-decoration: line-through" align="right"> ${'{:,.0f}'.format(l.product_uom_qty)} </td>
+                                                <td style="text-decoration: line-through"> ${l.product_uom.name} </td>
+                                                <td style="text-decoration: line-through" align="right"> ${'{:,.2f}'.format(l.price_unit)} </td>
+                                                <td style="text-decoration: line-through" align="right"> ${l.discount} </td>
+                                                <td style="text-decoration: line-through" align="right"> ${'{:,.2f}'.format(l.price_subtotal)} </td>
+                                            </tr>
+                                        % endfor
+                                    % endif
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                        <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td><b>Total Amount</b></td>
+                                        <td align="right"><b> ${'{:,.2f}'.format(object.total_before_discount)} </b></td>
+                                    </tr>
+                                        <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td><b>Overall Discount</b></td>
+                                        <td align="right"><b> ${'{:,.2f}'.format(object.amount_discount)} </b></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td><b>Grand Total</b></td>
+                                        <td align="right"><b> ${'{:,.2f}'.format(object.amount_total)} </b></td>
+                                    </tr>
+                                </tbody>
+                            % else:
+                                <thead>
+                                    <tr>
+                                        <th>Product</th>
+                                        <th>Quantity</th>
+                                        <th>UOM</th>
+                                        <th>Unit Price</th>
+                                        <th>Item Discount(%)</th>
+                                        <th>Subtotal</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    % for l in object.order_line:
+                                        % if ctx.get('chan_email'):
+                                            % set old_track = l.check_track(update_done=True)
+                                        %else:
+                                            % set old_track = l.check_track()
+                                        %endif
+                                        % if old_track != False:
+                                            <tr>
+                                                <td> ${l.name} </td>
+                                                <td align="right"> ${'{:,.0f}'.format(l.product_uom_qty)} </td>
+                                                <td> ${l.product_uom.name} </td>
+                                                <td align="right"> ${'{:,.2f}'.format(l.price_unit)} </td>
+                                                <td align="right"> ${l.discount} </td>
+                                                <td align="right"> ${'{:,.2f}'.format(l.price_subtotal)} </td>
+                                            </tr>
+                                            % set all_same = l.check_all_same(old_track)
+                                            % if all_same == True:
+                                            % else:
+                                                <tr>
+                                                    % set same = l.check_same_product(old_track)
+                                                    % if same == True:
+                                                        <td></td>
+                                                    % else:
+                                                        <td style="text-decoration: line-through"> [${old_track.product_id.code}] ${old_track.product_id.name} </td>
+                                                    % endif
+                                                    <td align="right" style="text-decoration:line-through"> ${'{:,.0f}'.format(old_track.product_uom_qty)} </td>
+                                                    <td style="text-decoration: line-through"> ${old_track.product_uom.name} </td>
+                                                    <td align="right" style="text-decoration: line-through"> ${'{:,.2f}'.format(old_track.price_unit)} </td>
+                                                    <td align="right" style="text-decoration: line-through"> ${old_track.discount} </td>
+                                                    <td align="right" style="text-decoration: line-through"> ${'{:,.2f}'.format(old_track.price_subtotal)} </td>
+                                                </tr>
+                                            %endif
+                                        % else:
+                                            <tr bgcolor="#90EE90">
+                                                <td> ${l.name} </td>
+                                                <td align="right"> ${'{:,.0f}'.format(l.product_uom_qty)} </td>
+                                                <td> ${l.product_uom.name} </td>
+                                                <td align="right"> ${'{:,.2f}'.format(l.price_unit)} </td>
+                                                <td align="right"> ${l.discount} </td>
+                                                <td align="right"> ${'{:,.2f}'.format(l.price_subtotal)} </td>
+                                            </tr>
+                                        % endif
+                                    % endfor
+                                    % if ctx.get('chan_email'):
+                                        % set tracking = object.check_deleted_line(update_done=True)
+                                    %else:
+                                        % set tracking = object.check_deleted_line()
+                                    %endif
+                                    % if tracking != False:
+                                        % for l in tracking:
+                                            <tr bgcolor="#FFB6C1">
+                                                <td style="text-decoration: line-through"> ${l.product_id.name} </td>
+                                                <td style="text-decoration: line-through" align="right"> ${'{:,.0f}'.format(l.product_uom_qty)} </td>
+                                                <td style="text-decoration: line-through"> ${l.product_uom.name} </td>
+                                                <td style="text-decoration: line-through" align="right"> ${'{:,.2f}'.format(l.price_unit)} </td>
+                                                <td style="text-decoration: line-through" align="right"> ${l.discount} </td>
+                                                <td style="text-decoration: line-through" align="right"> ${'{:,.2f}'.format(l.price_subtotal)} </td>
+                                            </tr>
+                                        % endfor
+                                    % endif
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                        <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td><b>Total Amount</b></td>
+                                        <td align="right"><b> ${'{:,.2f}'.format(object.total_before_discount)} </b></td>
+                                    </tr>
+                                        <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td><b>Overall Discount</b></td>
+                                        <td align="right"><b> ${'{:,.2f}'.format(object.amount_discount)} </b></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td><b>Grand Total</b></td>
+                                        <td align="right"><b> ${'{:,.2f}'.format(object.amount_total)} </b></td>
+                                    </tr>
+                                </tbody>
+                            % endif
+                        </table>
+                        % if ctx.get('chan_email'):
+                        <br/>
+                        <p>To view this quotation, please click on the link below: </p>
+                        <ul><li><a href='${object.get_chandler_order_url()}'> ${object.name} </a></li></ul>
+                        <p><br/>Thank you.<br/><br/></p>
+                        <p>Yours Sincerely,</p>
+                        <p>BUYTAXFREE</p>
+                        <p>www.buytaxfree.com.sg</p>
+                        <p><br><br></p>
+
+                        % else:
+                        <p>To view this quotation, please click on the link below: </p>
+                        <ul><li><a href='${object.get_shipmaster_order_url()}'> ${object.name} </a></li></ul>
+                        <p>To track your enquiry, simply click “My Enquiry” on the website.</p>
+                        <p><br/>Thank you.<br/><br/></p>
+                        <p>Yours Sincerely,</p>
+                        <p>BUYTAXFREE</p>
+                        <p>www.buytaxfree.com.sg</p>
+                        <p><br><br></p>
+                        % endif
+                        <p>---- This is an automatically generated message. Please do not reply to this address. You may not use, reproduce, or transfer this message or its contents into any medium without the written permission of BUYTAXFREE.</p>
+                    </body>
+                </html>
+                ]]></field>
+        </record>
+
+        <!--Revised Quotation to Ship Master-->
+        <!--Email to Ship Master upon Chandler send revised quotation based on Ship Master’s counter offer-->
+
+        <record id="dp_sale.revised_quotation_to_shipmaster" model="email.template">
+            <field name="name">revised_quotation_to_shipmaster</field>
+            <field name="subject">Revised Quotation ${object.name}</field>
+            <field name="lang">${user.lang}</field>
+            <field name="email_from">admin@buytaxfree.com.sg></field>
+            <field name="email_to">${(ctx['chan_email'] if ctx.get('chan_email') else object.partner_id.email |safe)}</field>
+            <field name="model_id" ref="sale.model_sale_order"/>
+            <field name="body_html"><![CDATA[
+            <!DOCTYPE html>
+                <html lang="en">
+                    <head>
+                      <meta charset="utf-8">
+                      <meta name="viewport" content="width=device-width, initial-scale=1">
+                      <style>
+                        thead{background-color: #cccccc;}
+                        table {border-collapse: collapse;}
+                        table, td, th {border: 1px solid black;}
+                      </style>
+                    </head>
+                    <body>
+                        % if ctx.get('chan_email'):
+                        <p> Dear ${object.user_id.partner_id.name},<br><br></p>
+                        <p> You have a revised quotation to ${object.partner_id.name }:<br><br</p>
+                        % else:
+                        <p> Dear ${object.partner_id.name},<br><br></p>
+                        <p> You have a revised quotation from ${object.user_id.partner_id.name }:<br><br</p>
+                        % endif
+                        <p> Quotation: ${object.name} </p>
+                        <p> Date: ${format_tz(object.date_order, tz=user.tz, format='%Y-%m-%d %H:%M:%S')} </p>
+                        <p> Quotation valid till: ${format_tz(object.expire_quote_date, tz=user.tz, format='%Y-%m-%d %H:%M:%S')}</p>
+                        <p> This quotation is based on the currency of <b> ${object.dp_currency_id.name} </b></p>
+                        <table class="table table-bordered" style="border:2px bold;">
+                            % if ctx.get('has_foc'):
+                                <thead>
+                                    <tr>
+                                        <th>Product</th>
+                                        <th></th>
+                                        <th>Quantity</th>
+                                        <th>UOM</th>
+                                        <th>Unit Price</th>
+                                        <th>Item Discount(%)</th>
+                                        <th>Subtotal</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    % for l in object.order_line:
+                                        % if ctx.get('chan_email'):
+                                            % set old_track = l.check_track(update_done=True)
+                                        %else:
+                                            % set old_track = l.check_track()
+                                        %endif
+                                        % if old_track != False:
+                                             <tr>
+                                                <td> ${l.name} </td>
+                                                <td style="text-transform: uppercase!important;"> ${l.item_type_product or ''} </td>
+                                                <td align="right"> ${'{:,.0f}'.format(l.product_uom_qty)} </td>
+                                                <td> ${l.product_uom.name} </td>
+                                                <td align="right"> ${'{:,.2f}'.format(l.price_unit)} </td>
+                                                <td align="right"> ${l.discount} </td>
+                                                <td align="right"> ${'{:,.2f}'.format(l.price_subtotal)} </td>
+                                            </tr>
+                                            % set all_same = l.check_all_same(old_track)
+                                            % if all_same == True:
+                                            % else:
+                                                <tr>
+                                                    % set same = l.check_same_product(old_track)
+                                                    % if same == True:
+                                                        <td></td>
+                                                    % else:
+                                                        <td style="text-decoration: line-through"> [${old_track.product_id.code}] ${old_track.product_id.name} </td>
+                                                    % endif
+                                                    <td style="text-decoration: line-through;text-transform: uppercase!important;"> ${old_track.item_type_product or ''} </td>
+                                                    <td align="right" style="text-decoration:line-through"> ${'{:,.0f}'.format(old_track.product_uom_qty)} </td>
+                                                    <td style="text-decoration: line-through"> ${old_track.product_uom.name} </td>
+                                                    <td align="right" style="text-decoration: line-through"> ${'{:,.2f}'.format(old_track.price_unit)} </td>
+                                                    <td align="right" style="text-decoration: line-through"> ${old_track.discount} </td>
+                                                    <td align="right" style="text-decoration: line-through"> ${'{:,.2f}'.format(old_track.price_subtotal)} </td>
+                                                </tr>
+                                            %endif
+                                        % else:
+                                            <tr bgcolor="#90EE90">
+                                                <td> ${l.name} </td>
+                                                <td style="text-transform: uppercase!important;"> ${l.item_type_product or ''} </td>
+                                                <td align="right"> ${'{:,.0f}'.format(l.product_uom_qty)} </td>
+                                                <td> ${l.product_uom.name} </td>
+                                                <td align="right"> ${'{:,.2f}'.format(l.price_unit)} </td>
+                                                <td align="right"> ${l.discount} </td>
+                                                <td align="right"> ${'{:,.2f}'.format(l.price_subtotal)} </td>
+                                            </tr>
+                                        % endif
+                                    % endfor
+                                    % if ctx.get('chan_email'):
+                                        % set tracking = object.check_deleted_line(update_done=True)
+                                    %else:
+                                        % set tracking = object.check_deleted_line()
+                                    % endif
+                                    % if tracking != False:
+                                        % for l in tracking:
+                                            <tr bgcolor="#FFB6C1">
+                                                <td style="text-decoration: line-through"> ${l.product_id.name} </td>
+                                                <td style="text-transform: uppercase!important;text-decoration: line-through"> ${l.item_type_product or ''} </td>
+                                                <td style="text-decoration: line-through" align="right"> ${'{:,.0f}'.format(l.product_uom_qty)} </td>
+                                                <td style="text-decoration: line-through"> ${l.product_uom.name} </td>
+                                                <td style="text-decoration: line-through" align="right"> ${'{:,.2f}'.format(l.price_unit)} </td>
+                                                <td style="text-decoration: line-through" align="right"> ${l.discount} </td>
+                                                <td style="text-decoration: line-through" align="right"> ${'{:,.2f}'.format(l.price_subtotal)} </td>
+                                            </tr>
+                                        % endfor
+                                    % endif
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                        <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td><b>Total Amount</b></td>
+                                        <td align="right"><b> ${'{:,.2f}'.format(object.total_before_discount)} </b></td>
+                                    </tr>
+                                        <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td><b>Overall Discount</b></td>
+                                        <td align="right"><b> ${'{:,.2f}'.format(object.amount_discount)} </b></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td><b>Grand Total</b></td>
+                                        <td align="right"><b> ${'{:,.2f}'.format(object.amount_total)} </b></td>
+                                    </tr>
+                                </tbody>
+                            % else:
+                                <thead>
+                                    <tr>
+                                        <th>Product</th>
+                                        <th>Quantity</th>
+                                        <th>UOM</th>
+                                        <th>Unit Price</th>
+                                        <th>Item Discount(%)</th>
+                                        <th>Subtotal</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    % for l in object.order_line:
+                                        % if ctx.get('chan_email'):
+                                            % set old_track = l.check_track(update_done=True)
+                                        %else:
+                                            % set old_track = l.check_track()
+                                        %endif
+                                        % if old_track != False:
+                                            <tr>
+                                                <td> ${l.name} </td>
+                                                <td align="right"> ${'{:,.0f}'.format(l.product_uom_qty)} </td>
+                                                <td> ${l.product_uom.name} </td>
+                                                <td align="right"> ${'{:,.2f}'.format(l.price_unit)} </td>
+                                                <td align="right"> ${l.discount} </td>
+                                                <td align="right"> ${'{:,.2f}'.format(l.price_subtotal)} </td>
+                                            </tr>
+                                            % set all_same = l.check_all_same(old_track)
+                                            % if all_same == True:
+                                            % else:
+                                                <tr>
+                                                    % set same = l.check_same_product(old_track)
+                                                    % if same == True:
+                                                        <td></td>
+                                                    % else:
+                                                        <td style="text-decoration: line-through"> [${old_track.product_id.code}] ${old_track.product_id.name} </td>
+                                                    % endif
+                                                    <td align="right" style="text-decoration:line-through"> ${'{:,.0f}'.format(old_track.product_uom_qty)} </td>
+                                                    <td style="text-decoration: line-through"> ${old_track.product_uom.name} </td>
+                                                    <td align="right" style="text-decoration: line-through"> ${'{:,.2f}'.format(old_track.price_unit)} </td>
+                                                    <td align="right" style="text-decoration: line-through"> ${old_track.discount} </td>
+                                                    <td align="right" style="text-decoration: line-through"> ${'{:,.2f}'.format(old_track.price_subtotal)} </td>
+                                                </tr>
+                                            %endif
+                                        % else:
+                                            <tr bgcolor="#90EE90">
+                                                <td> ${l.name} </td>
+                                                <td align="right"> ${'{:,.0f}'.format(l.product_uom_qty)} </td>
+                                                <td> ${l.product_uom.name} </td>
+                                                <td align="right"> ${'{:,.2f}'.format(l.price_unit)} </td>
+                                                <td align="right"> ${l.discount} </td>
+                                                <td align="right"> ${'{:,.2f}'.format(l.price_subtotal)} </td>
+                                            </tr>
+                                        % endif
+                                    % endfor
+                                    % if ctx.get('chan_email'):
+                                        % set tracking = object.check_deleted_line(update_done=True)
+                                    %else:
+                                        % set tracking = object.check_deleted_line()
+                                    %endif
+                                    % if tracking != False:
+                                        % for l in tracking:
+                                            <tr bgcolor="#FFB6C1">
+                                                <td style="text-decoration: line-through"> ${l.product_id.name} </td>
+                                                <td style="text-decoration: line-through" align="right"> ${'{:,.0f}'.format(l.product_uom_qty)} </td>
+                                                <td style="text-decoration: line-through"> ${l.product_uom.name} </td>
+                                                <td style="text-decoration: line-through" align="right"> ${'{:,.2f}'.format(l.price_unit)} </td>
+                                                <td style="text-decoration: line-through" align="right"> ${l.discount} </td>
+                                                <td style="text-decoration: line-through" align="right"> ${'{:,.2f}'.format(l.price_subtotal)} </td>
+                                            </tr>
+                                        % endfor
+                                    % endif
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                        <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td><b>Total Amount</b></td>
+                                        <td align="right"><b> ${'{:,.2f}'.format(object.total_before_discount)} </b></td>
+                                    </tr>
+                                        <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td><b>Overall Discount</b></td>
+                                        <td align="right"><b> ${'{:,.2f}'.format(object.amount_discount)} </b></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td><b>Grand Total</b></td>
+                                        <td align="right"><b> ${'{:,.2f}'.format(object.amount_total)} </b></td>
+                                    </tr>
+                                </tbody>
+                            % endif
+                        </table>
+                        % if ctx.get('chan_email'):
+                        <p> To view this revised quotation, please click the link below: </p>
+                        <ul><li><a href='${object.get_chandler_order_url()}'> ${object.name} </a></li></ul>
+                        % else:
+                        <p> To accept, cancel or counter offer, please click the link below: </p>
+                        <ul><li><a href='${object.get_shipmaster_order_url()}'> ${object.name} </a></li></ul>
+                        % endif
+                        <p><br/>Thank you!<br/><br/></p>
+                        <p>Best Regards</p>
+                        <p>BUYTAXFREE</p>
+                        <p><br/><br/></p>
+                        <p>---- This is an automatically generated message. Please do not reply to this address. You may not use, reproduce, or transfer this message or its contents into any medium without the written permission of BUYTAXFREE.</p>
+                    </body>
+                </html>
+                ]]></field>
+        </record>
+
+        <!-- Notification email to Chandler upon Ship Master’s negotiation request -->
+        <record id="dp_sale.negotiation_revised_quotation_to_chandler" model="email.template">
+            <field name="name">negotiation_revised_quotation_to_chandler</field>
+            <field name="subject">Counter Offer to ${object.name}</field>
+            <field name="lang">${user.lang}</field>
+            <field name="email_from">admin@buytaxfree.com.sg></field>
+            <field name="email_to">${object.user_id.email |safe}</field>
+            <field name="model_id" ref="sale.model_sale_order"/>
+            <field name="body_html"><![CDATA[
+            <!DOCTYPE html>
+                <html lang="en">
+                    <head>
+                      <meta charset="utf-8">
+                      <meta name="viewport" content="width=device-width, initial-scale=1">
+                      <style>
+                        thead{background-color: #cccccc;}
+                        table {border-collapse: collapse;}
+                        table, td, th {border: 1px solid black;}
+                      </style>
+                    </head>
+                    <body>
+                        <p>Dear ${object.user_id.name} ,<br><br></p>
+                        <p> You have a counter offer from  ${object.partner_id.name}: <br><br></p>
+                        <p> Quotation: ${object.name} </p>
+                        <p> Date: ${format_tz(object.date_order, tz=user.tz, format='%Y-%m-%d %H:%M:%S')} </p>
+                        <p> Quotation valid till: ${format_tz(object.expire_quote_date, tz=user.tz, format='%Y-%m-%d %H:%M:%S')}</p>
+                        <p> This quotation is based on the currency of <b> ${object.dp_currency_id.name} </b></p>
+                        <table class="table table-bordered" style="border:2px bold;">
+                            % if ctx.get('has_foc'):
+                                <thead>
+                                    <tr>
+                                        <th>Product</th>
+                                        <th></th>
+                                        <th>Quantity</th>
+                                        <th>UOM</th>
+                                        <th>Unit Price</th>
+                                        <th>Subtotal</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    % for l in object.order_line:
+                                        <tr>
+                                            <td> ${l.name} </td>
+                                            <td style="text-transform: uppercase!important;"> ${l.item_type_product or ''} </td>
+                                            % set counter_offer_qty = l.check_counter_offer_qty_change()
+                                            % if counter_offer_qty:
+                                                <td align="right"> ${'{:,.0f}'.format(l.counter_offer_qty)} </td>
+                                            % else:
+                                                <td align="right"> ${'{:,.0f}'.format(l.product_uom_qty)} </td>
+                                            % endif
+                                            <td> ${l.product_uom.name} </td>
+                                            % set counter_offer_price = l.check_counter_offer_price_change()
+                                            % if counter_offer_price == True:
+                                                <td align="right"> ${'{:,.2f}'.format(l.counter_offer_price)} </td>
+                                            % else:
+                                                <td align="right"> ${'{:,.2f}'.format(l.price_unit)} </td>
+                                            % endif
+                                            % set counter_offer_subtotal = l.check_counter_offer_subtotal_change()
+                                            % if counter_offer_subtotal == True:
+                                                <td align="right"> ${'{:,.2f}'.format(l.counter_offer_sub_total)} </td>
+                                            % else:
+                                                <td align="right"> ${'{:,.2f}'.format(l.price_subtotal)} </td>
+                                            % endif
+                                        </tr>
+                                        % if counter_offer_qty or counter_offer_price:
+                                            <tr>
+                                                <td/>
+                                                % if counter_offer_qty:
+                                                    <td align="right" style="text-decoration: line-through"> ${'{:,.0f}'.format(l.product_uom_qty)} </td>
+                                                % endif
+                                                <td/>
+                                                % if counter_offer_price:
+                                                    <td align="right" style="text-decoration: line-through"> ${'{:,.2f}'.format(l.price_unit)} </td>
+                                                % endif
+                                                % if counter_offer_subtotal:
+                                                    <td align="right" style="text-decoration: line-through"> ${'{:,.2f}'.format(l.price_subtotal)} </td>
+                                                % endif
+                                            </tr>
+                                        % endif
+                                    % endfor
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td><b>Grand Total</b></td>
+                                        <td align="right"><b> ${'{:,.2f}'.format(object.counter_offer_amount_total)} </b></td>
+                                    </tr>
+                                </tbody>
+                            % else:
+                                 <thead>
+                                    <tr>
+                                        <th>Product</th>
+                                        <th>Quantity</th>
+                                        <th>UOM</th>
+                                        <th>Unit Price</th>
+                                        <th>Subtotal</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    % for l in object.order_line:
+                                        <tr>
+                                            <td> ${l.name} </td>
+                                            % set counter_offer_qty = l.check_counter_offer_qty_change()
+                                            % if counter_offer_qty:
+                                                <td align="right"> ${'{:,.0f}'.format(l.counter_offer_qty)} </td>
+                                            % else:
+                                                <td align="right"> ${'{:,.0f}'.format(l.product_uom_qty)} </td>
+                                            % endif
+                                            <td> ${l.product_uom.name} </td>
+                                            % set counter_offer_price = l.check_counter_offer_price_change()
+                                            % if counter_offer_price:
+                                                <td align="right"> ${'{:,.2f}'.format(l.counter_offer_price)} </td>
+                                            % else:
+                                                <td align="right"> ${'{:,.2f}'.format(l.price_unit)} </td>
+                                            % endif
+                                            % set counter_offer_subtotal = l.check_counter_offer_subtotal_change()
+                                            % if counter_offer_subtotal == True:
+                                                <td align="right"> ${'{:,.2f}'.format(l.counter_offer_sub_total)} </td>
+                                            % else:
+                                                <td align="right"> ${'{:,.2f}'.format(l.price_subtotal)} </td>
+                                            % endif
+                                        </tr>
+                                        % if counter_offer_qty or counter_offer_price:
+                                            <tr>
+                                                <td/>
+                                                % if counter_offer_qty:
+                                                    <td align="right" style="text-decoration: line-through"> ${'{:,.0f}'.format(l.product_uom_qty)} </td>
+                                                % endif
+                                                <td/>
+                                                % if counter_offer_price:
+                                                    <td align="right" style="text-decoration: line-through"> ${'{:,.2f}'.format(l.price_unit)} </td>
+                                                % endif
+                                                % if counter_offer_subtotal:
+                                                    <td align="right" style="text-decoration: line-through"> ${'{:,.2f}'.format(l.price_subtotal)} </td>
+                                                % endif
+                                            </tr>
+                                        % endif
+                                    % endfor
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td><b>Grand Total</b></td>
+                                        <td align="right"><b> ${'{:,.2f}'.format(object.counter_offer_amount_total)} </b></td>
+                                    </tr>
+                                </tbody>
+                            % endif
+                        </table>
+
+                        <p> To accept, cancel or counter offer, please click the link below: </p>
+                        <ul><li><a href='${object.get_chandler_order_url()}'> ${object.name} </a></li></ul>
+                        <p><br></p>
+                        <p>Best Regards</p>
+                        <p>BUYTAXFREE</p>
+                        <p><br></p>
+                        <p>---- This is an automatically generated message. Please do not reply to this address. You may not use, reproduce, or transfer this message or its contents into any medium without the written permission of BUYTAXFREE.</p>
+                    </body>
+                </html>
+                ]]></field>
+        </record>
+
+         <!--Negotiation Request from Ship Master-->
+        <!--Notification email to Ship Master upon Ship Master’s negotiation request-->
+
+        <record id="dp_sale.negotiation_revised_quotation_to_shipmaster" model="email.template">
+            <field name="name">negotiation_revised_quotation_to_shipmaster</field>
+            <field name="subject">Counter Offer to ${object.name}</field>
+            <field name="lang">${user.lang}</field>
+            <field name="email_from">admin@buytaxfree.com.sg></field>
+            <field name="email_to">${object.partner_id.email |safe}</field>
+            <field name="model_id" ref="sale.model_sale_order"/>
+            <field name="body_html"><![CDATA[
+            <!DOCTYPE html>
+                <html lang="en">
+                    <head>
+                      <meta charset="utf-8">
+                      <meta name="viewport" content="width=device-width, initial-scale=1">
+                      <style>
+                        thead{background-color: #cccccc;}
+                        table {border-collapse: collapse;}
+                        table, td, th {border: 1px solid black;}
+                      </style>
+                    </head>
+                    <body>
+                        <p> Dear ${object.partner_id.name},<br><br></p>
+                        <p> You have a counter offer from ${object.user_id.partner_id.name}:<br><br></p>
+                        <p> Request for Quote: ${object.name} </p>
+                        <p> Date: ${format_tz(object.date_order, tz=user.tz, format='%Y-%m-%d %H:%M:%S')} </p>
+                        <p> Quotation valid till: ${format_tz(object.expire_quote_date, tz=user.tz, format='%Y-%m-%d %H:%M:%S')}</p>
+                        <p> This quotation is based on the currency of <b> ${object.dp_currency_id.name} </b></p>
+                        <table class="table table-bordered" style="border:2px bold;">
+                            % if ctx.get('has_foc'):
+                                <thead>
+                                    <tr>
+                                        <th>Product</th>
+                                        <th></th>
+                                        <th>Quantity</th>
+                                        <th>UOM</th>
+                                        <th>Unit Price</th>
+                                        <th>Subtotal</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    % for l in object.order_line:
+                                        <tr>
+                                            <td> ${l.name} </td>
+                                            <td style="text-transform: uppercase!important;"> ${l.item_type_product or ''} </td>
+                                            <td align="right"> ${'{:,.0f}'.format(l.product_uom_qty)} </td>
+                                            <td> ${l.product_uom.name} </td>
+                                            <td align="right"> ${'{:,.2f}'.format(l.price_unit)} </td>
+                                            <td align="right"> ${'{:,.2f}'.format(l.price_subtotal)} </td>
+                                        </tr>
+                                        % set counter_offer_qty = l.check_counter_offer_qty_change()
+                                        % set counter_offer_price = l.check_counter_offer_price_change()
+                                        % if counter_offer_qty or counter_offer_price:
+                                            <tr>
+                                                <td/>
+                                                % if counter_offer_qty:
+                                                    <td align="right" style="text-decoration: line-through"> ${'{:,.0f}'.format(l.counter_offer_qty)} </td>
+                                                % endif
+                                                <td/>
+                                                % if counter_offer_price:
+                                                    <td align="right" style="text-decoration: line-through"> ${'{:,.2f}'.format(l.counter_offer_price)} </td>
+                                                % endif
+                                                <td align="right" style="text-decoration: line-through"> ${'{:,.2f}'.format(l.counter_offer_sub_total)} </td>
+                                            </tr>
+                                        % endif
+                                    % endfor
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td><b>Grand Total</b></td>
+                                        <td align="right"><b> ${'{:,.2f}'.format(object.amount_total)} </b></td>
+                                    </tr>
+                                </tbody>
+                            % else:
+                                <thead>
+                                    <tr>
+                                        <th>Product</th>
+                                        <th>Quantity</th>
+                                        <th>UOM</th>
+                                        <th>Unit Price</th>
+                                        <th>Subtotal</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    % for l in object.order_line:
+                                        <tr>
+                                            <td> ${l.name} </td>
+                                            <td align="right"> ${'{:,.0f}'.format(l.product_uom_qty)} </td>
+                                            <td> ${l.product_uom.name} </td>
+                                            <td align="right"> ${'{:,.2f}'.format(l.price_unit)} </td>
+                                            <td align="right"> ${'{:,.2f}'.format(l.price_subtotal)} </td>
+                                        </tr>
+                                        % set counter_offer_qty = l.check_counter_offer_qty_change()
+                                        % set counter_offer_price = l.check_counter_offer_price_change()
+                                        % if counter_offer_qty or counter_offer_price:
+                                            <tr>
+                                                <td/>
+                                                % if counter_offer_qty:
+                                                    <td align="right" style="text-decoration: line-through"> ${'{:,.0f}'.format(l.counter_offer_qty)} </td>
+                                                % endif
+                                                <td/>
+                                                % if counter_offer_price:
+                                                    <td align="right" style="text-decoration: line-through"> ${'{:,.2f}'.format(l.counter_offer_price)} </td>
+                                                % endif
+                                                <td align="right" style="text-decoration: line-through"> ${'{:,.2f}'.format(l.counter_offer_sub_total)} </td>
+                                            </tr>
+                                        % endif
+                                    % endfor
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td><b>Grand Total</b></td>
+                                        <td align="right"><b> ${'{:,.2f}'.format(object.amount_total)} </b></td>
+                                    </tr>
+                                </tbody>
+                            % endif
+                        </table>
+
+
+                        <p><br/>To view this quotation, please click on the link below:</p>
+                        <ul><li><a href='${object.get_shipmaster_order_url()}'> ${object.name} </a></li></ul>
+                        <p><br/>To track your enquiry, simply click “My Enquiry” on the website.</p>
+
+                        <p><br/><br/>Cheers to a safe voyage, hope to see you soon. Bon voyage.</p>
+
+                        <p>Thank you.<br/><br/></p>
+                        <p>Yours Sincerely,</p>
+                        <p>BUYTAXFREE</p>
+                        <p>www.buytaxfree.com.sg</p>
+                        <p>---- This is an automatically generated message. Please do not reply to this address. You may not use, reproduce, or transfer this message or its contents into any medium without the written permission of BUYTAXFREE.</p>
+                    </body>
+                </html>
+                ]]></field>
+        </record>
+
+<!--        &lt;!&ndash;Notification email to Chandler upon Ship’s Master confirmed request placement&ndash;&gt;-->
+<!--        <record id="dp_sale.confirm_order_from_web_by_shipmaster_to_chandler_email" model="email.template">-->
+<!--            <field name="name">confirm_order_from_web_by_shipmaster_to_chandler_email</field>-->
+<!--            <field name="subject">BUYTAXFREE ${object.name}: Please Quote</field>-->
+<!--            <field name="lang">${user.lang}</field>-->
+<!--            <field name="model_id" ref="sale.model_sale_order"/>-->
+<!--            <field name="email_from">admin@buytaxfree.com.sg></field>-->
+<!--            <field name="email_to">${ctx['email_to'] if ctx.get('email_to') else object.user_id.partner_id.email |safe}</field>-->
+<!--            <field name="body_html">-->
+<!--                <![CDATA[-->
+<!--                    % for l in object.order_line:-->
+<!--                        % if l.check_track(update_done=True) != False:-->
+<!--                        % endif-->
+<!--                    % endfor-->
+<!--                    <p>Dear ${object.user_id.name},<br><br></p>-->
+<!--                    <p>You have a Request for Quote ${object.name} from ${object.partner_id.name}<br><br></p>-->
+<!--                    <p>Please click on the link to below to quote now.</p>-->
+<!--                    <ul><li><a href="${object.get_chandler_order_url()}"> ${object.name} </a></li></ul>-->
+<!--                    <p><br/>Thank you!<br/><br/></p>-->
+<!--                    <p>Yours Sincerely,</p>-->
+<!--                    <p>BUYTAXFREE</p>-->
+<!--                    <p>www.buytaxfree.com.sg</p><br/>-->
+<!--                    <p>&#45;&#45;&#45;&#45; This is an automatically generated message. Please do not reply to this address. You may not use, reproduce, or transfer this message or its contents into any medium without the written permission of BUYTAXFREE.</p>-->
+<!--                ]]>-->
+<!--            </field>-->
+<!--        </record>-->
+
+<!--        &lt;!&ndash;Quotation to Ship Master&ndash;&gt;-->
+<!--        &lt;!&ndash;Please change end date as per new column&ndash;&gt;-->
+
+<!--        <record id="dp_sale.chendler_send_quotation_to_shipmaster_email" model="email.template">-->
+<!--            <field name="name">chendler_send_quotation_to_shipmaster_email</field>-->
+<!--            <field name="subject">BUYTAXFREE ${object.name} Quotation Sent Successfully</field>-->
+<!--            <field name="lang">${user.lang}</field>-->
+<!--            <field name="email_from">admin@buytaxfree.com.sg></field>-->
+<!--            <field name="email_to">${(ctx['chan_email'] if ctx.get('chan_email') else object.partner_id.email |safe)}</field>-->
+<!--            <field name="model_id" ref="sale.model_sale_order"/>-->
+<!--            <field name="body_html"><![CDATA[-->
+<!--            <!DOCTYPE html>-->
+<!--                <html lang="en">-->
+<!--                    <head>-->
+<!--                      <meta charset="utf-8">-->
+<!--                      <meta name="viewport" content="width=device-width, initial-scale=1">-->
+<!--                      <style type="text/css">-->
+<!--                        thead{background-color: #cccccc;}-->
+<!--                        table {border-collapse: collapse;}-->
+<!--                        table, td, th {border: 1px solid black;}-->
+<!--                        table { border-collapse: collapse; empty-cells: show; }-->
+<!--                      </style>-->
+<!--                    </head>-->
+<!--                    <body>-->
+<!--                        % if ctx.get('chan_email'):-->
+<!--                        <p> Dear ${object.user_id.partner_id.name},<br><br></p>-->
+<!--                        <p> You have a sent a quotation to ${object.partner_id.name }:</p>-->
+<!--                        % else:-->
+<!--                        <p> Dear ${object.partner_id.name},<br><br></p>-->
+<!--                        <p> You have a quotation from ${object.user_id.partner_id.name }:</p>-->
+<!--                        % endif-->
+<!--                        <p> Quotation: ${object.name} </p>-->
+<!--                        <p> Quotation valid till: ${format_tz(object.expire_quote_date, tz=user.tz, format='%Y-%m-%d %H:%M:%S')}</p>-->
+<!--                        <p> This quotation is based on <b> ${object.dp_currency_id.name} </b></p>-->
+<!--                        <table class="table table-bordered" style="border:2px bold;">-->
+<!--                            % if ctx.get('has_foc'):-->
+<!--                                <thead>-->
+<!--                                    <tr>-->
+<!--                                        <th>Product</th>-->
+<!--                                        <th></th>-->
+<!--                                        <th>Quantity</th>-->
+<!--                                        <th>UOM</th>-->
+<!--                                        <th>Unit Price</th>-->
+<!--                                        <th>Item Discount(%)</th>-->
+<!--                                        <th>Subtotal</th>-->
+<!--                                    </tr>-->
+<!--                                </thead>-->
+<!--                                <tbody>-->
+<!--                                    % for l in object.order_line:-->
+<!--                                        % if ctx.get('chan_email'):-->
+<!--                                            % set old_track = l.check_track(update_done=True)-->
+<!--                                        %else:-->
+<!--                                            % set old_track = l.check_track()-->
+<!--                                        %endif-->
+<!--                                        % if old_track != False:-->
+<!--                                             <tr>-->
+<!--                                                <td> ${l.name} </td>-->
+<!--                                                <td style="text-transform: uppercase!important;"> ${l.item_type_product or ''} </td>-->
+<!--                                                <td align="right"> ${'{:,.0f}'.format(l.product_uom_qty)} </td>-->
+<!--                                                <td> ${l.product_uom.name} </td>-->
+<!--                                                <td align="right"> ${'{:,.2f}'.format(l.price_unit)} </td>-->
+<!--                                                <td align="right"> ${l.discount} </td>-->
+<!--                                                <td align="right"> ${'{:,.2f}'.format(l.price_subtotal)} </td>-->
+<!--                                            </tr>-->
+<!--                                            % set all_same = l.check_all_same(old_track)-->
+<!--                                            % if all_same == True:-->
+<!--                                            % else:-->
+<!--                                                <tr>-->
+<!--                                                    % set same_product = l.check_same_product(old_track)-->
+<!--                                                    % if same_product == True:-->
+<!--                                                        <td></td>-->
+<!--                                                    % else:-->
+<!--                                                        <td style="text-decoration: line-through"> [${old_track.product_id.code}] ${old_track.product_id.name} </td>-->
+<!--                                                    % endif-->
+<!--                                                    <td style="text-decoration: line-through;text-transform: uppercase!important;"> ${old_track.item_type_product or ''} </td>-->
+<!--                                                    <td align="right" style="text-decoration:line-through"> ${'{:,.0f}'.format(old_track.product_uom_qty)} </td>-->
+<!--                                                    <td style="text-decoration: line-through"> ${old_track.product_uom.name} </td>-->
+<!--                                                    <td align="right" style="text-decoration: line-through"> ${'{:,.2f}'.format(old_track.price_unit)} </td>-->
+<!--                                                    <td align="right" style="text-decoration: line-through"> ${old_track.discount} </td>-->
+<!--                                                    <td align="right" style="text-decoration: line-through"> ${'{:,.2f}'.format(old_track.price_subtotal)} </td>-->
+<!--                                                </tr>-->
+<!--                                            %endif-->
+<!--                                        % else:-->
+<!--                                            <tr bgcolor="#90EE90">-->
+<!--                                                <td> ${l.name} </td>-->
+<!--                                                <td style="text-transform: uppercase!important;"> ${l.item_type_product or ''} </td>-->
+<!--                                                <td align="right"> ${'{:,.0f}'.format(l.product_uom_qty)} </td>-->
+<!--                                                <td> ${l.product_uom.name} </td>-->
+<!--                                                <td align="right"> ${'{:,.2f}'.format(l.price_unit)} </td>-->
+<!--                                                <td align="right"> ${l.discount} </td>-->
+<!--                                                <td align="right"> ${'{:,.2f}'.format(l.price_subtotal)} </td>-->
+<!--                                            </tr>-->
+<!--                                        % endif-->
+<!--                                    % endfor-->
+<!--                                    % if ctx.get('chan_email'):-->
+<!--                                        % set tracking = object.check_deleted_line(update_done=True)-->
+<!--                                    %else:-->
+<!--                                        % set tracking = object.check_deleted_line()-->
+<!--                                    %endif-->
+<!--                                    % if tracking != False:-->
+<!--                                        % for l in tracking:-->
+<!--                                            <tr bgcolor="#FFB6C1">-->
+<!--                                                <td style="text-decoration: line-through"> ${l.product_id.name} </td>-->
+<!--                                                <td style="text-transform: uppercase!important;text-decoration: line-through"> ${l.item_type_product or ''} </td>-->
+<!--                                                <td style="text-decoration: line-through" align="right"> ${'{:,.0f}'.format(l.product_uom_qty)} </td>-->
+<!--                                                <td style="text-decoration: line-through"> ${l.product_uom.name} </td>-->
+<!--                                                <td style="text-decoration: line-through" align="right"> ${'{:,.2f}'.format(l.price_unit)} </td>-->
+<!--                                                <td style="text-decoration: line-through" align="right"> ${l.discount} </td>-->
+<!--                                                <td style="text-decoration: line-through" align="right"> ${'{:,.2f}'.format(l.price_subtotal)} </td>-->
+<!--                                            </tr>-->
+<!--                                        % endfor-->
+<!--                                    % endif-->
+<!--                                    <tr>-->
+<!--                                        <td>&nbsp;</td>-->
+<!--                                        <td>&nbsp;</td>-->
+<!--                                        <td>&nbsp;</td>-->
+<!--                                        <td>&nbsp;</td>-->
+<!--                                        <td>&nbsp;</td>-->
+<!--                                        <td>&nbsp;</td>-->
+<!--                                        <td>&nbsp;</td>-->
+<!--                                    </tr>-->
+<!--                                        <tr>-->
+<!--                                        <td></td>-->
+<!--                                        <td></td>-->
+<!--                                        <td></td>-->
+<!--                                        <td></td>-->
+<!--                                        <td></td>-->
+<!--                                        <td><b>Total Amount</b></td>-->
+<!--                                        <td align="right"><b> ${'{:,.2f}'.format(object.total_before_discount)} </b></td>-->
+<!--                                    </tr>-->
+<!--                                        <tr>-->
+<!--                                        <td></td>-->
+<!--                                        <td></td>-->
+<!--                                        <td></td>-->
+<!--                                        <td></td>-->
+<!--                                        <td></td>-->
+<!--                                        <td><b>Overall Discount</b></td>-->
+<!--                                        <td align="right"><b> ${'{:,.2f}'.format(object.amount_discount)} </b></td>-->
+<!--                                    </tr>-->
+<!--                                    <tr>-->
+<!--                                        <td></td>-->
+<!--                                        <td></td>-->
+<!--                                        <td></td>-->
+<!--                                        <td></td>-->
+<!--                                        <td></td>-->
+<!--                                        <td><b>Grand Total</b></td>-->
+<!--                                        <td align="right"><b> ${'{:,.2f}'.format(object.amount_total)} </b></td>-->
+<!--                                    </tr>-->
+<!--                                </tbody>-->
+<!--                            % else:-->
+<!--                                <thead>-->
+<!--                                    <tr>-->
+<!--                                        <th>Product</th>-->
+<!--                                        <th>Quantity</th>-->
+<!--                                        <th>UOM</th>-->
+<!--                                        <th>Unit Price</th>-->
+<!--                                        <th>Item Discount(%)</th>-->
+<!--                                        <th>Subtotal</th>-->
+<!--                                    </tr>-->
+<!--                                </thead>-->
+<!--                                <tbody>-->
+<!--                                    % for l in object.order_line:-->
+<!--                                        % if ctx.get('chan_email'):-->
+<!--                                            % set old_track = l.check_track(update_done=True)-->
+<!--                                        %else:-->
+<!--                                            % set old_track = l.check_track()-->
+<!--                                        %endif-->
+<!--                                        % if old_track != False:-->
+<!--                                            <tr>-->
+<!--                                                <td> ${l.name} </td>-->
+<!--                                                <td align="right"> ${'{:,.0f}'.format(l.product_uom_qty)} </td>-->
+<!--                                                <td> ${l.product_uom.name} </td>-->
+<!--                                                <td align="right"> ${'{:,.2f}'.format(l.price_unit)} </td>-->
+<!--                                                <td align="right"> ${l.discount} </td>-->
+<!--                                                <td align="right"> ${'{:,.2f}'.format(l.price_subtotal)} </td>-->
+<!--                                            </tr>-->
+<!--                                            % set all_same = l.check_all_same(old_track)-->
+<!--                                            % if all_same == True:-->
+<!--                                            % else:-->
+<!--                                                <tr>-->
+<!--                                                    % set same = l.check_same_product(old_track)-->
+<!--                                                    % if same == True:-->
+<!--                                                        <td></td>-->
+<!--                                                    % else:-->
+<!--                                                        <td style="text-decoration: line-through"> [${old_track.product_id.code}] ${old_track.product_id.name} </td>-->
+<!--                                                    % endif-->
+<!--                                                    <td align="right" style="text-decoration:line-through"> ${'{:,.0f}'.format(old_track.product_uom_qty)} </td>-->
+<!--                                                    <td style="text-decoration: line-through"> ${old_track.product_uom.name} </td>-->
+<!--                                                    <td align="right" style="text-decoration: line-through"> ${'{:,.2f}'.format(old_track.price_unit)} </td>-->
+<!--                                                    <td align="right" style="text-decoration: line-through"> ${old_track.discount} </td>-->
+<!--                                                    <td align="right" style="text-decoration: line-through"> ${'{:,.2f}'.format(old_track.price_subtotal)} </td>-->
+<!--                                                </tr>-->
+<!--                                            %endif-->
+<!--                                        % else:-->
+<!--                                            <tr bgcolor="#90EE90">-->
+<!--                                                <td> ${l.name} </td>-->
+<!--                                                <td align="right"> ${'{:,.0f}'.format(l.product_uom_qty)} </td>-->
+<!--                                                <td> ${l.product_uom.name} </td>-->
+<!--                                                <td align="right"> ${'{:,.2f}'.format(l.price_unit)} </td>-->
+<!--                                                <td align="right"> ${l.discount} </td>-->
+<!--                                                <td align="right"> ${'{:,.2f}'.format(l.price_subtotal)} </td>-->
+<!--                                            </tr>-->
+<!--                                        % endif-->
+<!--                                    % endfor-->
+<!--                                    % if ctx.get('chan_email'):-->
+<!--                                        % set tracking = object.check_deleted_line(update_done=True)-->
+<!--                                    %else:-->
+<!--                                        % set tracking = object.check_deleted_line()-->
+<!--                                    %endif-->
+<!--                                    % if tracking != False:-->
+<!--                                        % for l in tracking:-->
+<!--                                            <tr bgcolor="#FFB6C1">-->
+<!--                                                <td style="text-decoration: line-through"> ${l.product_id.name} </td>-->
+<!--                                                <td style="text-decoration: line-through" align="right"> ${'{:,.0f}'.format(l.product_uom_qty)} </td>-->
+<!--                                                <td style="text-decoration: line-through"> ${l.product_uom.name} </td>-->
+<!--                                                <td style="text-decoration: line-through" align="right"> ${'{:,.2f}'.format(l.price_unit)} </td>-->
+<!--                                                <td style="text-decoration: line-through" align="right"> ${l.discount} </td>-->
+<!--                                                <td style="text-decoration: line-through" align="right"> ${'{:,.2f}'.format(l.price_subtotal)} </td>-->
+<!--                                            </tr>-->
+<!--                                        % endfor-->
+<!--                                    % endif-->
+<!--                                    <tr>-->
+<!--                                        <td>&nbsp;</td>-->
+<!--                                        <td>&nbsp;</td>-->
+<!--                                        <td>&nbsp;</td>-->
+<!--                                        <td>&nbsp;</td>-->
+<!--                                        <td>&nbsp;</td>-->
+<!--                                        <td>&nbsp;</td>-->
+<!--                                    </tr>-->
+<!--                                        <tr>-->
+<!--                                        <td></td>-->
+<!--                                        <td></td>-->
+<!--                                        <td></td>-->
+<!--                                        <td></td>-->
+<!--                                        <td><b>Total Amount</b></td>-->
+<!--                                        <td align="right"><b> ${'{:,.2f}'.format(object.total_before_discount)} </b></td>-->
+<!--                                    </tr>-->
+<!--                                        <tr>-->
+<!--                                        <td></td>-->
+<!--                                        <td></td>-->
+<!--                                        <td></td>-->
+<!--                                        <td></td>-->
+<!--                                        <td><b>Overall Discount</b></td>-->
+<!--                                        <td align="right"><b> ${'{:,.2f}'.format(object.amount_discount)} </b></td>-->
+<!--                                    </tr>-->
+<!--                                    <tr>-->
+<!--                                        <td></td>-->
+<!--                                        <td></td>-->
+<!--                                        <td></td>-->
+<!--                                        <td></td>-->
+<!--                                        <td><b>Grand Total</b></td>-->
+<!--                                        <td align="right"><b> ${'{:,.2f}'.format(object.amount_total)} </b></td>-->
+<!--                                    </tr>-->
+<!--                                </tbody>-->
+<!--                            % endif-->
+<!--                        </table>-->
+<!--                        % if ctx.get('chan_email'):-->
+<!--                        <br/>-->
+<!--                        <p>To view this quotation, please click on the link below: </p>-->
+<!--                        <ul><li><a href='${object.get_chandler_order_url()}'> ${object.name} </a></li></ul>-->
+<!--                        <p><br/>Thank you.<br/><br/></p>-->
+<!--                        <p>Yours Sincerely,</p>-->
+<!--                        <p>BUYTAXFREE</p>-->
+<!--                        <p>www.buytaxfree.com.sg</p>-->
+<!--                        <p><br><br></p>-->
+
+<!--                        % else:-->
+<!--                        <p>To view this quotation, please click on the link below: </p>-->
+<!--                        <ul><li><a href='${object.get_shipmaster_order_url()}'> ${object.name} </a></li></ul>-->
+<!--                        <p>To track your enquiry, simply click “My Enquiry” on the website.</p>-->
+<!--                        <p><br/>Thank you.<br/><br/></p>-->
+<!--                        <p>Yours Sincerely,</p>-->
+<!--                        <p>BUYTAXFREE</p>-->
+<!--                        <p>www.buytaxfree.com.sg</p>-->
+<!--                        <p><br><br></p>-->
+<!--                        % endif-->
+<!--                        <p>&#45;&#45;&#45;&#45; This is an automatically generated message. Please do not reply to this address. You may not use, reproduce, or transfer this message or its contents into any medium without the written permission of BUYTAXFREE.</p>-->
+<!--                    </body>-->
+<!--                </html>-->
+<!--                ]]></field>-->
+<!--        </record>-->
+
+<!--        &lt;!&ndash;Revised Quotation to Ship Master&ndash;&gt;-->
+<!--        &lt;!&ndash;Email to Ship Master upon Chandler send revised quotation based on Ship Master’s counter offer&ndash;&gt;-->
+
+<!--        <record id="dp_sale.revised_quotation_to_shipmaster" model="email.template">-->
+<!--            <field name="name">revised_quotation_to_shipmaster</field>-->
+<!--            <field name="subject">Revised Quotation ${object.name}</field>-->
+<!--            <field name="lang">${user.lang}</field>-->
+<!--            <field name="email_from">admin@buytaxfree.com.sg></field>-->
+<!--            <field name="email_to">${(ctx['chan_email'] if ctx.get('chan_email') else object.partner_id.email |safe)}</field>-->
+<!--            <field name="model_id" ref="sale.model_sale_order"/>-->
+<!--            <field name="body_html"><![CDATA[-->
+<!--            <!DOCTYPE html>-->
+<!--                <html lang="en">-->
+<!--                    <head>-->
+<!--                      <meta charset="utf-8">-->
+<!--                      <meta name="viewport" content="width=device-width, initial-scale=1">-->
+<!--                      <style>-->
+<!--                        thead{background-color: #cccccc;}-->
+<!--                        table {border-collapse: collapse;}-->
+<!--                        table, td, th {border: 1px solid black;}-->
+<!--                      </style>-->
+<!--                    </head>-->
+<!--                    <body>-->
+<!--                        % if ctx.get('chan_email'):-->
+<!--                        <p> Dear ${object.user_id.partner_id.name},<br><br></p>-->
+<!--                        <p> You have a revised quotation to ${object.partner_id.name }:<br><br</p>-->
+<!--                        % else:-->
+<!--                        <p> Dear ${object.partner_id.name},<br><br></p>-->
+<!--                        <p> You have a revised quotation from ${object.user_id.partner_id.name }:<br><br</p>-->
+<!--                        % endif-->
+<!--                        <p> Quotation: ${object.name} </p>-->
+<!--                        <p> Date: ${format_tz(object.date_order, tz=user.tz, format='%Y-%m-%d %H:%M:%S')} </p>-->
+<!--                        <p> Quotation valid till: ${format_tz(object.expire_quote_date, tz=user.tz, format='%Y-%m-%d %H:%M:%S')}</p>-->
+<!--                        <p> This quotation is based on the currency of <b> ${object.dp_currency_id.name} </b></p>-->
+<!--                        <table class="table table-bordered" style="border:2px bold;">-->
+<!--                            % if ctx.get('has_foc'):-->
+<!--                                <thead>-->
+<!--                                    <tr>-->
+<!--                                        <th>Product</th>-->
+<!--                                        <th></th>-->
+<!--                                        <th>Quantity</th>-->
+<!--                                        <th>UOM</th>-->
+<!--                                        <th>Unit Price</th>-->
+<!--                                        <th>Item Discount(%)</th>-->
+<!--                                        <th>Subtotal</th>-->
+<!--                                    </tr>-->
+<!--                                </thead>-->
+<!--                                <tbody>-->
+<!--                                    % for l in object.order_line:-->
+<!--                                        % if ctx.get('chan_email'):-->
+<!--                                            % set old_track = l.check_track(update_done=True)-->
+<!--                                        %else:-->
+<!--                                            % set old_track = l.check_track()-->
+<!--                                        %endif-->
+<!--                                        % if old_track != False:-->
+<!--                                             <tr>-->
+<!--                                                <td> ${l.name} </td>-->
+<!--                                                <td style="text-transform: uppercase!important;"> ${l.item_type_product or ''} </td>-->
+<!--                                                <td align="right"> ${'{:,.0f}'.format(l.product_uom_qty)} </td>-->
+<!--                                                <td> ${l.product_uom.name} </td>-->
+<!--                                                <td align="right"> ${'{:,.2f}'.format(l.price_unit)} </td>-->
+<!--                                                <td align="right"> ${l.discount} </td>-->
+<!--                                                <td align="right"> ${'{:,.2f}'.format(l.price_subtotal)} </td>-->
+<!--                                            </tr>-->
+<!--                                            % set all_same = l.check_all_same(old_track)-->
+<!--                                            % if all_same == True:-->
+<!--                                            % else:-->
+<!--                                                <tr>-->
+<!--                                                    % set same = l.check_same_product(old_track)-->
+<!--                                                    % if same == True:-->
+<!--                                                        <td></td>-->
+<!--                                                    % else:-->
+<!--                                                        <td style="text-decoration: line-through"> [${old_track.product_id.code}] ${old_track.product_id.name} </td>-->
+<!--                                                    % endif-->
+<!--                                                    <td style="text-decoration: line-through;text-transform: uppercase!important;"> ${old_track.item_type_product or ''} </td>-->
+<!--                                                    <td align="right" style="text-decoration:line-through"> ${'{:,.0f}'.format(old_track.product_uom_qty)} </td>-->
+<!--                                                    <td style="text-decoration: line-through"> ${old_track.product_uom.name} </td>-->
+<!--                                                    <td align="right" style="text-decoration: line-through"> ${'{:,.2f}'.format(old_track.price_unit)} </td>-->
+<!--                                                    <td align="right" style="text-decoration: line-through"> ${old_track.discount} </td>-->
+<!--                                                    <td align="right" style="text-decoration: line-through"> ${'{:,.2f}'.format(old_track.price_subtotal)} </td>-->
+<!--                                                </tr>-->
+<!--                                            %endif-->
+<!--                                        % else:-->
+<!--                                            <tr bgcolor="#90EE90">-->
+<!--                                                <td> ${l.name} </td>-->
+<!--                                                <td style="text-transform: uppercase!important;"> ${l.item_type_product or ''} </td>-->
+<!--                                                <td align="right"> ${'{:,.0f}'.format(l.product_uom_qty)} </td>-->
+<!--                                                <td> ${l.product_uom.name} </td>-->
+<!--                                                <td align="right"> ${'{:,.2f}'.format(l.price_unit)} </td>-->
+<!--                                                <td align="right"> ${l.discount} </td>-->
+<!--                                                <td align="right"> ${'{:,.2f}'.format(l.price_subtotal)} </td>-->
+<!--                                            </tr>-->
+<!--                                        % endif-->
+<!--                                    % endfor-->
+<!--                                    % if ctx.get('chan_email'):-->
+<!--                                        % set tracking = object.check_deleted_line(update_done=True)-->
+<!--                                    %else:-->
+<!--                                        % set tracking = object.check_deleted_line()-->
+<!--                                    % endif-->
+<!--                                    % if tracking != False:-->
+<!--                                        % for l in tracking:-->
+<!--                                            <tr bgcolor="#FFB6C1">-->
+<!--                                                <td style="text-decoration: line-through"> ${l.product_id.name} </td>-->
+<!--                                                <td style="text-transform: uppercase!important;text-decoration: line-through"> ${l.item_type_product or ''} </td>-->
+<!--                                                <td style="text-decoration: line-through" align="right"> ${'{:,.0f}'.format(l.product_uom_qty)} </td>-->
+<!--                                                <td style="text-decoration: line-through"> ${l.product_uom.name} </td>-->
+<!--                                                <td style="text-decoration: line-through" align="right"> ${'{:,.2f}'.format(l.price_unit)} </td>-->
+<!--                                                <td style="text-decoration: line-through" align="right"> ${l.discount} </td>-->
+<!--                                                <td style="text-decoration: line-through" align="right"> ${'{:,.2f}'.format(l.price_subtotal)} </td>-->
+<!--                                            </tr>-->
+<!--                                        % endfor-->
+<!--                                    % endif-->
+<!--                                    <tr>-->
+<!--                                        <td>&nbsp;</td>-->
+<!--                                        <td>&nbsp;</td>-->
+<!--                                        <td>&nbsp;</td>-->
+<!--                                        <td>&nbsp;</td>-->
+<!--                                        <td>&nbsp;</td>-->
+<!--                                        <td>&nbsp;</td>-->
+<!--                                        <td>&nbsp;</td>-->
+<!--                                    </tr>-->
+<!--                                        <tr>-->
+<!--                                        <td></td>-->
+<!--                                        <td></td>-->
+<!--                                        <td></td>-->
+<!--                                        <td></td>-->
+<!--                                        <td></td>-->
+<!--                                        <td><b>Total Amount</b></td>-->
+<!--                                        <td align="right"><b> ${'{:,.2f}'.format(object.total_before_discount)} </b></td>-->
+<!--                                    </tr>-->
+<!--                                        <tr>-->
+<!--                                        <td></td>-->
+<!--                                        <td></td>-->
+<!--                                        <td></td>-->
+<!--                                        <td></td>-->
+<!--                                        <td></td>-->
+<!--                                        <td><b>Overall Discount</b></td>-->
+<!--                                        <td align="right"><b> ${'{:,.2f}'.format(object.amount_discount)} </b></td>-->
+<!--                                    </tr>-->
+<!--                                    <tr>-->
+<!--                                        <td></td>-->
+<!--                                        <td></td>-->
+<!--                                        <td></td>-->
+<!--                                        <td></td>-->
+<!--                                        <td></td>-->
+<!--                                        <td><b>Grand Total</b></td>-->
+<!--                                        <td align="right"><b> ${'{:,.2f}'.format(object.amount_total)} </b></td>-->
+<!--                                    </tr>-->
+<!--                                </tbody>-->
+<!--                            % else:-->
+<!--                                <thead>-->
+<!--                                    <tr>-->
+<!--                                        <th>Product</th>-->
+<!--                                        <th>Quantity</th>-->
+<!--                                        <th>UOM</th>-->
+<!--                                        <th>Unit Price</th>-->
+<!--                                        <th>Item Discount(%)</th>-->
+<!--                                        <th>Subtotal</th>-->
+<!--                                    </tr>-->
+<!--                                </thead>-->
+<!--                                <tbody>-->
+<!--                                    % for l in object.order_line:-->
+<!--                                        % if ctx.get('chan_email'):-->
+<!--                                            % set old_track = l.check_track(update_done=True)-->
+<!--                                        %else:-->
+<!--                                            % set old_track = l.check_track()-->
+<!--                                        %endif-->
+<!--                                        % if old_track != False:-->
+<!--                                            <tr>-->
+<!--                                                <td> ${l.name} </td>-->
+<!--                                                <td align="right"> ${'{:,.0f}'.format(l.product_uom_qty)} </td>-->
+<!--                                                <td> ${l.product_uom.name} </td>-->
+<!--                                                <td align="right"> ${'{:,.2f}'.format(l.price_unit)} </td>-->
+<!--                                                <td align="right"> ${l.discount} </td>-->
+<!--                                                <td align="right"> ${'{:,.2f}'.format(l.price_subtotal)} </td>-->
+<!--                                            </tr>-->
+<!--                                            % set all_same = l.check_all_same(old_track)-->
+<!--                                            % if all_same == True:-->
+<!--                                            % else:-->
+<!--                                                <tr>-->
+<!--                                                    % set same = l.check_same_product(old_track)-->
+<!--                                                    % if same == True:-->
+<!--                                                        <td></td>-->
+<!--                                                    % else:-->
+<!--                                                        <td style="text-decoration: line-through"> [${old_track.product_id.code}] ${old_track.product_id.name} </td>-->
+<!--                                                    % endif-->
+<!--                                                    <td align="right" style="text-decoration:line-through"> ${'{:,.0f}'.format(old_track.product_uom_qty)} </td>-->
+<!--                                                    <td style="text-decoration: line-through"> ${old_track.product_uom.name} </td>-->
+<!--                                                    <td align="right" style="text-decoration: line-through"> ${'{:,.2f}'.format(old_track.price_unit)} </td>-->
+<!--                                                    <td align="right" style="text-decoration: line-through"> ${old_track.discount} </td>-->
+<!--                                                    <td align="right" style="text-decoration: line-through"> ${'{:,.2f}'.format(old_track.price_subtotal)} </td>-->
+<!--                                                </tr>-->
+<!--                                            %endif-->
+<!--                                        % else:-->
+<!--                                            <tr bgcolor="#90EE90">-->
+<!--                                                <td> ${l.name} </td>-->
+<!--                                                <td align="right"> ${'{:,.0f}'.format(l.product_uom_qty)} </td>-->
+<!--                                                <td> ${l.product_uom.name} </td>-->
+<!--                                                <td align="right"> ${'{:,.2f}'.format(l.price_unit)} </td>-->
+<!--                                                <td align="right"> ${l.discount} </td>-->
+<!--                                                <td align="right"> ${'{:,.2f}'.format(l.price_subtotal)} </td>-->
+<!--                                            </tr>-->
+<!--                                        % endif-->
+<!--                                    % endfor-->
+<!--                                    % if ctx.get('chan_email'):-->
+<!--                                        % set tracking = object.check_deleted_line(update_done=True)-->
+<!--                                    %else:-->
+<!--                                        % set tracking = object.check_deleted_line()-->
+<!--                                    %endif-->
+<!--                                    % if tracking != False:-->
+<!--                                        % for l in tracking:-->
+<!--                                            <tr bgcolor="#FFB6C1">-->
+<!--                                                <td style="text-decoration: line-through"> ${l.product_id.name} </td>-->
+<!--                                                <td style="text-decoration: line-through" align="right"> ${'{:,.0f}'.format(l.product_uom_qty)} </td>-->
+<!--                                                <td style="text-decoration: line-through"> ${l.product_uom.name} </td>-->
+<!--                                                <td style="text-decoration: line-through" align="right"> ${'{:,.2f}'.format(l.price_unit)} </td>-->
+<!--                                                <td style="text-decoration: line-through" align="right"> ${l.discount} </td>-->
+<!--                                                <td style="text-decoration: line-through" align="right"> ${'{:,.2f}'.format(l.price_subtotal)} </td>-->
+<!--                                            </tr>-->
+<!--                                        % endfor-->
+<!--                                    % endif-->
+<!--                                    <tr>-->
+<!--                                        <td>&nbsp;</td>-->
+<!--                                        <td>&nbsp;</td>-->
+<!--                                        <td>&nbsp;</td>-->
+<!--                                        <td>&nbsp;</td>-->
+<!--                                        <td>&nbsp;</td>-->
+<!--                                        <td>&nbsp;</td>-->
+<!--                                    </tr>-->
+<!--                                        <tr>-->
+<!--                                        <td></td>-->
+<!--                                        <td></td>-->
+<!--                                        <td></td>-->
+<!--                                        <td></td>-->
+<!--                                        <td><b>Total Amount</b></td>-->
+<!--                                        <td align="right"><b> ${'{:,.2f}'.format(object.total_before_discount)} </b></td>-->
+<!--                                    </tr>-->
+<!--                                        <tr>-->
+<!--                                        <td></td>-->
+<!--                                        <td></td>-->
+<!--                                        <td></td>-->
+<!--                                        <td></td>-->
+<!--                                        <td><b>Overall Discount</b></td>-->
+<!--                                        <td align="right"><b> ${'{:,.2f}'.format(object.amount_discount)} </b></td>-->
+<!--                                    </tr>-->
+<!--                                    <tr>-->
+<!--                                        <td></td>-->
+<!--                                        <td></td>-->
+<!--                                        <td></td>-->
+<!--                                        <td></td>-->
+<!--                                        <td><b>Grand Total</b></td>-->
+<!--                                        <td align="right"><b> ${'{:,.2f}'.format(object.amount_total)} </b></td>-->
+<!--                                    </tr>-->
+<!--                                </tbody>-->
+<!--                            % endif-->
+<!--                        </table>-->
+<!--                        % if ctx.get('chan_email'):-->
+<!--                        <p> To view this revised quotation, please click the link below: </p>-->
+<!--                        <ul><li><a href='${object.get_chandler_order_url()}'> ${object.name} </a></li></ul>-->
+<!--                        % else:-->
+<!--                        <p> To accept, cancel or counter offer, please click the link below: </p>-->
+<!--                        <ul><li><a href='${object.get_shipmaster_order_url()}'> ${object.name} </a></li></ul>-->
+<!--                        % endif-->
+<!--                        <p><br/>Thank you!<br/><br/></p>-->
+<!--                        <p>Best Regards</p>-->
+<!--                        <p>BUYTAXFREE</p>-->
+<!--                        <p><br/><br/></p>-->
+<!--                        <p>&#45;&#45;&#45;&#45; This is an automatically generated message. Please do not reply to this address. You may not use, reproduce, or transfer this message or its contents into any medium without the written permission of BUYTAXFREE.</p>-->
+<!--                    </body>-->
+<!--                </html>-->
+<!--                ]]></field>-->
+<!--        </record>-->
+
+<!--        &lt;!&ndash; Notification email to Chandler upon Ship Master’s negotiation request &ndash;&gt;-->
+<!--        <record id="dp_sale.negotiation_revised_quotation_to_chandler" model="email.template">-->
+<!--            <field name="name">negotiation_revised_quotation_to_chandler</field>-->
+<!--            <field name="subject">Counter Offer to ${object.name}</field>-->
+<!--            <field name="lang">${user.lang}</field>-->
+<!--            <field name="email_from">admin@buytaxfree.com.sg></field>-->
+<!--            <field name="email_to">${object.user_id.email |safe}</field>-->
+<!--            <field name="model_id" ref="sale.model_sale_order"/>-->
+<!--            <field name="body_html"><![CDATA[-->
+<!--            <!DOCTYPE html>-->
+<!--                <html lang="en">-->
+<!--                    <head>-->
+<!--                      <meta charset="utf-8">-->
+<!--                      <meta name="viewport" content="width=device-width, initial-scale=1">-->
+<!--                      <style>-->
+<!--                        thead{background-color: #cccccc;}-->
+<!--                        table {border-collapse: collapse;}-->
+<!--                        table, td, th {border: 1px solid black;}-->
+<!--                      </style>-->
+<!--                    </head>-->
+<!--                    <body>-->
+<!--                        <p>Dear ${object.user_id.name} ,<br><br></p>-->
+<!--                        <p> You have a counter offer from  ${object.partner_id.name}: <br><br></p>-->
+<!--                        <p> Quotation: ${object.name} </p>-->
+<!--                        <p> Date: ${format_tz(object.date_order, tz=user.tz, format='%Y-%m-%d %H:%M:%S')} </p>-->
+<!--                        <p> Quotation valid till: ${format_tz(object.expire_quote_date, tz=user.tz, format='%Y-%m-%d %H:%M:%S')}</p>-->
+<!--                        <p> This quotation is based on the currency of <b> ${object.dp_currency_id.name} </b></p>-->
+<!--                        <table class="table table-bordered" style="border:2px bold;">-->
+<!--                            % if ctx.get('has_foc'):-->
+<!--                                <thead>-->
+<!--                                    <tr>-->
+<!--                                        <th>Product</th>-->
+<!--                                        <th></th>-->
+<!--                                        <th>Quantity</th>-->
+<!--                                        <th>UOM</th>-->
+<!--                                        <th>Unit Price</th>-->
+<!--                                        <th>Subtotal</th>-->
+<!--                                    </tr>-->
+<!--                                </thead>-->
+<!--                                <tbody>-->
+<!--                                    % for l in object.order_line:-->
+<!--                                        <tr>-->
+<!--                                            <td> ${l.name} </td>-->
+<!--                                            <td style="text-transform: uppercase!important;"> ${l.item_type_product or ''} </td>-->
+<!--                                            % set counter_offer_qty = l.check_counter_offer_qty_change()-->
+<!--                                            % if counter_offer_qty:-->
+<!--                                                <td align="right"> ${'{:,.0f}'.format(l.counter_offer_qty)} </td>-->
+<!--                                            % else:-->
+<!--                                                <td align="right"> ${'{:,.0f}'.format(l.product_uom_qty)} </td>-->
+<!--                                            % endif-->
+<!--                                            <td> ${l.product_uom.name} </td>-->
+<!--                                            % set counter_offer_price = l.check_counter_offer_price_change()-->
+<!--                                            % if counter_offer_price == True:-->
+<!--                                                <td align="right"> ${'{:,.2f}'.format(l.counter_offer_price)} </td>-->
+<!--                                            % else:-->
+<!--                                                <td align="right"> ${'{:,.2f}'.format(l.price_unit)} </td>-->
+<!--                                            % endif-->
+<!--                                            % set counter_offer_subtotal = l.check_counter_offer_subtotal_change()-->
+<!--                                            % if counter_offer_subtotal == True:-->
+<!--                                                <td align="right"> ${'{:,.2f}'.format(l.counter_offer_sub_total)} </td>-->
+<!--                                            % else:-->
+<!--                                                <td align="right"> ${'{:,.2f}'.format(l.price_subtotal)} </td>-->
+<!--                                            % endif-->
+<!--                                        </tr>-->
+<!--                                        % if counter_offer_qty or counter_offer_price:-->
+<!--                                            <tr>-->
+<!--                                                <td/>-->
+<!--                                                % if counter_offer_qty:-->
+<!--                                                    <td align="right" style="text-decoration: line-through"> ${'{:,.0f}'.format(l.product_uom_qty)} </td>-->
+<!--                                                % endif-->
+<!--                                                <td/>-->
+<!--                                                % if counter_offer_price:-->
+<!--                                                    <td align="right" style="text-decoration: line-through"> ${'{:,.2f}'.format(l.price_unit)} </td>-->
+<!--                                                % endif-->
+<!--                                                % if counter_offer_subtotal:-->
+<!--                                                    <td align="right" style="text-decoration: line-through"> ${'{:,.2f}'.format(l.price_subtotal)} </td>-->
+<!--                                                % endif-->
+<!--                                            </tr>-->
+<!--                                        % endif-->
+<!--                                    % endfor-->
+<!--                                    <tr>-->
+<!--                                        <td>&nbsp;</td>-->
+<!--                                        <td>&nbsp;</td>-->
+<!--                                        <td>&nbsp;</td>-->
+<!--                                        <td>&nbsp;</td>-->
+<!--                                        <td>&nbsp;</td>-->
+<!--                                        <td>&nbsp;</td>-->
+<!--                                    </tr>-->
+<!--                                    <tr>-->
+<!--                                        <td></td>-->
+<!--                                        <td></td>-->
+<!--                                        <td></td>-->
+<!--                                        <td></td>-->
+<!--                                        <td><b>Grand Total</b></td>-->
+<!--                                        <td align="right"><b> ${'{:,.2f}'.format(object.counter_offer_amount_total)} </b></td>-->
+<!--                                    </tr>-->
+<!--                                </tbody>-->
+<!--                            % else:-->
+<!--                                 <thead>-->
+<!--                                    <tr>-->
+<!--                                        <th>Product</th>-->
+<!--                                        <th>Quantity</th>-->
+<!--                                        <th>UOM</th>-->
+<!--                                        <th>Unit Price</th>-->
+<!--                                        <th>Subtotal</th>-->
+<!--                                    </tr>-->
+<!--                                </thead>-->
+<!--                                <tbody>-->
+<!--                                    % for l in object.order_line:-->
+<!--                                        <tr>-->
+<!--                                            <td> ${l.name} </td>-->
+<!--                                            % set counter_offer_qty = l.check_counter_offer_qty_change()-->
+<!--                                            % if counter_offer_qty:-->
+<!--                                                <td align="right"> ${'{:,.0f}'.format(l.counter_offer_qty)} </td>-->
+<!--                                            % else:-->
+<!--                                                <td align="right"> ${'{:,.0f}'.format(l.product_uom_qty)} </td>-->
+<!--                                            % endif-->
+<!--                                            <td> ${l.product_uom.name} </td>-->
+<!--                                            % set counter_offer_price = l.check_counter_offer_price_change()-->
+<!--                                            % if counter_offer_price:-->
+<!--                                                <td align="right"> ${'{:,.2f}'.format(l.counter_offer_price)} </td>-->
+<!--                                            % else:-->
+<!--                                                <td align="right"> ${'{:,.2f}'.format(l.price_unit)} </td>-->
+<!--                                            % endif-->
+<!--                                            % set counter_offer_subtotal = l.check_counter_offer_subtotal_change()-->
+<!--                                            % if counter_offer_subtotal == True:-->
+<!--                                                <td align="right"> ${'{:,.2f}'.format(l.counter_offer_sub_total)} </td>-->
+<!--                                            % else:-->
+<!--                                                <td align="right"> ${'{:,.2f}'.format(l.price_subtotal)} </td>-->
+<!--                                            % endif-->
+<!--                                        </tr>-->
+<!--                                        % if counter_offer_qty or counter_offer_price:-->
+<!--                                            <tr>-->
+<!--                                                <td/>-->
+<!--                                                % if counter_offer_qty:-->
+<!--                                                    <td align="right" style="text-decoration: line-through"> ${'{:,.0f}'.format(l.product_uom_qty)} </td>-->
+<!--                                                % endif-->
+<!--                                                <td/>-->
+<!--                                                % if counter_offer_price:-->
+<!--                                                    <td align="right" style="text-decoration: line-through"> ${'{:,.2f}'.format(l.price_unit)} </td>-->
+<!--                                                % endif-->
+<!--                                                % if counter_offer_subtotal:-->
+<!--                                                    <td align="right" style="text-decoration: line-through"> ${'{:,.2f}'.format(l.price_subtotal)} </td>-->
+<!--                                                % endif-->
+<!--                                            </tr>-->
+<!--                                        % endif-->
+<!--                                    % endfor-->
+<!--                                    <tr>-->
+<!--                                        <td>&nbsp;</td>-->
+<!--                                        <td>&nbsp;</td>-->
+<!--                                        <td>&nbsp;</td>-->
+<!--                                        <td>&nbsp;</td>-->
+<!--                                        <td>&nbsp;</td>-->
+<!--                                    </tr>-->
+<!--                                    <tr>-->
+<!--                                        <td></td>-->
+<!--                                        <td></td>-->
+<!--                                        <td></td>-->
+<!--                                        <td><b>Grand Total</b></td>-->
+<!--                                        <td align="right"><b> ${'{:,.2f}'.format(object.counter_offer_amount_total)} </b></td>-->
+<!--                                    </tr>-->
+<!--                                </tbody>-->
+<!--                            % endif-->
+<!--                        </table>-->
+
+<!--                        <p> To accept, cancel or counter offer, please click the link below: </p>-->
+<!--                        <ul><li><a href='${object.get_chandler_order_url()}'> ${object.name} </a></li></ul>-->
+<!--                        <p><br></p>-->
+<!--                        <p>Best Regards</p>-->
+<!--                        <p>BUYTAXFREE</p>-->
+<!--                        <p><br></p>-->
+<!--                        <p>&#45;&#45;&#45;&#45; This is an automatically generated message. Please do not reply to this address. You may not use, reproduce, or transfer this message or its contents into any medium without the written permission of BUYTAXFREE.</p>-->
+<!--                    </body>-->
+<!--                </html>-->
+<!--                ]]></field>-->
+<!--        </record>-->
+
+<!--         &lt;!&ndash;Negotiation Request from Ship Master&ndash;&gt;-->
+<!--        &lt;!&ndash;Notification email to Ship Master upon Ship Master’s negotiation request&ndash;&gt;-->
+
+<!--        <record id="dp_sale.negotiation_revised_quotation_to_shipmaster" model="email.template">-->
+<!--            <field name="name">negotiation_revised_quotation_to_shipmaster</field>-->
+<!--            <field name="subject">Counter Offer to ${object.name}</field>-->
+<!--            <field name="lang">${user.lang}</field>-->
+<!--            <field name="email_from">admin@buytaxfree.com.sg></field>-->
+<!--            <field name="email_to">${object.partner_id.email |safe}</field>-->
+<!--            <field name="model_id" ref="sale.model_sale_order"/>-->
+<!--            <field name="body_html"><![CDATA[-->
+<!--            <!DOCTYPE html>-->
+<!--                <html lang="en">-->
+<!--                    <head>-->
+<!--                      <meta charset="utf-8">-->
+<!--                      <meta name="viewport" content="width=device-width, initial-scale=1">-->
+<!--                      <style>-->
+<!--                        thead{background-color: #cccccc;}-->
+<!--                        table {border-collapse: collapse;}-->
+<!--                        table, td, th {border: 1px solid black;}-->
+<!--                      </style>-->
+<!--                    </head>-->
+<!--                    <body>-->
+<!--                        <p> Dear ${object.partner_id.name},<br><br></p>-->
+<!--                        <p> You have a counter offer from ${object.user_id.partner_id.name}:<br><br></p>-->
+<!--                        <p> Request for Quote: ${object.name} </p>-->
+<!--                        <p> Date: ${format_tz(object.date_order, tz=user.tz, format='%Y-%m-%d %H:%M:%S')} </p>-->
+<!--                        <p> Quotation valid till: ${format_tz(object.expire_quote_date, tz=user.tz, format='%Y-%m-%d %H:%M:%S')}</p>-->
+<!--                        <p> This quotation is based on the currency of <b> ${object.dp_currency_id.name} </b></p>-->
+<!--                        <table class="table table-bordered" style="border:2px bold;">-->
+<!--                            % if ctx.get('has_foc'):-->
+<!--                                <thead>-->
+<!--                                    <tr>-->
+<!--                                        <th>Product</th>-->
+<!--                                        <th></th>-->
+<!--                                        <th>Quantity</th>-->
+<!--                                        <th>UOM</th>-->
+<!--                                        <th>Unit Price</th>-->
+<!--                                        <th>Subtotal</th>-->
+<!--                                    </tr>-->
+<!--                                </thead>-->
+<!--                                <tbody>-->
+<!--                                    % for l in object.order_line:-->
+<!--                                        <tr>-->
+<!--                                            <td> ${l.name} </td>-->
+<!--                                            <td style="text-transform: uppercase!important;"> ${l.item_type_product or ''} </td>-->
+<!--                                            <td align="right"> ${'{:,.0f}'.format(l.product_uom_qty)} </td>-->
+<!--                                            <td> ${l.product_uom.name} </td>-->
+<!--                                            <td align="right"> ${'{:,.2f}'.format(l.price_unit)} </td>-->
+<!--                                            <td align="right"> ${'{:,.2f}'.format(l.price_subtotal)} </td>-->
+<!--                                        </tr>-->
+<!--                                        % set counter_offer_qty = l.check_counter_offer_qty_change()-->
+<!--                                        % set counter_offer_price = l.check_counter_offer_price_change()-->
+<!--                                        % if counter_offer_qty or counter_offer_price:-->
+<!--                                            <tr>-->
+<!--                                                <td/>-->
+<!--                                                % if counter_offer_qty:-->
+<!--                                                    <td align="right" style="text-decoration: line-through"> ${'{:,.0f}'.format(l.counter_offer_qty)} </td>-->
+<!--                                                % endif-->
+<!--                                                <td/>-->
+<!--                                                % if counter_offer_price:-->
+<!--                                                    <td align="right" style="text-decoration: line-through"> ${'{:,.2f}'.format(l.counter_offer_price)} </td>-->
+<!--                                                % endif-->
+<!--                                                <td align="right" style="text-decoration: line-through"> ${'{:,.2f}'.format(l.counter_offer_sub_total)} </td>-->
+<!--                                            </tr>-->
+<!--                                        % endif-->
+<!--                                    % endfor-->
+<!--                                    <tr>-->
+<!--                                        <td>&nbsp;</td>-->
+<!--                                        <td>&nbsp;</td>-->
+<!--                                        <td>&nbsp;</td>-->
+<!--                                        <td>&nbsp;</td>-->
+<!--                                        <td>&nbsp;</td>-->
+<!--                                        <td>&nbsp;</td>-->
+<!--                                    </tr>-->
+<!--                                    <tr>-->
+<!--                                        <td></td>-->
+<!--                                        <td></td>-->
+<!--                                        <td></td>-->
+<!--                                        <td></td>-->
+<!--                                        <td><b>Grand Total</b></td>-->
+<!--                                        <td align="right"><b> ${'{:,.2f}'.format(object.amount_total)} </b></td>-->
+<!--                                    </tr>-->
+<!--                                </tbody>-->
+<!--                            % else:-->
+<!--                                <thead>-->
+<!--                                    <tr>-->
+<!--                                        <th>Product</th>-->
+<!--                                        <th>Quantity</th>-->
+<!--                                        <th>UOM</th>-->
+<!--                                        <th>Unit Price</th>-->
+<!--                                        <th>Subtotal</th>-->
+<!--                                    </tr>-->
+<!--                                </thead>-->
+<!--                                <tbody>-->
+<!--                                    % for l in object.order_line:-->
+<!--                                        <tr>-->
+<!--                                            <td> ${l.name} </td>-->
+<!--                                            <td align="right"> ${'{:,.0f}'.format(l.product_uom_qty)} </td>-->
+<!--                                            <td> ${l.product_uom.name} </td>-->
+<!--                                            <td align="right"> ${'{:,.2f}'.format(l.price_unit)} </td>-->
+<!--                                            <td align="right"> ${'{:,.2f}'.format(l.price_subtotal)} </td>-->
+<!--                                        </tr>-->
+<!--                                        % set counter_offer_qty = l.check_counter_offer_qty_change()-->
+<!--                                        % set counter_offer_price = l.check_counter_offer_price_change()-->
+<!--                                        % if counter_offer_qty or counter_offer_price:-->
+<!--                                            <tr>-->
+<!--                                                <td/>-->
+<!--                                                % if counter_offer_qty:-->
+<!--                                                    <td align="right" style="text-decoration: line-through"> ${'{:,.0f}'.format(l.counter_offer_qty)} </td>-->
+<!--                                                % endif-->
+<!--                                                <td/>-->
+<!--                                                % if counter_offer_price:-->
+<!--                                                    <td align="right" style="text-decoration: line-through"> ${'{:,.2f}'.format(l.counter_offer_price)} </td>-->
+<!--                                                % endif-->
+<!--                                                <td align="right" style="text-decoration: line-through"> ${'{:,.2f}'.format(l.counter_offer_sub_total)} </td>-->
+<!--                                            </tr>-->
+<!--                                        % endif-->
+<!--                                    % endfor-->
+<!--                                    <tr>-->
+<!--                                        <td>&nbsp;</td>-->
+<!--                                        <td>&nbsp;</td>-->
+<!--                                        <td>&nbsp;</td>-->
+<!--                                        <td>&nbsp;</td>-->
+<!--                                        <td>&nbsp;</td>-->
+<!--                                    </tr>-->
+<!--                                    <tr>-->
+<!--                                        <td></td>-->
+<!--                                        <td></td>-->
+<!--                                        <td></td>-->
+<!--                                        <td><b>Grand Total</b></td>-->
+<!--                                        <td align="right"><b> ${'{:,.2f}'.format(object.amount_total)} </b></td>-->
+<!--                                    </tr>-->
+<!--                                </tbody>-->
+<!--                            % endif-->
+<!--                        </table>-->
+
+<!--                        <p><br/>Thank you!<br/><br/></p>-->
+<!--                        <p>Best Regards</p>-->
+<!--                        <p>BUYTAXFREE</p>-->
+<!--                        <p><br></p>-->
+<!--                        <p>&#45;&#45;&#45;&#45; This is an automatically generated message. Please do not reply to this address. You may not use, reproduce, or transfer this message or its contents into any medium without the written permission of BUYTAXFREE.</p>-->
+<!--                    </body>-->
+<!--                </html>-->
+<!--                ]]></field>-->
+<!--        </record>-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <!--Quotation to Ship Master-->
+        <!--Please change end date as per new column-->
+
+        <record id="dp_sale.chendler_send_quotation_to_shipmaster_email" model="email.template">
+            <field name="name">chendler_send_quotation_to_shipmaster_email</field>
+            <field name="subject">${(ctx['subject'])}</field>
+            <field name="lang">${user.lang}</field>
+            <field name="email_from">admin@buytaxfree.com.sg></field>
+            <field name="email_to">${(ctx['chan_email'] if ctx.get('chan_email') else object.partner_id.email |safe)}</field>
+            <field name="model_id" ref="sale.model_sale_order"/>
+            <field name="body_html"><![CDATA[
+            <!DOCTYPE html>
+                <html lang="en">
+                    <head>
+                      <meta charset="utf-8">
+                      <meta name="viewport" content="width=device-width, initial-scale=1">
+                      <style>
+                        thead{background-color: #cccccc;}
+                        table {border-collapse: collapse;}
+                        table, td, th {border: 1px solid black;}
+                      </style>
+                    </head>
+                    <body>
+                        % if ctx.get('chan_email'):
+                        <p> Dear ${object.user_id.partner_id.name},<br><br></p>
+                        <p> You have sent a quotation to <b>${object.partner_id.name }</b>:</p>
+                        % else:
+                        <p> Dear ${object.partner_id.name},<br><br></p>
+                        <p> You have a quotation from <b>${object.user_id.partner_id.name }</b>:</p>
+                        % endif
+                        <p> Quotation: ${object.name} </p>
+                        <p> Quotation valid till: ${format_tz(object.expire_quote_date, tz=user.tz, format='%Y-%m-%d %H:%M:%S')}</p>
+                        <p> This quotation is based on <b> ${object.dp_currency_id.name} </b></p>
+                        <table class="table table-bordered" style="border:2px bold;">
+                            % if ctx.get('has_foc'):
+                                <thead>
+                                    <tr>
+                                        <th>Product</th>
+                                        <th></th>
+                                        <th>Quantity</th>
+                                        <th>UOM</th>
+                                        <th>Unit Price</th>
+<!--                                        <th>Item Discount(%)</th>-->
+                                        <th>Subtotal</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    % for l in object.order_line:
+                                        <tr>
+                                            <td> ${l.name} </td>
+                                            <td style="text-transform: uppercase!important;"> ${l.item_type_product or ''} </td>
+                                            <td align="right"> ${'{:,.0f}'.format(l.product_uom_qty)} </td>
+                                            <td> ${l.product_uom.name} </td>
+                                            <td align="right"> ${'{:,.2f}'.format(l.price_unit)} </td>
+<!--                                            <td align="right"> ${l.discount} </td>-->
+                                            <td align="right"> ${'{:,.2f}'.format(l.price_subtotal)} </td>
+                                        </tr>
+                                    % endfor
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+<!--                                        <td>&nbsp;</td>-->
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                        <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+<!--                                        <td></td>-->
+                                        <td><b>Total Amount</b></td>
+                                        <td align="right"><b> ${'{:,.2f}'.format(object.total_before_discount)} </b></td>
+                                    </tr>
+                                        <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+<!--                                        <td></td>-->
+                                        <td><b>Overall Discount</b></td>
+                                        <td align="right"><b> ${'{:,.2f}'.format(object.amount_discount)} </b></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+<!--                                        <td></td>-->
+                                        <td><b>Grand Total</b></td>
+                                        <td align="right"><b> ${'{:,.2f}'.format(object.amount_total)} </b></td>
+                                    </tr>
+                                </tbody>
+                            % else:
+                                <thead>
+                                    <tr>
+                                        <th>Product</th>
+                                        <th>Quantity</th>
+                                        <th>UOM</th>
+                                        <th>Unit Price</th>
+<!--                                        <th>Item Discount(%)</th>-->
+                                        <th>Subtotal</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    % for l in object.order_line:
+                                        <tr>
+                                            <td> ${l.name} </td>
+                                            <td align="right"> ${'{:,.0f}'.format(l.product_uom_qty)} </td>
+                                            <td> ${l.product_uom.name} </td>
+                                            <td align="right"> ${'{:,.2f}'.format(l.price_unit)} </td>
+<!--                                            <td align="right"> ${l.discount} </td>-->
+                                            <td align="right"> ${'{:,.2f}'.format(l.price_subtotal)} </td>
+                                        </tr>
+                                    % endfor
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+<!--                                        <td>&nbsp;</td>-->
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                        <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+<!--                                        <td></td>-->
+                                        <td><b>Total Amount</b></td>
+                                        <td align="right"><b> ${'{:,.2f}'.format(object.total_before_discount)} </b></td>
+                                    </tr>
+                                        <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+<!--                                        <td></td>-->
+                                        <td><b>Overall Discount</b></td>
+                                        <td align="right"><b> ${'{:,.2f}'.format(object.amount_discount)} </b></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+<!--                                        <td></td>-->
+                                        <td><b>Grand Total</b></td>
+                                        <td align="right"><b> ${'{:,.2f}'.format(object.amount_total)} </b></td>
+                                    </tr>
+                                </tbody>
+                            % endif
+                        </table>
+                        % if ctx.get('chan_email'):
+                        <br/>
+                        <p>To view this quotation, please click on the link below: </p>
+                        <ul><li><a href='${object.get_chandler_order_url()}'> ${object.name} </a></li></ul>
+                        <p><br/>Thank you.<br/><br/></p>
+                        <p>Yours Sincerely,</p>
+                        <p>BUYTAXFREE</p>
+                        <p>www.buytaxfree.com.sg</p>
+                        <p><br><br></p>
+
+                        % else:
+                        <p>To view this quotation, please click on the link below: </p>
+                        <ul><li><a href='${object.get_shipmaster_order_url()}'> ${object.name} </a></li></ul>
+                        <p>To track your enquiry, simply click “My Enquiry” on the website.</p>
+                        <p><br/>Thank you.<br/><br/></p>
+                        <p>Yours Sincerely,</p>
+                        <p>BUYTAXFREE</p>
+                        <p>www.buytaxfree.com.sg</p>
+                        <p><br><br></p>
+                        % endif
+                        <p>---- This is an automatically generated message. Please do not reply to this address. You may not use, reproduce, or transfer this message or its contents into any medium without the written permission of BUYTAXFREE.</p>
+                    </body>
+                </html>
+                ]]></field>
+        </record>
+
+        <!--Revised Quotation to Ship Master-->
+        <!--Email to Ship Master upon Chandler send revised quotation based on Ship Master’s counter offer-->
+        <record id="dp_sale.revised_quotation_to_shipmaster" model="email.template">
+            <field name="name">revised_quotation_to_shipmaster</field>
+            <field name="subject">Revised Quotation ${object.name}</field>
+            <field name="lang">${user.lang}</field>
+            <field name="email_from">admin@buytaxfree.com.sg></field>
+            <field name="email_to">${(ctx['chan_email'] if ctx.get('chan_email') else object.partner_id.email |safe)}</field>
+            <field name="model_id" ref="sale.model_sale_order"/>
+            <field name="body_html"><![CDATA[
+            <!DOCTYPE html>
+                <html lang="en">
+                    <head>
+                      <meta charset="utf-8">
+                      <meta name="viewport" content="width=device-width, initial-scale=1">
+                      <style>
+                        thead{background-color: #cccccc;}
+                        table {border-collapse: collapse;}
+                        table, td, th {border: 1px solid black;}
+                      </style>
+                    </head>
+                    <body>
+                        % if ctx.get('chan_email'):
+                        <p> Dear ${object.user_id.partner_id.name},<br><br></p>
+                        <p> You have a revised quotation to <b>${object.partner_id.name }</b>:<br><br</p>
+                        % else:
+                        <p> Dear ${object.partner_id.name},<br><br></p>
+                        <p> You have a revised quotation from <b>${object.user_id.partner_id.name }</b>:<br><br</p>
+                        % endif
+                        <p> Quotation: ${object.name} </p>
+                        <p> Date: ${format_tz(object.date_order, tz=user.tz, format='%Y-%m-%d %H:%M:%S')} </p>
+                        <p> Quotation valid till: ${format_tz(object.expire_quote_date, tz=user.tz, format='%Y-%m-%d %H:%M:%S')}</p>
+                        <p> This quotation is based on the currency of <b> ${object.dp_currency_id.name} </b></p>
+                        <table class="table table-bordered" style="border:2px bold;">
+                            % if ctx.get('has_foc'):
+                                <thead>
+                                    <tr>
+                                        <th>Product</th>
+                                        <th></th>
+                                        <th>Quantity</th>
+                                        <th>UOM</th>
+                                        <th>Unit Price</th>
+<!--                                        <th>Item Discount(%)</th>-->
+                                        <th>Subtotal</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    % for l in object.order_line:
+                                        <tr>
+                                            <td> ${l.name} </td>
+                                            <td style="text-transform: uppercase!important;"> ${l.item_type_product or ''} </td>
+                                            <td align="right"> ${'{:,.0f}'.format(l.product_uom_qty)} </td>
+                                            <td> ${l.product_uom.name} </td>
+                                            <td align="right"> ${'{:,.2f}'.format(l.price_unit)} </td>
+<!--                                            <td align="right"> ${l.discount} </td>-->
+                                            <td align="right"> ${'{:,.2f}'.format(l.price_subtotal)} </td>
+                                        </tr>
+                                    % endfor
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+<!--                                        <td>&nbsp;</td>-->
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                        <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+<!--                                        <td></td>-->
+                                        <td><b>Total Amount</b></td>
+                                        <td align="right"><b> ${'{:,.2f}'.format(object.total_before_discount)} </b></td>
+                                    </tr>
+                                        <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+<!--                                        <td></td>-->
+                                        <td><b>Overall Discount</b></td>
+                                        <td align="right"><b> ${'{:,.2f}'.format(object.amount_discount)} </b></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+<!--                                        <td></td>-->
+                                        <td><b>Grand Total</b></td>
+                                        <td align="right"><b> ${'{:,.2f}'.format(object.amount_total)} </b></td>
+                                    </tr>
+                                </tbody>
+                            % else:
+                                <thead>
+                                    <tr>
+                                        <th>Product</th>
+                                        <th>Quantity</th>
+                                        <th>UOM</th>
+                                        <th>Unit Price</th>
+<!--                                        <th>Item Discount(%)</th>-->
+                                        <th>Subtotal</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    % for l in object.order_line:
+                                        <tr>
+                                            <td> ${l.name} </td>
+                                            <td align="right"> ${'{:,.0f}'.format(l.product_uom_qty)} </td>
+                                            <td> ${l.product_uom.name} </td>
+                                            <td align="right"> ${'{:,.2f}'.format(l.price_unit)} </td>
+<!--                                            <td align="right"> ${l.discount} </td>-->
+                                            <td align="right"> ${'{:,.2f}'.format(l.price_subtotal)} </td>
+                                        </tr>
+                                    % endfor
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+<!--                                        <td>&nbsp;</td>-->
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                        <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+<!--                                        <td></td>-->
+                                        <td><b>Total Amount</b></td>
+                                        <td align="right"><b> ${'{:,.2f}'.format(object.total_before_discount)} </b></td>
+                                    </tr>
+                                        <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+<!--                                        <td></td>-->
+                                        <td><b>Overall Discount</b></td>
+                                        <td align="right"><b> ${'{:,.2f}'.format(object.amount_discount)} </b></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+<!--                                        <td></td>-->
+                                        <td><b>Grand Total</b></td>
+                                        <td align="right"><b> ${'{:,.2f}'.format(object.amount_total)} </b></td>
+                                    </tr>
+                                </tbody>
+                            % endif
+                        </table>
+                        % if ctx.get('chan_email'):
+                        <p> To view this revised quotation, please click the link below: </p>
+                        <ul><li><a href='${object.get_chandler_order_url()}'> ${object.name} </a></li></ul>
+                        % else:
+                        <p> To accept, cancel or counter offer, please click the link below: </p>
+                        <ul><li><a href='${object.get_shipmaster_order_url()}'> ${object.name} </a></li></ul>
+                        % endif
+                        <p><br/>Thank you!<br/><br/></p>
+                        <p>Best Regards</p>
+                        <p>BUYTAXFREE</p>
+                        <p><br/><br/></p>
+                        <p>---- This is an automatically generated message. Please do not reply to this address. You may not use, reproduce, or transfer this message or its contents into any medium without the written permission of BUYTAXFREE.</p>
+                    </body>
+                </html>
+                ]]></field>
+        </record>
+
+
+        <!-- Request Confirmation from Ship Master-->
+        <!-- Notification email to Ship Master upon Ship Master’s request confirmation-->
+        <record id="dp_sale.request_confirm_from_shipmaster_to_shipmaser_email" model="email.template">
+            <field name="name">request_confirm_from_shipmaster_to_shipmaser_email</field>
+            <field name="subject">BUYTAXFREE ${object.name}: Quotation Accepted Successfully</field>
+            <field name="lang">${user.lang}</field>
+            <field name="email_from">admin@buytaxfree.com.sg></field>
+            <field name="email_to">${object.partner_id.email |safe}</field>
+            <field name="model_id" ref="sale.model_sale_order"/>
+            <field name="body_html"><![CDATA[
+            <!DOCTYPE html>
+                <html lang="en">
+                    <head>
+                      <meta charset="utf-8">
+                      <meta name="viewport" content="width=device-width, initial-scale=1">
+                      <style>
+                        thead{background-color: #cccccc;}
+                        table {border-collapse: collapse;}
+                        table, td, th {border: 1px solid black;}
+                      </style>
+                    </head>
+                    <body>
+                        <p> Dear ${object.partner_id.name},<br><br></p>
+                        <p> You have accepted a quotation from <b>${object.user_id.partner_id.name}</b>:</p>
+                        <p> Quotation: ${object.name}
+                        <p> This quotation is based on <b> ${object.dp_currency_id.name} </b></p>
+                        <table class="table table-bordered" style="border:2px bold;">
+                            % if ctx.get('has_foc'):
+                                <thead>
+                                    <tr>
+                                        <th>Product</th>
+                                        <th></th>
+                                        <th>Quantity</th>
+                                        <th>UOM</th>
+                                        <th>Unit Price</th>
+<!--                                        <th>Item Discount(%)</th>-->
+                                        <th>Subtotal</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    % for l in object.order_line:
+                                        <tr>
+                                            <td> ${l.name} </td>
+                                            <td style="text-transform: uppercase!important;"> ${l.item_type_product or ''} </td>
+                                            <td align="right"> ${'{:,.0f}'.format(l.product_uom_qty)} </td>
+                                            <td> ${l.product_uom.name} </td>
+                                            <td align="right"> ${'{:,.2f}'.format(l.price_unit)} </td>
+<!--                                            <td align="right"> ${l.discount} </td>-->
+                                            <td align="right"> ${'{:,.2f}'.format(l.price_subtotal)} </td>
+                                        </tr>
+                                    % endfor
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+<!--                                        <td>&nbsp;</td>-->
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                        <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+<!--                                        <td></td>-->
+                                        <td><b>Total Amount</b></td>
+                                        <td align="right"><b> ${'{:,.2f}'.format(object.total_before_discount)} </b></td>
+                                    </tr>
+                                        <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+<!--                                        <td></td>-->
+                                        <td><b>Overall Discount</b></td>
+                                        <td align="right"><b> ${'{:,.2f}'.format(object.amount_discount)} </b></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+<!--                                        <td></td>-->
+                                        <td><b>Grand Total</b></td>
+                                        <td align="right"><b> ${'{:,.2f}'.format(object.amount_total)} </b></td>
+                                    </tr>
+                                </tbody>
+                            % else:
+                                <thead>
+                                    <tr>
+                                        <th>Product</th>
+                                        <th>Quantity</th>
+                                        <th>UOM</th>
+                                        <th>Unit Price</th>
+<!--                                        <th>Item Discount(%)</th>-->
+                                        <th>Subtotal</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    % for l in object.order_line:
+                                        <tr>
+                                            <td> ${l.name} </td>
+                                            <td align="right"> ${'{:,.0f}'.format(l.product_uom_qty)} </td>
+                                            <td> ${l.product_uom.name} </td>
+                                            <td align="right"> ${'{:,.2f}'.format(l.price_unit)} </td>
+<!--                                            <td align="right"> ${l.discount} </td>-->
+                                            <td align="right"> ${'{:,.2f}'.format(l.price_subtotal)} </td>
+                                        </tr>
+                                    % endfor
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+<!--                                        <td>&nbsp;</td>-->
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                        <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+<!--                                        <td></td>-->
+                                        <td><b>Total Amount</b></td>
+                                        <td align="right"><b> ${'{:,.2f}'.format(object.total_before_discount)} </b></td>
+                                    </tr>
+                                        <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+<!--                                        <td></td>-->
+                                        <td><b>Overall Discount</b></td>
+                                        <td align="right"><b> ${'{:,.2f}'.format(object.amount_discount)} </b></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+<!--                                        <td></td>-->
+                                        <td><b>Grand Total</b></td>
+                                        <td align="right"><b> ${'{:,.2f}'.format(object.amount_total)} </b></td>
+                                    </tr>
+                                </tbody>
+                            % endif
+                        </table>
+
+
+                        <p><br/>To view this quotation, please click on the link below:</p>
+                        <ul><li><a href='${object.get_shipmaster_order_url()}'> ${object.name} </a></li></ul>
+                        <p><br/>To track your enquiry, simply click “My Enquiry” on the website.</p>
+
+                        <p><br/><br/>Thank you.<br/><br/></p>
+                        <p>Yours Sincerely,</p>
+                        <p>BUYTAXFREE</p>
+                        <p>www.buytaxfree.com.sg</p>
+                        <p>---- This is an automatically generated message. Please do not reply to this address. You may not use, reproduce, or transfer this message or its contents into any medium without the written permission of BUYTAXFREE.</p>
+                    </body>
+                </html>
+                ]]></field>
+        </record>
+
+        <!--Notification email to Chandler upon Ship Master’s request confirmation-->
+        <record id="dp_sale.request_confirm_from_shipmaster_to_chandeler_email" model="email.template">
+            <field name="name">request_confirm_from_shipmaster_to_chandeler_email</field>
+            <field name="subject">BUYTAXFREE ${object.name} Quotation Accepted Successfully</field>
+            <field name="lang">${user.lang}</field>
+            <field name="email_from">admin@buytaxfree.com.sg></field>
+            <field name="email_to">${object.get_chandler().email}</field>
+            <field name="model_id" ref="sale.model_sale_order"/>
+            <field name="body_html"><![CDATA[
+            <!DOCTYPE html>
+                <html lang="en">
+                    <head>
+                      <meta charset="utf-8">
+                      <meta name="viewport" content="width=device-width, initial-scale=1">
+                      <style>
+                        thead{background-color: #cccccc;}
+                        table {border-collapse: collapse;}
+                        table, td, th {border: 1px solid black;}
+                      </style>
+                    </head>
+                    <body>
+                        <p> Dear ${object.get_chandler().name},<br><br></p>
+                        <p> Your quotation has been accepted by <b>${object.partner_id.name}</b></p>
+                        <p> Quotation: ${object.name}</p>
+                        <p> This quotation is based on <b> ${object.dp_currency_id.name} </b></p>
+                        <table class="table table-bordered" style="border:2px bold;">
+                            % if ctx.get('has_foc'):
+                                <thead>
+                                    <tr>
+                                        <th>Product</th>
+                                        <th></th>
+                                        <th>Quantity</th>
+                                        <th>UOM</th>
+                                        <th>Unit Price</th>
+<!--                                        <th>Item Discount(%)</th>-->
+                                        <th>Subtotal</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    % for l in object.order_line:
+                                        <tr>
+                                            <td> ${l.name} </td>
+                                            <td style="text-transform: uppercase!important;"> ${l.item_type_product or ''} </td>
+                                            <td align="right"> ${'{:,.0f}'.format(l.product_uom_qty)}</td>
+                                            <td> ${l.product_uom.name} </td>
+                                            <td align="right"> ${'{:,.2f}'.format(l.price_unit)}</td>
+<!--                                            <td align="right"> ${l.discount} </td>-->
+                                            <td align="right"> ${'{:,.2f}'.format(l.price_subtotal)}</td>
+                                        </tr>
+                                    % endfor
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+<!--                                        <td>&nbsp;</td>-->
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                        <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+<!--                                        <td></td>-->
+                                        <td><b>Total Amount</b></td>
+                                        <td align="right"><b>${'{:,.2f}'.format(object.total_before_discount)}</b></td>
+                                    </tr>
+                                        <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+<!--                                        <td></td>-->
+                                        <td><b>Overall Discount</b></td>
+                                        <td align="right"><b> ${'{:,.2f}'.format(object.amount_discount)} </b></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+<!--                                        <td></td>-->
+                                        <td><b>Grand Total</b></td>
+                                        <td align="right"><b> ${'{:,.2f}'.format(object.amount_total)} </b> </td>
+                                    </tr>
+                                </tbody>
+                            % else:
+                                 <thead>
+                                    <tr>
+                                        <th>Product</th>
+                                        <th>Quantity</th>
+                                        <th>UOM</th>
+                                        <th>Unit Price</th>
+<!--                                        <th>Item Discount(%)</th>-->
+                                        <th>Subtotal</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    % for l in object.order_line:
+                                        <tr>
+                                            <td> ${l.name} </td>
+                                            <td align="right"> ${'{:,.0f}'.format(l.product_uom_qty)}</td>
+                                            <td> ${l.product_uom.name} </td>
+                                            <td align="right"> ${'{:,.2f}'.format(l.price_unit)}</td>
+<!--                                            <td align="right"> ${l.discount} </td>-->
+                                            <td align="right"> ${'{:,.2f}'.format(l.price_subtotal)}</td>
+                                        </tr>
+                                    % endfor
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+<!--                                        <td>&nbsp;</td>-->
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+<!--                                        <td></td>-->
+                                        <td><b>Total Amount</b></td>
+                                        <td align="right"><b>${'{:,.2f}'.format(object.total_before_discount)}</b></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+<!--                                        <td></td>-->
+                                        <td><b>Overall Discount</b></td>
+                                        <td align="right"><b> ${'{:,.2f}'.format(object.amount_discount)} </b></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+<!--                                        <td></td>-->
+                                        <td><b>Grand Total</b></td>
+                                        <td align="right"><b> ${'{:,.2f}'.format(object.amount_total)} </b> </td>
+                                    </tr>
+                                </tbody>
+                            % endif
+                        </table>
+
+
+                        <p><br/>To view this quotation, please click on the link below:</p>
+                        <ul><li><a href='${object.get_chandler_order_url()}'> ${object.name} </a></li></ul>
+
+                        <p><br/><br/>Thank you.<br/><br/></p>
+                        <p>Yours Sincerely,</p>
+                        <p>BUYTAXFREE</p>
+                        <p>www.buytaxfree.com.sg</p>
+                        <p>---- This is an automatically generated message. Please do not reply to this address. You may not use, reproduce, or transfer this message or its contents into any medium without the written permission of BUYTAXFREE.</p>
+                    </body>
+                </html>
+                ]]></field>
+        </record>
+
+
+         <!-- Notification email to Chandler upon Ship Master’s change order line-->
+        <record id="dp_sale.adjust_order_line_to_chandler_from_shipmaster" model="email.template">
+            <field name="name">adjust_order_line_to_chandler_from_shipmaster</field>
+            <field name="subject">BTF: Amendments for Order ${object.name}</field>
+            <field name="lang">${user.lang}</field>
+            <field name="email_from">admin@buytaxfree.com.sg></field>
+            <field name="email_to">${object.get_np_sales_email()}</field>
+            <field name="model_id" ref="sale.model_sale_order"/>
+            <field name="email_cc">${object.get_btf_support_email()}</field>
+            <field name="body_html"><![CDATA[
+            <!DOCTYPE html>
+                <html lang="en">
+                    <head>
+                      <meta charset="utf-8">
+                      <meta name="viewport" content="width=device-width, initial-scale=1">
+                      <style>
+                        thead{background-color: #cccccc;}
+                        table {border-collapse: collapse;}
+                        table, td, th {border: 1px solid black;}
+                      </style>
+                    </head>
+                    <body>
+                        <p> Dear New Port Sales,</p>
+                        <p> You have an adjustment from ${object.partner_id.name}.</p>
+                        <p> Order: <a href="${object.get_chandler_order_url()}"> <b>${object.name}</b> </a> </p>
+                        <p>Thank you,</p>
+                        <p>BUYTAXFREE</p>
+                        <p>www.buytaxfree.com.sg</p>
+                        <p>
+                            <i>This is an automatically generated message. Please do not reply to this address. You may not use, reproduce, or transfer this message or its content into any medium without the written permission of BUYTAXFREE.</i>
+                        </p>
+                    </body>
+                </html>
+                ]]></field>
+        </record>
+
+        <!-- Notification email to Chandler upon Chandler’s change order line at my enquiry-->
+        <record id="adjust_order_line_to_chandler_from_chandler_myenqiury" model="email.template">
+            <field name="name">adjust_order_line_to_chandler_from_chandler</field>
+            <field name="subject">BTF: You have amended Order ${object.name}</field>
+            <field name="lang">${user.lang}</field>
+            <field name="email_from">admin@buytaxfree.com.sg></field>
+            <field name="email_to">${object.partner_id.email |safe}</field>
+            <field name="model_id" ref="sale.model_sale_order"/>
+            <field name="body_html"><![CDATA[
+            <!DOCTYPE html>
+                <html lang="en">
+                    <head>
+                      <meta charset="utf-8">
+                      <meta name="viewport" content="width=device-width, initial-scale=1">
+                      <style>
+                        thead{background-color: #cccccc;}
+                        table {border-collapse: collapse;}
+                        table, td, th {border: 1px solid black;}
+                      </style>
+                    </head>
+                    <body>
+                        <p> Dear ${object.partner_id.name}, </p>
+                        <p> You have amended your Order <a href="${object.get_shipmaster_order_url()}"> <b>${object.name}</b> </a>.</p>
+                        <p> To track your enquiry, simply click “My Enquiry” on the website.  </p>
+                        <p>Thank you,</p>
+                        <p>BUYTAXFREE</p>
+                        <p>www.buytaxfree.com.sg</p>
+                        <p>
+                            <i>This is an automatically generated message. Please do not reply to this address. You may not use, reproduce, or transfer this message or its content into any medium without the written permission of BUYTAXFREE.</i>
+                        </p>
+                    </body>
+                </html>
+                ]]></field>
+        </record>
+    </data>
+</openerp>

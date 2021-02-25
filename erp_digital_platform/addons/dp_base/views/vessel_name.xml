@@ -1,0 +1,63 @@
+<openerp>
+    <data>
+        <record model="ir.ui.view" id="vessel_name_tree_id">
+            <field name="name">vessel.name.tree</field>
+            <field name="model">vessel.name</field>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="via" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="vessel_name_form_id">
+            <field name="name">vessel.name.form</field>
+            <field name="model">vessel.name</field>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <form>
+                    <field name="image" widget="image" class="oe_avatar oe_left"/>
+                    <div class="oe_title">
+                        <div class="oe_edit_only">
+                            <label for="name"/>
+                        </div>
+                        <h1>
+                            <field name="name" default_focus="1" placeholder="Name" required="1"/>
+                        </h1>
+                    </div>
+                     <group>
+                        <group>
+                            <field name="imo_number" required="1"/>
+                            <field name="via" invisible="1"/>
+                            <field name="via_desc" invisible="1"/>
+                            <field name="via_group" invisible="1"/>
+                            <field name="type" required="1"/>
+                        </group>
+                        <group>
+                            <field name="nrt" required="0"/>
+                            <field name="flag" required="1"/>
+                            <field name="crew" required="0"/>
+                            <field name="shipping_agent" required="0"/>
+                        </group>
+                     </group>
+                </form>
+
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="vessel_name_action">
+            <field name="name">Vessel Name</field>
+            <field name="res_model">vessel.name</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem name="Vessel Name"
+            id="base_menu_vessel_name"
+            sequence="3"
+            action="vessel_name_action"
+            parent="base.menu_base_config" groups="dp_common.group_super_admin"/>
+    </data>
+</openerp>

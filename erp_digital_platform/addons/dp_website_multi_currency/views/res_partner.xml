@@ -1,0 +1,15 @@
+<openerp>
+    <data>
+
+<!--        <record id="currency_view_self_chandler_res_partner_form" model="ir.ui.view">-->
+<!--            <field name="name">res.partner.page</field>-->
+<!--            <field name="model">res.partner</field>-->
+<!--            <field name="inherit_id" ref="dp_common.view_self_chandler_res_partner_form"/>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <xpath expr="//page[@string='Currency Rate']/group" position="before">-->
+<!--                    <label string="Please set your Currency Rate against Singapore Dollar (SGD)"/>-->
+<!--                </xpath>-->
+<!--            </field>-->
+<!--        </record>-->
+    </data>
+</openerp>

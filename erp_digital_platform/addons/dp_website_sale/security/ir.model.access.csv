@@ -1,0 +1,12 @@
+id,name,model_id/id,group_id/id,perm_read,perm_write,perm_create,perm_unlink
+sale_order_chandler_chandler1,Sale Order Chandler,model_sale_order_chandler,dp_common.group_chandler,1,1,1,0
+sale_order_chandler_shipmaster1,Sale Order Chandler,model_sale_order_chandler,dp_common.group_shipmaster,1,1,1,0
+sale_order_group_sale_salesman1,Sale Order Chandler,model_sale_order_chandler,base.group_sale_salesman,1,1,1,0
+sale_order_groupchandler2,Sale Order,model_sale_order,dp_common.group_chandler,1,1,1,0
+sale_order_groupshipmaster2,Sale Order,model_sale_order,dp_common.group_shipmaster,1,1,1,0
+sale_order_group_sale_salesman2,Sale Order,model_sale_order,base.group_sale_salesman,1,1,1,0
+sale_order_groupchandler3,Sale Order Line,model_sale_order,dp_common.group_chandler,1,1,1,1
+sale_order_groupshipmaster3,Sale Order Line,model_sale_order,dp_common.group_shipmaster,1,1,1,1
+sale_order_group_sale_salesman3,Sale Order Line,model_sale_order,base.group_sale_salesman,1,1,1,1
+request_form_vessel_name_shipmaster,Request Form Vessel Name,dp_base.model_vessel_name,dp_common.group_shipmaster,1,1,1,0
+register_vessel_name_public_user,Register Vessel Name,dp_base.model_vessel_name,base.group_public,1,1,1,0

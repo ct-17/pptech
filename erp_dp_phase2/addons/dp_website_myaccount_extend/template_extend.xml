@@ -1,0 +1,10 @@
+<openerp>
+    <data>
+        <template id="assets_frontend_exgtend" name="website assets for Frontend - extend" inherit_id="website.assets_frontend">
+            <xpath expr="." position="inside">
+                <script type="text/javascript" src="/dp_website_myaccount_extend/static/src/js/myaccount_extend.js"/>
+                <script type="text/javascript" src="/dp_website_myaccount_extend/static/src/js/myaccount_extend.js"/><link rel='stylesheet' href='/dp_website_myaccount_extend/static/src/less/signup.less' type="text/less"/>
+            </xpath>
+        </template>
+    </data>
+</openerp>

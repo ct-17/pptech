@@ -1,0 +1,12 @@
+<openerp>
+    <data>
+        <record id="quotation_default_valid_until_days" model="ir.config_parameter">
+            <field name="key">default_valid_until_days</field>
+            <field name="value">7</field>
+        </record>
+        <record id="quotation_default_expire_date_max_n_days" model="ir.config_parameter">
+            <field name="key">default_expire_date_max_n_days</field>
+            <field name="value">7</field>
+        </record>
+    </data>
+</openerp>

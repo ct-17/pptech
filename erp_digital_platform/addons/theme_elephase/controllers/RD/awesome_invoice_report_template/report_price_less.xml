@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <report
+            id="action_report_invoice_price_less"
+            model="account.invoice"
+            string="Comprobante de Venta"
+            report_type="qweb-pdf"
+            file="awesome_invoice_report_template.custom_report_invoice_document_price_less"
+            name="awesome_invoice_report_template.custom_report_invoice_document_price_less"
+        />		
+
+        <record id="awesome_invoice_report_template.action_report_invoice_price_less" model="ir.actions.report.xml">
+            <field name="paperformat_id" ref="awesome_invoice_report_template.paperformat_custom_A4"/>
+        </record>
+    </data>
+</openerp>

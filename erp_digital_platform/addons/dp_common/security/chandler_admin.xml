@@ -1,0 +1,78 @@
+<openerp>
+    <data>
+        <!-- put most of settings menu into group_systems (i.e. Administration > Settings permission) -->
+        <record model="ir.ui.menu" id="sale.menu_sale_quotations">
+            <field eval="[(6,0,[ref('base.group_sale_salesman')])]" name="groups_id"/>
+        </record>
+
+        <record model="ir.ui.menu" id="base.menu_management">
+            <field eval="[(6,0,[ref('base.group_system')])]" name="groups_id"/>
+        </record>
+
+        <record model="ir.ui.menu" id="base.menu_config">
+            <field eval="[(6,0,[ref('base.group_system')])]" name="groups_id"/>
+        </record>
+
+        <record id="base.menu_res_company_global" model="ir.ui.menu">
+            <field eval="[(6,0,[ref('base.group_system')])]" name="groups_id"/>
+        </record>
+
+        <record model="ir.ui.menu" id="base.menu_users" >
+            <field eval="[(6,0,[ref('base.group_system')])]" name="groups_id"/>
+        </record>
+
+        <record model="ir.ui.menu" id="base.menu_translation" >
+            <field eval="[(6,0,[ref('base.group_system')])]" name="groups_id"/>
+        </record>
+
+        <record model="ir.ui.menu" id="payment.root_payment_menu" >
+            <field eval="[(6,0,[ref('base.group_system')])]" name="groups_id"/>
+        </record>
+
+        <record model="ir.ui.menu" id="base.menu_email" >
+            <field eval="[(6,0,[ref('base.group_system')])]" name="groups_id"/>
+        </record>
+
+        <record model="ir.ui.menu" id="base.next_id_6" >
+            <field eval="[(6,0,[ref('base.group_system')])]" name="groups_id"/>
+        </record>
+
+        <record model="ir.ui.menu" id="base.next_id_2" >
+            <field eval="[(6,0,[ref('base.group_system')])]" name="groups_id"/>
+        </record>
+
+        <record model="ir.ui.menu" id="base.next_id_9" >
+            <field eval="[(6,0,[ref('base.group_system')])]" name="groups_id"/>
+        </record>
+
+        <record model="ir.ui.menu" id="report.reporting_menuitem" >
+            <field eval="[(6,0,[ref('base.group_system')])]" name="groups_id"/>
+        </record>
+
+        <record model="ir.ui.menu" id="base.next_id_5" >
+            <field eval="[(6,0,[ref('base.group_system')])]" name="groups_id"/>
+        </record>
+
+        <record model="ir.ui.menu" id="base.menu_ir_property" >
+            <field eval="[(6,0,[ref('base.group_system')])]" name="groups_id"/>
+        </record>
+
+        <record model="ir.ui.menu" id="base.menu_security" >
+            <field eval="[(6,0,[ref('base.group_system')])]" name="groups_id"/>
+        </record>
+
+        <record model="ir.ui.menu" id="base.menu_workflow_root" >
+            <field eval="[(6,0,[ref('base.group_system')])]" name="groups_id"/>
+        </record>
+
+        <record model="ir.ui.menu" id="base.menu_invoiced" >
+            <field eval="[(6,0,[ref('dp_common.group_super_admin')])]" name="groups_id"/>
+        </record>
+
+        <!--        overwrite base menuitem, change parent-->
+        <menuitem action="website_sale.product_public_category_action"
+                  id="website_sale.menu_product_public_category"
+                  parent="stock.menu_product_in_config_stock"
+                  sequence="10" />
+    </data>
+</openerp>

@@ -1,0 +1,151 @@
+/* --- Cart -- */
+.input-group-addon{
+	background-color: transparent;
+    border: unset;
+    padding:6px 20px;
+}
+.table-striped > tbody > tr:nth-child(odd) > td, .table-striped > tbody > tr:nth-child(odd) > th {
+    background-color: transparent;
+}
+.product_in_cart .qty-feild{
+	float:left;
+}
+.product_in_cart #add_to_cart{
+	display: table-cell;
+}
+.form-group label {
+	text-align: left;
+	display: block;
+	font-size: 14px;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+.product-info-right{
+	margin-top: unset;
+}
+.oe_product {
+    border: unset !important;
+}
+#myAlert{
+	margin-bottom: 0px !important;
+}
+.oe_product .oe_product_cart{
+	height: unset !important;
+}
+.oe_product .product_price{
+	padding: unset !important;
+    position: unset !important;
+    bottom: unset !important;
+}
+
+#payment_acquirer button > span{
+	color: transparent;
+	font-size:1px;
+}
+#payment_acquirer button > span::before {
+	content: "Submit Request";
+	color :#fff;
+	font-size: 16px;
+}
+#payment_acquirer button > span > span {
+	color :#fff !important;
+	font-size: 16px;
+}
+.nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus{
+	color: #000;
+}
+
+.product-img {
+	height: 265px;
+}
+/* Cart Popover */
+.mycart-popover .cart_line {
+  border-bottom: 1px #EEE solid;
+}
+
+.mycart-popover .cart_line {
+  border-bottom: 1px #EEE solid;
+}
+
+.mycart-popover {
+  max-width: 500px;
+  min-width: 250px;
+}
+
+.mycart-popover > .popover-content {
+    padding: 9px 14px;
+    padding-top: 0;
+}
+
+.mycart-popover > .popover-content > div {
+    padding: 5px;
+    margin-bottom: 0 !important;
+}
+
+.mycart-popover > .popover-content > div.text-center {
+    margin-top: 9px;
+}
+
+/* ---- Collapse Categpries ----- */
+.nav-hierarchy{
+	padding-left: unset;
+}
+.nav > li > a:hover, .nav > li > a:focus {
+    text-decoration: none;
+    background-color: transparent;
+}
+.left-sidebar {
+    padding: 0px;
+}
+.left-sidebar ul li {
+    border-bottom: unset;
+    margin: 0;
+}
+.left-sidebar ul li a {
+    border-bottom: 1px solid #e0e0e0;
+    border-radius: 0;
+}
+
+.left-sidebar > ul > li:first-child > a{
+	text-transform: uppercase;
+	font-weight: 600;
+}
+.left-sidebar > ul > li:first-child > a::before{
+	content: unset;
+}
+.left-sidebar ul li.active > a {
+    background: #e40201;
+    color: #fff;
+}
+#products_grid_before > .nav{
+    margin-top: 0px !important;
+}
+.nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus {
+    color: #fff;
+    background-color: #e40201;
+}
+
+#o_shop_collapse_category li{
+	cursor: pointer;
+}
+.a-submit{
+	cursor: pointer;
+}
+
+/*  ___                               _ _          ___      _             */
+/* / _ \__   _____ _ ____      ___ __(_) |_ ___   / _ \  __| | ___   ___  */
+/*| | | \ \ / / _ \ '__\ \ /\ / / '__| | __/ _ \ | | | |/ _` |/ _ \ / _ \ */
+/*| |_| |\ V /  __/ |   \ V  V /| |  | | ||  __/ | |_| | (_| | (_) | (_) |*/
+/* \___/  \_/ \___|_|    \_/\_/ |_|  |_|\__\___|  \___/ \__,_|\___/ \___/ */
+/*                                                                        */
+/* ____                 */
+/*| __ )  __ _ ___  ___ */
+/*|  _ \ / _` / __|/ _ \*/
+/*| |_) | (_| \__ \  __/*/
+/*|____/ \__,_|___/\___|*/
+/*Overwrite Odoo Base*/
+.has-error .form-control {
+  border: solid 5px #a94442 !important;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+}

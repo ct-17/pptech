@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-extend="UserMenu">
+        <t t-jquery="a[data-menu='about']" t-operation="replace">
+            <!-- replace by hss_web -->
+        </t>
+
+        <t t-jquery="a[data-menu='account']" t-operation="replace">
+            <!-- replace by hss_web -->
+        </t>
+        <t t-jquery="a[data-menu='help']" t-operation="replace">
+            <t t-if="!widget.session.my_config.hide_usermenu_help">
+                <a href="#" data-menu="help">Help</a>
+            </t>
+        </t>
+        <t t-jquery="a[data-menu='odoo_support']" t-operation="replace">
+            <t t-if="!widget.session.my_config.hide_usermenu_odoosuport">
+                <a data-menu="odoo_support" href="#">Odoo Support</a>
+            </t>
+        </t>
+    </t>
+    <t t-extend="DatabaseManager">
+        <t t-jquery="#db_create > p:first" t-operation="replace">
+            <!-- hss_web -->
+            <p class="oe_grey" style="margin: 10px">
+                Fill in this form to create an Elephas database. You can
+                create databases for different companies or for different
+                goals (testing, production). Once the database is created,
+                you will be able to install your first application.
+            </p>
+        </t>
+
+        <t t-jquery=".oe_form_group_cell > span" t-operation="replace">
+            <span class="oe_form_field oe_form_field_boolean oe_grey" >
+                <input type="checkbox" name="demo_data" />
+                Check this box to evaluate Elephas.
+            </span>
+        </t>
+    </t>
+
+    <t t-extend="WebClient.announcement_bar">
+        <t t-jquery="#announcement_bar_table" t-operation="replace">
+            <!-- remove by hss_web -->
+        </t>
+    </t>
+</templates>

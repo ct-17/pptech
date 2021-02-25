@@ -1,0 +1,15 @@
+<openerp>
+    <data>
+        <template id="dp_gallery_products_assets_frontend" inherit_id="website.assets_editor" name="Custom DP Feature Products CSS-JS">
+            <xpath expr="." position="inside">
+                  <link href="/dp_theme_gallery_products/static/src/css/font-awesome.min.css" type="text/css" rel="stylesheet" />
+                  <link href="/dp_theme_gallery_products/static/src/css/slick.css" type="text/css" rel="stylesheet" />
+                  <link href="/dp_theme_gallery_products/static/src/css/magnific-popup.css" type="text/css" rel="stylesheet" />
+                  <link href="/dp_theme_gallery_products/static/src/css/style.css" type="text/css" rel="stylesheet" />
+            </xpath>
+            <xpath expr="." position="inside">
+   				  <script src="/dp_theme_gallery_products/static/src/js/slick.min.js" type="text/javascript"/>
+            </xpath>
+        </template>
+    </data>
+</openerp>

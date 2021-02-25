@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+		<!-- Homepage -->
+		<template id="website_homepage" inherit_id="website.homepage">
+			<xpath expr="//div[@id='wrap']" position="inside">
+
+				<div class="oe_structure" />
+				
+				<div id="newsletter-popup" class="mfp-hide newsletter-popup-block">
+			        <div class="newsletter-popup">
+			        	<div class="popup-left-content">
+			            	<h2>Welcome to BuyTaxFree</h2>
+			                <h6>This website is exclusively for people over 21 years of age.</h6>
+			                <div class="popup-btn">
+			                	<a href="/goodbye" id="exit21">EXIT</a>
+								<!--when want pop-up newletter comeback just uncomment-->
+			                    <!--<a href="#newsletter" id="enter21">PROCEED</a>-->
+			                    <a href="/" id="enter21">PROCEED</a>
+			                </div>
+			            </div>
+			            <div class="popup-left-img">
+			            	<img src="/dp_newsletter/static/src/img/gallery-img1.jpg" alt=""/>
+			            </div>
+			        </div>
+			    </div>
+			    
+			    <div id="newsletter" class="mfp-hide newsletter-block">
+			        <div class="newsletter-popup">
+			            <div class="popup-left-img">
+			            	<img src="/dp_newsletter/static/src/img/gallery-img2.jpg" alt=""/>
+			            </div>
+			        	<div class="popup-left-content">
+			            	<h2>Sign up Newsletter </h2>
+			                <!--<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>-->
+			               <form>
+			                   <input id='email_subscribe' type="email" value="" placeholder="Email Address" class=""
+							   required="required"/>
+			                   <button id="subscribe_button">Subscribe</button>
+			               </form>
+			            </div>
+			        </div>
+			    </div>
+			</xpath>
+		</template>
+
+		<template id="goodbye_user">
+			<header></header>
+			<body style="background: url('/dp_website/static/src/css/../images/quote-of-day-img-bg.png')">
+            <div id="wrapwrap" style="text-align: center;" >
+				<a href="/" class="navbar-brand logo">
+					<img src="/logo.png" t-att-alt="'Logo of %s' % res_company.name" t-att-title="res_company.name"/>
+				</a>
+					<div style="display: block;
+						font-size: 3em;
+						margin-block-start: 0.83em;
+						margin-block-end: 0.83em;
+						margin-inline-start: 0px;
+						margin-inline-end: 0px;
+						font-weight: bold;">Thank you for visiting BUYTAXFREE</div>
+					<h1 style="font-size:2.5em !importance">SORRY, YOU HAVE TO BE OF LEGAL DRINKING AGE TO ENTER THIS SITE</h1>
+				</div>
+			</body>
+
+		</template>
+
+	</data>
+</openerp>

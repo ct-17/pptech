@@ -1,0 +1,319 @@
+/*
+  ========================================
+  ==== website builder menu integration
+  ========================================
+*/
+@charset "utf-8";
+// variables
+
+@height-table: 300px;
+@max-width: 75%;
+
+// default style
+
+.openerp .text-muted {
+  color: black;
+}
+//
+#products_category_kanban {
+  max-height: @height-table;
+  table {
+    width : 100%;
+    tbody {
+      width: @max-width;
+      max-height: @height-table;
+
+      tr {
+        td {
+            position: relative;
+          width: 25%;
+          img {
+            height: @height-table /3;
+            display: block;
+            width: 100%;
+          }
+          div {
+            position: relative;
+
+          }
+        }
+      }
+      tr:nth-child(1) > td:nth-child(1) > img {
+        height: @height-table /3 * 2;
+        width: 100%;
+      }
+
+    }
+  }
+}
+
+.ess_required {
+    content: "*";
+    font-size: 30px !important;
+    display: flex;
+    position: relative;
+    left: -6px;
+    top: 7px;
+    color: #CD2028;
+    //font-weight: bold;
+}
+
+
+.nav.navbar-nav.navbar-left.col-xs-12.col-sm-12 a{
+  font-size: 14px;
+}
+a{
+  color: #000000;
+}
+
+a:focus, a:hover {
+  //maroon
+  color: #CD2028;
+}
+
+button{
+  background-color: #CD2028 !important;
+}
+
+
+.top-header {
+  font-size: 14px !important;
+}
+
+.section-headign h4 {
+  font-size:14px;
+}
+
+.product-content a{
+  font-size: 12px !important;
+}
+
+.footer-copytext a{
+  color: #428bca;
+  font-size: 14px
+}
+
+.footer-copytext p{
+  font-size: 12px !important;
+}
+
+.breadcrumb a{
+  font-color:#000;
+  font-size:14px !important;
+}
+
+.breadcrumb a:hover{
+  color: #CD2028 !important;
+}
+
+#products_grid_before .active a{
+  background-color: #CD2028 !important;
+}
+
+#products_grid_before a, #products_grid_before .active a, #products_grid_before .inactive a{
+  font-size: 12px !important;
+}
+
+#products_grid_before a:hover, .inactive a:hover{
+  color: #CD2028 !important;
+}
+
+
+.pagination a{
+  font-size:12px !important;
+}
+.pagination .active a{
+  background-color: #CD2028 !important;
+}
+
+.pagination a:hover{
+  background-color: #CD2028 !important;
+}
+
+.pagination .disabled a:hover{
+  background-color: #FFFFFF !important;
+}
+
+//product detail
+.product-info-right #product_name{
+  font-size:16px !important;
+  font-weight: normal!important;
+}
+
+.product-info-right .product_grid_price{
+  font-size:18px !important;
+}
+
+.product-info-right #product_descrpt b{
+  font-weight: normal!important;
+}
+
+#stock_level b{
+  font-size:14px !important;
+  position: relative;
+  bottom: 25px;
+  font-weight: normal;
+}
+
+#product_description h4, #product_description li{
+  font-size:14px !important;
+  position: relative;
+  bottom: 45px;
+}
+
+#product_description{
+  max-height: 295px;
+  overflow: hidden;
+}
+
+.featured-products-section h3 span{
+  font-weight: normal!important;
+}
+
+.section-headign h2{
+  font-size:20px !important;
+}
+
+.product_in_cart.mt32{
+  position: relative;
+  bottom: 5px;
+}
+
+.section-headign.account-form-content p{
+  font-size:12px;
+  position: relative;
+  bottom: 25px;
+}
+
+.form-row.form-group.field-login p{
+  font-size:12px !important;
+  position: relative;
+  bottom: 45px;
+}
+
+.login-form .form-group.col-sm-6{
+  position: relative;
+  bottom: 85px;
+  left:20px;
+
+}
+
+.login-form .form-row .form-group.col-sm-12 p{
+  position: relative;
+  bottom: 85px;
+}
+
+.btn.btn-primary.create-account{
+  position: relative;
+  bottom: 85px;
+}
+
+.clearfix.oe_login_buttons a{
+  font-size:14px;
+}
+
+.popover-content span, .popover-content small{
+  font-size: 14px;
+}
+
+.popover-content a{
+  font-size: 16px;
+}
+
+.table.cart.diff-table th, .table.cart.diff-table td{
+  font-size: 14px;
+}
+
+.confirmation-part h2{
+  font-size: 20px !important;
+}
+
+.cart-right-text li{
+  font-family: "Times New Roman", Times, serif;
+}
+
+.cart-right-text .mt32{
+  font-size: 14px !important;
+}
+
+.cart-right-text h3{
+  font-size: 16px !important;
+}
+
+.cart-right-text{
+  min-height: 150px !important;
+}
+
+.confirmation-part{
+  background-color: #ffffff !important;
+}
+
+.login-form-content{
+  min-width: 675px !important;
+}
+
+.my-profile-list p{
+  font-size: 12px;
+}
+
+.left-sidebar a{
+  font-size: 14px !important;
+}
+
+.left-sidebar h2{
+  color: #CD2028 !important;
+}
+
+.left-sidebar .active a{
+  background-color: #CD2028 !important;
+}
+
+#change_password{
+  background-color: #CD2028 !important;
+}
+
+#edit_profile{
+  background-color: #CD2028 !important;
+}
+
+#save_profile{
+  background-color: #CD2028 !important;
+}
+
+.oe_img_bg{
+  background-size: 100% !important;
+}
+
+.notes{
+  line-height:10px!important;
+}
+
+.login_p{
+  margin-bottom:45px!important;
+}
+
+.signup_error_msg, .chandler_signup_error_msg{
+  font-size: 20px!important;
+  font-weight: bold;
+  margin-bottom: 0px!important;
+  position:relative;
+  top: 5px;
+}
+
+.signup_btm_note{
+  margin-bottom: 5px!important;
+}
+
+.signup_btm_note a, .signup_btm_note input{
+  display: inline!important;
+  font-size: 12px!important;
+}
+
+.signup_btm_note input{
+  position: relative;
+  top: 3px;
+}
+
+a[href="/web/login"]{
+  top: unset!important;
+}

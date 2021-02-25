@@ -1,0 +1,4 @@
+id,name,model_id/id,group_id/id,perm_read,perm_write,perm_create,perm_unlink
+ir_actions_report_xml_chandler,ir_actions_report_xml_chandler,base.model_ir_actions_report_xml,dp_common.group_chandler,1,1,1,0
+ir_actions_report_xml_shipmaster,ir_actions_report_xml_shipmaster,base.model_ir_actions_report_xml,dp_common.group_shipmaster,1,1,1,0
+vessel_name_chandler,vessel_name_chandler,dp_base.model_vessel_name,dp_common.group_chandler,1,1,1,0

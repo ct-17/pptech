@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+<menuitem
+            id= "seller_dashboard_menu"
+            name= "Seller Dashboard"
+            />
+       <record id="base.view_res_partner_filter" model="ir.ui.view">
+            <field name="name">res.partner.select</field>
+            <field name="model">res.partner</field>
+            <field name="arch" type="xml">
+                <!-- <search string="Search Partner">
+                   <field name="name"
+                       filter_domain="['|','|',('display_name','ilike',self),('ref','=',self),('email','ilike',self)]"/>
+                   <filter help="My Partners" domain="[('user_id','=',uid)]"/>
+                   <separator/>
+                   <filter string="Persons" name="type_person" domain="[('is_company','=',0)]"/>
+                   <filter string="Companies" name="type_company" domain="[('is_company','=',1)]"/>
+                   <separator/>
+                   <filter string="Customers" name="customer" domain="[('customer','=',1), ('parent_id', '=', False)]"/>
+                   <filter string="Vendors" name="supplier" domain="[('supplier','=',1), ('parent_id', '=', False)]"/>
+                   <filter string="Archived" name="inactive" domain="[('active','=',False)]"/>
+                   <separator/>
+                   <field name="category_id" string="Tag" filter_domain="[('category_id','ilike', self)]"/>
+                   <field name="user_id"/>
+                   <field name="parent_id" domain="[('is_company','=',1)]" operator="child_of"/>
+                   <group expand="0" name="group_by" string="Group By">
+                       <filter name="salesperson" string="Salesperson" domain="[]" context="{'group_by' : 'user_id'}" />
+                       <filter string="Company" context="{'group_by': 'parent_id'}"/>
+                       <filter string="state" name="state" context="{'group_by': 'state'}"/>
+                       <filter string="Country" context="{'group_by': 'country_id'}"/>
+                   </group>
+               </search> -->
+
+               <search string="Search Partner">
+                   <field name="name"
+                       filter_domain="['|','|',('display_name','ilike',self),('ref','=',self),('email','ilike',self)]"/>
+                   <filter help="My Partners" icon="terp-personal+" domain="[('user_id','=',uid)]"/>
+                   <separator/>
+                   <filter string="Persons" name="type_person" domain="[('is_company','=',0)]"/>
+                   <filter string="Companies" name="type_company" domain="[('is_company','=',1)]"/>
+                   <separator/>
+                   <filter string="Customers" name="customer" domain="[('customer','=',1), ('parent_id', '=', False)]" help="Customer Partners"/>
+                   <filter string="Suppliers" name="supplier" domain="[('supplier','=',1), ('parent_id', '=', False)]" help="Supplier Partners"/>
+                   <separator/>
+                   <field name="category_id" string="Tag" filter_domain="[('category_id','ilike', self)]"/>
+                   <field name="user_id"/>
+                   <field name="parent_id" domain="[('is_company','=',1)]" operator="child_of"/>
+                   <group expand="0" string="Group By">
+                       <filter string="Salesperson" icon="terp-personal" domain="[]" context="{'group_by' : 'user_id'}" />
+                       <filter string="Company" context="{'group_by': 'parent_id'}"/>
+                       <filter string="state" name="state" context="{'group_by': 'state'}"/>
+                       <filter string="Country" context="{'group_by': 'country_id'}"/>
+                   </group>
+               </search>
+            </field>
+        </record>
+       
+       <record model="ir.ui.view" id="res_partner_inherit_form_view">
+            <field name="name">res.partner.inherit.form.view</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                 <notebook  position="inside">
+                 	<page name="shop_policies" string="Shop Policies">
+                 	<group>
+	                    <field name="seller_shop_id"/>
+	                    <field name="return_polocy"/>
+	                    <field name="shipping_policy"/>
+	                 </group>
+	                    </page>
+                 </notebook>
+            </field>
+        </record>
+        
+       <record id="action_pending_seller" model="ir.actions.act_window">
+            <field name="name">Sellers</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="context">{"search_default_state":1}</field>
+            <field name="domain">[('user_id','=',uid),('seller','=',True)]</field>
+            <field name="search_view_id" ref="base.view_res_partner_filter"/>
+            <field name="view_id" ref="odoo_website_marketplace.res_partner_view_bi"/>
+        </record>
+       <record id="action_approve_seller" model="ir.actions.act_window">
+            <field name="name">Sellers</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="context">{"search_default_seller":1}</field>
+            <field name="domain">[('user_id','=',uid),('seller','=',True)]</field>
+            <field name="search_view_id" ref="base.view_res_partner_filter"/>
+            <field name="view_id" ref="odoo_website_marketplace.res_partner_view_bi"/>
+        </record>
+      <record id="action_all_seller" model="ir.actions.act_window">
+            <field name="name">Sellers</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="context">{"search_default_state":1}</field>
+            <field name="domain">[('seller','=',True)]</field>
+            <field name="search_view_id" ref="base.view_res_partner_filter"/>
+            <field name="view_id" ref="odoo_website_marketplace.res_partner_view_bi"/>
+        </record>
+
+        <record id="seller_recommendation_view" model="ir.ui.view">
+			<field name="name">seller.recommendation.view</field>
+			<field name="model">seller.recommendation</field>
+			<field name="arch" type="xml">
+				<tree string="Seller Recommendation" editable="buttom">
+					<field name="seller_id" />
+					<field name="partner_id" />
+					<field name="state" />
+					<field name="publish_state" />
+					
+					<!-- <button class="oe_stat_button" name="pub_unpub_button" type="object" >
+                        <field name="website_publish" />
+                    </button>
+					<button name="pub_unpub_button" class="oe_highlight fa fa-globe" 
+						string="Unpublish Now" states="published" type="object"/> 
+					<button name="pub_unpub_button" 
+						class="oe_highlight fa fa-globe" string="Publish Now" states="un_published" 
+						type="object"/>-->
+				</tree>
+			</field>
+		</record>
+
+		<record id="action_seller_recommendation" model="ir.actions.act_window">
+			<field name="name">Seller Recommendation</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">seller.recommendation</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+
+		<record id="seller_review_form_view" model="ir.ui.view">
+			<field name="name">saller.review.form.view</field>
+			<field name="model">seller.review</field>
+			<field name="arch" type="xml">
+				<form string="Seller Review">
+					<header>
+						<button name="website_publish_button" class="oe_highlight"
+							string="Publish On Website" states="un_published" icon="fa-globe"
+							type="object" />
+						<button name="website_unpublish_button" class="oe_highlight"
+							string="Unpublish On Website" states="published" type="object"
+							icon="fa-globe" />
+						<field name="state" widget="statusbar" statusbar_visible="pub,unpub" />
+					</header>
+					<sheet>
+						<group>
+							<group>
+								<field name="name" />
+								<field name="seller_id"/>
+							</group>
+							<group>
+								<field name="rating_num" />
+							</group>
+						</group>
+						<label for="Rating Message"/>
+						<field name="rating_msg" />
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+		<record id="seller_review_view" model="ir.ui.view">
+			<field name="name">seller.review.tree.view</field>
+			<field name="model">seller.review</field>
+			<field name="arch" type="xml">
+				<tree string="Seller Review">
+					<field name="seller_id" />
+					<field name="name" />
+					<field name="rating_num" />
+					<field name="state" string="Status" />
+<!-- 					<field name="website_on_published" /> -->
+				</tree>
+			</field>
+		</record>
+
+		<record id="action_seller_review" model="ir.actions.act_window">
+			<field name="name">Seller Review</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">seller.review</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+
+
+<menuitem
+  id= "seller_menu"
+            parent= "seller_dashboard_menu"
+            name= "Seller/Vendor"
+            sequence="1"
+            />
+<menuitem
+  id= "pending_seller_menu"
+            parent= "seller_menu"
+            name= "My Profile"
+            action="action_pending_seller"
+            groups="group_market_place_pending_seller"
+            />
+            <menuitem
+  id= "manager_menu"
+            parent= "seller_menu"
+            name= "Sellers"
+            action="action_all_seller"
+            groups="group_market_place_manager"
+            />
+              <menuitem
+  id= "approve_seller_menu"
+            parent= "seller_menu"
+            name= "My Profile"
+            action="action_approve_seller"
+            groups="group_market_place_seller"
+            />
+            
+            <menuitem id="dashboard_menu" parent="seller_dashboard_menu"
+			name="Dashboard" action="action_all_seller" sequence="0" />
+			
+			<menuitem id="approve_seller_shop_menu" parent="seller_menu"
+			name="My Shop" action="action_approve_seller" groups="group_market_place_seller" />
+			
+			<menuitem id="seller_review_menu" parent="seller_menu" name="Sellers Review"
+			action="action_seller_review" groups="group_market_place_manager" />
+
+		<menuitem id="seller_recommendations_menu" parent="seller_menu"
+			name="Sellers Recommendations" action="action_seller_recommendation"
+			groups="group_market_place_manager" />
+
+
+
+
+</data>
+</openerp>

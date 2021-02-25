@@ -1,0 +1,64 @@
+<openerp>
+    <data>
+        <record model="ir.ui.view" id="email_template_form_inherit">
+            <field name="name">email.template.form.inherit</field>
+            <field name="model">email.template</field>
+            <field name="inherit_id" ref="email_template.email_template_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='model_id']" position="after">
+                    <field name="active"/>
+                </xpath>
+            </field>
+        </record>
+
+
+        <function name="write" model="email.template">
+            <function name="search" model="email.template">
+                <value eval="[('model', '=', 'account.invoice'), ('name', '=', 'Invoice - Send by Email (Portal)')]"/>
+            </function>
+            <value eval="{'active': False}" />
+        </function>
+
+        <function name="write" model="email.template">
+            <function name="search" model="email.template">
+                <value eval="[('model', '=', 'account.invoice'), ('name', '=', 'Invoice - Send by Email')]"/>
+            </function>
+            <value eval="{'active': False}" />
+        </function>
+
+        <function name="write" model="email.template">
+            <function name="search" model="email.template">
+                <value eval="[('model', '=', 'purchase.order'), ('name', '=', 'RFQ - Send by Email')]"/>
+            </function>
+            <value eval="{'active': False}" />
+        </function>
+
+        <function name="write" model="email.template">
+            <function name="search" model="email.template">
+                <value eval="[('model', '=', 'purchase.order'), ('name', '=', 'Purchase Order - Send by Email')]"/>
+            </function>
+            <value eval="{'active': False}" />
+        </function>
+
+        <function name="write" model="email.template">
+            <function name="search" model="email.template">
+                <value eval="[('model', '=', 'res.partner'), ('name', '=', 'Partner Mass Mail')]"/>
+            </function>
+            <value eval="{'active': False}" />
+        </function>
+
+        <function name="write" model="email.template">
+            <function name="search" model="email.template">
+                <value eval="[('model', '=', 'sale.order'), ('name', '=', 'Sales Order - Send by Email')]"/>
+            </function>
+            <value eval="{'active': False}" />
+        </function>
+
+        <function name="write" model="email.template">
+            <function name="search" model="email.template">
+                <value eval="[('model', '=', 'sale.order'), ('name', '=', 'Sales Order - Send by Email (Portal)')]"/>
+            </function>
+            <value eval="{'active': False}" />
+        </function>
+    </data>
+</openerp>

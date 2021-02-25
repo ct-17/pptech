@@ -1,0 +1,571 @@
+<openerp>
+    <data>
+
+        <template id="dp_add_to_cart_extend" inherit_id="dp_website_sale.add_to_cart" >
+             <xpath expr="//input[@class='js_quantity form-control']" position="attributes">
+                <attribute name="t-att-value-max">int(line.product_tmpl_id.virtual_available or -1)</attribute>
+                <attribute name="t-att-product-name">line.product_id.with_context(display_default_code=False).name</attribute>
+             </xpath>
+            <xpath expr="//td[@t-if='line.product_id.product_tmpl_id']/span" position="attributes">
+                <attribute name="t-field">line.product_id.image_medium</attribute>
+             </xpath>
+            <xpath expr="//a[@id='confirm_process_checkout']" position="replace">
+             </xpath>
+            <xpath expr="//a[@id='process_checkout']" position="replace">
+                <a id="process_checkout"
+                        t-if="not optional_products and website_sale_order and website_sale_order.website_order_line"
+                        class="btn btn-primary pull-right" href="/shop/checkout">
+                        <span class="hidden-xs">Next</span>
+                        <span class="visible-xs-inline">Next</span>
+                    </a>
+             </xpath>
+         </template>
+
+
+         <!--<template id="add_to_cart_extend" inherit_id="website_sale.cart" >-->
+             <!---->
+         <!--</template>-->
+
+        <template id="checkout_extend" inherit_id="dp_website_sale.checkout_screen" >
+            <!--remove Stay Duration-->
+             <xpath expr="//div[@id='delivery_information_checkout']/div/div[2]" position="replace">
+             </xpath>
+            <!--end remove Stay Duration-->
+<!--            &lt;!&ndash;nextport&ndash;&gt;-->
+<!--            <xpath expr="//div[@id='delivery_information_checkout']/div/div[1]" position="attributes">-->
+<!--                    <attribute name="t-attf-class">form-group #{error.get('next_port_id') and 'has-error' or ''} col-sm-6</attribute>-->
+
+<!--            </xpath>-->
+<!--            <xpath expr="//div[@id='delivery_information_checkout']/div/div[1]/input" position="attributes">-->
+<!--                    <attribute name="t-att-value">(checkout.get('next_port_id').code + ': '+  checkout.get('next_port_id').name) if checkout.get('next_port_id') and checkout.get('next_port_id') not in ('error',) else checkout.get('false_next_port_id','')</attribute>-->
+
+<!--             </xpath>-->
+<!--            &lt;!&ndash;end nextport&ndash;&gt;-->
+            <!--replace nextport with EDA-->
+            <xpath expr="//div[@id='delivery_information_checkout']/div[1]/div[1]" position="replace">
+                <div t-attf-class="form-group #{error.get('estimated_arrival') and 'has-error' or ''} col-sm-6">
+                    <label for="estimated_arrival" required="required">Estimated Date of Arrival</label>
+                    <div class="col-md-12" style="padding-left:0px!important;padding-right:0px!important;">
+                        <input type="text" name="estimated_arrival" id="typedate" placeholder="dd/mm/yyyy"
+                               class="form-control docs-date" data-toggle="datepicker"
+                               t-att-value="checkout.get('estimated_arrival')"/>
+                    </div>
+                    <input type="hidden" name="date_order" id="date_order"
+                           class="form-control" t-att-value="checkout.get('date_order')"/>
+                </div>
+            </xpath>
+             <!--end replace nextport with EDA-->
+
+            <!--replace EDA with nextport-->
+            <xpath expr="//div[@id='delivery_information_checkout']/div[2]/div/div[2]" position="replace">
+                <div t-attf-class="form-group #{error.get('next_port_id') and 'has-error' or ''} col-sm-6">
+                    <label  for="next_port_id">Next Port of Call</label>
+                    <input type="text"  name="next_port_id" class="form-control" id="next_port_select_id" autocomplete="off"
+                           placeholder="Next Port of Call" t-att-value="(checkout.get('next_port_id').code + ': '+  checkout.get('next_port_id').name) if checkout.get('next_port_id') and checkout.get('next_port_id') not in ('error',) else checkout.get('false_next_port_id','')"/>
+                </div>
+            </xpath>
+             <!--end replace EDA with nextport-->
+
+             <xpath expr="//div[@id='delivery_information_checkout']/div[2]/div/div[1]" position="replace">
+                 <div t-attf-class="form-group col-sm-6 #{error.get('estimated_departure') and 'has-error' or ''}">
+                    <label for="estimated_departure_id">Estimated Date of Departure</label>
+                    <input type="text" name="estimated_departure" class="form-control" id="estimated_departure_id"  data-toggle="datepicker" readonly="1"
+                              data-date-format="DD/MM/YYYY" placeholder="dd/mm/yyyy"  t-att-value="checkout.get('estimated_departure')" required="required"/>
+                 </div>
+             </xpath>
+            <xpath expr="//input[@id='typedate']" position="attributes">
+                <attribute name="data-toggle">datepicker</attribute>
+                <attribute name="readonly">1</attribute>
+            </xpath>
+
+            <!--TODO: hide prefer chandler 2 and 3 and recoment chandler -->
+            <!--chandler 3-->
+            <xpath expr="//div[@id='delivery_information_checkout']/div[last()]/div[last()]/div[last()]" position="attributes">
+                <attribute name="style">display: none;</attribute>
+             </xpath>
+            <!--chandler 2-->
+            <xpath expr="//div[@id='delivery_information_checkout']/div[last()]/div[last()]/div[last()-2]" position="attributes">
+                <attribute name="style">display: none;</attribute>
+             </xpath>
+            <!--chandler 1-->
+            <xpath expr="//div[@id='delivery_information_checkout']/div[last()]/div[last()]/div[1]//div[@class='col-sm-1 checkbox-field']" position="attributes">
+                <attribute name="style">display: none;</attribute>
+             </xpath>
+            <xpath expr="//div[@id='delivery_information_checkout']/div[last()]/div[last()]/div[1]//div[@class='col-sm-1']" position="replace">
+             </xpath>
+            <xpath expr="//div[@id='delivery_information_checkout']/div[last()]/div[last()]/div[1]//div[@class='col-sm-2']" position="attributes">
+                <attribute name="style">display: none;</attribute>
+             </xpath>
+
+
+            <xpath expr="//div[@class='ol-md-12 oe_cart']/div[last()-3]" position="attributes">
+                <attribute name="style">display: none;</attribute>
+             </xpath>
+             <xpath expr="//div[@class='ol-md-12 oe_cart']/h3[last()]" position="attributes">
+                <attribute name="style">display: none;</attribute>
+             </xpath>
+            <!--end-->
+            <xpath expr="//label[@for='chandler_id']" position="replace">
+                <label for="chandler_id" required="required" name="select_chandlers">Your Preferred Chandler for Quotation Request</label>
+             </xpath>
+            <xpath expr="//div[@id='shipping_agent']/div[1]" position="replace">
+                <div t-attf-class="form-group #{error.get('vessel_name') and 'has-error' or ''} col-sm-6" id="request_form_vessel_name_div">
+                        <label for="contact_name" required="required">Vessel Name</label>
+                        <input name="vessel_name" id="vessel_name_select_id" class="form-control"
+                               t-att-value="checkout.get('vessel_name')" tyle="text-transform: uppercase;" placeholder="Vessel Name" autocomplete="off"/>
+                        <div id="autocompletevesselnamehere"/>
+                </div>
+             </xpath>
+
+            <!--add id to href="/shop/cart" and delay onclick redirect, to avoid clicking too fast, db hasn't finished updating -->
+            <xpath expr="//div[@class='acount-tabs']/ul/li[1]/a" position="replace">
+                <a id="review_enquiry_link">Review Enquiry</a>
+            </xpath>
+
+            <!--hide contact number, contact email, imo number, call sign-->
+            <!--contact number-->
+            <xpath expr="//div[@class='row']/div[@t-attf-class='form-group col-sm-6']" position="attributes">
+                <attribute name="style">display:none</attribute>
+            </xpath>
+            <!--contact email-->
+            <xpath expr="//div[@class='row']/div[@class='form-row']/div[1]" position="attributes">
+                <attribute name="style">display:none</attribute>
+            </xpath>
+            <!--imo number-->
+            <xpath expr="//div[@class='form-row']/div[@t-attf-class='form-group col-sm-6']" position="attributes">
+                <attribute name="style">display:none</attribute>
+            </xpath>
+            <!--call sign-->
+            <xpath expr="//div[@id='shipping_agent']/div[@class='form-group col-sm-6']" position="attributes">
+                <attribute name="style">display:none</attribute>
+            </xpath>
+            <xpath expr="//div[@id='shipping_agent']/div[@t-attf-class='form-group col-sm-6']" position="attributes">
+                <attribute name="style">display:none</attribute>
+            </xpath>
+            <!--hide end-->
+
+            <!--add po number, so number, marking number, remark box-->
+
+            <xpath expr="//div[@id='shipping_agent']" position="after">
+                <div t-attf-class="form-group #{error.get('other_shipping_agent') and 'has-error' or ''} col-sm-6" id="request_form_other_shipping_agent_div" style="display:none">
+                    <label for="other_shipping_agent">Other Shipping Agent</label>
+                    <input type="text" name="other_shipping_agent" id="other_shipping_agent_id" class="form-control" placeholder="Other Shipping Agent"
+                           t-att-value="checkout.get('other_shipping_agent', '')" style="width: 580px;right: 5px;position: relative;" required="required"/>
+                    <span class="ess_required" style="display: inline; position: absolute;"><b>*</b></span>
+                </div>
+                <div t-attf-class="form-group #{error.get('other_vessel_name') and 'has-error' or ''} col-sm-6" id="request_form_other_vessel_name_div" style="display:none">
+                    <label for="other_vessel_name">Other Vessel Name</label>
+                    <input type="text" name="other_vessel_name" id="other_vessel_name_id" class="form-control" placeholder="Other Vessel Name"
+                           t-att-value="checkout.get('other_vessel_name', '')" style="width: 580px;right: 5px;position: relative;" required="required"/>
+                    <span class="ess_required" style="display: inline; position: absolute;"><b>*</b></span>
+                </div>
+
+                <div class="form-row" id="doc_num_section_id">
+                    <h3 id="h3_doc_num">
+                        Document Number
+                    </h3>
+                    <div t-attf-class="form-group col-sm-6" id="request_form_po_num_div">
+                        <label for="po_num">Your PO Number</label>
+                        <input type="text" name="po_num" id="po_num_id" class="form-control" placeholder="Your PO Number"
+                               t-att-value="checkout.get('po_num', '')" style="width: 580px;right: 5px;position: relative;"/>
+                    </div>
+                    <div t-attf-class="form-group col-sm-6" id="request_form_marking_num_div">
+                        <label for="marking_num">Your Marking Number</label>
+                        <input type="text" name="marking_num" id="marking_num_id" class="form-control" placeholder="Your Marking Number"
+                               t-att-value="checkout.get('marking_num', '')" style="width: 580px;right: 5px;position: relative;"/>
+                    </div>
+                </div>
+            </xpath>
+            <xpath expr="//div[@id='delivery_information_checkout']/div[2]/div[2]" position="attributes">
+                <attribute name="style">visibility:hidden; display:none</attribute>
+            </xpath>
+            <xpath expr="//div[@id='delivery_information_checkout']/div[2]/div[2]" position="before">
+                <div t-attf-class="form-group col-sm-6" id="request_form_remarks_div">
+                    <label for="remarks">Remarks (Max 200 characters)</label>
+                    <input type="text" name="remarks" id="contact_person_number" class="form-control" placeholder="Please give compliments / deliver details etc."
+                       t-att-value="checkout.get('order_remarks', '')" style="width: 580px;right: 5px;position: relative;" maxlength = "200"/>
+                </div>
+            </xpath>
+<!--            swap type and name-->
+            <xpath expr="//div[@id='request_form_vessel_type_div']" position="replace">
+                <div t-attf-class="form-group #{error.get('shipping_agent_id') and 'has-error' or ''} col-sm-6">
+                    <label  for="city" required="required">Shipping Agent</label>
+                    <input type="hidden" name="new_shipping" id="new_shipping_flag" value="0"/>
+                    <input type="text" name="shipping_agent_id"
+                       id="ship_agent_select"
+                       class="form-control" t-att-value="checkout.get('shipping_agent_id', '') if checkout.get('shipping_agent_id') and checkout.get('shipping_agent_id') not in ('error',) else checkout.get('false_shipping_agent_id','')"
+                       required="required" autocomplete="off" />
+                    <div id="autocompleteshippingagent"/>
+                </div>
+            </xpath>
+            <xpath expr="//div[@id='request_form_vessel_name_div']" position="replace">
+                <div t-attf-class="form-group #{error.get('vessel_type') and 'has-error' or ''} col-sm-6" id="request_form_vessel_type_div" style="display:none">
+                    <label for="vessel_type">Vessel Type</label>
+                    <input name="vessel_type" id="vessel_type_dropdown_select_id" class="form-control" placeholder="Vessel Type"
+                                   t-att-value="checkout.get('vessel_type')" tyle="text-transform: uppercase;" readonly="1"/>
+                </div>
+                <div t-attf-class="form-group #{error.get('order_mobile_number') and 'has-error' or ''} col-sm-6">
+                    <label for="order_mobile_number">Mobile Number</label>
+                    <input name="order_mobile_number" id="order_mobile_number_id" class="form-control" placeholder="Mobile Number"
+                               required="required" t-att-value="checkout.get('order_mobile_number')"/>
+                </div>
+            </xpath>
+            <xpath expr="//input[@id='ship_agent_select']" position="attributes">
+                <attribute name="readonly"></attribute>
+                <attribute name="placeholder">Shipping Agent</attribute>
+            </xpath>
+            <xpath expr="//input[@id='contact_person_name']" position="attributes">
+                <attribute name="t-att-value">checkout.get('order_contact_person', '')</attribute>
+                <attribute name="placeholder">Your Name</attribute>
+                <attribute name="readonly"></attribute>
+                <attribute name="name">order_contact_person</attribute>
+            </xpath>
+            <xpath expr="//div[@class='row']/div[1]" position="attributes">
+                <attribute name="t-attf-class">form-group #{error.get('order_contact_person') and 'has-error' or ''} col-sm-6</attribute>
+            </xpath>
+         </template>
+
+        <!--add hot-selling label to shop product images-->
+        <template id="website_sale.products_item_extend" inherit_id="website_sale.products_item">
+            <xpath expr="//img[@t-att-alt='product.name']" position="before">
+                <img t-if="product.hot_selling" src="/dp_website_sale/static/src/images/hot-selling-icon.png" style="height:55px;width:55px;position:absolute;top:15px;right:15px"/>
+            </xpath>
+        </template>
+
+        <!--add hot-selling label to product detail images-->
+        <template id="inherited_product_page_extend" inherit_id="dp_website_sale.inherited_product_page">
+            <xpath expr="//span[@t-field='product.image']" position="before">
+                <img t-if="product.hot_selling" src="/dp_website_sale/static/src/images/hot-selling-icon.png" style="height:120px;width:120px;position:absolute;top:30px;left:395px"/>
+            </xpath>
+        </template>
+
+        <!--add hot-selling label to suggested products-->
+        <template id="inherited_recommend_products" inherit_id="website_sale.recommended_products">
+            <xpath expr="//img[@itemprop='image']" position="before">
+                <img t-if="suggest_product.hot_selling" src="/dp_website_sale/static/src/images/hot-selling-icon.png" style="height:40px;width:40px;position:absolute;top:15px;right:15px"/>
+            </xpath>
+        </template>
+
+        <!--add hot-selling label options to snippet editor-->
+        <template id="snippet_testimonial_opt" name="Snippet Testimonial Options" inherit_id="website_less.snippet_options">
+          <xpath expr="//div[@data-snippet-option-id='background']" position="after">
+            <t t-set="o_animate_elements"/>
+            <t t-set="o_animate_selector" t-value="'.o_animate' + ', '.join([s + ':not(.o_not-animable )' for s in o_animate_elements])"/>
+              <div data-selector=".featured-products-section" data-js='o_animate'>
+                <li class="dropdown-submenu" id='hot-selling'>
+                  <a href="#">Add Hot-Selling Label</a>
+                  <ul class="dropdown-menu">
+                    <li data-toggle_class="hot_label_1" id="hot1"><a>1st Product</a></li>
+                    <li data-toggle_class="hot_label_2" id="hot2"><a>2nd Product</a></li>
+                    <li data-toggle_class="hot_label_3" id="hot3"><a>3rd Product</a></li>
+                    <li data-toggle_class="hot_label_4" id="hot4"><a>4th Product</a></li>
+                  </ul>
+                </li>
+              </div>
+          </xpath>
+        </template>
+
+        <template id="extend_checkout_screen" inherit_id="dp_website_sale.checkout_screen" >
+            <xpath expr="//div[@class='container oe_website_sale']/h1" position="attributes">
+                <attribute name="id">h1_review_info</attribute>
+            </xpath>
+            <xpath expr="//h3" position="attributes">
+                <attribute name="id">h3_contact_information</attribute>
+            </xpath>
+        </template>
+
+        <template id="dp_website_sale_product_extend" inherit_id="website_sale.products">
+            <xpath expr="//t[@t-if='not bins']/div" position="replace">
+                <div class="text-center text-muted">
+                    <t>
+                        <p>We're sorry. We cannot find any matches...</p>
+                    </t>
+                </div>
+            </xpath>
+        </template>
+        <template id="layout_extend" inherit_id="website.layout">
+            <xpath expr="//meta[@name='generator']" position="attributes">
+                <attribute name="content">elephas</attribute>
+            </xpath>
+        </template>
+
+        <template id="add_to_cart_extend" inherit_id="dp_website_sale.add_to_cart">
+
+            <xpath expr="//thead/tr/th[1]" position="attributes">
+                <attribute name="width">0</attribute>
+            </xpath>
+            <xpath expr="//thead/tr/th[2]" position="attributes">
+                <attribute name="width">0</attribute>
+            </xpath>
+            <xpath expr="//thead/tr/th[3]" position="attributes">
+                <attribute name="width">0</attribute>
+            </xpath>
+            <xpath expr="//thead/tr/th[last()]" position="attributes">
+                <attribute name="width">0</attribute>
+            </xpath>
+            <xpath expr="//div[@class='input-group qty-feild']" position="after">
+                <div class='insufficient_stock' style="display:none">Insufficient Stock</div>
+            </xpath>
+            <xpath expr="//table[@id='cart_products']" position="after">
+                <table t-if="website_sale_order and website_sale_order.website_order_line" class='table table-striped table-condensed cart mt32' id="mobile_cart_instance">
+                        <t t-foreach="website_sale_order.website_order_line" t-as="line">
+                            <tr>
+                                <td width="50%" colspan="2" rowspan="2" t-if="line.product_id.product_tmpl_id">
+                                    <span t-field="line.product_id.image_medium"
+                                        t-field-options='{"widget": "image", "class": "img-rounded"}' />
+                                </td>
+                                <td colspan="2" t-if="line.product_id.product_tmpl_id">
+                                    <div>
+                                        <a
+                                            t-attf-href="/shop/product/#{ slug(line.product_id.product_tmpl_id) }"
+                                            t-esc="line.product_id.with_context(display_default_code=False).name">
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="50%">
+                                    <div class="input-group qty-feild">
+                                            <div class="input-group oe_website_spinner">
+                                                <span class="input-group-addon">
+                                                    <a t-attf-href="#" class="mb8 js_add_cart_json"
+                                                        data-no-instant="">
+                                                        <i class="fa fa-minus"></i>
+                                                    </a>
+                                                </span>
+                                                <input type="text" class="js_quantity form-control"
+                                                    t-att-data-line-id="line.id"
+                                                    t-att-data-product-id="line.product_id.id"
+                                                    t-att-value="int(line.product_uom_qty)" />
+                                                <span class="input-group-addon">
+                                                    <a t-attf-href="#"
+                                                        class="mb8 float_left js_add_cart_json"
+                                                        data-no-instant="">
+                                                        <i class="fa fa-plus"></i>
+                                                    </a>
+                                                </span>
+                                            </div>
+                                        </div>
+                                </td>
+                            </tr>
+                        </t>
+                </table>
+            </xpath>
+        </template>
+
+        <template id="create_new_shipping_agent">
+			<div id="modal_create_new_shipping_agent" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+				<div class="modal-dialog modal-lg">
+					<div class="modal-content">
+						<div class="modal-header">
+							<div id="fill_mandatory_fields_create_shipping_agent">
+								<h4 class="modal-title create_shipping_agent_h4" id="myModalLabel">Create Shipping Agent</h4>
+								<p class="create_shipping_agent_p">Please fill up the mandatory fields in asterisk (*)</p>
+							</div>
+						</div>
+						<div class="modal-body" style="padding-left: 30px; padding-right: 30px;">
+							<div class="row">
+                                <div class="col-12">
+                                    <div class="form-row">
+                                        <div class="form-group col-sm-6">
+                                            <label for="shipping_agent_name">Shipping Agent Name</label>
+                                            <input type="text" name="shipping_agent_name" id="shipping_agent_name_id"
+                                                class="form-control" placeholder="Shipping Agent Name" hidden="True" required="required" t-att-value="shipping_agent_name if shipping_agent_name else''"
+                                                style="text-transform: uppercase;" autocomplete="off"/>
+                                            <span class="ess_required" style="display: inline; position: absolute;"><b>*</b></span>
+                                        </div>
+                                        <div class="form-group col-sm-6">
+                                            <label for="create_imo_number">Shipping Agent Contact</label>
+                                            <input type="text" name="shipping_agent_contact" id="shipping_agent_contact_id"
+                                                class="form-control" placeholder="Shipping Agent Contact" hidden="True"/>
+                                        </div>
+                                        <div class="form-group col-sm-6">
+                                            <label for="shipping_agent_cr_number">Shipping Agent CR Number</label>
+                                            <input type="text" name="shipping_agent_cr_number" id="shipping_agent_cr_number_id"
+                                                class="form-control" placeholder="Shipping Agent CR Number" hidden="True"/>
+                                        </div>
+                                    </div>
+                                </div>
+						    </div>
+                        </div>
+                        <div class="modal-footer" align="right">
+                            <button class='btn btn-default btn-primary create_shipping_agent' id="create_new_shipping_agent_button">Create Shipping Agent</button>
+                            <span class="oe_fade oe_form_button"> or </span>
+                            <button type="button" class="btn btn-default btn-primary oe_form_button_cancel oe_form_button oe_link" onclick="close_create_new_shipping_agent()"><span>Cancel</span></button>
+                        </div>
+				    </div>
+                </div>
+			</div>
+		</template>
+        <template id="inherited_payment_extend" inherit_id="dp_website_sale.inherited_payment">
+            <xpath expr="//td[@class='quantity']/div[@class='input-group qty-feild']" position="attributes">
+                <attribute name="class">enquiry_summary_qty</attribute>
+			</xpath>
+			<xpath expr="//div[@class='row']/div[2]" position="attributes">
+                <attribute name="class">col-12 col-md-12 col-lg-8</attribute>
+			</xpath>
+			<xpath expr="//div[@class='col-12 col-md-12 col-lg-3']" position="attributes">
+                <attribute name="class">col-12 col-md-12 col-lg-4</attribute>
+			</xpath>
+			<xpath expr="//table[@class='table cart diff-table']" position="attributes">
+                <attribute name="id">payment_cart</attribute>
+			</xpath>
+            <xpath expr="//div[@class='cart-right-text']" position="replace">
+                <div class="cart-right-text" id="payment-right-text">
+                        <h3>Contact Information</h3>
+                        <table style="width:100%" id="contact_info_table">
+                            <tr>
+                                <td width="30%">NAME</td>
+                                <td style="line-height:1.5;padding-bottom: 8px;word-break: break-all;">
+                                    <div style="display:inline-flex">
+                                        <span style="margin-right:15px;">:</span>
+                                        <span t-field="order.order_contact_person"></span>
+                                    </div>
+                                </td>
+                            </tr>
+<!--                            <tr>-->
+<!--                                <td>Number</td>-->
+<!--                                <td style="line-height:1.5;padding-bottom: 8px;word-break: break-all;">-->
+<!--                                    <div style="display:inline-flex">-->
+<!--                                        <span style="margin-right:15px;">:</span>-->
+<!--                                        <span t-field="order.partner_id.phone"></span>-->
+<!--                                    </div>-->
+<!--                                </td>-->
+<!--                            </tr>-->
+                            <tr>
+                                <td>MOBILE #</td>
+                                <td style="line-height:1.5;padding-bottom: 8px;word-break: break-all;">
+                                    <div style="display:inline-flex">
+                                        <span style="margin-right:15px;">:</span>
+                                        <span t-field="order.order_mobile_number"></span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>EMAIL</td>
+                                <td style="line-height:1.5;padding-bottom: 8px;word-break: break-all;">
+                                    <div style="display:inline-flex">
+                                        <span style="margin-right:15px;">:</span>
+                                        <span t-field="order.partner_id.email"></span>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                        <h3>Vessel Information</h3>
+                        <table style="width:100%" id="vessel_info_table">
+                            <tr>
+                                <td width="30%" style="line-height:1.5;padding-bottom: 8px">VESSEL NAME</td>
+                                <td style="line-height:1.5;padding-bottom: 8px;word-break: break-all;">
+                                    <div style="display:inline-flex">
+                                        <span style="margin-right:15px;">:</span>
+                                        <span t-field="order.vessel_name.name"></span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr t-if="order.other_vessel_name">
+                                <td style="line-height:1.5;padding-bottom: 8px">OTHER VESSEL NAME</td>
+                                <td style="line-height:1.5;padding-bottom: 8px;word-break: break-all;">
+                                    <div style="display:inline-flex">
+                                        <span style="margin-right:15px;">:</span>
+                                        <span t-field="order.other_vessel_name" style="text-transform: uppercase;"></span>
+                                    </div>
+                                </td>
+                            </tr>
+<!--                            <tr>-->
+<!--                                <td style="line-height:1.5;padding-bottom: 8px">VESSEL TYPE</td>-->
+<!--                                <td style="line-height:1.5;padding-bottom: 8px;word-break: break-all;">-->
+<!--                                    <div style="display:inline-flex">-->
+<!--                                        <span style="margin-right:15px;">:</span>-->
+<!--                                        <span t-field="order.vessel_id.name"></span>-->
+<!--                                    </div>-->
+<!--                                </td>-->
+<!--                            </tr>-->
+                            <tr>
+                                <td style="line-height:1.5;padding-bottom: 8px">SHIPPING AGENT</td>
+                                <td style="line-height:1.5;padding-bottom: 8px;word-break: break-all;">
+                                    <div style="display:inline-flex">
+                                        <span style="margin-right:15px;">:</span>
+                                        <span t-field="order.shipping_agent_id.name"></span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr t-if="order.other_shipping_agent">
+                                <td style="line-height:1.5;padding-bottom: 8px">OTHER SHIPPING AGENT</td>
+                                <td style="line-height:1.5;padding-bottom: 8px;word-break: break-all;">
+                                    <div style="display:inline-flex">
+                                        <span style="margin-right:15px;">:</span>
+                                        <span t-field="order.other_shipping_agent" style="text-transform: uppercase;"></span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>ETA SG</td> <td><span>:</span> <span t-field="order.estimated_arrival"></span></td>
+                            </tr>
+                            <tr>
+                                <td>ETD SG</td> <td><span>:</span> <span t-field="order.estimated_departure"></span></td>
+                            </tr>
+                            <tr>
+                                <td>NEXT PORT</td>
+                                <td style="line-height:1.5;padding-bottom: 8px;word-break: break-all;">
+                                    <div style="display:inline-flex">
+                                        <span style="margin-right:15px;">:</span>
+                                        <t t-if="order.next_port_id">
+                                            <div>
+                                                <span t-field="order.next_port_id.code" style="margin-right:0px"></span>
+                                                <span>: </span>
+                                                <span t-field="order.next_port_id.name"></span>
+                                            </div>
+                                        </t>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>PO #</td>
+                                <td style="line-height:1.5;padding-bottom: 8px;word-break: break-all;">
+                                    <div style="display:inline-flex">
+                                        <span style="margin-right:15px;">:</span>
+                                        <span t-field="order.po_num"></span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>MARKING #</td>
+                                <td style="line-height:1.5;padding-bottom: 8px;word-break: break-all;">
+                                    <div style="display:inline-flex">
+                                        <span style="margin-right:15px;">:</span>
+                                        <span t-field="order.marking_num"></span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>REMARKS</td>
+                                <td style="line-height:1.5;padding-bottom: 8px;word-break: break-all;">
+                                    <div style="display:inline-flex">
+                                        <span style="margin-right:15px;">:</span>
+                                        <span t-field="order.order_remarks"></span>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+            </xpath>
+        </template>
+
+        <template id="inherited_confirmation_extend" inherit_id="dp_website_sale.inherited_confirmation">
+            <xpath expr="//div[@class='row']" position="replace">
+                 <div class="row">
+                    <div class="col-12 col-md-12 col-lg-12 oe_cart">
+                        <div class="table-responsive">
+                            <div class="confirmation-part">
+                                <h2>Thank you for your order.
+                                    <br/>
+                                    We will contact you soon.
+                              </h2>
+                            </div>
+                        </div>
+                    </div>
+                 </div>
+            </xpath>
+        </template>
+    </data>
+</openerp>

@@ -1,0 +1,44 @@
+<openerp>
+    <data>
+ <!--Stock Replenishment Request-->
+        <!--Notification email to New Port to replenish stock in BUYTAXFREE-->
+
+        <!--Developer Notes-->
+        <!--Please provide specific model name for this template-->
+        <!--Here used NEW PORT as static name please change accordingly your model. -->
+        <!--Don't forgot to add attachment report.-->
+        <record id="stock_replenishment_email" model="email.template">
+            <field name="name">stock_replenishment_email</field>
+            <field name="subject">Stock Replenishment Report - ${object.with_context(get_YYYYMMDD=True).get_current_timestamp()} HR </field>
+            <field name="lang">${user.lang}</field>
+            <field name="model_id" ref="dp_stock_replenishment_excel_template.model_stock_replenishment"/>
+            <field name="email_from">admin@buytaxfree.com.sg</field>
+            <field name="email_to">jimmy.yeo@newport.sg</field>
+            <field name="report_template" ref="dp_stock_replenishment_excel_template.dp_stock_excel_template"/>
+            <field name="report_name">'BUYTAXFREE_STOCK-REPLENISHMENT-REQUEST-REPORT_' ${object.get_current_timestamp()}</field>
+            <field name="body_html"><![CDATA[
+            <p>Dear Team New Port,<br><br></p>
+            <p>Please see attached for Stock Replenishment Report.</p>
+            <p><br/>Thank you.<br/><br/></p>
+            <p>Yours Sincerely,</p>
+            <p>BUYTAXFREE</p>
+            <p>www.buytaxfree.sg</p>
+            <p><br><br></p>
+            <p>---- This is an automatically generated message. Please do not reply to this address. You may not use, reproduce, or transfer this message or its contents into any medium without the written permission of BUYTAXFREE.</p>
+                ]]></field>
+        </record>
+
+<!--        <record id="dp_stock_email_template" model="ir.ui.view">-->
+<!--            <field name="name">dp_stock_email_template</field>-->
+<!--            <field name="model">stock.replenishment</field>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <form>-->
+<!--                    <footer>-->
+<!--                    <button name="stock_replishment_send_email" string="Send Email" class="oe_highlight oe_left"-->
+<!--                                type="action" style="width:20%"/>-->
+<!--                    </footer>-->
+<!--                </form>-->
+<!--            </field>-->
+<!--       </record>-->
+    </data>
+</openerp>

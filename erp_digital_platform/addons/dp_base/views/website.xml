@@ -1,0 +1,12 @@
+<openerp>
+    <data>
+        <menuitem id="menu_website_admin_configuration" sequence="215" name="Website Admin"
+            groups="base.group_website_designer" web_icon="website,static/description/icon_admin.png"/>
+
+        <menuitem id="menu_website_global_configuration" parent="menu_website_admin_configuration"
+            sequence="100" name="Configuration" groups="base.group_system"/>
+        <menuitem id="website.menu_website_configuration" parent="menu_website_global_configuration" name="Settings"
+                  action="website.action_website_configuration"/>
+
+    </data>
+</openerp>

@@ -1,0 +1,1 @@
+import new_user_attachment_guide

@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+
+		<record id="website_sale.products_categories" model="ir.ui.view">
+			<field name="active">True</field>
+		</record>
+
+		<template id="website_sale.products_item" name="Product item">
+			<form action="/shop/cart/update" method="post">
+				<div itemscope="itemscope" itemtype="http://schema.org/Product">
+					<!-- <div class="ribbon-wrapper"> <div class="ribbon btn btn-danger">Sale</div>
+						</div> -->
+
+					<div class="product-img">
+						<a itemprop="url"
+							t-att-href="keep('/shop/product/%s' % slug(product), page=(pager['page']['num'] if pager['page']['num']>1 else None))">
+							<img itemprop="image" class="img img-responsive center-block"
+								t-att-src="website.image_url(product, 'image', None if product_image_big else '250x250')"
+								t-att-alt="product.name" />
+						</a>
+						<!--<div class="product-label">-->
+							<!--<span class="sale">Sale</span>-->
+						<!--</div>-->
+						<!-- <div class="add-to-cart-btn"> <a href="http://demotasks.com/cart.html">
+							<i class="fa fa-shopping-cart" aria-hidden="true"></i> </a> </div> -->
+						<div class="product_price"></div>
+					</div>
+					<div class="product-content">
+						<div class="product-rating">
+<!--							<i class="fa fa-star" aria-hidden="true"></i>-->
+<!--							<i class="fa fa-star" aria-hidden="true"></i>-->
+<!--							<i class="fa fa-star" aria-hidden="true"></i>-->
+<!--							<i class="fa fa-star" aria-hidden="true"></i>-->
+<!--							<i class="fa fa-star" aria-hidden="true"></i>-->
+						</div>
+						<div class="product_grid_name">
+							<h3>
+								<a itemprop="name"
+									t-att-href="keep('/shop/product/%s' % slug(product), page=(pager['page']['num'] if pager['page']['num']>1 else None))"
+									t-field="product.name" />
+							</h3>
+						</div>
+					</div>
+				</div>
+			</form>
+		</template>
+
+		<template id="website_sale.products_add_to_cart"
+			inherit_id="website_sale.products_item" active="True"
+			customize_show="True" name="Add to Cart" groups="dp_common.group_super_admin,dp_common.group_chandler_admin,dp_common.group_shipmaster" >
+			<xpath expr="//div[@class='product_price']" position="inside">
+				<input name="product_id"
+					t-att-value="product.product_variant_ids[0].id" type="hidden" />
+				<input name="is_shop" t-att-value="request.httprequest.full_path"
+					value="1" type="hidden" />
+				<div class="add-to-cart-btn">
+					<t t-if="len(product.product_variant_ids) == 1">
+						<a class="fa fa-shopping-cart a-submit" />
+					</t>
+					<t t-if="len(product.product_variant_ids) &gt; 1">
+						<a class="fa fa-shopping-cart"
+							t-att-href="keep('/shop/product/%s' % slug(product), page=(pager['page']['num'] if pager['page']['num']>1 else None))" />
+					</t>
+				</div>
+			</xpath>
+		</template>
+
+		<template id="website_sale.products" name="Products">
+			<t t-call="website.layout">
+				<t t-set="additional_title">Shop</t>
+				<div id="wrap" class="js_sale">
+					<div class="oe_structure" />
+					<div class="container oe_website_sale">
+						<div class="products_pager hidden">
+							<div class="row" style="width: 100%;">
+								<t t-call="website_sale.search">
+									<t t-set="search_class">pagination form-inline col-md-3</t>
+								</t>
+								<t t-call="website.pager" />
+							</div>
+						</div>
+						<div class='container'>
+							<div class="hidden" id="products_grid_before"></div>
+							<div class="col-md-12" id="products_grid">
+								<t t-foreach="products" t-as="product">
+									<div t-if="product"
+										class="col-12 col-sm-6 col-md-6 col-lg-4">
+										<div class="product-item">
+											<div class="oe_product_cart product-item-box"
+												t-att-data-publish="product.website_published and 'on' or 'off'">
+												<div class="product-image css_options" t-ignore="true"
+													groups="base.group_website_publisher">
+													<div t-attf-class="dropdown js_options"
+														t-att-data-id="product.id">
+														<button class="btn btn-default"
+															t-att-id="'dopprod-%s' % product.id" role="button"
+															data-toggle="dropdown">
+															Options
+															<span class="caret"></span>
+														</button>
+														<ul class="dropdown-menu" role="menu"
+															t-att-aria-labelledby="'dopprod-%s' % product.id">
+															<li class='dropdown-submenu'>
+																<a tabindex="-1" href="#">Size</a>
+																<ul class="dropdown-menu" name="size">
+																	<li>
+																		<a href="#">
+																			<table>
+																				<tr>
+																					<td class="selected"></td>
+																					<td
+																						t-att-class="product.website_size_x > 1 and 'selected'"></td>
+																					<td
+																						t-att-class="product.website_size_x > 2 and 'selected'"></td>
+																					<td
+																						t-att-class="product.website_size_x > 3 and 'selected'"></td>
+																				</tr>
+																				<tr>
+																					<td
+																						t-att-class="product.website_size_y > 1 and 'selected'"></td>
+																					<td
+																						t-att-class="product.website_size_y > 1 and product.website_size_x > 1 and 'selected'"></td>
+																					<td
+																						t-att-class="product.website_size_y > 1 and product.website_size_x > 2 and 'selected'"></td>
+																					<td
+																						t-att-class="product.website_size_y > 1 and product.website_size_x > 3 and 'selected'"></td>
+																				</tr>
+																				<tr>
+																					<td
+																						t-att-class="product.website_size_y > 2 and 'selected'"></td>
+																					<td
+																						t-att-class="product.website_size_y > 2 and product.website_size_x > 1 and 'selected'"></td>
+																					<td
+																						t-att-class="product.website_size_y > 2 and product.website_size_x > 2 and 'selected'"></td>
+																					<td
+																						t-att-class="product.website_size_y > 2 and product.website_size_x > 3 and 'selected'"></td>
+																				</tr>
+																				<tr>
+																					<td
+																						t-att-class="product.website_size_y > 3 and 'selected'"></td>
+																					<td
+																						t-att-class="product.website_size_y > 3 and product.website_size_x > 1 and 'selected'"></td>
+																					<td
+																						t-att-class="product.website_size_y > 3 and product.website_size_x > 2 and 'selected'"></td>
+																					<td
+																						t-att-class="product.website_size_y > 3 and product.website_size_x > 3 and 'selected'"></td>
+																				</tr>
+																			</table>
+																		</a>
+																	</li>
+																</ul>
+															</li>
+															<li class='dropdown-submenu'>
+																<a tabindex="-1" href="#">Styles</a>
+																<ul class="dropdown-menu" name="style">
+																	<t t-foreach="styles" t-as="style">
+																		<li
+																			t-att-class="style_in_product(style, product) and 'active' or ''">
+																			<a href="#" t-att-data-id="style.id"
+																				t-att-data-class="style.html_class">
+																				<t t-esc="style.name" />
+																			</a>
+																		</li>
+																	</t>
+																</ul>
+															</li>
+															<li class='dropdown-submenu'>
+																<a tabindex="-1" href="#">Promote</a>
+																<ul class="dropdown-menu" name="sequence">
+																	<li>
+																		<a href="#" class="js_go_to_top">Push to top</a>
+																	</li>
+																	<li>
+																		<a href="#" class="js_go_up">Push up</a>
+																	</li>
+																	<li>
+																		<a href="#" class="js_go_down">Push down</a>
+																	</li>
+																	<li>
+																		<a href="#" class="js_go_to_bottom">Push to bottom</a>
+																	</li>
+																</ul>
+															</li>
+														</ul>
+													</div>
+												</div>
+												<t t-call="website_sale.products_item" />
+											</div>
+										</div>
+									</div>
+								</t>
+								<t t-if="not bins">
+									<div class="text-center text-muted">
+										<h3 class="css_editable_display">No product defined.</h3>
+										<t groups="base.group_website_publisher">
+											<p groups="base.group_sale_manager">
+												Use the
+												<i>'Content'</i>
+												top menu to create a new product.
+											</p>
+										</t>
+									</div>
+								</t>
+							</div>
+						</div>
+						<div class="products_pager">
+							<t t-call="website.pager" />
+						</div>
+					</div>
+					<div class="oe_structure mb32" />
+				</div>
+			</t>
+		</template>
+		<template id="products_item_inherited"
+			inherit_id="website_sale.products" active="True"
+			customize_show="True" name="Product Items">
+			<xpath expr="//div[@id='products_grid']" position="attributes">
+				<attribute name="class">col-12 col-sm-9 col-md-9 col-lg-9
+					pull-right
+				</attribute>
+			</xpath>
+		</template>
+
+
+		<!-- ===== Product Categories ===== -->
+		<template id="category_title"
+			inherit_id="website_sale.products_categories" name="Product Category">
+			<xpath expr="//div[@id='products_grid_before']"
+				position="attributes">
+				<attribute name="class">col-12 col-sm-3 col-md-3 col-lg-3
+					hidden-xs left-sidebar mt0
+				</attribute>
+			</xpath>
+			<!-- <xpath expr="//div[@id='products_grid_before']" position="attributes">
+				<attribute name="style">width: 23%; </attribute> </xpath> -->
+		</template>
+
+		<template id="product_filter_title"
+			inherit_id="website_sale.products_attributes"
+			name="Product Attribute's Filters">
+			<xpath
+				expr="//div[@id='products_grid_before']//form[@class='js_attributes']/ul"
+				position="before">
+				<h3 t-if="attributes">Product Filters</h3>
+			</xpath>
+			<xpath
+				expr="//div[@id='products_grid_before']//form[@class='js_attributes']//ul"
+				position="attributes">
+				<attribute name="t-att-style">'display:none;' if not attributes else ''
+				</attribute>
+			</xpath>
+		</template>
+
+
+		<!-- ===== Collapse Categories ===== -->
+		<template id="option_collapse_categories_recursive"
+			name="Collapse Category Recursive">
+			<li t-att-class="'active' if (c.id == int(category or 0) and c.id in category_show) else 'inactive'">
+                  <a t-att-href="keep('/shop/category/' + slug(c), category=0)" t-field="c.name"> </a>
+                  <ul t-if="c.child_id" class="nav nav-pills nav-stacked nav-hierarchy">
+                      <t t-foreach="c.child_id" t-as="c">
+                           <t t-if="(c.id in category_show)">
+
+                                <t t-call="dp_website_sale.option_collapse_categories_recursive"/>
+                          </t>
+                      </t>
+                  </ul>
+              </li>
+		</template>
+
+		<template id="option_collapse_products_categories"
+			name="Collapsible Category List"
+			inherit_id="website_sale.products_categories" active="False"
+			customize_show="False">
+			<xpath expr="//div[@id='products_grid_before']/ul"
+				position="replace">
+				<ul class="nav nav-pills nav-stacked"
+					id="o_shop_collapse_category">
+					<li class="product_cate_head"
+						t-att-class=" '' if category else 'active' ">
+						<a t-att-href="keep('/shop',category=0)">All CATEGORY</a>
+					</li>
+					<t t-foreach="categories" t-as="c">
+						<t t-call="dp_website_sale.option_collapse_categories_recursive" />
+					</t>
+				</ul>
+			</xpath>
+		</template>
+	</data>
+</openerp>

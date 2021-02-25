@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <template id="sale_order_header">
+            <div class="header report-tax-invoice" style="font-size: 17px !important;">
+                <style type="text/css">
+                    .report-tax-invoice {
+                        font-family: "Times New Roman", Times, serif;
+                        font-size: 12pt;
+                        color: #000000 !important;
+                    }
+
+                    .font-size {
+                        font-size: 12pt;
+                    }
+
+                    .right-info-font {
+                        font-size: 10pt;
+                    }
+
+                    .report-table td, .report-table th{
+                        padding: 2pt 5pt;
+                        vertical-align: middle;
+                    }
+
+                    .report-table td{
+                        vertical-align: top;
+                    }
+
+                    .report-company-title {
+                        text-align: center;
+                        font-size: 20pt;
+                        padding-top: 15pt !important;
+                        text-align:center;
+                        text-transform: uppercase;
+                        font-weight: bold
+                    }
+
+                    .header-table {
+                        width: 100%;
+                    }
+
+                    .header-table td{
+                        vertical-align: top;
+                    }
+
+                    .content-table {
+                        width: 100%;
+                    }
+
+                    .table-header {
+                        border-top: 1px solid black;
+                        border-bottom: 1px solid black;
+                    }
+
+                    .content-table th {
+                        padding-top: 8pt;
+                        padding-bottom: 8pt;
+                        border-bottom: solid #000000 0.5pt;
+                        border-top: solid #000000 1pt;
+                    }
+
+                    .content-table td {
+                        padding-bottom: 4pt;
+                        padding-top: 6pt;
+                    }
+
+                    .report-title {
+                        text-align: center;
+                        font-size: 20pt;
+                        font-weight: bold;
+                        padding-bottom: 10pt !important;
+                        text-transform: uppercase;
+                    }
+
+                    .report-title-underline {
+                        text-align: center;
+                        font-size: 16pt;
+                        font-weight: bold;
+                        text-decoration: underline;
+                        padding-bottom: 10pt !important;
+                        text-transform: uppercase;
+                    }
+
+                    .barcode-label {
+                        letter-spacing: 9px;
+                        font-size: 14px;
+                    }
+
+                    .bottom-border {
+                        border-bottom: 1px solid black;
+                    }
+
+                    .top-border {
+                        border-top: 1px solid black;
+                    }
+
+                    .text-center {
+                        text-align: center;
+                    }
+
+                    .text-left {
+                        text-align: left;
+                    }
+
+                    .text-right {
+                        text-align: right;
+                    }
+
+                    .text-strong {
+                        font-weight: bold;
+                    }
+
+                    .table-end {
+                        margin-top: 25pt;
+                    }
+                    .content-end {
+                        border-top: 1px solid black;
+                        padding-top: 6pt;
+                        padding-bottom: 6pt;
+                    }
+
+                    tfoot {
+                        display: table-row-group;
+                        page-break-inside: avoid !important;
+                    }
+
+                    tr {
+                        page-break-inside: avoid;
+                    }
+            </style>
+                <table class="header-table report-table">
+<!--                        <tr>-->
+<!--                            <td colspan="3" class="report-company-detail-title" style="">-->
+<!--                                <b><span t-esc="o.company_id.name.upper()"/></b><br/>-->
+<!--                                <span t-esc="o.company_id.street.upper()"/>, <span t-esc="o.company_id.country_id.name.upper()"/> <span t-esc="o.company_id.zip"/> | GST Reg No.: <span t-esc="company.company_registry"/><br/>-->
+<!--                                TEL: <span t-esc="o.company_id.phone"/> | FAX: <span t-esc="o.company_id.fax"/>-->
+<!--                            </td>-->
+<!--                        </tr>-->
+
+                        <tr>
+                            <td colspan="3" class="report-title">
+                                ORDER ENTRY
+                            </td>
+                        </tr>
+<!--                    <tr>-->
+<!--                        <td/>-->
+<!--                        <td class="text-left barcode-table-cell" colspan="2">-->
+<!--                            <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', o.name, 1500, 250)"/>-->
+<!--                        </td>-->
+<!--                    </tr>-->
+                        <tr>
+                            <td width="50%">
+                                <b>Sold to:</b> <span t-field="o.partner_id"/>
+                            </td>
+                            <td >Order No.</td>
+                            <td >:</td>
+                        </tr>
+                        <tr>
+                            <td rowspan="2">
+                                <span t-esc="', '.join([s for s in [partner.street, partner.street2] if s])"/><br/>
+                                <span t-esc="', '.join([s for s in [partner.city, partner.state_id.name, partner.zip, partner.country_id.name] if s])"/><br/>
+                                <!--Tel: <span t-field="o.partner_id.phone"/><br/>-->
+                                <!--Fax: <span t-field="o.partner_id.fax"/><br/>-->
+                                <!--Attn: <span t-field="o.attn"/>-->
+                            </td>
+                            <td rowspan="1">Date</td>
+                            <td style="white-space:nowrap;">: <span t-field="o.date_order"/></td>
+                        </tr>
+                        <tr>
+                            <td>Salesman</td>
+                            <td>: <span t-field="o.user_id"/></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <b>Marking:</b>
+                            </td>
+                            <td>Issuer</td>
+                            <td>: </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <b>Vessel Name     : </b><span t-field="o.vessel_name"/>
+                            </td>
+<!--                            <td rowspan="3">-->
+<!--                                <t t-if="o.note">-->
+<!--                                    <t t-foreach="o.note.split('\n')" t-as="note">-->
+<!--                                        <span t-esc="note"/><br/>-->
+<!--                                    </t>-->
+<!--                                </t>-->
+<!--                            </td>-->
+                            <td>Term</td>
+                            <td>
+                                :
+                            </td>
+                        </tr>
+
+
+                        <tr>
+                            <td>
+                                <b>Vessel Type      : </b><span t-field="o.vessel_id"/>
+                            </td>
+                            <td>P/O No</td>
+                            <td>: BUYTAXFREE <span t-field="o.name"/></td>
+<!--                            <td>-->
+<!--                                P/O No.: BUYTAXFREE-->
+<!--                                <span t-esc="o.name"/>-->
+<!--                            </td>-->
+<!--                            <td>Page</td>-->
+<!--                            <td>: <span class="page"/> of <span class="topage"/></td>-->
+                        </tr>
+                        <tr>
+                            <td>
+                                <b>IMO Number       : </b><span t-field="o.imo_number"/>
+                            </td>
+                        </tr>
+                         <tr>
+                            <td>
+                                <b>Shipping Agent   : </b><span t-field="o.shipping_agent_id"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <b>Call Sign        : </b><span t-field="o.call_sign"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <b>Next Port        : </b><span t-field="o.next_port_id"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <b>Stay Duration    : </b><span t-field="o.stay_duration"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <b>Last Port        : </b>b<span t-field="o.last_port_id"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <b>Estimated Date of Arrival: </b><span t-field="o.estimated_arrival"/>
+                            </td>
+                        </tr>
+                </table>
+            </div>
+        </template>
+
+        <template id="sale_order_header_footer">
+
+            <!-- Multicompany -->
+            <t t-foreach="docs" t-as="o">
+                <t t-if="o and 'company_id' in o">
+                    <t t-set="company" t-value="o.company_id"></t>
+                </t>
+                <t t-if="not o or not 'company_id' in o">
+                    <t t-set="company" t-value="res_company"></t>
+                </t>
+                <t t-set="partner" t-value="o.partner_id"/>
+                <t t-call="dp_sale_template.sale_order_header"/>
+                <t t-raw="0"/>
+            </t>
+
+        </template>
+
+    </data>
+</openerp>

@@ -1,0 +1,23 @@
+<openerp>
+    <data>
+        <record id="paperformat_order_entry" model="report.paperformat">
+                    <field name="name">Order Entry</field>
+                    <field name="default" eval="True" />
+                    <field name="format">A4</field>
+                    <field name="page_height">0</field>
+                    <field name="page_width">0</field>
+                    <field name="orientation">Portrait</field>
+                    <field name="margin_top">130</field>
+                    <field name="margin_bottom">0</field>
+                    <field name="margin_left">5</field>
+                    <field name="margin_right">5</field>
+                    <field name="header_line" eval="False" />
+                    <field name="header_spacing">120</field>
+                    <field name="dpi">90</field>
+                </record>
+
+                <record id="dp_sale_template.order_entry_pdf" model="ir.actions.report.xml">
+                    <field name="paperformat_id" ref="dp_sale_template.paperformat_order_entry"/>
+                </record>
+    </data>
+</openerp>

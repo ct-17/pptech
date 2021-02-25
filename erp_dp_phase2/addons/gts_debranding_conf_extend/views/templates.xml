@@ -1,0 +1,9 @@
+<openerp>
+    <data>
+        <template id="gts_debranding_conf_inherit_backend_scripts" inherit_id="gts_debranding_conf.anlo">
+            <xpath expr="//script[@src='/gts_debranding_conf/static/src/js/branding.js']" position="after">
+                <link rel="stylesheet" type="text/css" href="/gts_debranding_conf_extend/static/src/css/backend_assets.css"/>
+            </xpath>
+        </template>
+    </data>
+</openerp>

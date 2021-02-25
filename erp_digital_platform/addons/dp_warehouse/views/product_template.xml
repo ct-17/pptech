@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <openerp>
+        <data>
+
+            <record id="dp_product_template_form_view" model="ir.ui.view">
+                <field name="name">dp.product.template.form.view</field>
+                <field name="model">product.template</field>
+                <field name="inherit_id" ref="product.product_template_form_view" />
+                <field name="arch" type="xml">
+                    <xpath expr="//notebook/page[@string='Inventory']/group[@name='inventory']" position="after">
+                        <group>
+                            <group string="Rules">
+                                <field name="dp_minimum_qty" />
+                                <field name="dp_maximum_qty" />
+                                <field name="dp_allocated_qty" />
+                            </group>
+                        </group>
+                    </xpath>
+<!--                    <xpath expr="//notebook/page[last()]" position="after">-->
+<!--                        <page string="Stock Level Indicator">-->
+<!--                            <group><field name="indicator_id" invisible="1"/></group>-->
+<!--                            <table style="margin-bottom:15px;padding-bottom:15px;table-layout: fixed;width: 50%;">-->
+<!--                                <tr>-->
+<!--                                    <td style="width:20%;"></td>-->
+<!--                                    <td style="width:20%;vertical-align: middle;padding-left:15px;margin-left:15px;">Indicator</td>-->
+<!--                                    <td style="width:30%;vertical-align: middle;padding-left:15px;margin-left:15px;">Stock Level<br/>Lower Limit (%)</td>-->
+<!--                                    <td style="width:30%;vertical-align: middle;padding-left:15px;margin-left:15px;">Stock Level<br/>Upper Limit (%)</td>-->
+<!--                                </tr>-->
+<!--                            </table>-->
+<!--                            <table style="margin-bottom:15px;padding-bottom:15px;table-layout: fixed;width: 50%;">-->
+<!--                                <tr>-->
+<!--                                    <td style="width:20%;"><img src="/dp_warehouse/static/src/img/RED.png" style="max-width:45px;max-height:45px;padding:0px;margin:0px;"/></td>-->
+<!--                                    <td style="width:20%;vertical-align: middle;padding-left:15px;margin-left:15px;"><field name="red_name" nolabel="1" readonly="1" /></td>-->
+<!--                                    <td style="width:30%;vertical-align: middle;padding-left:15px;margin-left:15px;"><field name="red_lower_stock_limit" nolabel="1" /></td>-->
+<!--                                    <td style="width:30%;vertical-align: middle;padding-left:15px;margin-left:15px;"><field name="red_upper_stock_limit" nolabel="1"/></td>-->
+<!--                                </tr>-->
+<!--                            </table>-->
+<!--                            <table style="margin-bottom:15px;padding-bottom:15px;table-layout: fixed;width: 50%;">-->
+<!--                                <tr>-->
+<!--                                    <td style="width:20%;"><img src="/dp_warehouse/static/src/img/ORANGE.png" style="max-width:45px;max-height:45px;"/></td>-->
+<!--                                    <td style="width:20%;vertical-align: middle;padding-left:15px;margin-left:15px;"><field name="orange_name" nolabel="1" readonly="1" /></td>-->
+<!--                                    <td style="width:30%;vertical-align: middle;padding-left:15px;margin-left:15px;"><field name="orange_lower_stock_limit" nolabel="1"/></td>-->
+<!--                                    <td style="width:30%;vertical-align: middle;padding-left:15px;margin-left:15px;"><field name="orange_upper_stock_limit" nolabel="1"/></td>-->
+<!--                                </tr>-->
+<!--                            </table>-->
+<!--                            <table style="table-layout: fixed;width: 100%; width:50%;">-->
+<!--                                <tr>-->
+<!--                                    <td style="width:20%;"><img src="/dp_warehouse/static/src/img/GREEN.png" style="max-width:45px;max-height:45px;"/></td>-->
+<!--                                    <td style="width:20%;vertical-align: middle;padding-left:15px;margin-left:15px;"><field name="green_name" nolabel="1" readonly="1" /></td>-->
+<!--                                    <td style="width:30%;vertical-align: middle;padding-left:15px;margin-left:15px;"><field name="green_lower_stock_limit" nolabel="1"/></td>-->
+<!--                                    <td style="width:30%;vertical-align: middle;padding-left:15px;margin-left:15px;"><field name="green_upper_stock_limit" nolabel="1"/></td>-->
+<!--                                </tr>-->
+<!--                            </table>-->
+<!--                        </page>-->
+<!--                    </xpath>-->
+                    <xpath expr="//field[@name='volume']" position="replace" />
+                    <xpath expr="//notebook/page[@string='Information']//group[1]" position="after">
+                        <group>
+                            <group>
+                                <field name="dp_volume" invisible="1"/>
+                                <field digits="(14, 3)" name="alcohol_per" invisible="1"/>
+                                <field name="origin_country_id" invisible="1"/>
+                            </group>
+                        </group>
+                    </xpath>
+                </field>
+            </record>
+
+            <!--<record id="dp_product_web_extended_form_view" model="ir.ui.view">-->
+                <!--<field name="name">dp.product.web.extended.form.view</field>-->
+                <!--<field name="model">product.product</field>-->
+                <!--<field name="inherit_id" ref="product.product_normal_form_view" />-->
+                <!--<field name="arch" type="xml">-->
+                    <!--<xpath expr="//notebook/page[last()]" position="after">-->
+                        <!--<page string="Suggested/Substitute Products">-->
+                            <!--<field name="web_product_list" nolabel="1">-->
+                                <!--<tree editable="bottom">-->
+                                    <!--<field name="product_id" context="{'default_product_id':active_id}" invisible="1"/>-->
+                                    <!--<field name="display_product_id" />-->
+                                    <!--<field name="is_suggested" />-->
+                                    <!--<field name="is_substitute" />-->
+                                <!--</tree>-->
+                            <!--</field>-->
+                        <!--</page>-->
+                    <!--</xpath>-->
+                <!--</field>-->
+            <!--</record>-->
+        </data>
+    </openerp>

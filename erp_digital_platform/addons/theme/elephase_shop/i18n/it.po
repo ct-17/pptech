@@ -1,0 +1,72 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# * elephase_shop
+# 
+# Translators:
+# Paolo Valier, 2016
+# Paolo Valier, 2016
+msgid ""
+msgstr ""
+"Project-Id-Version: e-commerce (8.0)\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-05-06 13:06+0000\n"
+"PO-Revision-Date: 2016-05-01 08:27+0000\n"
+"Last-Translator: Paolo Valier\n"
+"Language-Team: Italian (http://www.transifex.com/oca/OCA-e-commerce-8-0/language/it/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Language: it\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#. module: elephase_shop
+#. openerp-web
+#: code:addons/elephase_shop/static/src/js/elephase_shop.js:11
+#, python-format
+msgid "My Cart"
+msgstr "Il mio Carrello"
+
+#. module: elephase_shop
+#: view:website:elephase_shop.cart_popover
+msgid "Qty:"
+msgstr "Qtà:"
+
+#. module: elephase_shop
+#: view:website:elephase_shop.total
+msgid "Subtotal:"
+msgstr "Subtotale:"
+
+#. module: elephase_shop
+#: view:website:elephase_shop.total
+msgid "Taxes may be updated after providing shipping address"
+msgstr "Le imposte potrebbero venire aggiornate dopo aver fornito l'indirizzo di spedizione "
+
+#. module: elephase_shop
+#: view:website:elephase_shop.total
+msgid "Taxes:"
+msgstr "Imposte:"
+
+#. module: elephase_shop
+#: view:website:elephase_shop.total
+msgid "Total:"
+msgstr "Totale:"
+
+#. module: elephase_shop
+#: view:website:elephase_shop.cart_popover
+msgid "View Cart ("
+msgstr "Vedi Carrello ("
+
+#. module: elephase_shop
+#: view:website:elephase_shop.cart_popover
+msgid "Your cart is empty!"
+msgstr "Il tuo Carrello è vuoto!"
+
+#. module: elephase_shop
+#: view:website:elephase_shop.cart_popover
+msgid "items)"
+msgstr "prodotti)"
+
+#. module: elephase_shop
+#: view:website:elephase_shop.total
+msgid "elephase_shop.total"
+msgstr "elephase_shop.total"

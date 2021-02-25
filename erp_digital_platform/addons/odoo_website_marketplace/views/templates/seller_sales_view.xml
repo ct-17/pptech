@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+    
+        <record id="seller_tree_view" model="ir.ui.view">
+            <field name="name">sale.order.line.tree.view</field>
+            <field name="model">sale.order.line</field>
+            <field name="arch" type="xml">
+                <tree string="Sales Order Lines" create="false">
+                    <field name="order_id"/>
+                    <field name="create_date"/>
+                    <field name="order_partner_id"/>
+                    <field name="product_id" invisible="0"/>
+                    <field name="product_uom_qty" string="Qty"/>
+                    <field name="product_uom" string="Unit of Measure" groups="product.group_uom"/>
+                    <field name="salesman_id"/>
+                    <field name="price_subtotal" sum="Total"/>
+                    
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+    
+        <record id="seller_form_view" model="ir.ui.view">
+            <field name="name">sale.order.line.form.view</field>
+            <field name="model">sale.order.line</field>
+            <field name="arch" type="xml">
+                <form string="Sales Order Lines" create="false">
+                    <header>
+                        
+                        <button name="order_approve" string="Approve" type="object" class="oe_highlight" />
+                        <button name="action_view_delivery" string="Ship Now" type="object" class="oe_highlight" />
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="oe_button_box">
+                                <button type="object" name="action_view_delivery" class="oe_stat_button" icon="fa-truck" >
+                                </button>
+                        </div>
+                        <group col="4">
+                            <field name="order_partner_id" options="{&quot;always_reload&quot;: True}"/>
+                            <field name="order_id" domain="[('state','!=','done')]" options="{'no_open':True}" readonly="1"/>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="product_id" options="{'no_open':True}"/>
+                                <field name="name"/>
+                                <label for="product_uom_qty"/>
+                                <div>
+                                    <field name="product_uom" groups="product.group_uom" class="oe_inline"/>
+                                </div>
+                                <field name="state" string="Order State" /><!---->
+                            </group>
+                            <group>
+                                <field name="create_date"/>
+                                <field name="price_unit"/>
+                                <field name="product_uom_qty" readonly="1" class="oe_inline"/>
+                                <field name="price_subtotal"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        <record id="seller_orders_filters" model="ir.ui.view">
+            <field name="name">sale.order.line.filter</field>
+            <field name="model">sale.order.line</field>
+            <field name="arch" type="xml">
+                <search string="Sale Order Line Filters">
+                    <group expand="0" string="Group By">
+                        <filter string="Seller" name="seller" domain="[]" context="{'group_by':'order_partner_id'}"/>
+                    </group>
+               </search>
+            </field>
+        </record>
+        
+        <record id="action_seller_order_line" model="ir.actions.act_window">
+            <field name="name">Orders</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">sale.order.line</field>
+            <field name="search_view_id" ref="seller_orders_filters"/>
+            <field name="context">{'default_seller':1,'search_default_seller':1}</field>
+            <!--<field name="context">{'default_customer':1, 'search_default_customer':1}</field>
+            <field name="context">{"search_default_customer":1}</field>-->
+            <field name="view_type">form</field>
+            <field name="filter" eval="True"/>
+            <field name="view_mode">list,form</field>
+        </record>
+        
+        <record id="payment_seller_form_view" model="ir.ui.view">
+            <field name="name">payment.seller.form.view</field>
+            <field name="model">payment.seller</field>
+            <field name="arch" type="xml">
+                <form string="Seller Payments">
+                    <header>
+                        <button name="do_validate" string="Validate" type="object" states="draft" class="btn-primary"/>
+                        <button name="do_Confirm" string="Confirm" type="object" states="requested" class="btn-primary"/>
+                        
+                        <button name="view_invoice" string="View Invoice" type="object" class="btn-primary" />
+                        <field name="state" widget="statusbar" statusbar_visible="draft,requested"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>                            
+                                <field name="seller_id"/> 
+                                <field name="payment"/>
+                                <field name="payable_amount"/>
+                            </group>
+                            <group>
+                                <field name="date"/>
+                                <field name="payment_method" />
+                                <field name="payment_type" />
+                                <field name="invoice_id" />
+                            </group>
+                        </group>
+                        <label for="payment_description"/>
+                        <field name="payment_description"/>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        <record id="payment_seller_tree_view" model="ir.ui.view">
+            <field name="name">payment.seller.tree.view</field>
+            <field name="model">payment.seller</field>
+            <field name="arch" type="xml">
+                <tree string="Sellers Payment Method">
+                    <field name="name"/>
+                    <field name="seller_id"/>
+                    <field name="date"/>
+                    <field name="payment_type"/>
+                    <field name="payment"/>
+                    <field name="payable_amount"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+        
+        <record id="seller_payments_filters" model="ir.ui.view">
+            <field name="name">payment.seller.filter</field>
+            <field name="model">payment.seller</field>
+            <field name="arch" type="xml">
+                <search string="Seller Payments Filters">
+                    <group expand="0" string="Group By">
+                        <filter string="Seller" name="seller" domain="[]" context="{'group_by':'seller_id'}"/>
+                    </group>
+               </search>
+            </field>
+        </record>
+        
+        <record id="action_payment_seller" model="ir.actions.act_window">
+            <field name="name">Seller Payments</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">payment.seller</field>
+            <field name="search_view_id" ref="seller_payments_filters"/>
+            <field name="context">{'default_seller':1,'search_default_seller':1}</field>
+            <field name="view_type">form</field>
+            <field name="filter" eval="True"/>
+            <field name="view_mode">tree,form</field>
+        </record>
+                 
+        <menuitem id= "sales_menu" parent= "seller_dashboard_menu" name= "Sales" sequence="2" groups="odoo_website_marketplace.group_market_place_seller"/>
+
+        <menuitem id= "orders_menu" parent= "sales_menu" name= "Orders" action="action_seller_order_line" groups="odoo_website_marketplace.group_market_place_seller"/>
+
+        <menuitem id= "sellers_payments_menu" parent= "sales_menu" name= "Sellers Payments" action="action_payment_seller" groups="odoo_website_marketplace.group_market_place_manager"/>
+
+        <menuitem id= "seller_bills_menu" parent= "sales_menu" name= "Seller Bills" action="account.action_invoice_tree1" groups="odoo_website_marketplace.group_market_place_seller"/>
+            
+    </data>
+</openerp>

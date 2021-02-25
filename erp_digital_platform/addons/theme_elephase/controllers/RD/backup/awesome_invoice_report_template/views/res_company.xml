@@ -1,0 +1,18 @@
+<openerp>
+	<data>
+		<record id="ke_res_company_inherit1" model="ir.ui.view">
+			<field name="model">res.company</field>
+			<field name="inherit_id" ref="base.view_company_form" />
+			<field name="arch" type="xml">
+				<data>
+					<xpath expr="//field[@name = 'vat']" position="before">
+						<field name="phone2" />
+						<field name="mobile" />
+						<field name="rtn_no" />
+					</xpath>
+				</data>
+			</field>
+		</record>
+	</data>
+</openerp>
+

@@ -1,0 +1,24 @@
+<openerp>
+    <data>
+        <template id="dp_website_themes.option_color_red" name="option_color_stone" inherit_id="website_less.default_options" active="False" customize_show="True">
+          <xpath expr="//t[@id='default_options']" position="inside">
+            <link href="/dp_website_themes/static/src/less/option_color_red.less" rel="stylesheet" type="text/less"/>
+          </xpath>
+        </template>
+
+        <record id="website_less.option_bootstrap_less" model="ir.ui.view">
+              <field name="active" eval='True'/>
+        </record>
+
+        <template id="dp_theme_customize" name="Theme Modal for Customization" inherit_id="website_less.theme_customize">
+          <xpath expr="//table[@name='color']/tr" position="inside">
+            <td>
+                  <label class="chd-color-combi">
+                      <img src="/dp_website_themes/static/src/img/red.png" alt="Red" class="chd-color-combi-img"/>
+                      <input name="colorvar" type="radio" data-xmlid="dp_website_themes.option_color_red" data-enable="less"/>
+                  </label>
+              </td>
+          </xpath>
+        </template>
+    </data>
+</openerp>

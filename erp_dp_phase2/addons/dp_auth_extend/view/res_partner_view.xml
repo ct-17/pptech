@@ -1,0 +1,51 @@
+<openerp>
+    <data>
+        <record id="dp_auth.dp_chandler_holding_list_tree_view" model="ir.ui.view">
+            <field name="name">dp.chandler.temp.tree.extend</field>
+            <field name="model">dp.chandler.temp</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="email"/>
+<!--                    <field name="user_id"/>-->
+                    <field name="create_date" string="Create Date"/>
+                    <field name="state"/>
+                    <field name="approval_date" string="Approval Date/Rejection Date"/>
+                    <field name="joined_date"/>
+                    <field name="last_session"/>
+<!--                    <field name="chandler_priority"/>-->
+                    <field name="active"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="dp_chandler_holding_list_form_view_extend" model="ir.ui.view">
+            <field name="name">dp.chandler.temp.form.extend</field>
+            <field name="model">dp.chandler.temp</field>
+            <field name="inherit_id" ref="dp_auth.dp_chandler_holding_list_form_view" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='chandler_priority']" position="replace">
+                    <field name="create_date" string="Create Date"/>
+                    <field name="approval_date"/>
+                    <field name="joined_date"/>
+                    <field name="last_session"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_users_form_simple_modif_extend" model="ir.ui.view">
+            <field name="name">res.users.preferences.form.extend</field>
+            <field name="model">res.users</field>
+            <field name="inherit_id" ref="base.view_users_form_simple_modif"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='preference_change_password']" position="attributes">
+                    <attribute name="string">Change Password</attribute>
+                </xpath>
+            </field>
+        </record>
+        
+        <record id="base.action_partner_form" model="ir.actions.act_window">
+            <field name="context">{"search_default_type_company":1}</field>
+        </record>
+    </data>
+</openerp>

@@ -1,0 +1,737 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+   <data>
+
+       <template id="custom_report_invoice_document">
+			<t t-call="report.html_container">
+                <t t-name="report.my_layout">
+					<div class="page" style="margin-top: 0px;">
+						<style type="text/css">
+						
+						 body
+						{
+							font-family: "Calibri";
+						}
+                         td, th
+                        {
+                            padding: 1px 5px!important;
+							font-family: font-family: sans serif;
+                        }
+						h5{
+							text-align: center;
+							}	
+
+                        .border0
+                        {
+                            border: 1px!important;
+                        }
+
+                        .padding0
+                        {
+                            padding: 0px!important;
+                        }
+
+                        .border{
+                            border: 1px solid;
+                        }
+
+                        .mt15
+                        {
+                            margin-top:15px;
+                        }
+
+                        .border_left
+                        {
+                            border-left:1px solid;
+                        }
+                        .border_bottom
+                        {
+                           border-bottom:1px solid;
+                        }
+                        .c_info{
+                            font-size: 12px;
+							
+                        }
+                        .small_bold{
+                            font-size: 12px;
+                            font-weight: bold;
+							
+                        }
+                        .note_de_credito{
+                        	font-size: 15px;
+                        }
+						.small1{
+						font-style:italic;
+						text-align: right;	
+						}
+                        .product_p{
+                        font-size: 10px
+                        }
+                        .rango_auto{
+                        	font-size: 11px
+                        }
+                        .bg_color{
+                            background-color:#E6E6E6
+                        }
+						.bg_color_s{
+                            background-color:#000;
+                        }
+                        .line_wrap{
+                            white-space: nowrap; 
+						    width: 95%; 
+						    overflow: hidden;
+						    text-overflow: ellipsis;
+						    margin-top: 0;
+						    margin-bottom: 0;
+						    padding-top: 0;
+						    padding-bottom: 0;
+						 } 
+                    </style>
+						<t t-set="invoice_id" t-value="get_invoice_info(docs)" />
+						<t t-set="company_id" t-value="get_company_info(docs)" />
+						<t t-set="customer_id" t-value="get_customer_info(docs)" />
+						<t t-set="get_lines_ids" t-value="get_lines_invoice(docs)" />
+					<br/>	
+						<table t-if="'Control' in company.name or company.rtn_no == '05019016874655'" width="100%" class="body">
+							<tr>
+								<td  width="35%" align="left" style="text-align: center;">
+									<b style="font-size: 1.5em;" t-if="company_id.name"><t t-esc="company_id.name" /><br/></b>
+									<b style ="font-size: 1.2em;" t-if="company_id.rtn_no"> R.T.N.: <t t-esc="company_id.rtn_no" /> <br/></b>
+									<p style= "font-size:  0.9em;" class="c_info">
+								   <t t-if="company_id.street"><t t-esc="company_id.street" />,</t>
+								<!--	<t t-if="company_id.street2"><t t-esc="company_id.street2" />,</t>-->
+									<t t-if="company_id.city"><t t-esc="company_id.city" />,</t>
+									<t t-if="company_id.state_id"><t t-esc="company_id.state_id.name" />,</t>
+									<t t-if="company_id.country_id"><t t-esc="company_id.country_id.name" /></t>
+										<br/>
+<t t-if="company_id.email"><t t-esc="company_id.email" /> / </t> <t t-if="company_id.website"><t t-esc="company_id.website" /></t>                      
+										<br/>
+<t t-if="company_id.phone">Tel: <t t-esc="company_id.phone" /> / </t> <t t-if="company_id.phone2"><t t-esc="company_id.phone2" /></t>
+										<br/>
+<t t-if="company_id.mobile"><t t-esc="company_id.mobile" /></t>
+									</p>
+								</td>
+								<td width="21%" align="left" style="vertical-align:middle;">
+									<img t-if="company.logo" t-att-src="'data:image/png;base64,%s' % company.logo" style="max-width: 150px;width: 100%;display:inline-block" />
+									<p style="font-size:7px;font-style:italic;font-weight: bold" t-esc="company.rml_header1" />
+								</td>
+								<td style="width: 44%;">
+									<DIV class="small_bold" align="center" style="border: 1px solid #000;margin-bottom: 4px;margin-top: 8px;">
+		<t t-if="invoice_id.state != 'draft'">				<h4 t-attf-class="#{'note_de_credito' if invoice_id.type == 'out_refund' else ''}" style="margin-bottom: 3px;margin-top: 3px;font-weight: bold;">
+		<t t-if="invoice_id.type == 'out_refund'">NOTA DE CREDITO</t>
+		<t t-if="invoice_id.type != 'out_refund'">FACTURA</t> No. <t t-esc="invoice_id.number"/></h4>
+					CAI: <t t-esc="invoice_id.cai_shot"/>
+										<br/>
+					Fecha Límite de Emisión: <t t-esc="invoice_id.cai_expires_shot"/>
+										<br/>
+				<span class="rango_auto">Rango autorizado: <t t-esc="invoice_id.min_number_shot"/> &amp;nbsp; al &amp;nbsp; <t t-esc="invoice_id.max_number_shot"/></span>  
+     </t>
+
+     <t t-if="invoice_id.state == 'draft'">	
+<br/>		
+<h2 style="margin: 5px;padding:0">
+     		<t t-if="invoice_id.type == 'out_refund'">NOTA DE CREDITO</t>
+			<t t-if="invoice_id.type != 'out_refund'">FACTURA</t>Borrador
+		</h2>
+<br/>    
+ </t>										
+									</DIV>
+									<TABLE class="c_info" width="85%" align="right" style="text-align:center">
+										<TR style="border:1px solid;">
+											<TH class="bg_color" colspan="3" style="text-align: center;">FECHA</TH>
+										</TR>
+										<TR>
+											<TH class="bg_color" align="center" style="text-align: center;border:1px solid">DIA</TH>
+											<TH class="bg_color" align="center" style="text-align: center;border:1px solid">MES</TH>
+											<TH class="bg_color" align="center" style="text-align: center;border:1px solid">AÑO</TH>
+										</TR>
+										<TR>
+											<TD align="center" style="border:1px solid"><span t-field="invoice_id.date_invoice" t-field-options='{"format": "d"}'/></TD>
+											<TD align="center" style="border:1px solid"><span t-field="invoice_id.date_invoice" t-field-options='{"format": "MM"}'/></TD>
+											<TD align="center" style="border:1px solid"><span t-field="invoice_id.date_invoice" t-field-options='{"format": "yyyy"}'/></TD>
+										</TR>
+									</TABLE>
+								</td>
+							</tr>
+						</table>
+						
+						<br t-if="'Soluciones' in company.name or company.rtn_no == '05019013591150'" />
+						<br t-if="'Soluciones' in company.name or company.rtn_no == '05019013591150'" />
+						<table t-if="'Soluciones' in company.name or company.rtn_no == '05019013591150'" width="100%" class="body">
+							<tr>
+								<td width="14%" align="left" style="vertical-align:middle;position: relative;">
+									<img t-if="company.logo" t-att-src="'data:image/png;base64,%s' % company.logo" style="max-width: 100px;width: 100%;display:inline-block" />
+									
+								<!--<p style="position: absolute;bottom:0;right:0;font-size:7px;font-style:italic;font-weight: bold" t-esc="company.rml_header1" />-->
+								</td>
+								<td width="32%" align="left" style="text-align: center;vertical-align: top">
+									<t t-if="invoice_id.type != 'out_refund'">
+									<b style="font-size: 1.4em;" t-if="company_id.name"><t t-esc="company_id.name" /><br/></b>
+									<b style ="font-size: 1.1em;" t-if="company_id.rtn_no"> R.T.N.: <t t-esc="company_id.rtn_no" /> <br/></b></t>
+									
+									<t t-if="invoice_id.type == 'out_refund'">
+									<b style="font-size: 1.2em;" t-if="company_id.name"><t t-esc="company_id.name" /><br/></b>
+									<b style ="font-size: 0.9em;" t-if="company_id.rtn_no"> R.T.N.: <t t-esc="company_id.rtn_no" /> <br/></b></t>
+									<p style= "font-size:  0.6em;" class="c_info">
+									<t t-if="company_id.street"><t t-esc="company_id.street" />,</t>
+									<!--<t t-if="company_id.street2"><t t-esc="company_id.street2" />,</t>--><br/>
+									<t t-if="company_id.city"><t t-esc="company_id.city" />,</t>
+									<t t-if="company_id.state_id"><t t-esc="company_id.state_id.name" />,</t>
+										<t t-if="company_id.country_id"><t t-esc="company_id.country_id.name" /></t>
+										<br/>
+<t t-if="company_id.phone">Tel: <t t-esc="company_id.phone" /> / </t> <t t-if="company_id.phone2"><t t-esc="company_id.phone2" /></t>
+										<br/>
+ <t t-if="company_id.website"><t t-esc="company_id.website" /></t><br/><t t-if="company_id.email"><t t-esc="company_id.email" /></t>   
+										<br/>
+<t t-if="company_id.mobile"><t t-esc="company_id.mobile" /></t>
+									</p>
+								</td>
+								
+								<td style="width: 38%;">
+									<TABLE class="c_info" width="100%" align="right" style="text-align:center;margin-bottom: 8px">
+										<TR>
+											<TH class="bg_color_s" align="center" style="text-align: center;color:#fff;">DIA</TH>
+											<TH class="bg_color_s" align="center" style="text-align: center;color:#fff;">MES</TH>
+											<TH class="bg_color_s" align="center" style="text-align: center;color:#fff;">AÑO</TH>
+										</TR>
+										<TR>
+											<TD align="center" style="border:1px solid"><span t-field="invoice_id.date_invoice" t-field-options='{"format": "d"}'/></TD>
+											<TD align="center" style="border:1px solid"><span t-field="invoice_id.date_invoice" t-field-options='{"format": "MM"}'/></TD>
+											<TD align="center" style="border:1px solid"><span t-field="invoice_id.date_invoice" t-field-options='{"format": "yyyy"}'/></TD>
+										</TR>
+									</TABLE>
+									<table class="small_bold" align="center" style="margin-top: 8px;">
+		<tr><td>
+		<t t-if="invoice_id.state != 'draft'">				<h4 t-attf-class="#{'note_de_credito' if invoice_id.type == 'out_refund' else ''}" style="margin-bottom: 3px;margin-top: 3px;font-weight: bold;">
+			<t t-if="invoice_id.type == 'out_refund'">NOTA DE CREDITO</t>
+		  <t t-if="invoice_id.type != 'out_refund'">FACTURA</t> No. <t t-esc="invoice_id.number"/></h4>
+					CAI: <t t-esc="invoice_id.cai_shot"/>
+										<br/>
+					Fecha Límite de Emisión: <t t-esc="invoice_id.cai_expires_shot"/>
+										<br/>
+				<span class="rango_auto">Rango autorizado: <t t-esc="invoice_id.min_number_shot"/> &amp;nbsp; al &amp;nbsp; <t t-esc="invoice_id.max_number_shot"/></span>  
+     </t>
+     <t t-if="invoice_id.state == 'draft'">	
+          <br/>		
+<h2 style="margin: 5px;padding:0">
+		 <t t-if="invoice_id.type == 'out_refund'">NOTA DE CREDITO</t>
+			<t t-if="invoice_id.type != 'out_refund'">FACTURA</t>Borrador
+ </h2>
+<br/>		
+     </t>		
+     </td></tr>	
+									</table>
+									<t t-if="invoice_id.type == 'out_refund'">
+									<table class="c_info">
+										<tr>
+											<th rowspan="2" class="border bg_color_s" style="vertical-align:middle;color:#fff;" width="32%">
+												MOTIVO NOTA DE CREDITO
+											</th>
+											<td class="border" style= "text-align: center">
+												<t t-if="invoice_id.credit_note_reason == 'anulacion'">X</t>
+												<t t-if="invoice_id.credit_note_reason != 'anulacion'"><br/></t>
+											</td>
+											<td class="border" style= "text-align: center">
+												<t t-if="invoice_id.credit_note_reason == 'devolucion'">X</t>
+											</td>
+											<td class="border" style= "text-align: center">
+												<t t-if="invoice_id.credit_note_reason == 'descuento'">X</t>
+											</td>
+										</tr>
+										<tr style="font-size: 14px">
+											<td class="border" style="text-align: center">
+												ANULACION
+											</td>
+											<td class="border" style="text-align: center">
+												DEVOLUCIÓN
+											</td>
+											<td class="border" style="text-align: center">
+												DESCUENTO
+											</td>
+										</tr>
+									</table>
+									</t> 
+								</td>
+							</tr>
+						</table>
+							<t  t-if="'Soluciones' in company.name or company.rtn_no == '05019013591150'" >
+						<p style="right:0;font-size:7px;font-style:italic;font-weight: bold"><t t-esc="company.rml_header1" /></p>
+						</t>
+						<t t-if="'Control' in company.name or company.rtn_no == '05019016874655'" >
+						<table class="c_info" width="100%" style="margin-top: 8px;">
+							<tr>
+								<td width="50%">
+									<table width="99%" class="border_color" align="left">
+										<tr>
+											<th class="border bg_color" style="vertical-align:middle" width="22%">
+												Cliente:
+											</th>
+											<td class="border" style="text-align: center;">
+												<t t-esc="customer_id.name" />
+											</td>
+										</tr>
+										<tr>
+											<th class="border bg_color" style="vertical-align:middle" width="22%">
+												RTN Cliente:
+											</th>
+											<td class="border"  style="text-align: center;">
+												<t t-esc="customer_id.zip" />
+											</td>
+										</tr>
+										<tr>
+											<th class="border bg_color" style="vertical-align:middle" width="22%">
+												Orden:
+											</th>
+											<td class="border" style= "text-align: center">
+												<t t-esc="invoice_id.x_reference" />
+											</td>
+										</tr>
+										<tr>
+											<th class="border bg_color" style="vertical-align:middle" width="22%">
+												Dirección:
+											</th>
+											<td class="border">
+												<p class="line_wrap" style= "text-align: center">
+													<t t-if="customer_id.street"><t t-esc="customer_id.street" /> ,</t>
+													<!--<t t-if="customer_id.city"><t t-esc="customer_id.city" /> ,</t>-->
+													<!--<t t-if="customer_id.state_id"><t t-esc="customer_id.state_id.name" /> ,</t>
+													<t t-if="customer_id.country_id"><t t-esc="customer_id.country_id.name" /></t>-->
+												</p>
+											</td>
+										</tr>
+									</table>
+								</td>
+								<td width="50%">
+									<table width="99%" class="border_color" align="right">
+										<t t-if="invoice_id.type != 'out_refund'">
+										<tr>
+											<th class="border bg_color" style="vertical-align:middle" width="16%">
+												Incoterm:
+											</th>
+											<td class="border" colspan="3" style= "text-align: center">
+												<t t-if="invoice_id.incoterm_id" t-esc="invoice_id.incoterm_id.code" />
+											</td>
+										</tr>
+										<tr>
+											<th class="border bg_color" style="vertical-align:middle" width="16%">
+												Crédito:
+											</th>
+											<td class="border" colspan="3" style="text-align: center">
+												<t t-esc="invoice_id.payment_term.name" />
+											</td>
+										</tr>
+										<tr>
+											<th class="border bg_color" style="vertical-align:middle" width="16%">
+												Vendedor:
+											</th>
+											<td class="border" width="18%" style= "text-align: center">
+												<p t-if="invoice_id.user_id and invoice_id.user_id.name" class="line_wrap"><t t-esc="invoice_id.user_id.name" /></p>
+											</td>
+											<th class="border bg_color" style="vertical-align:middle" width="18%">
+												Entregado Por:
+											</th>
+											<td class="border" width="18%" style= "text-align: center">
+												<p class="line_wrap"><t t-esc="invoice_id.user_id.name" /></p>
+											</td>
+										</tr>
+										<tr>
+											<th class="border bg_color" style="vertical-align:middle" width="16%">
+												Comprobante:
+											</th>
+											<td class="border" width="20%" style= "text-align: center">
+												<p class="line_wrap"><t t-esc="invoice_id.x_voucher" /></p>
+											</td>
+											<th class="border bg_color" style="vertical-align:middle" width="18%">
+												Referencia:
+											</th>
+											<td class="border" width="18%" style= "text-align: center">
+												<p class="line_wrap"><t t-esc="invoice_id.origin" /></p>
+											</td>
+										</tr>
+										</t>
+										
+										<t t-if="invoice_id.type == 'out_refund'">
+										<tr>
+											<th rowspan="2" class="border bg_color" style="vertical-align:middle" width="16%">
+												MOTIVO NOTA DE CREDITO
+											</th>
+											<td class="border" style= "text-align: center">
+												<t t-if="invoice_id.credit_note_reason == 'anulacion'">X</t>
+											</td>
+											<td class="border" style= "text-align: center">
+												<t t-if="invoice_id.credit_note_reason == 'devolucion'">X</t>
+											</td>
+											<td class="border" style= "text-align: center">
+												<t t-if="invoice_id.credit_note_reason == 'descuento'">X</t>
+											</td>
+										</tr>
+										<tr>
+											<td class="border" style="text-align: center">
+												ANULACION
+											</td>
+											<td class="border" style="text-align: center">
+												DEVOLUCIÓN
+											</td>
+											<td class="border" style="text-align: center">
+												DESCUENTO
+											</td>
+										</tr>
+										<tr>
+											<td colspan="4">
+												<br />
+											</td>
+										</tr>
+										<tr>
+											<th class="border bg_color" style="vertical-align:middle" width="16%">
+												Comprobante:
+											</th>
+											<td class="border" width="20%" style= "text-align: center">
+												<p class="line_wrap"><t t-esc="invoice_id.x_voucher" /></p>
+											</td>
+											<th class="border bg_color" style="vertical-align:middle" width="18%">
+												Referencia:
+											</th>
+											<td class="border" width="18%" style= "text-align: center">
+												<p class="line_wrap"><t t-esc="invoice_id.origin" /></p>
+											</td>
+										</tr>
+										</t>
+									</table>
+								</td>
+							</tr>
+						</table>
+						</t>
+						<t  t-if="'Soluciones' in company.name or company.rtn_no == '05019013591150'" >
+						 <table class="c_info border border_color" width="100%" style="margin-top: 8px;">
+							<tr>
+								<td width="54%">
+									<table width="100%" align="left">
+										<tr>
+											<th style="vertical-align:middle" width="20%">
+												Cliente:
+											</th>
+											<td>
+												<t t-esc="customer_id.name" />
+											</td>
+										</tr>
+										<tr>
+											<th style="vertical-align:middle" width="20%">
+												RTN Cliente
+											</th>
+											<td>
+												<t t-esc="customer_id.zip" />
+											</td>
+										</tr>
+										<tr>
+											<th style="vertical-align:middle" width="20%">
+												Dirección:
+											</th>
+											<td>
+												<p class="line_wrap">
+													<t t-if="customer_id.street"><t t-esc="customer_id.street" /> ,</t>
+													<!--<t t-if="customer_id.city"><t t-esc="customer_id.city" /> ,</t>-->
+													<!--<t t-if="customer_id.state_id"><t t-esc="customer_id.state_id.name" /> ,</t>
+													<t t-if="customer_id.country_id"><t t-esc="customer_id.country_id.name" /></t>-->
+												</p>
+											</td>
+										</tr>
+										<tr>
+											<th style="vertical-align:middle" width="20%">
+												Referencia:
+											</th>
+											<td>
+												<p class="line_wrap"><t t-esc="invoice_id.origin" /></p>
+											</td>
+										</tr>
+									</table>
+								</td>
+								<td width="46%">
+									<table width="95%" align="right">
+										<tr>
+											<th style="vertical-align:middle" width="30%">
+												Orden Cliente:
+											</th>
+											<td>
+											<t t-esc="invoice_id.x_reference" />
+											</td>
+										</tr>
+										<tr>
+											<th style="vertical-align:middle" width="30%">
+												Vendedor:
+											</th>
+											<td>
+												<p t-if="invoice_id.user_id and invoice_id.user_id.name" class="line_wrap"><t t-esc="invoice_id.user_id.name" /></p>
+											</td>
+										</tr>
+										<tr>
+											<th style="vertical-align:middle" width="30%">
+												Crédito:
+											</th>
+											<td>
+												<t t-esc="invoice_id.payment_term.name" />
+											</td>
+										</tr>
+										<tr>
+											<th style="vertical-align:middle" width="30%">
+												Incoterm:
+											</th>
+											<td>
+												<t t-if="invoice_id.incoterm_id" t-esc="invoice_id.incoterm_id.code" />
+											</td>
+										</tr>
+									</table>
+								</td>
+							</tr>
+						</table>
+						</t>
+										
+						
+						<div style="padding: 8px 0px;position:relative">
+							<div t-if="is_copy" style="position:absolute;top:39%;opacity:0.1;z-index:1000;width:100%;">
+						        <p style="font-size:70px;text-align:center;">COPIA</p>
+						    </div>
+				            <div t-if="is_copy" style="position:absolute;top:34%;opacity:0.1;z-index:999;width:100%;">
+				            	<img style="width:100%;max-width:350px;display:block;margin:0px auto;" t-att-src="'data:image/png;base64,'+ company_id.logo" />
+				            </div>
+						<div style="padding: 8px 0px;position:relative">
+						<t t-set="t_height" t-value="850"/>
+						<t t-if="'Soluciones' in company.name or company.rtn_no == '05019013591150'">
+						<t t-set="t_height" t-value="550"/>
+						</t>
+							<table class="product_p border_color" t-att-height="t_height" width="100%" style="border: 1px solid #000">
+								<t t-if="'Control' in company.name or company.rtn_no == '05019016874655'">
+								<tr height="15px" class="border">
+									<th class="border bg_color" width="2%"  style ="font-size: 12px"><center>#</center></th>
+									<th class="text-center border bg_color" width="6%" style ="font-size: 12px">CANTIDAD</th>
+									<th class="text-center border bg_color" width="13%"  style ="font-size: 12px">MODELO</th>
+									<th class="text-center border bg_color" width="50%"  style ="font-size: 12px">DESCRIPCIÓN</th>
+									<th class="text-center border bg_color" width="16%"  style ="font-size: 12px">PRECIO UNITARIO</th>
+									<th class="text-center border bg_color" width="14%"  style ="font-size: 12px">PRECIO TOTAL</th>
+								</tr>
+								</t>
+								
+								<t t-if="'Soluciones' in company.name or company.rtn_no == '05019013591150'" >
+								<tr height="15px" class="border">
+								<th class="border bg_color_s" width="2%"  style ="font-size: 12px;color:#fff;"><center>#</center></th>
+									<th class="text-center border bg_color_s" width="6%" style ="font-size: 12px;color:#fff;">CANTIDAD</th>
+									<th class="text-center border bg_color_s" width="13%"  style ="font-size: 12px;color:#fff;">MODELO</th>
+									<th class="text-center border bg_color_s" width="50%"  style ="font-size: 12px;color:#fff;">DESCRIPCIÓN</th>
+									<th class="text-center border bg_color_s" width="16%"  style ="font-size: 12px;color:#fff;">PRECIO UNITARIO</th>
+									<th class="text-center border bg_color_s" width="14%"  style ="font-size: 12px;color:#fff;">PRECIO TOTAL</th>									
+								</tr>
+									</t>	
+							    <t t-set="count" t-value="1" />
+								<tr height="22px" t-foreach="get_lines_ids" t-as="lines_id" style="margin-top:2px;margin-bottom:2px;">
+									<!--<t t-set="count" t-value="1" />-->
+									<td class="text-center"  style ="font-size: 14px">
+										<t t-esc="count" />
+									</td>
+										<td class="text-center" style="border-left: 1px solid #000;font-size: 14px">
+	                                    <t t-esc="lines_id.quantity" />
+									</td>
+										<td class="text-center" style="border-left: 1px solid #000;font-size: 14px">
+										<t t-if="lines_id.product_id">
+										<t t-esc="lines_id.product_id.default_code" />
+										</t>
+									</td>
+										<td class="text-left" style="border-left: 1px solid #000;font-size: 14px">
+								    	<t t-esc="lines_id.name" />	
+									</td>
+										<td style="border-left: 1px solid #000;font-size: 14px">
+									   <span t-field="invoice_id.currency_id.symbol" class="pull-left ml8"/> <span t-field="lines_id.price_unit"  t-options='{"widget": "monetary", "display_currency": o.currency_id}' class="pull-right ml8" />	
+									</td>
+										<td style="border-left: 1px solid #000;font-size: 14px">
+								        <span  t-field="invoice_id.currency_id.symbol"   class="pull-left ml8" /> <span t-field="lines_id.price_subtotal"  t-options='{"widget": "monetary", "display_currency": o.currency_id}' class="pull-right ml8" />		
+									</td>
+									<t t-set="count" t-value="count + 1" /> 
+								</tr>
+								<tr style="margin-top:4px;">
+									<td class="text-center"></td>
+									<td class="text-center" style="border-left: 1px solid #000"></td>
+									<td class="text-center" style="border-left: 1px solid #000"></td>
+									<td class="text-left" style="border-left: 1px solid #000;vertical-align: bottom; font-size: 14px">
+										<t t-if="'Control' in company.name or company.rtn_no == '05019016874655'">
+											<b>SON:</b><t t-esc="invoice_id.amount_words" /></t>
+									</td>
+									<td style="border-left: 1px solid #000"></td>
+									<td style="border-left: 1px solid #000"></td>
+								</tr>
+							</table>
+								
+							
+						</div>
+						<table class="c_info" width="100%">
+							<tr>
+								<td width="50%" style="padding-left: 0px !important;">
+									<table t-if="'Soluciones' not in company.name or company.rtn_no != '05019013591150'" width="100%" class="border_color" align="left">
+										<tr style="padding:10px 12px">
+											<td class="border">
+												<br/>
+												<br/>
+											</td>
+										</tr>
+										<tr>
+											<th class="border bg_color" align="center"  style="font-size: 14px">
+												<center>RECIBIDO POR</center>
+											</th>
+										</tr>
+										<tr rowspan="2">
+											<td class="border">
+												<br/>
+												<br/>
+											</td>
+										</tr>
+										<tr>
+											<th class="border bg_color" align="center"  style="font-size: 14px">
+												<center>FIRMA CLIENTE</center>
+											</th>
+										</tr>
+									</table>
+									<table t-if="'Soluciones' in company.name or company.rtn_no == '05019013591150'" width="100%" class="border_color" align="left">
+										<tr style="padding:15px 0px">
+											<th width="50%" class="border bg_color" style="font-size: 14px;vertical-align: middle;">
+												RECIBIDO POR
+											</th>
+											<td width="50%" class="border">
+												<br/>
+												<br/>
+												<br/>
+											</td>
+										</tr>
+										<tr style="padding:15px 12px">
+											<th width="50%" class="border bg_color" style="font-size: 14px;vertical-align: middle;">
+												FIRMA CLIENTE
+											</th>
+											<td width="50%" class="border">
+												<br/>
+												<br/>
+												<br/>
+											</td>
+										</tr>
+									</table>
+								</td>
+								<td width="50%" style="padding-right: 0px !important;">
+									<table t-if="'Soluciones' not in company.name or company.rtn_no != '05019013591150'" width="100%" class="border_color" align="right">
+										<tr>
+											<th class="border bg_color" style="vertical-align:middle" width="45%">
+										        VENTA EXENTA
+											</th >
+											<td class="border"  style="font-size: 14px">
+												
+											</td>
+										</tr>
+										<tr>
+											<th class="border bg_color" style="vertical-align:middle" width="45%">
+												VENTA GRAVADA
+											</th>
+											 <td  class="border"   style="font-size: 14px">
+												 <t t-if="invoice_id.amount_tax &gt; 0.00">
+												<span  t-field="invoice_id.currency_id.symbol"  class="pull-left ml8"/> <span t-field="invoice_id.amount_untaxed"  t-options='{"widget": "monetary", "display_currency": o.currency_id}' class="pull-right mr8" /></t> 
+											</td>	 
+										</tr>
+										<tr>
+											<th class="border bg_color" style="vertical-align:middle" width="45%">
+												SUBTOTAL
+											</th>
+											<td class="border"  style="font-size: 14px">
+												<span t-field="invoice_id.currency_id.symbol" class="pull-left ml8"/> <span t-field="invoice_id.amount_untaxed" t-options='{"widget": "monetary", "display_currency": o.currency_id}' class="pull-right ml8" />
+											</td>
+										</tr>
+										<tr>
+											<th class="border bg_color" style="vertical-align:middle" width="45%">
+												IMPUESTO SOBRE VENTAS
+											</th>
+											<td class="border"  style="font-size: 14px" >
+												<span t-field="invoice_id.currency_id.symbol" class="pull-left ml8"/> <span t-field="invoice_id.amount_tax" t-options='{"widget": "monetary", "display_currency": o.currency_id}' class="pull-right ml8"/>
+											</td>
+										</tr>
+										<tr>
+											<th class="border bg_color" style="vertical-align:middle" width="45%">
+												TOTAL NETO
+											</th>
+											<td class="border" style="font-size: 14px">
+												<span t-field="invoice_id.currency_id.symbol" class="pull-left ml8"/> <span t-field="invoice_id.amount_total" t-options='{"widget": "monetary", "display_currency": o.currency_id}' class="pull-right ml8"/>
+											</td>
+										</tr>
+									</table>
+									<table t-if="'Soluciones' in company.name or company.rtn_no == '05019013591150'" width="100%" class="border_color" align="right">
+										<tr>
+											<th class="border bg_color" style="vertical-align:middle;border-right:0px" width="45%">
+										        VENTA EXENTA
+											</th >
+											<td class="border bg_color"  style="font-size: 14px;border-left:0px">
+												
+											</td>
+										</tr>
+										<tr>
+											<th class="border bg_color" style="vertical-align:middle;border-right:0px" width="45%">
+												VENTA GRAVADA
+											</th>
+											 <td  class="border bg_color"   style="font-size: 14px;border-left:0px">
+												 <t t-if="invoice_id.amount_tax &gt; 0.00">
+												<span  t-field="invoice_id.currency_id.symbol"  class="pull-left ml8"/> <span t-field="invoice_id.amount_untaxed"  t-options='{"widget": "monetary", "display_currency": o.currency_id}' class="pull-right mr8" /></t> 
+											</td>	 
+										</tr>
+										<tr>
+											<th class="border bg_color" style="vertical-align:middle;border-right:0px" width="45%">
+												SUBTOTAL
+											</th>
+											<td class="border bg_color"  style="font-size: 14px;border-left:0px">
+												<span t-field="invoice_id.currency_id.symbol" class="pull-left ml8"/> <span t-field="invoice_id.amount_untaxed" t-options='{"widget": "monetary", "display_currency": o.currency_id}' class="pull-right ml8" />
+											</td>
+										</tr>
+										<tr>
+											<th class="border bg_color" style="vertical-align:middle;border-right:0px" width="45%">
+												IMPUESTO S/V
+											</th>
+											<td class="border bg_color" style="font-size: 14px;border-left:0px" >
+												<span t-field="invoice_id.currency_id.symbol" class="pull-left ml8"/> <span t-field="invoice_id.amount_tax" t-options='{"widget": "monetary", "display_currency": o.currency_id}' class="pull-right ml8"/>
+											</td>
+										</tr>
+										<tr>
+											<th class="border bg_color" style="vertical-align:middle;border-right:0px" width="45%">
+												TOTAL NETO
+											</th>
+											<td class="border bg_color" style="font-size: 14px;border-left:0px">
+												<span t-field="invoice_id.currency_id.symbol" class="pull-left ml8"/> <span t-field="invoice_id.amount_total" t-options='{"widget": "monetary", "display_currency": o.currency_id}' class="pull-right ml8"/>
+											</td>
+										</tr>
+									</table>
+								</td>
+							</tr>
+							<tr class="border" t-if="'Soluciones' in company.name or company.rtn_no == '05019013591150'">
+								<td colspan="2">
+								<div style="width:100%;display:inline-block;padding:2px 5px;">
+								<b>SON:</b><t t-esc="invoice_id.amount_words" />
+								</div>
+								</td>
+							</tr>				
+						</table>
+						<div t-if="'Soluciones' in company.name or company.rtn_no == '05019013591150'" style="width:100%;display:inline-block;height:50px">
+							<img width="100%" src="/awesome_invoice_report_template/static/img/invoice_footer.png"/>
+						</div>
+						</div>
+					</div>
+                </t>
+            </t>
+       </template>
+
+       <template id="custom_report_invoice">
+            <t t-call="report.html_container">
+                <t t-foreach="doc_ids" t-as="doc_id">
+                    <t t-raw="translate_doc(doc_id, doc_model, 'partner_id.lang', 'awesome_invoice_report_template.custom_report_invoice_document')"/>
+                </t>
+            </t>
+        </template>
+	   <template id="custom_report_invoice_copy">
+            <t t-call="report.html_container">
+                <t t-foreach="doc_ids" t-as="doc_id">
+             		<t t-set="is_copy" t-value="1" />
+                    <t t-call="awesome_invoice_report_template.custom_report_invoice_document"/>
+                </t>
+            </t>
+        </template>
+
+
+</data>
+</openerp>

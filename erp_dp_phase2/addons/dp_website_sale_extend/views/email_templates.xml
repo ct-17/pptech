@@ -1,0 +1,40 @@
+<openerp>
+    <data>
+<!--        <record id="btf_sales_confirm_order_email_send_to_shipmaster_email" model="email.template">-->
+<!--            <field name="name">btf_sales_confirm_order_email_send_to_shipmaster_email</field>-->
+<!--            <field name="subject">BTF: Order ${object.name} has been processed.</field>-->
+<!--            <field name="lang">${user.lang}</field>-->
+<!--            <field name="email_from">admin@buytaxfree.com.sg></field>-->
+<!--            <field name="email_to">${object.partner_id.email |safe}</field>-->
+<!--&lt;!&ndash;            <field name="report_template" ref="dp_purchase_template.purchase_order_pdf"/>&ndash;&gt;-->
+<!--            <field name="report_name">${(object.name or '').replace('/','_')}</field>-->
+<!--            <field name="model_id" ref="sale.model_sale_order"/>-->
+<!--            <field name="body_html"><![CDATA[-->
+<!--            <!DOCTYPE html>-->
+<!--                <html lang="en">-->
+<!--                    <head>-->
+<!--                      <meta charset="utf-8">-->
+<!--                      <meta name="viewport" content="width=device-width, initial-scale=1">-->
+<!--                      <style type="text/css">-->
+<!--                        thead{background-color: #cccccc;}-->
+<!--                        table {border-collapse: collapse;}-->
+<!--                        table, td, th {border: 1px solid black;}-->
+<!--                        table { border-collapse: collapse; empty-cells: show; }-->
+<!--                      </style>-->
+<!--                    </head>-->
+<!--                    <body>-->
+<!--                        <p> Dear ${object.partner_id.name},</p>-->
+<!--                        <p> Your order has been processed. Please view attachment for the Purchase Order for your reference.</p>-->
+<!--                        <p> If you wish to make any amendments, please contact us directly at 6278 9196. </p>-->
+<!--                        <p>Thank you,</p>-->
+<!--                        <p>BUYTAXFREE</p>-->
+<!--                        <p>www.buytaxfree.com.sg</p>-->
+<!--                        <p>-->
+<!--                            <i>This is an automatically generated message. Please do not reply to this address. You may not use, reproduce, or transfer this message or its content into any medium without the written permission of BUYTAXFREE.</i>-->
+<!--                        </p>-->
+<!--                    </body>-->
+<!--                </html>-->
+<!--                ]]></field>-->
+<!--        </record>-->
+    </data>
+</openerp>

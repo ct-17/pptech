@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <report
+            id="action_report_quotation"
+            model="sale.order"
+            string="Cotización / Orden"
+            report_type="qweb-pdf"
+            file="awesome_invoice_report_template.custom_report_quotation_document"
+            name="awesome_invoice_report_template.custom_report_quotation_document"
+        />
+
+        <record id="awesome_invoice_report_template.action_report_quotation" model="ir.actions.report.xml">
+            <field name="paperformat_id" ref="awesome_invoice_report_template.paperformat_custom_A4"/>
+        </record>
+
+    </data>
+</openerp>

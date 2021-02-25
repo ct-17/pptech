@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+		<!-- Footer -->
+		<template id="theme_footer" inherit_id="website_less.footer_default">
+			<xpath expr="//div[@class='container hidden-print']" position="replace">
+				<div class="footer-part">
+					<div class="container">
+				        <div class="row">
+
+
+<!--				            <div class="col-sm-6 col-md-4 col-lg-3">-->
+<!--				            	<div class="footer-colum">-->
+<!--				                	<h3>CONTACT INFORMATION</h3>-->
+<!--				                    <p>-->
+<!--				                    	<strong>EMAIL:</strong>-->
+<!--				                        <a t-attf-href="mailto:#{res_company.email}"><span t-field="res_company.email"/></a>-->
+<!--				                    </p>-->
+<!--				                    &lt;!&ndash;<p>&ndash;&gt;-->
+<!--				                    	&lt;!&ndash;<strong>Mobile:</strong>&ndash;&gt;-->
+<!--				                        &lt;!&ndash;<span t-field="res_company.phone"/>&ndash;&gt;-->
+<!--				                    &lt;!&ndash;</p>&ndash;&gt;-->
+<!--				                </div>-->
+<!--				            </div>-->
+<!--				            <div class="col-sm-6 col-md-4 col-lg-3" groups="dp_common.group_super_admin,dp_common.group_chandler_admin,base.group_public,dp_common.group_shipmaster">-->
+<!--				            	<div class="footer-colum">-->
+<!--				                	<h3>MY ACCOUNT</h3>-->
+<!--				                    <ul>-->
+<!--				                    	<li><a href="/my/account">My account</a></li>-->
+<!--				                        <li><a href="/orders">Order history</a></li>-->
+<!--				                        &lt;!&ndash;<li><a href="#">Advanced search</a></li>&ndash;&gt;-->
+<!--				                    </ul>-->
+<!--				                </div>-->
+<!--				            </div>-->
+				            <!--<div class="col-sm-0 col-md-0 col-lg-3 hide-mobile">-->
+				            	<!---->
+				            <!--</div>	-->
+
+
+<!--							 _   _ _     _        _   _ _ _   ____            _ -->
+<!--							| | | (_) __| | ___  | |_(_) | | |___ \ _ __   __| |-->
+<!--							| |_| | |/ _` |/ _ \ | __| | | |   __) | '_ \ / _` |-->
+<!--							|  _  | | (_| |  __/ | |_| | | |  / __/| | | | (_| |-->
+<!--							|_| |_|_|\__,_|\___|  \__|_|_|_| |_____|_| |_|\__,_|-->
+<!--																				-->
+<!--							 ____  _                    -->
+<!--							|  _ \| |__   __ _ ___  ___ -->
+<!--							| |_) | '_ \ / _` / __|/ _ \-->
+<!--							|  __/| | | | (_| \__ \  __/-->
+<!--							|_|   |_| |_|\__,_|___/\___|-->
+<!--				            <div class="col-sm-6 col-md-4 col-lg-3">-->
+<!--				            	<div class="footer-colum">-->
+<!--				                	<h3>NEWSLETTER</h3>-->
+<!--				                    <div class="newsletter">-->
+<!--				                    	<input type="email" value="" placeholder="Email Address"/>-->
+<!--				                        <button>SUBSCRIBE</button>-->
+<!--				                    </div>-->
+<!--				                </div>-->
+<!--				            </div>-->
+<!--							 _   _ _     _        _   _ _ _   ____            _ -->
+<!--							| | | (_) __| | ___  | |_(_) | | |___ \ _ __   __| |-->
+<!--							| |_| | |/ _` |/ _ \ | __| | | |   __) | '_ \ / _` |-->
+<!--							|  _  | | (_| |  __/ | |_| | | |  / __/| | | | (_| |-->
+<!--							|_| |_|_|\__,_|\___|  \__|_|_|_| |_____|_| |_|\__,_|-->
+<!--																				-->
+<!--							 ____  _                    -->
+<!--							|  _ \| |__   __ _ ___  ___ -->
+<!--							| |_) | '_ \ / _` / __|/ _ \-->
+<!--							|  __/| | | | (_| \__ \  __/-->
+<!--							|_|   |_| |_|\__,_|___/\___|-->
+				        </div>
+				    </div>
+				</div>
+			</xpath>
+		</template>
+
+		<!-- Footer Copy-rights -->
+		<template id="theme_copyright_footer" inherit_id="website.layout_footer_copyright">
+			<xpath expr="//div[@class='container mt16 mb8']" position="replace">
+		        <div class="container">
+		        	<div class="row">
+		            	<div class="footer-copytext">
+							<p>
+								 <a t-attf-href="/">
+									<b>Home</b> |
+								 </a>
+								 <a t-attf-href="/aboutus">
+									<b>About Us</b> |
+								 </a>
+								 <a t-attf-href="/gettingstarted">
+									<b>Getting Started</b> |
+								 </a>
+								 <a t-attf-href="/contactus">
+									<b>Contact Us</b> |
+								 </a>
+								 <a t-attf-href="/termsandconditions">
+									<b>Terms &amp; Conditions</b> |
+								 </a>
+								 <a t-attf-href="/privacypolicy">
+									<b>Privacy Policy</b>
+								 </a>
+							</p>
+		                	<p>© 2019 BuyTaxFree All Rights Reserved</p>
+		                </div>
+		            </div>
+		        </div>
+			</xpath>
+		</template>
+	</data>
+</openerp>

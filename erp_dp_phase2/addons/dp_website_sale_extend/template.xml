@@ -1,0 +1,15 @@
+<openerp>
+    <data>
+        <template id="assets_frontend" name="website assets for Frontend - extend" inherit_id="website.assets_frontend">
+            <xpath expr="." position="inside">
+                <script type="text/javascript" src="/dp_website_sale_extend/static/src/js/dateformat.js"/>
+                <script type="text/javascript" src="/dp_website_sale_extend/static/src/js/website_sale_extend.js"/>
+                <link rel='stylesheet' href='/dp_website_sale_extend/static/src/less/website_sale_extend.less' type="text/less"/>
+            </xpath>
+        </template>
+        <template id="assets_editor_extend" name="Editor assets" inherit_id="website.assets_editor">
+                <xpath expr="//t[@t-call='web.jqueryui_conflict']" position="replace">
+                </xpath>
+        </template>
+    </data>
+</openerp>

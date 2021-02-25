@@ -1,0 +1,183 @@
+<openerp>
+    <data>
+		<template id="total" inherit_id="website_sale.total" groups="dp_common.group_chandler_admin,dp_common.group_chandler">
+		  <xpath expr="//table" position="replace">
+			<div id="cart_total" t-if="order">
+			  <div id="order_total_untaxed">
+				<span id="cart_subtotal">Subtotal:</span>
+				<span id="cart_subtotal_amount">
+				  <span
+					  t-field="order.amount_untaxed"
+					  style="white-space: nowrap;"
+					  t-field-options='{
+						"widget": "monetary",
+						"from_currency": "order.pricelist_id.currency_id",
+						"display_currency": "user_id.partner_id.property_product_pricelist.currency_id"
+					  }'/>
+				</span>
+			  </div>
+<!--			  <div class="row" id="order_total_taxes">-->
+<!--				<span class="col-xs-10 text-right text-muted" title="Taxes may be updated after providing shipping address"> Taxes:</span>-->
+<!--				<span class="col-xs-2 text-left text-muted">-->
+<!--				  <span-->
+<!--					  t-field="order.amount_tax"-->
+<!--					  style="white-space: nowrap;"-->
+<!--					  t-field-options='{-->
+<!--						"widget": "monetary",-->
+<!--						"from_currency": "order.pricelist_id.currency_id",-->
+<!--						"display_currency": "user_id.partner_id.property_product_pricelist.currency_id"-->
+<!--					  }'/>-->
+<!--				</span>-->
+<!--			  </div>-->
+<!--			  <div class="row" id="order_total">-->
+<!--				<span class="col-xs-10 text-right h4">Total:</span>-->
+<!--				<span class="col-xs-2 text-left h4" >-->
+<!--				  <span-->
+<!--					  t-field="order.amount_total"-->
+<!--					  style="white-space: nowrap;"-->
+<!--					  t-field-options='{-->
+<!--						"widget": "monetary",-->
+<!--						"from_currency": "order.pricelist_id.currency_id",-->
+<!--						"display_currency": "user_id.partner_id.property_product_pricelist.currency_id"-->
+<!--					  }'/>-->
+<!--				</span>-->
+<!--			  </div>-->
+			</div>
+		  </xpath>
+		</template>
+<!--		Payment page-->
+		<template id="total_enquiry" inherit_id="dp_website_sale.inherited_payment" groups="dp_common.group_chandler_admin,dp_common.group_chandler">
+		  <xpath expr="//thead/tr//th[last()]" position="before">
+                    <th style="text-align: center;">Unit Price</th>
+            </xpath>
+            <xpath expr="//tbody//td[last()]" position="before">
+                <td style="text-align: center;"> <b class="oe_price row" style="white-space: nowrap;"
+                t-field="line.price_unit"
+                t-field-options='{
+                   "widget": "monetary",
+                   "display_currency": "website.pricelist_id.currency_id"
+               }'/></td>
+			</xpath>
+			<xpath expr="//thead/tr//th[last()]" position="after">
+                    <th style="text-align: center;">Total</th>
+            </xpath>
+            <xpath expr="//tbody//td[last()]" position="after">
+                <td style="text-align: center;"> <b class="oe_price row" style="white-space: nowrap;"
+                t-field="line.price_subtotal"
+                t-field-options='{
+                   "widget": "monetary",
+                   "display_currency": "website.pricelist_id.currency_id"
+               }'/></td>
+			</xpath>
+			<xpath expr="//table" position="after">
+				<div id="cart_total" t-if="order" class="payment_total">
+				  <div id="order_total_untaxed">
+					<h4>order summary</h4>
+					  <span id="cart_subtotal">Subtotal : </span>
+					  <span style="font-weight:normal">(</span>
+					  <span style="font-weight:normal" t-esc="website_sale_order and website_sale_order.cart_quantity or '0'"/>
+					  <span style="font-weight:normal"> Items )</span>
+					  <span id="cart_subtotal_amount">
+						  <span
+							  t-field="order.amount_untaxed"
+							  style="white-space: nowrap;color:black"
+							  t-field-options='{
+								"widget": "monetary",
+								"from_currency": "order.pricelist_id.currency_id",
+								"display_currency": "user_id.partner_id.property_product_pricelist.currency_id"
+							  }'/>
+					  </span>
+					  <br/>
+					  <span id="cart_subtotal">Total : </span>
+					  <span id="cart_total_amount">
+					  <span
+						  t-field="order.amount_untaxed"
+						  style="white-space: nowrap; font-weight:bold; color:orangered;"
+						  t-field-options='{
+							"widget": "monetary",
+							"from_currency": "order.pricelist_id.currency_id",
+							"display_currency": "user_id.partner_id.property_product_pricelist.currency_id"
+						  }'/>
+					</span>
+				  </div>
+				</div>
+			</xpath>
+		</template>
+
+
+		<!--product grid-->
+        <template id="products_item_price_inherited"
+			inherit_id="website_sale.products_item" active="True"
+			customize_show="True" name="Product Price Items" groups="dp_common.group_chandler">
+			<xpath expr="//div[@class='product-content']/div[@class='product_grid_name']" position="after">
+				<div class="product_grid_price row" style="height: 28px; border-bottom: 1px solid rgba(0,0,0,.12);">
+					<b class="oe_price row" style="white-space: nowrap;"
+						t-field="product.pricelist_price"
+						t-field-options='{
+						   "widget": "monetary",
+						   "display_currency": "website.pricelist_id.currency_id"
+					   }'/>
+				</div>
+			</xpath>
+		</template>
+
+		<!--product details-->
+        <template id="inherited_product_page_pricelist"
+			inherit_id="dp_website_sale.inherited_product_page" active="True"
+			customize_show="True" name="Product Price" groups="dp_common.group_chandler">
+			<xpath expr="//h1[@id='product_name']" position="after">
+				<div class="product_grid_price">
+					<b class="oe_price" style="white-space: nowrap;"
+					t-field="product.pricelist_price"
+					t-field-options='{
+					   "widget": "monetary",
+					   "display_currency": "website.pricelist_id.currency_id"
+				   }'/>
+				</div>
+			</xpath>
+		</template>
+
+<!--		cart page-->
+        <template id="add_to_cart_pricelist"
+			inherit_id="dp_website_sale.add_to_cart" active="True"
+			customize_show="True" name="Product Price" groups="dp_common.group_chandler_admin,dp_common.group_chandler">
+			<xpath expr="//thead/tr//th[last()]" position="before">
+                    <th>Unit Price </th>
+            </xpath>
+            <xpath expr="//table[@id='cart_products']/tbody//td[last()]" position="before">
+                <td> <b class="oe_price row" style="white-space: nowrap;"
+                t-field="line.price_unit"
+                t-field-options='{
+                   "widget": "monetary",
+                   "display_currency": "website.pricelist_id.currency_id"
+               }'/></td>
+			</xpath>
+
+			<xpath expr="//table[@id='cart_products']" position="after">
+                <t t-call="website_sale.total"/>
+			</xpath>
+		</template>
+
+<!--		recommend product at product detail-->
+		<template id="pricelist_recommended_products"
+			inherit_id="website_sale.recommended_products" customize_show="True"
+				  name="Alternative Products" groups="dp_common.group_chandler_admin,dp_common.group_chandler">
+			<xpath expr="//h3" position="after">
+				<div class="recommended_products_price row">
+                    <b class="oe_price" style="white-space: nowrap;"
+                t-field="suggest_product.pricelist_price"
+                t-field-options='{
+                   "widget": "monetary",
+                   "display_currency": "website.pricelist_id.currency_id"
+               }'/>
+				</div>
+            </xpath>
+			<xpath expr="//h3" position="attributes">
+				<attribute name="class">recommended_products_name</attribute>
+            </xpath>
+			<xpath expr="//div[@class='product-content']" position="attributes">
+				<attribute name="class">product-content recommended_product-content</attribute>
+            </xpath>
+		</template>
+    </data>
+</openerp>

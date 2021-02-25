@@ -1,0 +1,58 @@
+<openerp>
+    <data>
+        <record id="data_sync_from_btf_to_erp" model="email.template">
+            <field name="name">data_sync_from_btf_to_erp</field>
+            <field name="subject">Data Synchronization From BuyTaxFree to Newport ERP - ${ctx.get('action', '')}</field>
+            <field name="lang">${user.lang}</field>
+            <field name="email_from">${ctx.get('partner_email', '')}</field>
+            <field name="email_to">admin@buytaxfree.com.sg</field>
+            <field name="model_id" ref="dp_np_api.model_dp_np_api_rel"/>
+            <field name="body_html"><![CDATA[
+            <!DOCTYPE html>
+                <html lang="en">
+                    <head>
+                      <meta charset="utf-8">
+                      <meta name="viewport" content="width=device-width, initial-scale=1">
+                      <style>
+                        thead{background-color: #cccccc;}
+                        table {border-collapse: collapse;}
+                        table, td, th {border: 1px solid black;}
+                      </style>
+                    </head>
+                    <body>
+                        <p> Dear BuyTaxFree Admin,<br><br></p>
+
+                        <p> ${ctx['partner_obj'].name} is initiating the ${ctx.get('action', '')} action in Newport ERP,</p>
+                        <p> Below shows the information that is being synchronize over to ERP in the following menu: ${ctx.get('np_model', '')}</p>
+                        % if ctx.get('action', '') != 'CREATE':
+                            <p>Name: ${ctx.get('record', '')}<br><br></p>
+                        % endif
+                        % if ctx.get('action', '') != 'DELETE':
+                            <table class="table table-bordered" style="border:2px bold;">
+                                <thead>
+                                    <tr>
+                                        <th>Field</th>
+                                        <th>Value</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    % for k,v in ctx.get('data').iteritems():
+                                        <tr>
+                                            <td> ${k} </td>
+                                            <td> ${v} </td>
+                                        </tr>
+                                    % endfor
+                                </tbody>
+                            </table>
+                        % endif
+                        <p>Yours Sincerely,</p>
+                        <p>${ctx['partner_obj'].name}</p>
+                        <p>www.buytaxfree.com.sg</p>
+                        <p><br><br></p>
+                        <p>---- This is an automatically generated message. Please do not reply to this address. You may not use, reproduce, or transfer this message or its contents into any medium without the written permission of BUYTAXFREE.</p>
+                    </body>
+                </html>
+                ]]></field>
+        </record>
+    </data>
+</openerp>

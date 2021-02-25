@@ -1,0 +1,43 @@
+<openerp>
+    <data>
+        <template id="place_into_bar_gallery_products" inherit_id="website.snippets" name="Place into bar Gallery Products">
+          <xpath expr="//div[@id='snippet_structure']" position="inside">
+              <t t-snippet="dp_theme_gallery_products.snippet_gallery_products"
+                 t-thumbnail="/dp_theme_gallery_products/static/src/img/blocks/block_portfolio.png"/>
+          </xpath>
+        </template>
+
+        <template id="snippet_gallery_products" name="Gallery Products Snippet">
+            <section class="gallery-img-section">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="gallery-list">
+                                <div class="gallery-left">
+                                    <div class="gallery-box height-full">
+                                        <img src="/dp_theme_gallery_products/static/src/img/gallery-img1.jpg" alt=""/>
+                                        <div class="gallery-hover"><a href="#">Category</a></div>
+                                    </div>
+                                </div>
+                                <div class="gallery-right">
+                                    <div class="gallery-box width-full">
+                                        <img src="/dp_theme_gallery_products/static/src/img/gallery-img2.jpg" alt=""/>
+                                        <div class="gallery-hover"><a href="#">Promotional</a></div>
+                                    </div>
+                                    <div class="gallery-box">
+                                    <img src="/dp_theme_gallery_products/static/src/img/gallery-img3.jpg" alt=""/>
+                                    <div class="gallery-hover"><a href="#">Brand name 1</a></div>
+                                    </div>
+                                    <div class="gallery-box">
+                                    <img src="/dp_theme_gallery_products/static/src/img/gallery-img4.jpg" alt=""/>
+                                    <div class="gallery-hover"><a href="#">Brand name 2</a></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                 </div>
+            </section>
+        </template>
+    </data>
+</openerp>

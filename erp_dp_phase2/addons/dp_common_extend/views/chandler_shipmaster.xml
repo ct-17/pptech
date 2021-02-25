@@ -1,0 +1,47 @@
+<openerp>
+    <data>
+        <!--create btf_sales user-->
+<!--        <record id="btf_sales" model="res.users">-->
+<!--            <field name="name">BTF Sales</field>-->
+<!--            <field name="login">btf_sales</field>-->
+<!--            <field name="alias_name">BTF Sales</field>-->
+<!--            <field name="active" eval="True"/>-->
+<!--            <field name="action_id" eval="ref('sale.action_quotations')"/>-->
+<!--            <field name="groups_id" eval="[(6, 0, [ref('dp_common.group_chandler'),-->
+<!--                                                    ref('product.group_sale_pricelist'),-->
+<!--                                                    ref('product.group_purchase_pricelist'),-->
+<!--                                                    ref('stock.group_locations'),-->
+<!--                                                    ref('sale_stock.group_route_so_lines'),-->
+<!--                                                    ref('sale.group_discount_per_so_line'),-->
+<!--                                                    ref('stock.group_stock_user'),-->
+<!--                                                    ref('account.group_account_invoice'),-->
+<!--                                                    ref('purchase.group_purchase_user'),-->
+<!--                                                    ref('base.group_sale_salesman_all_leads'),-->
+<!--                                                    ref('base.group_user')]),-->
+<!--                                            (3, ref('base.group_partner_manager'))]-->
+<!--                                                    "/>-->
+<!--        </record>-->
+
+        <!--add shipmaster to template chandler-->
+        <record id="dp_common.default_template_chandler" model="res.users">
+            <field name="action_id" eval="ref('website.action_website_homepage')"/>
+            <field name="groups_id" eval="[(6, 0, [ref('dp_common.group_chandler'),
+                                                    ref('dp_common.group_shipmaster'),
+                                                    ref('dp_sale_extend.group_new_chand'),
+                                                    ref('website_mail.group_comment'),
+                                                    ref('base.group_partner_manager'),
+                                                    ref('product.group_sale_pricelist'),
+                                                    ref('product.group_purchase_pricelist'),
+                                                    ref('stock.group_locations'),
+                                                    ref('sale_stock.group_route_so_lines'),
+                                                    ref('sale.group_discount_per_so_line'),
+                                                    ref('stock.group_stock_user'),
+                                                    ref('account.group_account_invoice'),
+                                                    ref('purchase.group_purchase_user'),
+                                                    ref('base.group_sale_salesman_all_leads'),
+                                                    ref('base.group_user')]),
+                                            (3, ref('base.group_partner_manager'))]
+                                                    "/>
+        </record>
+    </data>
+</openerp>

@@ -1,0 +1,23 @@
+<openerp>
+    <data>
+        <record id="vessel_name_form_id_inherit" model="ir.ui.view">
+            <field name="name">vessel.name.form.inherit</field>
+            <field name="model">vessel.name</field>
+            <field name="inherit_id" ref="dp_base.vessel_name_form_id"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form//group" position="after">
+                    <group string="Data Synchronization">
+                        <group>
+                            <field name="source_origin" readonly="1"/>
+                            <field name="is_to_np" readonly="1"/>
+                            <field name="is_from_np" readonly="1"/>
+                            <field name="sync_status" readonly="1"/>
+                            <field name="erp_id" readonly="1"/>
+                        </group>
+                        <group/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</openerp>

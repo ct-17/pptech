@@ -1,0 +1,367 @@
+<openerp>
+    <data>
+        <!--COMMON NOTES FOR DEVELOPER-->
+
+
+        <!--All templates are in sequence as per 'New Port_BUYTAXFREE_URD_v5.0.pdf' -->
+
+        <!--As there is no fully workflow developed and not enough columns created so here mentioned model and columns names need to change accordingly workflow.-->
+        <!--And below model or column used for test purpose so please don't confuse and change accordingly.-->
+        <!--Also please make sure you read each template comments and its purpose.-->
+        <!--Created two methods as sample in Sale/Purchase order model, one is without attachment and with attachment email template (tmp_send_mail, tmp_attached_send_mail) use accordingly-->
+
+
+
+        <!--Acceptance of invitation from Ship Master and successfully created an account in BUYTAXFREE-->
+        <record id="invitation_accepted_by_shipmaster_for_chandler_email" model="email.template">
+            <field name="name">invitation_accepted_by_shipmaster_for_chandler_email</field>
+            <field name="subject">${object.shipmaster_id.name} has accepted your invitation to join BUYTAXFREE</field>
+            <field name="model_id" ref="dp_auth.model_dp_chandler_partner"/>
+            <field name="email_from">${user.email|safe}></field>
+            <field name="email_to">${object.chandler_id.email |safe}</field>
+            <field name="body_html"><![CDATA[
+            <p>Dear ${object.chandler_id.name}, <br><br></p>
+            <p>Congratulations! <b>${object.shipmaster_id.name}</b> has accepted your invitation to join "BUYTAXFREE".</p>
+            <p><br/>Thank you and we look forward to working with you.<br/><br/></p>
+            <p>Yours Sincerely,</p>
+            <p>BUYTAXFREE</p>
+            <p>www.buytaxfree.com.sg</p><br/>
+            <p>---- This is an automatically generated message. Please do not reply to this address. You may not use, reproduce, or transfer this message or its contents into any medium without the written permission of BUYTAXFREE.</p>
+                ]]></field>
+        </record>
+
+        <!--[Email Template] New Account :- http://phabricator.elephas.vn/T6821-->
+        <!--Once newport user create chandler account after this email send to chandler-->
+        <!--Please change accordinly model or column names.-->
+        <record id="invitation_chandler_onboard_email" model="email.template">
+            <field name="name">invitation_chandler_onboard_email</field>
+            <field name="subject">Hi There, You are Invited To Connect On BUYTAXFREE</field>
+            <field name="model_id" ref="base.model_res_users"/>
+            <field name="email_from">${(user.email)|safe}</field>
+            <field name="email_to">${object.email |safe}</field>
+            <field name="body_html"><![CDATA[
+                <p>Dear ${object.name}, <br><br></p>
+                <p>Welcome to BUYTAXFREE! Your B2B digital platform for bonded ship supplies. Ordering duty free alcohol and cigarettes for ship supplies has just became easier.<br/><br/></p>
+                <p>You have been invited to connect to "${object.company_id.name}" in order to get access to your documents in BUYTAXFREE. Please click on the link below to access:</p>
+                <ul><li><a href="${object.get_company_url()}">Accept invitation to connect to "BUYTAXFREE"</a></li></ul>
+                                        <b><i>Note: Please define your own currency and exchange rate in your profile after you have created your account. The default currency is Singapore Dollars (SGD).</i></b>
+                <p><br/>Thank you!<br/><br/></p>
+                <p>Best Regards</p>
+                <p>BUYTAXFREE</p>
+                <p><br></p>
+                <p>---- This is an automatically generated message. Please do not reply to this address. You may not use, reproduce, or transfer this message or its contents into any medium without the written permission of BUYTAXFREE.</p>
+                ]]></field>
+        </record>
+
+                <!--Notification email to BUYTAXFREE admin when OTHER chandler is input-->
+
+        <!--Developer Notes-->
+        <!--Please provide specific model for this template-->
+        <!--Here mentioned static new chandler name as XYZ and its email please provide accordingly your model's column.-->
+        <!--'BUYTAXFREE Administrator,' is the static content no need to change as per Esther advice.-->
+        <record id="notify_other_chandler_from_shipmaster_digitaplatform_email" model="email.template">
+            <field name="name">notify_other_chandler_from_shipmaster_digitaplatform_email</field>
+            <field name="subject">Please contact New Chandler recommended by ${ctx['shipmaster']} on BUYTAXFREE</field>
+            <field name="lang">${user.lang}</field>
+            <field name="model_id" ref="model_dp_chandler_temp"/>
+            <field name="email_from">admin@buytaxfree.com.sg</field>
+            <field name="email_to">support@buytaxfree.com.sg</field>
+            <field name="body_html"><![CDATA[
+            <p>Dear BUYTXFREE support team,<br><br></p>
+            <p> ${ctx['shipmaster']} has recommended a new chandler. Please contact the new chandler with the details below.
+            <p>Name: ${object.name}</p>
+            <p>Email Address: ${object.email}</p>
+            <p><br/>Thank you.<br/><br/></p>
+            <p>Yours Sincerely,</p>
+            <p>BUYTAXFREE</p>
+            <p>www.buytaxfree.com.sg</p>
+            <p><br></p>
+            <p>---- This is an automatically generated message. Please do not reply to this address. You may not use, reproduce, or transfer this message or its contents into any medium without the written permission of BUYTAXFREE.</p>
+                ]]></field>
+        </record>
+
+
+        <!-- Email template for new Chandlers -->
+        <record id="notify_new_chandler" model="email.template">
+            <field name="name">Notify New Chandler</field>
+            <field name="model_id" ref="base.model_res_users"/>
+            <field name="email_from">${user.email|safe}></field>
+            <field name="email_to">${object.email|safe}</field>
+            <field name="subject">Hi there, You Are Invited To Join BUYTAXFREE As A Ship Chandler</field>
+            <field name="body_html">
+                <![CDATA[
+                    <p>
+                        Dear ${object.name},
+                        <br><br>
+                    </p>
+                    <p>
+                       Welcome to BUYTAXFREE, an online destination to all your bonded needs. The perfect place to stay up-to-date with the ever-expanding range of products, exciting offers and latest stock availability. BUYTAXFREE aims to provide a comprehensive E-catalogue to Ship Owners, Masters and Crews on a voyage passing through the Port of Singapore.
+                    <p/>
+                    <p>
+                       As a Ship Chandler, you can invite ship owners and masters to join this platform and make YOU their preferred choice to Request for Quote. Track your quotation with your very own dashboard and never lose sight of a sale.
+                    <p/>
+                    <p>
+                       Stay tuned to this website as you will also be rewarded with exciting rebates and loyalty programs when an order is successfully placed through this platform.
+                    </p>
+                    <p>
+                        Ready to join us on a rewarding experience? Simply click on the link below and start inviting your customers.
+                    </p>
+                    <ul>
+                        <li><a href="${object.with_context(signup_force_type_in_url='reset').signup_url}">YES. I AM READY TO JOIN BUYTAXFREE.</a></li>
+                    </ul>
+                    <p>
+                        In case you are lost, we have also attached the instruction manual in this email on how to navigate our website.
+                    </p>
+                    <p>
+                        <b><i>Note: Please define your own currency and exchange rate in your profile after you have created your account. The default currency is Singapore Dollars (SGD).</i></b>
+                    </p>
+                     <p>
+                        Thank you and we look forward to working with you.
+                    </p>
+                    <br><br>
+                    <p>Yours Sincerely,</p>
+                    <p>BUYTAXFREE</p>
+                    <p>www.buytaxfree.com.sg</p>
+                    <p><br/></p>
+                    <p>
+                        ---- This is an automatically generated message. Please do not reply to this address. You may not use, reproduce, or transfer this message or its contents into any medium without the written permission of BUYTAXFREE.
+                    </p>
+                ]]>
+            </field>
+        </record>
+
+
+<!--                &lt;!&ndash; Email template for new users &ndash;&gt;-->
+<!--        <record id="set_password_email" model="email.template">-->
+<!--            <field name="name">BUYTAXFREE Account</field>-->
+<!--            <field name="model_id" ref="base.model_res_users"/>-->
+<!--            <field name="email_from"><![CDATA["${object.company_id.name|safe}" <${(object.company_id.email or user.email)|safe}>]]></field>-->
+<!--            <field name="email_to">${object.email|safe}</field>-->
+<!--            <field name="subject"><![CDATA[${object.company_id.name} invitation to connect on Odoo]]></field>-->
+<!--            <field name="body_html">-->
+<!--                <![CDATA[-->
+<!--                    <p>-->
+<!--                        ${object.name},-->
+<!--                    </p>-->
+<!--                    <p>-->
+<!--                        You have been invited to connect to "${object.company_id.name}" in order to get access to your documents in Odoo.-->
+<!--                    </p>-->
+<!--                    <p>-->
+<!--                        To accept the invitation, click on the following link:-->
+<!--                    </p>-->
+<!--                    <ul>-->
+<!--                        <li><a href="${object.signup_url}">Accept invitation to "${object.company_id.name}"</a></li>-->
+<!--                    </ul>-->
+<!--                    <p>-->
+<!--                        Thanks,-->
+<!--                    </p>-->
+<!--                    <pre>-->
+<!--&#45;&#45;-->
+<!--${object.company_id.name or ''}-->
+<!--${object.company_id.email or ''}-->
+<!--${object.company_id.phone or ''}-->
+<!--                    </pre>-->
+<!--                ]]>-->
+<!--            </field>-->
+<!--        </record>-->
+
+
+
+        <!-- Email template for rejected Chandlers -->
+        <record id="notify_rejected_chandlers" model="email.template">
+            <field name="name">Notify Rejected Chandler</field>
+            <field name="model_id" ref="model_dp_chandler_temp"/>
+            <field name="email_from">admin@buytaxfree.com.sg</field>
+            <field name="email_to">${object.email|safe}</field>
+            <field name="subject">We're sorry, your request to join BUYTAXFREE is unsuccessful</field>
+            <field name="body_html">
+                <![CDATA[
+                    <p>Dear ${object.name},<br><br></p>
+                    <p>Thank you for your recent application. We are sorry to inform that your request to join BUYTAXFREE is unsuccessful.<br><br></p>
+                    <p>Please feel free to contact us via hello@buytaxfree.com.sg for more information.</p>
+                    <p><br/>Thank you.<br/><br/></p>
+                    <p>Yours Sincerely,</p>
+                    <p>BUYTAXFREE</p>
+                    <p>www.buytaxfree.com.sg</p>
+                    <p><br></p>
+                    <p>---- This is an automatically generated message. Please do not reply to this address. You may not use, reproduce, or transfer this message or its contents into any medium without the written permission of BUYTAXFREE.</p>
+                ]]>
+            </field>
+        </record>
+
+        <!-- Email template to shipmaster when rejecting Chandlers -->
+        <record id="notify_shipmaster_rejected_chandlers" model="email.template">
+            <field name="name">Notify Shipmaster of Rejected Chandler</field>
+            <field name="model_id" ref="model_dp_chandler_temp"/>
+            <field name="email_from">admin@buytaxfree.com.sg</field>
+            <field name="email_to">${object.create_uid.partner_id.email|safe}</field>
+            <field name="subject">We're sorry, ${object.name}'s request to join BUYTAXFREE is unsuccessful</field>
+            <field name="body_html">
+                <![CDATA[
+                    <p>Dear ${object.create_uid.name},<br><br></p>
+                    <p>Thank you for recommending your chandler. We are sorry to inform that this chandler's request to join BUYTAXFREE is unsuccessful.<br><br></p>
+                    <p>Please feel free to contact us via hello@buytaxfree.com.sg for more information.</p>
+                    <p><br/>Thank you.<br/><br/></p>
+                    <p>Yours Sincerely,</p>
+                    <p>BUYTAXFREE</p>
+                    <p>www.buytaxfree.com.sg</p>
+                    <p><br></p>
+                    <p>---- This is an automatically generated message. Please do not reply to this address. You may not use, reproduce, or transfer this message or its contents into any medium without the written permission of BUYTAXFREE.</p>
+                ]]>
+            </field>
+        </record>
+
+
+
+
+
+        <function name="write" model="ir.model.data">
+            <!-- First we need to find the record...-->
+            <function name="search" model="ir.model.data">
+                <value eval="[('model', '=', 'email.template'), ('name', '=', 'set_password_email'), ('module', '=', 'auth_signup')]"/>
+            </function>
+           <!-- ...and temporarily set the noupdate field to False-->
+            <value eval="{'noupdate': False}" />
+        </function>
+
+        <!-- Email template for new users -->
+        <record id="auth_signup.set_password_email" model="email.template">
+            <field name="name">BUYTAXFREE Enterprise Connection</field>
+            <field name="model_id" ref="base.model_res_users"/>
+            <field name="email_from"><![CDATA["${object.company_id.name|safe}" <${(object.company_id.email or user.email)|safe}>]]></field>
+            <field name="email_to">${object.partner_id.email|safe}</field>
+            <field name="subject"><![CDATA[Hi There, You Are Invited To Connect On BUYTAXFREE]]></field>
+            <field name="body_html">
+                <![CDATA[
+                    <p>
+                        Dear ${object.name},
+                        <br><br>
+                    </p>
+                    <p>
+                        Welcome to BUYTAXFREE! Your B2B digital platform for bonded ship supplies. Ordering duty free alcohol and cigarettes for ship supplies has just became easier.<br/>
+                        You have been invited to connect to "${object.company_id.name}" in order to get access to your documents in BUYTAXFREE.<br/>
+                    </p>
+                    <p>
+                        <br/>To accept the invitation, click on the following link:
+                        <br/><a href="${object.signup_url}">Accept invitation to "${object.company_id.name}"</a>
+                    </p>
+                    <p>
+                        <br/><br/>HAPPY SHOPPING!<br/><br/>
+                    </p>
+                    <p>
+                        Best Regards,<br/>
+                        BUYTAXFREE
+                        <br><br>
+                    </p>
+                    <p>
+                        ---- This is an automatically generated message. Please do not reply to this address. You may not use, reproduce, or transfer this message or its contents into any medium without the written permission of BUYTAXFREE.
+                    </p>
+                    <pre>
+--
+${object.company_id.name or ''}
+${object.company_id.email or ''}
+${object.company_id.phone or ''}
+                    </pre>
+                ]]>
+            </field>
+        </record>
+
+       <!-- (Optional) Time to clean our dirty hand, set the previously noupdate False to True again -->
+        <function name="write" model="ir.model.data">
+            <function name="search" model="ir.model.data">
+                <value eval="[('model', '=', 'email.template'), ('name', '=', 'set_password_email'), ('module', '=', 'auth_signup')]"/>
+            </function>
+            <value eval="{'noupdate': True}" />
+        </function>
+
+
+       <!-- (Optional) Time to clean our dirty hand, set the previously noupdate False to True again -->
+        <function name="write" model="ir.model.data">
+            <function name="search" model="ir.model.data">
+                <value eval="[('model', '=', 'email.template'), ('name', '=', 'reset_password_email'), ('module', '=', 'auth_signup')]"/>
+            </function>
+            <value eval="{'noupdate': False}" />
+        </function>
+
+
+        <!-- Email template for reset password -->
+        <record id="auth_signup.reset_password_email" model="email.template">
+            <field name="name">Reset Password</field>
+            <field name="model_id" ref="base.model_res_users"/>
+            <field name="email_from">admin@buytaxfree.com.sg</field>
+            <field name="email_to">${object.partner_id.email|safe}</field>
+            <field name="email_cc"></field>
+            <field name="subject">BTF: Reset your password</field>
+            <field name="body_html"><![CDATA[
+                <p>
+                    Dear ${object.name},
+                </p>
+                <p>
+                    You have requested to reset your BUYTAXFREE password. Please click on the link below to enter a new password.
+                </p>
+                <p>
+                    <a href="${object.signup_url}"><b>Reset Password Here</b></a>
+                </p>
+                <p>
+                    If you did not request for it, please disregard this message.
+                </p>
+                <p>Thank you,</p>
+                <p>BUYTAXFREE</p>
+                <p>www.buytaxfree.com.sg</p>
+                <p>
+                    <i>This is an automatically generated message. Please do not reply to this address. You may not use, reproduce, or transfer this message or its content into any medium without the written permission of BUYTAXFREE.</i>
+                </p>
+                ]]>
+            </field>
+        </record>
+
+       <!-- (Optional) Time to clean our dirty hand, set the previously noupdate False to True again -->
+        <function name="write" model="ir.model.data">
+            <function name="search" model="ir.model.data">
+                <value eval="[('model', '=', 'email.template'), ('name', '=', 'reset_password_email'), ('module', '=', 'auth_signup')]"/>
+            </function>
+            <value eval="{'noupdate': True}" />
+        </function>
+
+        <record id="notify_user_password_has_been_reset" model="email.template">
+            <field name="name">notify_user_password_has_been_reset</field>
+            <field name="subject">BTF: Password Reset Successfully</field>
+            <field name="lang">${user.lang}</field>
+            <field name="model_id" ref="base.model_res_users"/>
+            <field name="email_from">admin@buytaxfree.com.sg</field>
+            <field name="email_to">${ctx['login']|safe}</field>
+            <field name="body_html"><![CDATA[
+            <p>Dear ${ctx['name']},</p>
+            <p>Your password has just been changed.</p>
+            <p>Please contact <a href="mailto: support@buytaxfree.com.sg">support@buytaxfree.com.sg</a> if you did not perform this action.</p>
+            <p>Thank you,</p>
+            <p>BUYTAXFREE</p>
+            <p>www.buytaxfree.com.sg</p>
+            <p>
+                <i>This is an automatically generated message. Please do not reply to this address. You may not use, reproduce, or transfer this message or its content into any medium without the written permission of BUYTAXFREE.</i>
+            </p>
+                ]]></field>
+        </record>
+
+        <record id="notify_user_password_has_been_reset_myaccount" model="email.template">
+            <field name="name">notify_user_password_has_been_reset_myaccount</field>
+            <field name="subject">BTF: Password Reset Successfully</field>
+            <field name="lang">${user.lang}</field>
+            <field name="model_id" ref="base.model_res_users"/>
+            <field name="email_from">admin@buytaxfree.com.sg</field>
+            <field name="email_to">${object.partner_id.email|safe}</field>
+            <field name="body_html"><![CDATA[
+            <p>Dear ${object.name},</p>
+            <p>Your password has just been changed.</p>
+            <p>Please contact <a href="mailto: support@buytaxfree.com.sg">support@buytaxfree.com.sg</a> if you did not perform this action.</p>
+            <p>Thank you,</p>
+            <p>BUYTAXFREE</p>
+            <p>www.buytaxfree.com.sg</p>
+            <p>
+                <i>This is an automatically generated message. Please do not reply to this address. You may not use, reproduce, or transfer this message or its content into any medium without the written permission of BUYTAXFREE.</i>
+            </p>
+                ]]></field>
+        </record>
+
+    </data>
+</openerp>

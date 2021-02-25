@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+		<!-- Homepage -->
+		<template id="website_homepage" inherit_id="website.homepage">
+			<xpath expr="//div[@id='wrap']" position="inside">
+				<div class="oe_structure" />
+
+				<section class="oe_snippet_body home-banner-section">
+					<div class="home-banner">
+						<section class="oe_snippet_body home-banner-item"
+							style=" background-image: url(/elephase_snippets/static/src/images/banner-img1.jpg);">
+							<div class="container">
+								<div class="row align-items-center justify-content-end">
+									<div class="col-12 col-sm-12 col-md-7 pull-right">
+										<div class="super-deal">
+											<h1 class="dart-fs-48">
+												IMPRESSION
+												<span class="dart-fw-100">CONTEMPORARY</span>
+											</h1>
+											<h2>Style for you</h2>
+											<p>Lorem Ipsum is simply dummy text of the printing and
+												typesetim tting industry. Lorem Ipsum has been the
+												industry's standard uli dummy text ever since the 1500s.
+												Lorem Ipsum is simply dummy text of the printing and
+												typesetim tting industry. Lorem Ipsum has been the
+												industry's standard uli dummy text ever since the 1500s.
+											</p>
+											<div class="clearfix"></div>
+
+											<a href="/shop"
+												class="btn btn-normal">Shop Now</a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</section>
+
+					</div>
+				</section>
+
+				<div class="oe_structure" />
+				<!--<section class="oe_snippet_body quote-of-day-section"-->
+					<!--style="background: url('/elephase_base/static/src/css/../images/quote-of-day-img-bg.png') no-repeat 8% center #f9f8f4;">-->
+					<!--<div class="container">-->
+						<!--<div class="row">-->
+							<!--<div class="col-12">-->
+								<!--<div class="section-headign">-->
+									<!--<h2>Quote Of The Day</h2>-->
+									<!--<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit,-->
+										<!--sed do eiumid tempor incididunt ut labore et dolore magna-->
+										<!--aliqua.-->
+									<!--</p>-->
+									<!--&lt;!&ndash; <img src="images/quote-of-day-img1.png" alt=""> &ndash;&gt;-->
+								<!--</div>-->
+							<!--</div>-->
+						<!--</div>-->
+					<!--</div>-->
+				<!--</section>-->
+
+
+				<div class="oe_structure" />
+
+<!--				<section class="featured-products-section">-->
+<!--					<div class="container">-->
+<!--						<div class="row">-->
+<!--							<div class="col-12">-->
+<!--								<div class="section-headign">-->
+<!--									<h2 class="wpb_heading">-->
+<!--										<span class="sub_heading">Best Collection of</span>-->
+<!--										featured products-->
+<!--									</h2>-->
+<!--								</div>-->
+<!--							</div>-->
+<!--						</div>-->
+<!--						<div class="row">-->
+<!--							<div class="col-12 col-sm-6 col-md-3">-->
+<!--								<div class="product-item">-->
+<!--									<div class="product-item-box">-->
+<!--										<div class="product-img">-->
+<!--											<a href="http://demotasks.com/product-detail.html">-->
+<!--												<img-->
+<!--													src="/elephase_snippets/static/src/images/product-img1.jpg"-->
+<!--													alt="" />-->
+<!--											</a>-->
+<!--											<div class="product-label">-->
+<!--												<span class="sale">Sale</span>-->
+<!--											</div>-->
+<!--										</div>-->
+<!--										<div class="product-content">-->
+<!--											<div class="product-rating">-->
+<!--												<i class="fa fa-star" aria-hidden="true"></i>-->
+<!--												<i class="fa fa-star" aria-hidden="true"></i>-->
+<!--												<i class="fa fa-star" aria-hidden="true"></i>-->
+<!--												<i class="fa fa-star" aria-hidden="true"></i>-->
+<!--												<i class="fa fa-star" aria-hidden="true"></i>-->
+<!--											</div>-->
+<!--											<h3>-->
+<!--												<a href="javascript:;">Simple Product 010</a>-->
+<!--											</h3>-->
+<!--										</div>-->
+<!--									</div>-->
+<!--								</div>-->
+<!--							</div>-->
+<!--							<div class="col-12 col-sm-6 col-md-3">-->
+<!--								<div class="product-item">-->
+<!--									<div class="product-item-box">-->
+<!--										<div class="product-img">-->
+<!--											<a href="http://demotasks.com/product-detail.html">-->
+<!--												<img-->
+<!--													src="/elephase_snippets/static/src/images/product-img1.jpg"-->
+<!--													alt="" />-->
+<!--											</a>-->
+
+<!--										</div>-->
+<!--										<div class="product-content">-->
+<!--											<div class="product-rating">-->
+<!--												<i class="fa fa-star" aria-hidden="true"></i>-->
+<!--												<i class="fa fa-star" aria-hidden="true"></i>-->
+<!--												<i class="fa fa-star" aria-hidden="true"></i>-->
+<!--												<i class="fa fa-star" aria-hidden="true"></i>-->
+<!--												<i class="fa fa-star" aria-hidden="true"></i>-->
+<!--											</div>-->
+<!--											<h3>-->
+<!--												<a href="javascript:;">Simple Product 010</a>-->
+<!--											</h3>-->
+<!--										</div>-->
+<!--									</div>-->
+<!--								</div>-->
+<!--							</div>-->
+<!--							<div class="col-12 col-sm-6 col-md-3">-->
+<!--								<div class="product-item">-->
+<!--									<div class="product-item-box">-->
+<!--										<div class="product-img">-->
+<!--											<a href="http://demotasks.com/product-detail.html">-->
+<!--												<img-->
+<!--													src="/elephase_snippets/static/src/images/product-img1.jpg"-->
+<!--													alt="" />-->
+<!--											</a>-->
+
+<!--										</div>-->
+<!--										<div class="product-content">-->
+<!--											<div class="product-rating">-->
+<!--												<i class="fa fa-star" aria-hidden="true"></i>-->
+<!--												<i class="fa fa-star" aria-hidden="true"></i>-->
+<!--												<i class="fa fa-star" aria-hidden="true"></i>-->
+<!--												<i class="fa fa-star" aria-hidden="true"></i>-->
+<!--												<i class="fa fa-star" aria-hidden="true"></i>-->
+<!--											</div>-->
+<!--											<h3>-->
+<!--												<a href="javascript:;">Simple Product 010</a>-->
+<!--											</h3>-->
+<!--										</div>-->
+<!--									</div>-->
+<!--								</div>-->
+<!--							</div>-->
+<!--							<div class="col-12 col-sm-6 col-md-3">-->
+<!--								<div class="product-item">-->
+<!--									<div class="product-item-box">-->
+<!--										<div class="product-img">-->
+<!--											<a href="http://demotasks.com/product-detail.html">-->
+<!--												<img-->
+<!--													src="/elephase_snippets/static/src/images/product-img1.jpg"-->
+<!--													alt="" />-->
+<!--											</a>-->
+<!--											<div class="product-label">-->
+<!--												<span class="featured">Hot</span>-->
+<!--											</div>-->
+<!--										</div>-->
+<!--										<div class="product-content">-->
+<!--											<div class="product-rating">-->
+<!--												<i class="fa fa-star" aria-hidden="true"></i>-->
+<!--												<i class="fa fa-star" aria-hidden="true"></i>-->
+<!--												<i class="fa fa-star" aria-hidden="true"></i>-->
+<!--												<i class="fa fa-star" aria-hidden="true"></i>-->
+<!--												<i class="fa fa-star" aria-hidden="true"></i>-->
+<!--											</div>-->
+<!--											<h3>-->
+<!--												<a href="javascript:;">Simple Product 010</a>-->
+<!--											</h3>-->
+<!--										</div>-->
+<!--									</div>-->
+<!--								</div>-->
+<!--							</div>-->
+
+<!--						</div>-->
+<!--					</div>-->
+<!--				</section>-->
+
+				<div class="oe_structure" />
+
+				<section class="gallery-img-section">
+					<div class="container">
+						<div class="row">
+							<div class="col-12">
+								<div class="gallery-list">
+									<div class="gallery-left">
+										<div class="gallery-box height-full">
+											<img
+												src="/elephase_snippets/static/src/images/gallery-img1.jpg"
+												alt="" />
+											<div class="gallery-hover">
+												<a href="#">Category</a>
+											</div>
+										</div>
+									</div>
+									<div class="gallery-right">
+										<div class="gallery-box width-full">
+											<img
+												src="/elephase_snippets/static/src/images/gallery-img2.jpg"
+												alt="" />
+											<div class="gallery-hover">
+												<a href="#">Promotional</a>
+											</div>
+										</div>
+										<div class="gallery-box">
+											<img
+												src="/elephase_snippets/static/src/images/gallery-img3.jpg"
+												alt="" />
+											<div class="gallery-hover">
+												<a href="#">Brand name 1</a>
+											</div>
+										</div>
+										<div class="gallery-box">
+											<img
+												src="/elephase_snippets/static/src/images/gallery-img4.jpg"
+												alt="" />
+											<div class="gallery-hover">
+												<a href="#">Brand name 2</a>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</section>
+
+				<div class="oe_structure" />
+				
+
+			</xpath>
+		</template>
+
+	</data>
+</openerp>

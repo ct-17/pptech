@@ -1,0 +1,28 @@
+ .sort .control-label {border: 1px solid rgb(204, 204, 204); padding: 6px; box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.075) inset; border-radius: 5px 0px 0px 5px; font-weight: 400; background: rgb(238, 238, 238) none repeat scroll 0% 0%;
+font-size: 14px;}
+.sort .form-control {border-left: medium none; border-radius: 0px 5px 5px 0px; position: relative; left: -4px;}
+
+.sort-by-label {
+    background:none!important;
+    border:none!important;
+    box-shadow:none!important;
+    width:130px!important;
+
+    /*margin-left:3px;*/
+}
+
+.sort-by-dropdown {
+    border:1px dashed rgba(0, 0, 0, .5)!important;
+}
+
+.sort-by-form {
+    border:none!important;
+}
+
+.filter-by-label{
+    background:none!important;
+    border:none!important;
+    box-shadow:none!important;
+    width:170px!important;
+    margin-left:3px;
+}

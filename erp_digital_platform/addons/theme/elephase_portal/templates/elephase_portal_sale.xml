@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+
+    <template id="quotations" name="Quotations">
+        <section class="inner-section summary-page">
+	    	<div class="container">
+	            <div class="row">
+	            	<div class="col-12">
+	                    <nav class="breadcrumb-part">
+	                      <ol class="breadcrumb">
+	                        <li class="breadcrumb-item"><a href="/my/home">Home</a></li>
+	                        <li class="breadcrumb-item active" aria-current="page">Request History</li>
+	                      </ol>
+	                    </nav>
+	                </div>
+	            </div>
+	            <div class="row">
+				   <div class="col-12 col-md-3">
+				      <div class="left-sidebar">
+				         <div class="edit-profile">
+				            <span class="user-img"><i class="fa fa-user" aria-hidden="true"></i></span>
+				            <h2 t-esc="request.env.user.partner_id.name"/>
+				            <a href="/my/account"><i class="fa fa-pencil" aria-hidden="true"></i> Edit Profile</a>
+				         </div>
+				         <ul>
+				            <li><a href="/my/home">My Profile</a></li>
+				            <li class="active"><a href="/my/home/quotations">My Enquiry</a></li>
+				         </ul>
+				      </div>
+				   </div>
+				   <div class="col-12 col-md-9">
+						<div t-if="not quotations" class="my-enquiry-box">
+						   <div class="table-responsive">
+						      <h2>There are currently no Enquiry for your account.</h2>
+						   </div>
+						</div>
+						<t t-if="quotations">
+							<div class="my-enquiry-box" t-foreach="quotations" t-as="quotation">
+							   <div t-att-class="'hidden to_hide table-responsive' if quotation_index &gt; 4 else 'table-responsive'">
+							      <h2>Enquiry #<t t-esc="quotation.name"/> <span>Placed on &amp;nbsp;<span t-field="quotation.create_date" t-field-options='{"widget": "datetime"}'/></span></h2>
+							      <table class="table cart">
+							         <tbody>
+							            <tr class="cart_item" t-foreach="quotation.order_line" t-as="order_line">
+							               <td class="cart-product-thumbnail">
+							               		<a itemprop="url"
+													href="Javascript:;">
+													<img itemprop="image" class="img img-responsive"
+														t-att-src="website.image_url(order_line.product_id, 'image', '64x64')"
+														t-att-alt="order_line.product_id.name" />
+												</a>
+							               </td>
+							               <td class="cart-product-name">
+							                  <a href="Javascript:;"><t t-esc="order_line.product_id.name"/></a>
+							               </td>
+							               <td class="quantity">
+							                  <div class="qty-enquiry">
+							                     Qty: <b> <t t-esc="order_line.product_uom_qty"/></b>
+							                  </div>
+							               </td>
+							               <td class="cart-product-remove">
+							                  <a href="Javascript:;" class="btn">Shipping</a>
+							               </td>
+							            </tr>
+							         </tbody>
+							      </table>
+							   </div>
+							</div>
+							<br/>
+							<div t-att-class="'hidden' if len(quotations) &lt; 5 else ''">
+								<div colspan="5"><a href="" class="o_my_show_more btn btn-xs btn-default"><span>Show more</span><span class="hidden">Show less</span></a></div>
+		                    </div>
+						</t>
+				   </div>
+				</div>
+			</div>
+		</section>
+        
+    </template>
+
+    <template id="quotations_only" name="Quotations">
+        <t t-call="website.layout">
+            <t t-call="elephase_portal.breadcrum_image">
+	            <t t-set="breadcrum_title" t-value="'Request History'"/>
+	        </t>
+			<t t-call="elephase_portal.quotations"/>
+        </t>
+    </template>
+
+</data>
+</openerp>

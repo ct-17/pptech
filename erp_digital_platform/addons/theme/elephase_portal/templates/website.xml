@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <data>
+
+    <template id="assets_frontend" inherit_id="website.assets_frontend" name="Account Manager">
+      <xpath expr="." position="inside">
+          <link href="/elephase_portal/static/src/css/style.css" rel="stylesheet" type="text/css" />
+          <script type="text/javascript" src="/elephase_portal/static/src/js/website_portal.js"></script>
+          <script type="text/javascript" src="/elephase_portal/static/src/js/website_portal_sale.js"/>
+      </xpath>
+    </template>
+
+    <template id="my_account_link" name="Link to frontend portal" inherit_id="elephase_base.theme_header">
+        <xpath expr="//ul[@class='dropdown-menu js_usermenu']/li[1]" position="before">
+			<li><a href="/my/home" role="menuitem">My Account</a></li>
+			<li class="divider"/>
+        </xpath>
+    </template>
+
+  </data>
+</openerp>

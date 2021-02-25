@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+   <data>
+
+       <template id="custom_report_payment_document">
+            <t t-call="report.html_container">
+                <t t-name="report.my_layout">
+					<div class="page" style="margin: 60px;">
+        			<t t-set="payment_id" t-value="get_payment_info(docs)" />
+        			<t t-set="company_id" t-value="get_company_info(docs)" />
+            		<t t-set="customer_id" t-value="get_customer_info(docs)" />
+                	<t t-set="payment_lines_ids" t-value="get_payment_lines(docs)" />
+                	<br/>
+        			<table width="100%" style="margin-top:50px;border: 1px solid #000;border-spacing: inherit;">
+			            <tbody>
+			                <tr>
+			                    <td width="40%" align="left" style="border-right:1px solid #000;padding:5px 20px 20px 20px!important;">
+			                        <img t-if="company.logo" t-att-src="'data:image/png;base64,%s' % company.logo" style="max-width: 100px;width: 100%;display:inline-block" />
+			                        <br/>
+			                        <b t-if="company_id.name"><p style="font-size: 16px;margin-bottom:5px; font-weight: bold;" t-esc="company_id.name" /></b>
+									<p class="c_info">
+									<t t-if="company_id.street2"><t t-esc="company_id.street2" /></t>
+									<br/>
+									<t t-if="company_id.city"><t t-esc="company_id.city" />,</t>
+									<t t-if="company_id.state_id"><t t-esc="company_id.state_id.name" />,</t>
+									<t t-if="company_id.country_id"><t t-esc="company_id.country_id.name" /></t>,
+										<t t-if="company_id.fax"><t t-esc="company_id.fax" /></t>
+									<br/>
+									<t t-if="company_id.phone">Tel: <t t-esc="company_id.phone" /> / </t>
+									<t t-if="company_id.mobile"><t t-esc="company_id.mobile" /></t>
+									</p>
+									</td>
+			                    <td width="20%" align="center" style="padding: 0px 20px 20px 20px;border-right:1px solid #000">
+			                        <h1 style="margin-top:0px;margin-bottom:0px;font-size:64px">X</h1>
+			                        <p style="color: #8e8e8e;font-size:14px">DOCUMENTO NO VALIDO COMO FACTURA</p>
+			                    </td>
+			                    <td width="40%" style="text-align:center;padding: 0px 20px 20px 20px !important;">
+			                        <table style="width: 100%;">
+			                            <tbody>
+			                                <tr align="center">
+			                                    <td colspan="2">
+			                                        <h2 style="margin-top:0px;margin-bottom:0px;font-size:38px">RECIBO</h2>
+			                                    </td>
+			                                </tr>
+			                                <tr>
+			                                    <td colspan="2" style="text-align: center;">
+			                                        <h4><t t-esc="payment_id.number" /></h4></td>
+			                                </tr>
+			                                <tr>
+			                                    <td colspan="2" style="text-align: center;">ORIGINAL<p/><p/><p/></td>
+			                                </tr>
+			                                <tr>
+			                                    <td align="left">FECHA</td>
+			                                    <td align="right"><span t-field="payment_id.date" t-field-options="{&quot;format&quot;: &quot;dd/MM/yyyy&quot;}"/></td>
+			                                </tr>
+			                                <tr>
+			                                    <td align="left">RTN</td>
+			                                    <td align="right"><t t-esc="company_id.rtn_no" /></td>
+			                                </tr>
+			                            </tbody>
+			                        </table>
+			                    </td>
+			                </tr>
+			            </tbody>
+			        </table>
+			        <table width="100%" style="border: 1px solid #000;border-top: none;">
+			            <tbody>
+			                <!-- =========== -->
+			                <tr>
+			                    <td>
+									<div style="padding:20px !important">      
+									                  SPS, <span t-if="payment_id.date" t-field="payment_id.date" t-field-options='{"format": "d MMMM y"}'/>
+									</div>
+			                    </td>
+			                </tr>
+			                <tr>
+			                    <td>
+									<div style="padding:20px !important">
+			      					<h4 style="margin: 0;font-weight: 400;"><span style="color: #8e8e8e;">RECIBIMOS DE</span> <t t-esc="customer_id.name"/></h4><p style="margin:0px;"><span style="color: #8e8e8e;">LA CANTIDAD DE</span> <t t-esc="payment_id.amount_words" /></p>
+			                        <table style="margin: 30px 0px;" width="100%">
+			                            <tbody>
+			                                <tr>
+			                                    <td><span style="color: #8e8e8e;">MEDIANTE</span></td>
+			                                </tr>
+			                                <tr>
+			                                    <td align="left"><t t-esc="payment_id.journal_id.name"/></td>
+			                                    <td align="right"><b><t t-esc="payment_id.currency_id.symbol"/><t t-esc="payment_id.amount"/></b></td>
+			                                </tr>
+			                            </tbody>
+			                        </table>
+									</div>
+			                    </td>
+			                </tr>
+			                <!-- =========== -->
+			                <tr>
+			                    <td>
+									<div style="padding:0px 20px !important">
+			    					<table width="100%">
+			                            <tbody>
+			
+			                                <tr>
+			                                    <td><span style="color: #8e8e8e;">EN CONCEPTO DE</span>
+			                                        <br/>Abono a la Factura No <t t-esc="payment_id.reference"/></td>
+			                                </tr>
+			                                <tr>
+			                                    <td>
+			                                        <table style="margin: 70px 0px;" width="100%">
+			                                            <tbody>
+			                                                <tr>
+			                                                    <td align="left">
+			                                                    	<br/>
+			                                                    	<br/>
+			                                                    	<br/>
+			                                                    	<br/>
+			                                                    	<br/>
+			                                                    	<br/>
+			                                                    	<br/>
+			                                                    <span style="color: #8e8e8e;">SON</span> : <b><t t-esc="payment_id.currency_id.symbol"/><t t-esc="payment_id.amount"/></b>
+			                                                    	<br/>
+			                                                    	<br/>
+			                                                    </td>
+			                                                </tr>
+			                                            </tbody>
+			                                        </table>
+			                                    </td>
+			                                </tr>
+			                               	<tr>
+                                                   <td align="left" style="border-top: 1px solid #000;width: 10%;padding-top: 10px;padding-bottom: 20px;"><t t-esc="payment_id.name"/></td>
+                                                      <!--  <td style="border-color:#ffffff;"></td>-->
+                                                   <td width="70%"></td>
+                                                    <td align="right" style="border-top: 1px solid #000;width: 30%;padding-top: 10px;padding-bottom: 20px;"> Norma Gutierrez</td>
+    			                              </tr>
+			                            </tbody>
+			                        </table>
+									</div>
+			                    </td>
+			                </tr>
+			            </tbody>
+			        </table>
+			    </div>
+                </t>
+            </t>
+       </template>
+
+       <template id="custom_report_payment">
+            <t t-call="report.html_container">
+                <t t-foreach="doc_ids" t-as="doc_id">
+                    <t t-raw="translate_doc(doc_id, doc_model, 'partner_id.lang', 'awesome_invoice_report_template.custom_report_payment_document')"/>
+                </t>
+            </t>
+        </template>
+
+</data>
+</openerp>

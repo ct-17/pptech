@@ -1,0 +1,54 @@
+<openerp>
+    <data>
+        <record model="ir.ui.view" id="custom_port_tree_id">
+            <field name="name">custom.port.tree</field>
+            <field name="model">custom.port</field>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="port_reference_num"/>
+                    <field name="country_code"/>
+                    <field name="country_id"/>
+                    <field name="country_reference_num"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="custom_port_form_id">
+            <field name="name">custom.port.form</field>
+            <field name="model">custom.port</field>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="action_import_custom_port" string="Import Custom Port"
+                                type="object" groups="dp_common.group_super_admin"/>
+                    </header>
+                    <group>
+                        <field name="name"/>
+                        <field name="code"/>
+                        <field name="port_reference_num"/>
+                        <field name="country_code"/>
+                        <field name="country_id"/>
+                        <field name="country_reference_num"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_view_custom_port">
+            <field name="name">Port</field>
+            <field name="res_model">custom.port</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem name="Port"
+            id="base_menu_port"
+            sequence="2"
+            action="action_view_custom_port"
+            parent="base.menu_base_config" groups="dp_common.group_super_admin"/>
+    </data>
+</openerp>

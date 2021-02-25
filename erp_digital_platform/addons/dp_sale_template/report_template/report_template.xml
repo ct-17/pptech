@@ -1,0 +1,30 @@
+<openerp>
+    <data>
+        <report
+            id="order_entry_pdf"
+            model="sale.order"
+            string="Draft Purchase Order (PDF)"
+            menu="True"
+            report_type="qweb-pdf"
+            name="dp_sale_template.np_sale_order_body_template"
+            file="dp_sale_template.np_sale_order_body_template"
+            attachment="'draft_purchase_order_'+ object.name"/>
+
+
+        <!--  ___                               _ _         ____                 -->
+        <!-- / _ \__   _____ _ ____      ___ __(_) |_ ___  | __ )  __ _ ___  ___ -->
+        <!--| | | \ \ / / _ \ '__\ \ /\ / / '__| | __/ _ \ |  _ \ / _` / __|/ _ \-->
+        <!--| |_| |\ V /  __/ |   \ V  V /| |  | | ||  __/ | |_) | (_| \__ \  __/-->
+        <!-- \___/  \_/ \___|_|    \_/\_/ |_|  |_|\__\___| |____/ \__,_|___/\___|-->
+        <!--overwrite base with menu = false to remove Print dropdown-->
+        <report
+            id="sale.report_sale_order"
+            string="Quotation / Order"
+            menu="False"
+            model="sale.order"
+            report_type="qweb-pdf"
+            file="sale.report_saleorder"
+            name="sale.report_saleorder"
+        />
+    </data>
+</openerp>

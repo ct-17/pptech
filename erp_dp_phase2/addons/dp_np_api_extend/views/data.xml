@@ -1,0 +1,38 @@
+<openerp>
+    <data>
+        <record id="erp_data_sync_action_priority_create" model="erp.data.sync.action.priority">
+            <field name="name">create</field>
+            <field name="priority">1</field>
+        </record>
+
+        <record id="erp_data_sync_action_priority_write" model="erp.data.sync.action.priority">
+            <field name="name">write</field>
+            <field name="priority">2</field>
+        </record>
+
+        <record id="erp_data_sync_action_priority_unlink" model="erp.data.sync.action.priority">
+            <field name="name">unlink</field>
+            <field name="priority">3</field>
+        </record>
+
+
+
+        <record id="erp_data_sync_action_priority_vessel_type" model="erp.data.sync.upgrade.priority">
+            <field name="name">vessel.type</field>
+            <field name="description">Vessel Type</field>
+            <field name="priority">10</field>
+        </record>
+
+        <record id="erp_data_sync_action_priority_shipping_agent" model="erp.data.sync.upgrade.priority">
+            <field name="name">shipping.agent</field>
+            <field name="description">Shipping Agent</field>
+            <field name="priority">20</field>
+        </record>
+
+        <record id="erp_data_sync_action_priority_vessel_name" model="erp.data.sync.upgrade.priority">
+            <field name="name">vessel.name</field>
+            <field name="description">Vessel Name</field>
+            <field name="priority">90</field>
+        </record>
+    </data>
+</openerp>

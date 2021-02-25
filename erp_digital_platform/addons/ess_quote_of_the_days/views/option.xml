@@ -1,0 +1,11 @@
+<openerp>
+    <data>
+        <template id="quote-of-day-section_opt" name="Snippet Testimonial Options" inherit_id="website_less.snippet_options">
+            <xpath expr="//div[@data-js='background']" position="after">
+                <div data-selector=".quote-of-day-section" data-js="quote_of_the_days_options"> <!-- Options group -->
+
+                </div>
+            </xpath>
+         </template>
+    </data>
+</openerp>

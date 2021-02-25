@@ -1,0 +1,114 @@
+<openerp>
+    <data>
+        <!--COMMON NOTES FOR DEVELOPER-->
+
+
+        <!--All templates are in sequence as per 'New Port_BUYTAXFREE_URD_v5.0.pdf' -->
+
+        <!--As there is no fully workflow developed and not enough columns created so here mentioned model and columns names need to change accordingly workflow.-->
+        <!--And below model or column used for test purpose so please don't confuse and change accordingly.-->
+        <!--Also please make sure you read each template comments and its purpose.-->
+        <!--Created two methods as sample in Sale/Purchase order model, one is without attachment and with attachment email template (tmp_send_mail, tmp_attached_send_mail) use accordingly-->
+
+        <!--user_id :- consider as Chandler in saleorder model -->
+        <!--partner_id :- consider as Shipmaster in saleorder model -->
+        <!--user.email :- consider as [current login or super user] in all model -->
+
+        <!--Confirmed order placement of Ship Chandler-->
+        <!--Notification email to Ship Chandler upon Chandler’s confirmed order placement-->
+
+        <!--Consider partner_id as chandler and newport sales-->
+        <!--Here partner_id consider as Chandler please replace with other column accordingly your workflow-->
+        <!--Don't forgot to add attachment-->
+        <record id="confirm_chandler_quote_to_chandler_email" model="email.template">
+            <field name="name">confirm_chandler_quote_to_shipmaster_email</field>
+            <field name="subject">BTF: purchase order ${object.name} sent successfully to New Port Duty Free Pte Ltd</field>
+            <field name="lang">${user.lang}</field>
+            <field name="model_id" ref="purchase.model_purchase_order"/>
+            <field name="email_from">${user.email|safe}></field>
+            <field name="email_to">${object.purchaser.email |safe}</field>
+            <!--<field name="report_template" ref="dp_purchase_template.purchase_order_pdf"/>-->
+            <field name="report_name">${(object.name or '').replace('/','_')}</field>
+            <field name="body_html"><![CDATA[
+            <p>Dear ${object.purchaser.name},</p>
+            <p>You have sent a purchase order <b>${object.name}</b> to New Port.</p>
+            <p>Please view attachment for the Purchase Order.</p>
+            <p>Thank you,</p>
+            <p>BUYTAXFREE</p>
+            <p>www.buytaxfree.com.sg</p>
+            <p>
+                <i>This is an automatically generated message. Please do not reply to this address. You may not use, reproduce, or transfer this message or its content into any medium without the written permission of BUYTAXFREE.</i>
+            </p>
+                ]]></field>
+        </record>
+
+        <!--Notification email to New Port upon Chandler’s confirmed order placement-->
+
+        <!--In subject use fix chandler name 'CHANDLER 1' please replace with specific column name once define chandler column -->
+        <!--In subject and body content use fix quotation name as 'SQ000001' please change accordingly your workflow as this info will comes from NewPort.-->
+        <!--Here in this template used purchase order object please change accordingly in case you want to change-->`
+        <!--partner_id consider as Newport partner field in case you want to change pls change.-->
+        <!--Attach PO report from DigitalPlatform and New created SQ report from NewPort-->
+        <!--Last here need to generate URL for NewPort to redirect NewPort_SaleQuotation-->
+        <!--'New Port Sales,' This static content no need to change as per Esther advice.-->
+        <record id="confirm_chandler_quote_to_newport_email" model="email.template">
+            <field name="name">confirm_chandler_quote_to_newport_email</field>
+            <field name="subject">BTF: Purchase order ${object.name} received</field>
+            <field name="lang">${user.lang}</field>
+            <field name="model_id" ref="purchase.model_purchase_order"/>
+            <field name="email_from">admin@buytaxfree.com.sg</field>
+            <field name="email_to">${object.get_np_sales_email()}</field>
+            <field name="email_cc">${object.get_btf_support_email()}</field>
+            <field name="report_name"></field>
+            <field name="report_template"/>
+            <field name="body_html"><![CDATA[
+            <p>Dear New Port Sales,</p>
+            <p>You have received a purchase order <b>${object.name}</b> from ${object.dest_address_id.name}.</p>
+            <p>Please view attachment for the Purchase Order.</p>
+            <p>Thank you,</p>
+            <p>BUYTAXFREE</p>
+            <p>www.buytaxfree.com.sg</p>
+            <p>
+                <i>This is an automatically generated message. Please do not reply to this address. You may not use, reproduce, or transfer this message or its content into any medium without the written permission of BUYTAXFREE.</i>
+            </p>
+                ]]></field>
+        </record>
+
+        <record id="btf_sales_confirm_order_email_send_to_shipmaster_email" model="email.template">
+            <field name="name">btf_sales_confirm_order_email_send_to_shipmaster_email</field>
+            <field name="subject">BTF: Order ${object.name} has been processed.</field>
+            <field name="lang">${user.lang}</field>
+            <field name="email_from">admin@buytaxfree.com.sg></field>
+            <field name="email_to">${object.dest_address_id.email |safe}</field>
+            <field name="report_template" />
+            <field name="report_name"></field>
+            <field name="model_id" ref="purchase.model_purchase_order"/>
+            <field name="body_html"><![CDATA[
+            <!DOCTYPE html>
+                <html lang="en">
+                    <head>
+                      <meta charset="utf-8">
+                      <meta name="viewport" content="width=device-width, initial-scale=1">
+                      <style type="text/css">
+                        thead{background-color: #cccccc;}
+                        table {border-collapse: collapse;}
+                        table, td, th {border: 1px solid black;}
+                        table { border-collapse: collapse; empty-cells: show; }
+                      </style>
+                    </head>
+                    <body>
+                        <p> Dear ${object.dest_address_id.name},</p>
+                        <p> Your order has been processed. Please view attachment for the Purchase Order for your reference.</p>
+                        <p> If you wish to make any amendments, please contact us directly at 6278 9196. </p>
+                        <p>Thank you,</p>
+                        <p>BUYTAXFREE</p>
+                        <p>www.buytaxfree.com.sg</p>
+                        <p>
+                            <i>This is an automatically generated message. Please do not reply to this address. You may not use, reproduce, or transfer this message or its content into any medium without the written permission of BUYTAXFREE.</i>
+                        </p>
+                    </body>
+                </html>
+                ]]></field>
+        </record>
+    </data>
+</openerp>

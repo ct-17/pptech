@@ -1,0 +1,46 @@
+<openerp>
+    <data>
+        <record model="ir.ui.view" id="inherit_sale_order_add_fields_inherit">
+            <field name="name">sale.order.add.fields.inherit</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref = "dp_base.inherit_sale_order_add_fields"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='vessel_name']" position="after">
+                    <field name="other_vessel_name" attrs="{'readonly': [('state', 'in', ('progress','cancel'))]}"/>
+                </xpath>
+                <xpath expr="//field[@name='shipping_agent_id']" position="after">
+                    <field name="other_shipping_agent" attrs="{'readonly': [('state', 'in', ('progress','cancel'))]}"/>
+                </xpath>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="inherit_sale_order_add_fields_inherit_extend">
+            <field name="name">sale.order.add.fields.inherit.extend</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref = "sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group[@name='sale_pay']/field[@name='company_id']" position="before">
+                    <field name="order_remarks" attrs="{'readonly': [('state', 'in', ('progress','cancel'))]}"/>
+                    <field name="order_contact_person" attrs="{'readonly': [('state', 'in', ('progress','cancel'))]}"/>
+                    <field name="order_mobile_number" attrs="{'readonly': [('state', 'in', ('progress','cancel'))]}"/>
+                </xpath>
+                <xpath expr="//group[@name='sale_pay']/field[@name='payment_term']" position="attributes">
+                    <attribute name="readonly"> [('state', 'in', ('progress','cancel'))]</attribute>
+                </xpath>
+                <xpath expr="//group[@name='sale_pay']/field[@name='fiscal_position']" position="attributes">
+                    <attribute name="readonly"> [('state', 'in', ('progress','cancel'))]</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_order_form_inherit_extend">
+            <field name="name">view.order.form.inherit.extend</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref = "sale_stock.view_order_form_inherit"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group[@name='logistics']/field[@name='incoterm']" position="attributes">
+                    <attribute name="readonly"> [('state', 'in', ('progress','cancel'))]</attribute>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</openerp>

@@ -1,0 +1,14 @@
+<openerp>
+    <data>
+        <template id="assets_frontend" name="website assets for Frontend" inherit_id="website.assets_frontend">
+            <xpath expr="." position="inside">
+                <link rel="stylesheet" href='/dp_website_extend/static/src/less/website.less'/>
+            </xpath>
+        </template>
+        <template id="dp_website_extend_layout" inherit_id="website.layout" name="dp_website_extend layout" priority="17">
+            <xpath expr="//head//link" position="after">
+                <link rel="shortcut icon" href="/dp_website_extend/static/src/img/NEW_Buytaxfree_-_logo__ICON_-01.ico" type="image/x-icon"/>
+            </xpath>
+        </template>
+    </data>
+</openerp>

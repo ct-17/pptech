@@ -1,0 +1,8 @@
+id,name,model_id/id,group_id/id,perm_read,perm_write,perm_create,perm_unlink
+indicator_config_chandler_superadmin,indicator.config,model_indicator_config,dp_common.group_super_admin,1,1,1,1
+indicator_config_chandler_admin,indicator.config,model_indicator_config,dp_common.group_chandler_admin,1,1,1,1
+indicator_config_chandler,indicator.config,model_indicator_config,dp_common.group_chandler,1,1,0,0
+indicator_config_public,indicator.config,model_indicator_config,base.group_public,1,1,0,0
+indicator_config_warehouse_admin,indicator.config,model_indicator_config,stock.group_stock_manager,1,1,1,1
+indicator_config_shipmaster,indicator.config,model_indicator_config,dp_common.group_shipmaster,1,0,0,0
+indicator_config_public,indicator.config,model_indicator_config,base.group_public,0,0,0,0

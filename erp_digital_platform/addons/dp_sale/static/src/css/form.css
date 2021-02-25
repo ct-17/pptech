@@ -1,0 +1,30 @@
+@charset "UTF-8";
+
+.openerp .oe_form_readonly .oe_list_content   th[data-id='update_item_type']{
+  display: none !important; ;
+}
+.openerp .oe_form_readonly .oe_list_content td[data-field='update_item_type']{
+  display: none !important; ;
+}
+
+/*.openerp div.oe_searchview_unfold_drawer {*/
+/*  display: none !important;*/
+/*}*/
+
+.special_label::after{
+  content: none;
+  display: none;
+}
+
+.dp_send_noconfirm {}
+.dp_send_again_noconfirm {}
+.dp_send_again_confirm {}
+.dp_send_confirm {}
+
+.oe_list_editable>table>thead>tr>th[data-id="currency_and_rate"] {
+  max-width: 70px!important;
+}
+
+.openerp .oe_form .oe_subtotal_footer label.tax_label {
+  font-weight: bold !important;
+}

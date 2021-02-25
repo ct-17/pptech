@@ -1,0 +1,17 @@
+id,name,model_id/id,group_id/id,perm_read,perm_write,perm_create,perm_unlink
+model_erp_data_sync_chandler_admin,erp.data.sync,model_erp_data_sync,dp_common.group_chandler_admin,1,1,1,1
+model_erp_data_sync_super_admin,erp.data.sync,model_erp_data_sync,dp_common.group_super_admin,1,1,1,1
+model_erp_data_sync_action_priority_chandler_admin,erp.data.sync.action.priority,model_erp_data_sync_action_priority,dp_common.group_chandler_admin,1,1,1,1
+model_erp_data_sync_action_priority_super_admin,erp.data.sync.action.priority,model_erp_data_sync_action_priority,dp_common.group_super_admin,1,1,1,1
+model_erp_data_sync_upgrade_priority_chandler_admin,erp.data.sync.upgrade.priority,model_erp_data_sync_upgrade_priority,dp_common.group_chandler_admin,1,1,1,1
+model_erp_data_sync_upgrade_priority_super_admin,erp.data.sync.upgrade.priority,model_erp_data_sync_upgrade_priority,dp_common.group_super_admin,1,1,1,1
+model_dp_np_db_field_matrix_chandler_admin,dp.np.db.field.matrix,model_dp_np_db_field_matrix,dp_common.group_chandler_admin,1,0,0,0
+model_dp_np_db_field_matrix_super_admin,dp.np.db.field.matrix,model_dp_np_db_field_matrix,dp_common.group_super_admin,1,1,1,1
+model_dp_np_db_matrix_chandler_admin,dp.np.db.matrix,model_dp_np_db_matrix,dp_common.group_chandler_admin,1,0,0,0
+model_dp_np_db_matrix_super_admin,dp.np.db.matrix,model_dp_np_db_matrix,dp_common.group_super_admin,1,1,1,1
+model_chandler_admin_dp_np_api,dp.np.api,model_dp_np_api,dp_common.group_chandler_admin,1,1,1,1
+model_chandler_admin_dp_np_api_rel,dp.np.api.rel,model_dp_np_api_rel,dp_common.group_chandler_admin,1,1,1,1
+model_web_admin_dp_np_api,dp.np.api.config.web.admin,dp_np_api.model_dp_np_api_config,dp_common_extend.group_web_admin, 1,1,1,0
+model_chand_admin_dp_np_api,dp.np.api.config.chand.admin,dp_np_api.model_dp_np_api_config,dp_common.group_chandler_admin, 1,1,1,0
+model_web_admin_product_public_category,product.public.category.web.admin,website_sale.model_product_public_category,dp_common_extend.group_web_admin, 1,1,1,0
+model_chand_admin_product_public_category,product.public.category.chand.admin,website_sale.model_product_public_category,dp_common.group_chandler_admin, 1,1,1,0

@@ -1,0 +1,13 @@
+<openerp>
+    <data>
+<!--        <report-->
+<!--            id="dp_sale_template.order_entry_pdf"-->
+<!--            model="sale.order"-->
+<!--            string="Order Entry (PDF)"-->
+<!--            menu="True"-->
+<!--            report_type="qweb-pdf"-->
+<!--            name="dp_sale_template.np_sale_order_body_template"-->
+<!--            file="dp_sale_template.np_sale_order_body_template"-->
+<!--            attachment="'draft_order_entry_'+ object.name"/>-->
+    </data>
+</openerp>

@@ -1,0 +1,112 @@
+<openerp>
+    <data>
+        <record id="group_btf_sales" model="res.groups">
+            <field name="name">BTF Sales Group</field>
+        </record>
+        <record id="group_new_chand" model="res.groups">
+            <field name="name">New Chandler Group</field>
+        </record>
+        <record id="dp_sale_extend.dp_shipmaster_request_quotation_my_orders" model="ir.actions.act_window">
+            <field name="name">My Orders</field>
+        </record>
+        <menuitem name="Chandler" id="dp_sale.shipmaster_parent_menu" groups="dp_sale_extend.group_new_chand"/>
+        <record model="ir.ui.menu" id="dp_sale.shipmaster_parent_menu">
+            <field eval="[(6,0, [ref('dp_sale_extend.group_new_chand')])]" name="groups_id"/>
+        </record>
+        <menuitem name="Chandler" id="dp_sale.shipmaster_sub_menu" parent="dp_sale.shipmaster_parent_menu" groups="dp_sale_extend.group_new_chand"/>
+        <record model="ir.ui.menu" id="dp_common.chandler_parent_menu">
+            <field eval="[(6,0, [ref('dp_common.group_chandler_admin')])]" name="groups_id"/>
+        </record>
+        <record model="ir.ui.menu" id="dp_sale.dp_shipmaster_action_menu">
+            <field eval="[(6,0, [ref('dp_common.group_super_admin')])]" name="groups_id"/>
+        </record>
+        <record id="shipmaster_bid_form_view_extend" model="ir.ui.view">
+            <field name="name">dp.base.extend.shipmaster.shipmaster.bid.form.view.extend</field>
+            <field name="model">sale.order</field>
+            <field name="priority">18</field>
+            <field name="inherit_id" ref="dp_sale.shipmaster_bid_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='currency_rate']" position="after">
+                    <field name="po_num" attrs="{'readonly': [('bid_status', 'in', ('done','cancel','cancel_yourself'))]}"/>
+                    <field name="marking_num" attrs="{'readonly': [('bid_status', 'in', ('done','cancel','cancel_yourself'))]}"/>
+                </xpath>
+                <xpath expr="//page[@string='Products']" position="after">
+                    <page string="Other Information">
+                        <group>
+                            <group>
+                                <field name="vessel_name" attrs="{'readonly': [('bid_status', 'in', ('done','cancel','cancel_yourself'))]}" options="{'no_quick_create': True, 'no_create_edit':True, 'no_create': True, 'no_open':True}"/>
+                                <field name="other_vessel_name" attrs="{'readonly': [('bid_status', 'in', ('done','cancel','cancel_yourself'))]}" />
+                                <field name="vessel_id" attrs="{'readonly': [('bid_status', 'in', ('done','cancel','cancel_yourself'))]}" options="{'no_quick_create': True, 'no_create_edit':True, 'no_create': True, 'no_open':True}"/>
+                                <field name="shipping_agent_id" attrs="{'readonly': [('bid_status', 'in', ('done','cancel','cancel_yourself'))]}" options="{'no_quick_create': True, 'no_create_edit':True, 'no_create': True, 'no_open':True}"/>
+                                <field name="other_shipping_agent" attrs="{'readonly': [('bid_status', 'in', ('done','cancel','cancel_yourself'))]}"/>
+                            </group>
+                            <group>
+                                <field name="next_port_id" attrs="{'readonly': [('bid_status', 'in', ('done','cancel','cancel_yourself'))]}"/>
+                                <field name="estimated_arrival" attrs="{'readonly': [('bid_status', 'in', ('done','cancel','cancel_yourself'))]}"/>
+                                <field name="estimated_departure" attrs="{'readonly': [('bid_status', 'in', ('done','cancel','cancel_yourself'))]}"/>
+                                <field name="order_remarks" attrs="{'readonly': [('bid_status', 'in', ('done','cancel','cancel_yourself'))]}"/>
+                                <field name="order_contact_person" attrs="{'readonly': [('bid_status', 'in', ('done','cancel','cancel_yourself'))]}"/>
+                            </group>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+        <record model="ir.ui.menu" id="base.menu_purchase_root">
+            <field eval="[(6,0, [ref('dp_common.group_super_admin')]), (4,[ref('dp_sale_extend.group_btf_sales')]), (4,[ref('dp_common.group_chandler')]), (4,[ref('dp_common.group_chandler_admin')])]" name="groups_id"/>
+        </record>
+        <!--SO Menu Sale Order-->
+        <record model="ir.ui.menu" id="sale.menu_sale_order">
+            <field eval="[(6,0,[ref('dp_sale_extend.group_btf_sales')]), (4,[ref('dp_common.group_super_admin')])]" name="groups_id"/>
+        </record>
+        <!-- SO Menu Quotations-->
+        <record model="ir.ui.menu" id="sale.menu_sale_quotations">
+            <field eval="[(6,0,[ref('dp_sale_extend.group_btf_sales')]), (4,[ref('dp_common.group_super_admin')])]" name="groups_id"/>
+        </record>
+        <record model="ir.ui.menu" id="base.menu_base_partner">
+            <field eval="[(6,0,[ref('dp_sale_extend.group_btf_sales')]), (4,[ref('dp_common.group_chandler_admin')]),
+            (4,[ref('base.group_system')]), (4,[ref('dp_common_extend.group_web_admin')])]" name="groups_id"/>
+        </record>
+        <record model="ir.ui.menu" id="base.menu_sales">
+            <field eval="[(6,0,[ref('dp_sale_extend.group_btf_sales')]), (4,[ref('dp_common.group_chandler_admin')]), (4,[ref('base.group_system')]), (4, [ref('dp_common_extend.group_web_admin')])]" name="groups_id"/>
+        </record>
+        <record model="ir.ui.menu" id="website.menu_website">
+            <field eval="[(6,0, [ref('dp_common.group_super_admin')]), (4, [ref('dp_common.group_shipmaster')]),
+            (4, [ref('dp_common.group_chandler')]),(4, [ref('dp_common.group_chandler_admin')]),
+            (4, [ref('dp_sale_extend.group_btf_sales')]), (4, [ref('dp_common.group_chandler_admin')]),
+            (4, [ref('dp_common_extend.group_web_admin')])]" name="groups_id"/>
+        </record>
+        <record model="ir.ui.menu" id="base.menu_partner_form">
+            <field eval="[(6,0,[ref('base.group_erp_manager')]), (4, [ref('dp_common.group_chandler_admin')]),
+            (4, [ref('dp_common_extend.group_web_admin')])]" name="groups_id"/>
+        </record>
+        <record model="ir.ui.menu" id="product.menu_product_pricelist_main">
+            <field eval="[(6,0,[ref('dp_common.group_chandler_admin')]), (4, [ref('dp_common_extend.group_web_admin')])]" name="groups_id"/>
+        </record>
+        <record model="ir.ui.menu" id="stock.menu_stock_root">
+            <field eval="[(6,0, [ref('base.group_erp_manager')]), (4, [ref('stock.group_stock_manager')]),
+            (4, [ref('dp_common.group_chandler_admin')]), (4, [ref('dp_common_extend.group_web_admin')])]" name="groups_id"/>
+        </record>
+        <record model="ir.ui.menu" id="base.menu_administration">
+            <field eval="[(6,0,[ref('dp_common.group_super_admin')]), (4, [ref('dp_common.group_chandler_admin')]),
+            (4, [ref('dp_common_extend.group_web_admin')])]" name="groups_id"/>
+        </record>
+        <record model="ir.ui.menu" id="base.menu_base_config">
+            <field eval="[(6,0,[ref('base.group_erp_manager')]), (4, [ref('dp_common.group_chandler_admin')]), (4, [ref('dp_common_extend.group_web_admin')])]" name="groups_id"/>
+        </record>
+        <record model="ir.ui.menu" id="product.menu_product_pricelist_action2">
+            <field eval="[(6,0,[ref('dp_common.group_chandler_admin')]), (4, [ref('dp_common_extend.group_web_admin')])]" name="groups_id"/>
+        </record>
+        <record model="ir.ui.menu" id="product.menu_product_price_type">
+            <field eval="[(6,0,[ref('dp_common.group_chandler_admin')]), (4, [ref('dp_common_extend.group_web_admin')])]" name="groups_id"/>
+        </record>
+        <record model="ir.ui.menu" id="base.menu_custom">
+            <field eval="[(4,[ref('dp_common.group_super_admin')]), (4, [ref('dp_common.group_chandler_admin')]),
+            (4, [ref('dp_common_extend.group_web_admin')])]" name="groups_id"/>
+        </record>
+        <record model="ir.ui.menu" id="base.menu_automation">
+            <field eval="[(4,[ref('dp_common.group_super_admin')]), (4, [ref('dp_common.group_chandler_admin')]),
+            (4, [ref('dp_common_extend.group_web_admin')])]" name="groups_id"/>
+        </record>
+    </data>
+</openerp>

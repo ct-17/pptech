@@ -1,0 +1,15 @@
+<openerp>
+     <data>
+        <template id="replace_error_template" inherit_id="website.500">
+            <xpath expr="//html" position="replace">
+                <t t-call="website.layout">
+                    <div id="wrap">
+                      <div>
+                          <img src="/dp_common_extend/static/src/images/maintenance_page-02.jpg"/>
+                      </div>
+                    </div>
+                </t>
+            </xpath>
+        </template>
+    </data>
+</openerp>

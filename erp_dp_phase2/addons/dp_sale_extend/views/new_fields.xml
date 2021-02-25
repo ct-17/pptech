@@ -1,0 +1,35 @@
+<openerp>
+    <data>
+        <record id="dp_base_saleorder_extended_form_view_extend" model="ir.ui.view">
+            <field name="name">dp.base.saleorder.extended.form.view.extend</field>
+            <field name="model">sale.order</field>
+            <field name="priority">17</field>
+            <field name="inherit_id" ref="dp_sale.dp_base_saleorder_extended_form_view" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='partner_id']" position="after">
+                    <field name="po_num" attrs="{'readonly': [('state', 'in', ('progress','cancel'))]}"/>
+<!--                    <field name="so_num" attrs="{'invisible': [('state', 'not in', ('shipmaster_confirm', 'progress', 'done'))]}"/>-->
+                    <field name="marking_num" attrs="{'readonly': [('state', 'in', ('progress','cancel'))]}"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="inherit_sale_order_add_fields_extend">
+            <field name="name">sale.order.tree</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref = "dp_base.inherit_sale_order_add_fields"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='stay_duration']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='last_port_id']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='estimated_arrival']" position="after">
+                    <field name="estimated_departure" options="{'no_quick_create': True, 'no_create_edit':True, 'no_create': True, 'no_open':True}"
+                           readonly="1"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</openerp>

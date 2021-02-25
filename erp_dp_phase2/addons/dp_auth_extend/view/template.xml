@@ -1,0 +1,15 @@
+<openerp>
+    <data>
+        <template id="dp_auth_extend_assets_backend" name="dp_auth_extend_assets_backend" inherit_id="web.assets_backend">
+            <xpath expr="//link[@href='/web/static/src/css/base.css']" position="after">
+                <link rel="stylesheet" type="text/css" href="/dp_auth_extend/static/src/css/assets_backend.css" />
+            </xpath>
+        </template>
+
+        <template id="assets_frontend_chandler_signup" name="website assets for chandler signin template Frontend" inherit_id="website.assets_frontend">
+            <xpath expr="." position="inside">
+                <link rel="stylesheet" href='/dp_auth_extend/static/src/css/assets_frontend.css'/>
+            </xpath>
+        </template>
+    </data>
+</openerp>

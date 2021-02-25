@@ -1,0 +1,12 @@
+<openerp>
+    <data>
+        <template id="dp_sale_extend_assets_backend" name="dp_sale_extend_assets_backend" inherit_id="web.assets_backend">
+            <xpath expr="//link[@href='/web/static/src/css/base.css']" position="after">
+                <link rel="stylesheet" type="text/css" href="/dp_sale_extend/static/src/css/backend_assets.css"/>
+                <script type="text/javascript" src="/dp_sale_extend/static/src/js/warning_no_click.js"/>
+<!--                <script type="text/javascript" src="/dp_sale_extend/static/src/js/backend_assets.js"/>-->
+            </xpath>
+        </template>
+    </data>
+</openerp>
+

@@ -1,0 +1,1268 @@
+<openerp>
+    <data>
+        <!--COMMON NOTES FOR DEVELOPER-->
+
+
+        <!--All templates are in sequence as per 'New Port_BUYTAXFREE_URD_v5.0.pdf' -->
+
+        <!--As there is no fully workflow developed and not enough columns created so here mentioned model and columns names need to change accordingly workflow.-->
+        <!--And below model or column used for test purpose so please don't confuse and change accordingly.-->
+        <!--Also please make sure you read each template comments and its purpose.-->
+        <!--Created two methods as sample in Sale/Purchase order model, one is without attachment and with attachment email template (tmp_send_mail, tmp_attached_send_mail) use accordingly-->
+
+        <!--user_id :- consider as Chandler in saleorder model -->
+        <!--partner_id :- consider as Shipmaster in saleorder model -->
+        <!--user.email :- consider as [current login or super user] in all model -->
+
+        <!--Confirmed request placement of Ship Master-->
+        <record id="confirm_order_from_web_by_shipmaster_email" model="email.template">
+            <field name="name">confirm_order_from_web_by_shipmaster_email</field>
+            <field name="subject">BTF: Your Order ${object.name} has been sent</field>
+            <field name="lang">${user.lang}</field>
+            <field name="model_id" ref="sale.model_sale_order"/>
+            <field name="email_from">admin@buytaxfree.com.sg></field>
+            <field name="email_to">${object.partner_id.email |safe}</field>
+            <field name="body_html"><![CDATA[
+            <p>Dear ${object.partner_id.name},</p>
+            <p>You have placed an Order <a href='${object.get_shipmaster_order_url()}'><b> ${object.name} </b></a> with us.</p>
+            <p>To track your enquiry, simply click “My Enquiry” on the website.</p>
+            <p>Thank you,</p>
+            <p>BUYTAXFREE</p>
+            <p>www.buytaxfree.com.sg</p>
+            <p>
+                <i>This is an automatically generated message. Please do not reply to this address. You may not use, reproduce, or transfer this message or its content into any medium without the written permission of BUYTAXFREE.</i>
+            </p>
+                ]]></field>
+        </record>
+
+        <!--Notification email to Chandler upon Ship’s Master confirmed request placement-->
+        <record id="confirm_order_from_web_by_shipmaster_to_chandler_email" model="email.template">
+            <field name="name">confirm_order_from_web_by_shipmaster_to_chandler_email</field>
+            <field name="subject">BUYTAXFREE ${object.name}: Please Quote</field>
+            <field name="lang">${user.lang}</field>
+            <field name="model_id" ref="sale.model_sale_order"/>
+            <field name="email_from">admin@buytaxfree.com.sg></field>
+            <field name="email_to">${ctx['email_to'] if ctx.get('email_to') else object.user_id.partner_id.email |safe}</field>
+<!--            <field name="email_cc">sales@newport.com.sg</field>-->
+            <field name="body_html">
+                <![CDATA[
+                    <p>Dear ${object.user_id.name},<br><br></p>
+                    <p>You have a Request for Quote ${object.name} from <b>${object.partner_id.name}</b><br><br></p>
+                    <p>Please click on the link to below to quote now.</p>
+                    <ul><li><a href="${object.get_chandler_order_url()}"> ${object.name} </a></li></ul>
+                    <p><br/>Thank you!<br/><br/></p>
+                    <p>Yours Sincerely,</p>
+                    <p>BUYTAXFREE</p>
+                    <p>www.buytaxfree.com.sg</p><br/>
+                    <p>---- This is an automatically generated message. Please do not reply to this address. You may not use, reproduce, or transfer this message or its contents into any medium without the written permission of BUYTAXFREE.</p>
+                ]]>
+            </field>
+        </record>
+
+        <!--Quotation to Ship Master-->
+        <!--Please change end date as per new column-->
+
+        <record id="chendler_send_quotation_to_shipmaster_email" model="email.template">
+            <field name="name">chendler_send_quotation_to_shipmaster_email</field>
+            <field name="subject">${(ctx['subject'])}</field>
+            <field name="lang">${user.lang}</field>
+            <field name="email_from">admin@buytaxfree.com.sg></field>
+            <field name="email_to">${(ctx['chan_email'] if ctx.get('chan_email') else object.partner_id.email |safe)}</field>
+            <field name="model_id" ref="sale.model_sale_order"/>
+            <field name="body_html"><![CDATA[
+            <!DOCTYPE html>
+                <html lang="en">
+                    <head>
+                      <meta charset="utf-8">
+                      <meta name="viewport" content="width=device-width, initial-scale=1">
+                      <style>
+                        thead{background-color: #cccccc;}
+                        table {border-collapse: collapse;}
+                        table, td, th {border: 1px solid black;}
+                      </style>
+                    </head>
+                    <body>
+                        % if ctx.get('chan_email'):
+                        <p> Dear ${object.user_id.partner_id.name},<br><br></p>
+                        <p> You have sent a quotation to <b>${object.partner_id.name }</b>:</p>
+                        % else:
+                        <p> Dear ${object.partner_id.name},<br><br></p>
+                        <p> You have a quotation from <b>${object.user_id.partner_id.name }</b>:</p>
+                        % endif
+                        <p> Quotation: ${object.name} </p>
+                        <p> Quotation valid till: ${format_tz(object.expire_quote_date, tz=user.tz, format='%Y-%m-%d %H:%M:%S')}</p>
+                        <p> This quotation is based on <b> ${object.dp_currency_id.name} </b></p>
+                        <table class="table table-bordered" style="border:2px bold;">
+                            % if ctx.get('has_foc'):
+                                <thead>
+                                    <tr>
+                                        <th>Product</th>
+                                        <th></th>
+                                        <th>Quantity</th>
+                                        <th>UOM</th>
+                                        <th>Unit Price</th>
+                                        <th>Item Discount(%)</th>
+                                        <th>Subtotal</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    % for l in object.order_line:
+                                        <tr>
+                                            <td> ${l.name} </td>
+                                            <td style="text-transform: uppercase!important;"> ${l.item_type_product or ''} </td>
+                                            <td align="right"> ${'{:,.0f}'.format(l.product_uom_qty)} </td>
+                                            <td> ${l.product_uom.name} </td>
+                                            <td align="right"> ${'{:,.2f}'.format(l.price_unit)} </td>
+                                            <td align="right"> ${l.discount} </td>
+                                            <td align="right"> ${'{:,.2f}'.format(l.price_subtotal)} </td>
+                                        </tr>
+                                    % endfor
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                        <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td><b>Total Amount</b></td>
+                                        <td align="right"><b> ${'{:,.2f}'.format(object.total_before_discount)} </b></td>
+                                    </tr>
+                                        <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td><b>Overall Discount</b></td>
+                                        <td align="right"><b> ${'{:,.2f}'.format(object.amount_discount)} </b></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td><b>Grand Total</b></td>
+                                        <td align="right"><b> ${'{:,.2f}'.format(object.amount_total)} </b></td>
+                                    </tr>
+                                </tbody>
+                            % else:
+                                <thead>
+                                    <tr>
+                                        <th>Product</th>
+                                        <th>Quantity</th>
+                                        <th>UOM</th>
+                                        <th>Unit Price</th>
+                                        <th>Item Discount(%)</th>
+                                        <th>Subtotal</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    % for l in object.order_line:
+                                        <tr>
+                                            <td> ${l.name} </td>
+                                            <td align="right"> ${'{:,.0f}'.format(l.product_uom_qty)} </td>
+                                            <td> ${l.product_uom.name} </td>
+                                            <td align="right"> ${'{:,.2f}'.format(l.price_unit)} </td>
+                                            <td align="right"> ${l.discount} </td>
+                                            <td align="right"> ${'{:,.2f}'.format(l.price_subtotal)} </td>
+                                        </tr>
+                                    % endfor
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                        <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td><b>Total Amount</b></td>
+                                        <td align="right"><b> ${'{:,.2f}'.format(object.total_before_discount)} </b></td>
+                                    </tr>
+                                        <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td><b>Overall Discount</b></td>
+                                        <td align="right"><b> ${'{:,.2f}'.format(object.amount_discount)} </b></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td><b>Grand Total</b></td>
+                                        <td align="right"><b> ${'{:,.2f}'.format(object.amount_total)} </b></td>
+                                    </tr>
+                                </tbody>
+                            % endif
+                        </table>
+                        % if ctx.get('chan_email'):
+                        <br/>
+                        <p>To view this quotation, please click on the link below: </p>
+                        <ul><li><a href='${object.get_chandler_order_url()}'> ${object.name} </a></li></ul>
+                        <p><br/>Thank you.<br/><br/></p>
+                        <p>Yours Sincerely,</p>
+                        <p>BUYTAXFREE</p>
+                        <p>www.buytaxfree.com.sg</p>
+                        <p><br><br></p>
+
+                        % else:
+                        <p>To view this quotation, please click on the link below: </p>
+                        <ul><li><a href='${object.get_shipmaster_order_url()}'> ${object.name} </a></li></ul>
+                        <p>To track your enquiry, simply click “My Enquiry” on the website.</p>
+                        <p><br/>Thank you.<br/><br/></p>
+                        <p>Yours Sincerely,</p>
+                        <p>BUYTAXFREE</p>
+                        <p>www.buytaxfree.com.sg</p>
+                        <p><br><br></p>
+                        % endif
+                        <p>---- This is an automatically generated message. Please do not reply to this address. You may not use, reproduce, or transfer this message or its contents into any medium without the written permission of BUYTAXFREE.</p>
+                    </body>
+                </html>
+                ]]></field>
+        </record>
+
+<!--        &lt;!&ndash;Quotation to Ship Master - cc Chandler&ndash;&gt;-->
+<!--        &lt;!&ndash;Please change end date as per new column&ndash;&gt;-->
+
+<!--        <record id="chendler_send_quotation_to_shipmaster_email_without_link" model="email.template">-->
+<!--            <field name="name">chendler_send_quotation_to_shipmaster_email</field>-->
+<!--            <field name="subject">Quotation - ${object.name}</field>-->
+<!--            <field name="lang">${user.lang}</field>-->
+<!--            <field name="email_from">${user.email|safe}></field>-->
+<!--            <field name="email_cc">${object.user_id.email |safe}</field>-->
+<!--            <field name="model_id" ref="sale.model_sale_order"/>-->
+<!--            <field name="body_html"><![CDATA[-->
+<!--            <!DOCTYPE html>-->
+<!--                <html lang="en">-->
+<!--                    <head>-->
+<!--                      <meta charset="utf-8">-->
+<!--                      <meta name="viewport" content="width=device-width, initial-scale=1">-->
+<!--                      <style>-->
+<!--                        thead{background-color: #cccccc;}-->
+<!--                        table {border-collapse: collapse;}-->
+<!--                        table, td, th {border: 1px solid black;}-->
+<!--                      </style>-->
+<!--                    </head>-->
+<!--                    <body>-->
+<!--                        <p> ${object.partner_id.name} ,</p>-->
+<!--                        <p> You have a quotation from ${object.user_id.partner_id.name}:</p>-->
+<!--                        <p> Quotation: ${object.name} </p>-->
+<!--                        <p> Date: ${format_tz(object.date_order, tz=user.tz, format='%Y-%m-%d %H:%M:%S')} </p>-->
+<!--                        <p> Valid Until: ${object.date_order} </p>-->
+
+<!--                        <table class="table table-bordered" style="border:2px bold;">-->
+<!--                            <thead>-->
+<!--                                <tr>-->
+<!--                                    <th>Product</th>-->
+<!--                                    <th>Quantity</th>-->
+<!--                                    <th>UOM</th>-->
+<!--                                    <th>Unit Price</th>-->
+<!--                                    <th>Item Discount(%)</th>-->
+<!--                                    <th>Subtotal</th>-->
+<!--                                </tr>-->
+<!--                            </thead>-->
+<!--                            <tbody>-->
+<!--                                % for l in object.order_line:-->
+<!--                                    <tr>-->
+<!--                                        <td> ${l.name} </td>-->
+<!--                                        <td> ${l.product_uom_qty} </td>-->
+<!--                                        <td> ${l.product_uom.name} </td>-->
+<!--                                        <td> ${l.price_unit} </td>-->
+<!--                                        <td> ${l.discount} </td>-->
+<!--                                        <td> ${l.price_subtotal} </td>-->
+<!--                                    </tr>-->
+<!--                                % endfor-->
+<!--                                <tr>-->
+<!--                                    <td>&nbsp;</td>-->
+<!--                                    <td>&nbsp;</td>-->
+<!--                                    <td>&nbsp;</td>-->
+<!--                                    <td>&nbsp;</td>-->
+<!--                                    <td>&nbsp;</td>-->
+<!--                                    <td>&nbsp;</td>-->
+<!--                                </tr>-->
+<!--                                    <tr>-->
+<!--                                    <td></td>-->
+<!--                                    <td></td>-->
+<!--                                    <td></td>-->
+<!--                                    <td></td>-->
+<!--                                    <td><b>Total Amount</b></td>-->
+<!--                                    <td><b> ${object.total_before_discount} </b></td>-->
+<!--                                </tr>-->
+<!--                                    <tr>-->
+<!--                                    <td></td>-->
+<!--                                    <td></td>-->
+<!--                                    <td></td>-->
+<!--                                    <td></td>-->
+<!--                                    <td><b>Discount</b></td>-->
+<!--                                    <td><b> ${object.amount_discount} </b></td>-->
+<!--                                </tr>-->
+<!--                                <tr>-->
+<!--                                    <td></td>-->
+<!--                                    <td></td>-->
+<!--                                    <td></td>-->
+<!--                                    <td></td>-->
+<!--                                    <td><b>Total</b></td>-->
+<!--                                    <td><b> ${object.amount_total} </b></td>-->
+<!--                                </tr>-->
+<!--                            </tbody>-->
+<!--                        </table>-->
+<!--                        % if :-->
+<!--                        <p> To view the Quotation, login to BUYTAXFREE: </p>-->
+<!--                        <p>Thanks</p>-->
+<!--                        <p>&#45;&#45;&#45;&#45; This is a system generated email. Please do not respond to this email.</p>-->
+<!--                    </body>-->
+<!--                </html>-->
+<!--                ]]></field>-->
+<!--        </record>-->
+
+
+        <!--Revised Quotation to Ship Master-->
+        <!--Email to Ship Master upon Chandler send revised quotation based on Ship Master’s counter offer-->
+
+        <record id="revised_quotation_to_shipmaster" model="email.template">
+            <field name="name">revised_quotation_to_shipmaster</field>
+            <field name="subject">Revised Quotation ${object.name}</field>
+            <field name="lang">${user.lang}</field>
+            <field name="email_from">admin@buytaxfree.com.sg></field>
+            <field name="email_to">${(ctx['chan_email'] if ctx.get('chan_email') else object.partner_id.email |safe)}</field>
+            <field name="model_id" ref="sale.model_sale_order"/>
+            <field name="body_html"><![CDATA[
+            <!DOCTYPE html>
+                <html lang="en">
+                    <head>
+                      <meta charset="utf-8">
+                      <meta name="viewport" content="width=device-width, initial-scale=1">
+                      <style>
+                        thead{background-color: #cccccc;}
+                        table {border-collapse: collapse;}
+                        table, td, th {border: 1px solid black;}
+                      </style>
+                    </head>
+                    <body>
+                        % if ctx.get('chan_email'):
+                        <p> Dear ${object.user_id.partner_id.name},<br><br></p>
+                        <p> You have a revised quotation to <b>${object.partner_id.name }</b>:<br><br</p>
+                        % else:
+                        <p> Dear ${object.partner_id.name},<br><br></p>
+                        <p> You have a revised quotation from <b>${object.user_id.partner_id.name }</b>:<br><br</p>
+                        % endif
+                        <p> Quotation: ${object.name} </p>
+                        <p> Date: ${format_tz(object.date_order, tz=user.tz, format='%Y-%m-%d %H:%M:%S')} </p>
+                        <p> Quotation valid till: ${format_tz(object.expire_quote_date, tz=user.tz, format='%Y-%m-%d %H:%M:%S')}</p>
+                        <p> This quotation is based on the currency of <b> ${object.dp_currency_id.name} </b></p>
+                        <table class="table table-bordered" style="border:2px bold;">
+                            % if ctx.get('has_foc'):
+                                <thead>
+                                    <tr>
+                                        <th>Product</th>
+                                        <th></th>
+                                        <th>Quantity</th>
+                                        <th>UOM</th>
+                                        <th>Unit Price</th>
+                                        <th>Item Discount(%)</th>
+                                        <th>Subtotal</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    % for l in object.order_line:
+                                        <tr>
+                                            <td> ${l.name} </td>
+                                            <td style="text-transform: uppercase!important;"> ${l.item_type_product or ''} </td>
+                                            <td align="right"> ${'{:,.0f}'.format(l.product_uom_qty)} </td>
+                                            <td> ${l.product_uom.name} </td>
+                                            <td align="right"> ${'{:,.2f}'.format(l.price_unit)} </td>
+                                            <td align="right"> ${l.discount} </td>
+                                            <td align="right"> ${'{:,.2f}'.format(l.price_subtotal)} </td>
+                                        </tr>
+                                    % endfor
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                        <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td><b>Total Amount</b></td>
+                                        <td align="right"><b> ${'{:,.2f}'.format(object.total_before_discount)} </b></td>
+                                    </tr>
+                                        <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td><b>Overall Discount</b></td>
+                                        <td align="right"><b> ${'{:,.2f}'.format(object.amount_discount)} </b></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td><b>Grand Total</b></td>
+                                        <td align="right"><b> ${'{:,.2f}'.format(object.amount_total)} </b></td>
+                                    </tr>
+                                </tbody>
+                            % else:
+                                <thead>
+                                    <tr>
+                                        <th>Product</th>
+                                        <th>Quantity</th>
+                                        <th>UOM</th>
+                                        <th>Unit Price</th>
+                                        <th>Item Discount(%)</th>
+                                        <th>Subtotal</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    % for l in object.order_line:
+                                        <tr>
+                                            <td> ${l.name} </td>
+                                            <td align="right"> ${'{:,.0f}'.format(l.product_uom_qty)} </td>
+                                            <td> ${l.product_uom.name} </td>
+                                            <td align="right"> ${'{:,.2f}'.format(l.price_unit)} </td>
+                                            <td align="right"> ${l.discount} </td>
+                                            <td align="right"> ${'{:,.2f}'.format(l.price_subtotal)} </td>
+                                        </tr>
+                                    % endfor
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                        <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td><b>Total Amount</b></td>
+                                        <td align="right"><b> ${'{:,.2f}'.format(object.total_before_discount)} </b></td>
+                                    </tr>
+                                        <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td><b>Overall Discount</b></td>
+                                        <td align="right"><b> ${'{:,.2f}'.format(object.amount_discount)} </b></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td><b>Grand Total</b></td>
+                                        <td align="right"><b> ${'{:,.2f}'.format(object.amount_total)} </b></td>
+                                    </tr>
+                                </tbody>
+                            % endif
+                        </table>
+                        % if ctx.get('chan_email'):
+                        <p> To view this revised quotation, please click the link below: </p>
+                        <ul><li><a href='${object.get_chandler_order_url()}'> ${object.name} </a></li></ul>
+                        % else:
+                        <p> To accept, cancel or counter offer, please click the link below: </p>
+                        <ul><li><a href='${object.get_shipmaster_order_url()}'> ${object.name} </a></li></ul>
+                        % endif
+                        <p><br/>Thank you!<br/><br/></p>
+                        <p>Best Regards</p>
+                        <p>BUYTAXFREE</p>
+                        <p><br/><br/></p>
+                        <p>---- This is an automatically generated message. Please do not reply to this address. You may not use, reproduce, or transfer this message or its contents into any medium without the written permission of BUYTAXFREE.</p>
+                    </body>
+                </html>
+                ]]></field>
+        </record>
+
+        <!--Negotiation Request from Ship Master-->
+        <!--Notification email to Ship Master upon Ship Master’s negotiation request-->
+
+        <record id="negotiation_revised_quotation_to_shipmaster" model="email.template">
+            <field name="name">negotiation_revised_quotation_to_shipmaster</field>
+            <field name="subject">Counter Offer to ${object.name}</field>
+            <field name="lang">${user.lang}</field>
+            <field name="email_from">admin@buytaxfree.com.sg></field>
+            <field name="email_to">${object.partner_id.email |safe}</field>
+            <field name="model_id" ref="sale.model_sale_order"/>
+            <field name="body_html"><![CDATA[
+            <!DOCTYPE html>
+                <html lang="en">
+                    <head>
+                      <meta charset="utf-8">
+                      <meta name="viewport" content="width=device-width, initial-scale=1">
+                      <style>
+                        thead{background-color: #cccccc;}
+                        table {border-collapse: collapse;}
+                        table, td, th {border: 1px solid black;}
+                      </style>
+                    </head>
+                    <body>
+                        <p> Dear ${object.partner_id.name},<br><br></p>
+                        <p> You have sent a counter offer to ${object.user_id.partner_id.name}:<br><br></p>
+                        <p> Request for Quote: ${object.name} </p>
+                        <p> Date: ${format_tz(object.date_order, tz=user.tz, format='%Y-%m-%d %H:%M:%S')} </p>
+                        <p> Quotation valid till: ${format_tz(object.expire_quote_date, tz=user.tz, format='%Y-%m-%d %H:%M:%S')}</p>
+                        <p> This quotation is based on the currency of <b> ${object.dp_currency_id.name} </b></p>
+                        <table class="table table-bordered" style="border:2px bold;">
+                            % if ctx.get('has_foc'):
+                                <thead>
+                                    <tr>
+                                        <th>Product</th>
+                                        <th></th>
+                                        <th>Quantity</th>
+                                        <th>UOM</th>
+                                        <th>Unit Price</th>
+                                        <th>Subtotal</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    % for l in object.order_line:
+                                        <tr>
+                                            <td> ${l.name} </td>
+                                            <td style="text-transform: uppercase!important;"> ${l.item_type_product or ''} </td>
+                                            <td align="right"> ${'{:,.0f}'.format(l.product_uom_qty)} </td>
+                                            <td> ${l.product_uom.name} </td>
+                                            <td align="right"> ${'{:,.2f}'.format(l.price_unit)} </td>
+                                            <td align="right"> ${'{:,.2f}'.format(l.price_subtotal)} </td>
+                                        </tr>
+                                    % endfor
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td><b>Grand Total</b></td>
+                                        <td align="right"><b> ${'{:,.2f}'.format(object.amount_total)} </b></td>
+                                    </tr>
+                                </tbody>
+                            % else:
+                                <thead>
+                                    <tr>
+                                        <th>Product</th>
+                                        <th>Quantity</th>
+                                        <th>UOM</th>
+                                        <th>Unit Price</th>
+                                        <th>Subtotal</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    % for l in object.order_line:
+                                        <tr>
+                                            <td> ${l.name} </td>
+                                            <td align="right"> ${'{:,.0f}'.format(l.product_uom_qty)} </td>
+                                            <td> ${l.product_uom.name} </td>
+                                            <td align="right"> ${'{:,.2f}'.format(l.price_unit)} </td>
+                                            <td align="right"> ${'{:,.2f}'.format(l.price_subtotal)} </td>
+                                        </tr>
+                                    % endfor
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td><b>Grand Total</b></td>
+                                        <td align="right"><b> ${'{:,.2f}'.format(object.amount_total)} </b></td>
+                                    </tr>
+                                </tbody>
+                            % endif
+                        </table>
+
+                        <p><br/>Thank you!<br/><br/></p>
+                        <p>Best Regards</p>
+                        <p>BUYTAXFREE</p>
+                        <p><br></p>
+                        <p>---- This is an automatically generated message. Please do not reply to this address. You may not use, reproduce, or transfer this message or its contents into any medium without the written permission of BUYTAXFREE.</p>
+                    </body>
+                </html>
+                ]]></field>
+        </record>
+
+        <!-- Notification email to Chandler upon Ship Master’s negotiation request -->
+        <record id="negotiation_revised_quotation_to_chandler" model="email.template">
+            <field name="name">negotiation_revised_quotation_to_chandler</field>
+            <field name="subject">Counter Offer to ${object.name}</field>
+            <field name="lang">${user.lang}</field>
+            <field name="email_from">admin@buytaxfree.com.sg></field>
+            <field name="email_to">${object.user_id.email |safe}</field>
+            <field name="model_id" ref="sale.model_sale_order"/>
+            <field name="body_html"><![CDATA[
+            <!DOCTYPE html>
+                <html lang="en">
+                    <head>
+                      <meta charset="utf-8">
+                      <meta name="viewport" content="width=device-width, initial-scale=1">
+                      <style>
+                        thead{background-color: #cccccc;}
+                        table {border-collapse: collapse;}
+                        table, td, th {border: 1px solid black;}
+                      </style>
+                    </head>
+                    <body>
+                        <p>Dear ${object.user_id.name} ,<br><br></p>
+                        <p> You have a counter offer from  ${object.partner_id.name}: <br><br></p>
+                        <p> Quotation: ${object.name} </p>
+                        <p> Date: ${format_tz(object.date_order, tz=user.tz, format='%Y-%m-%d %H:%M:%S')} </p>
+                        <p> Quotation valid till: ${format_tz(object.expire_quote_date, tz=user.tz, format='%Y-%m-%d %H:%M:%S')}</p>
+                        <p> This quotation is based on the currency of <b> ${object.dp_currency_id.name} </b></p>
+                        <table class="table table-bordered" style="border:2px bold;">
+                            % if ctx.get('has_foc'):
+                                <thead>
+                                    <tr>
+                                        <th>Product</th>
+                                        <th></th>
+                                        <th>Quantity</th>
+                                        <th>UOM</th>
+                                        <th>Unit Price</th>
+                                        <th>Subtotal</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    % for l in object.order_line:
+                                        <tr>
+                                            <td> ${l.name} </td>
+                                            <td style="text-transform: uppercase!important;"> ${l.item_type_product or ''} </td>
+                                            <td align="right"> ${'{:,.0f}'.format(l.product_uom_qty)} </td>
+                                            <td> ${l.product_uom.name} </td>
+                                            <td align="right"> ${'{:,.2f}'.format(l.price_unit)} </td>
+                                            <td align="right"> ${'{:,.2f}'.format(l.price_subtotal)} </td>
+                                        </tr>
+                                    % endfor
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td><b>Grand Total</b></td>
+                                        <td align="right"><b> ${'{:,.2f}'.format(object.amount_total)} </b></td>
+                                    </tr>
+                                </tbody>
+                            % else:
+                                 <thead>
+                                    <tr>
+                                        <th>Product</th>
+                                        <th>Quantity</th>
+                                        <th>UOM</th>
+                                        <th>Unit Price</th>
+                                        <th>Subtotal</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    % for l in object.order_line:
+                                        <tr>
+                                            <td> ${l.name} </td>
+                                            <td align="right"> ${'{:,.0f}'.format(l.product_uom_qty)} </td>
+                                            <td> ${l.product_uom.name} </td>
+                                            <td align="right"> ${'{:,.2f}'.format(l.price_unit)} </td>
+                                            <td align="right"> ${'{:,.2f}'.format(l.price_subtotal)} </td>
+                                        </tr>
+                                    % endfor
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td><b>Grand Total</b></td>
+                                        <td align="right"><b> ${'{:,.2f}'.format(object.amount_total)} </b></td>
+                                    </tr>
+                                </tbody>
+                            % endif
+                        </table>
+
+                        <p> To accept, cancel or counter offer, please click the link below: </p>
+                        <ul><li><a href='${object.get_chandler_order_url()}'> ${object.name} </a></li></ul>
+                        <p><br></p>
+                        <p>Best Regards</p>
+                        <p>BUYTAXFREE</p>
+                        <p><br></p>
+                        <p>---- This is an automatically generated message. Please do not reply to this address. You may not use, reproduce, or transfer this message or its contents into any medium without the written permission of BUYTAXFREE.</p>
+                    </body>
+                </html>
+                ]]></field>
+        </record>
+
+        <!--Cancellation Request from Ship Master-->
+        <!--Notification email to Chandler upon Ship Master’s request cancellation-->
+        <record id="cancel_quote_to_chandler_email" model="email.template">
+            <field name="name">cancel_quote_to_chandler_email</field>
+            <field name="subject">Cancel Request To ${object.name}</field>
+            <field name="lang">${user.lang}</field>
+            <field name="model_id" ref="sale.model_sale_order"/>
+            <field name="email_from">admin@buytaxfree.com.sg></field>
+            <field name="email_to">${object.user_id.partner_id.email |safe}</field>
+            <field name="body_html"><![CDATA[
+            <p>Dear ${object.user_id.name} ,<br/><br/></p>
+            % if ctx.get('chandler'):
+            <p> You have cancelled request ${object.name} </p>
+            % else:
+            <p><b>${object.partner_id.name}</b> has cancelled their request ${object.name} </p>
+            % endif
+            <p><br/>Thank you!<br/><br/></p>
+            <p>Best Regards</p>
+            <p>BUYTAXFREE</p>
+            <p>---- This is an automatically generated message. Please do not reply to this address. You may not use, reproduce, or transfer this message or its contents into any medium without the written permission of BUYTAXFREE.</p>
+                ]]></field>
+        </record>
+
+        <!--Notification email to Ship Master upon Ship Master’s request cancellation-->
+        <record id="cancel_quote_to_shipmaster_email" model="email.template">
+            <field name="name">cancel_quote_to_shipmaster_email</field>
+            <field name="subject">Cancel Request To ${object.name}</field>
+            <field name="lang">${user.lang}</field>
+            <field name="model_id" ref="sale.model_sale_order"/>
+            <field name="email_from">admin@buytaxfree.com.sg></field>
+            <field name="email_to">${object.partner_id.email |safe}</field>
+            <field name="body_html"><![CDATA[
+            <p>Dear ${object.partner_id.name},<br/><br/></p>
+            % if ctx.get('chandler'):
+            <p><b>${object.user_id.name}</b> has cancelled your request ${object.name} </p>
+            % else:
+            <p> You have cancelled request ${object.name} </p>
+            % endif
+            <p><br/>Thank you!<br/><br/></p>
+            <p>Best Regards</p>
+            <p>BUYTAXFREE</p>
+            <p>---- This is an automatically generated message. Please do not reply to this address. You may not use, reproduce, or transfer this message or its contents into any medium without the written permission of BUYTAXFREE.</p>
+                ]]></field>
+        </record>
+
+        <!-- Request Confirmation from Ship Master-->
+        <!-- Notification email to Ship Master upon Ship Master’s request confirmation-->
+        <record id="request_confirm_from_shipmaster_to_shipmaser_email" model="email.template">
+            <field name="name">request_confirm_from_shipmaster_to_shipmaser_email</field>
+            <field name="subject">BUYTAXFREE ${object.name}: Quotation Accepted Successfully</field>
+            <field name="lang">${user.lang}</field>
+            <field name="email_from">admin@buytaxfree.com.sg></field>
+            <field name="email_to">${object.partner_id.email |safe}</field>
+            <field name="model_id" ref="sale.model_sale_order"/>
+            <field name="body_html"><![CDATA[
+            <!DOCTYPE html>
+                <html lang="en">
+                    <head>
+                      <meta charset="utf-8">
+                      <meta name="viewport" content="width=device-width, initial-scale=1">
+                      <style>
+                        thead{background-color: #cccccc;}
+                        table {border-collapse: collapse;}
+                        table, td, th {border: 1px solid black;}
+                      </style>
+                    </head>
+                    <body>
+                        <p> Dear ${object.partner_id.name},<br><br></p>
+                        <p> You have accepted a quotation from <b>${object.user_id.partner_id.name}</b>:</p>
+                        <p> Quotation: ${object.name}
+                        <p> This quotation is based on <b> ${object.dp_currency_id.name} </b></p>
+                        <table class="table table-bordered" style="border:2px bold;">
+                            % if ctx.get('has_foc'):
+                                <thead>
+                                    <tr>
+                                        <th>Product</th>
+                                        <th></th>
+                                        <th>Quantity</th>
+                                        <th>UOM</th>
+                                        <th>Unit Price</th>
+                                        <th>Item Discount(%)</th>
+                                        <th>Subtotal</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    % for l in object.order_line:
+                                        <tr>
+                                            <td> ${l.name} </td>
+                                            <td style="text-transform: uppercase!important;"> ${l.item_type_product or ''} </td>
+                                            <td align="right"> ${'{:,.0f}'.format(l.product_uom_qty)} </td>
+                                            <td> ${l.product_uom.name} </td>
+                                            <td align="right"> ${'{:,.2f}'.format(l.price_unit)} </td>
+                                            <td align="right"> ${l.discount} </td>
+                                            <td align="right"> ${'{:,.2f}'.format(l.price_subtotal)} </td>
+                                        </tr>
+                                    % endfor
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                        <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td><b>Total Amount</b></td>
+                                        <td align="right"><b> ${'{:,.2f}'.format(object.total_before_discount)} </b></td>
+                                    </tr>
+                                        <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td><b>Overall Discount</b></td>
+                                        <td align="right"><b> ${'{:,.2f}'.format(object.amount_discount)} </b></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td><b>Grand Total</b></td>
+                                        <td align="right"><b> ${'{:,.2f}'.format(object.amount_total)} </b></td>
+                                    </tr>
+                                </tbody>
+                            % else:
+                                <thead>
+                                    <tr>
+                                        <th>Product</th>
+                                        <th>Quantity</th>
+                                        <th>UOM</th>
+                                        <th>Unit Price</th>
+                                        <th>Item Discount(%)</th>
+                                        <th>Subtotal</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    % for l in object.order_line:
+                                        <tr>
+                                            <td> ${l.name} </td>
+                                            <td align="right"> ${'{:,.0f}'.format(l.product_uom_qty)} </td>
+                                            <td> ${l.product_uom.name} </td>
+                                            <td align="right"> ${'{:,.2f}'.format(l.price_unit)} </td>
+                                            <td align="right"> ${l.discount} </td>
+                                            <td align="right"> ${'{:,.2f}'.format(l.price_subtotal)} </td>
+                                        </tr>
+                                    % endfor
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                        <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td><b>Total Amount</b></td>
+                                        <td align="right"><b> ${'{:,.2f}'.format(object.total_before_discount)} </b></td>
+                                    </tr>
+                                        <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td><b>Overall Discount</b></td>
+                                        <td align="right"><b> ${'{:,.2f}'.format(object.amount_discount)} </b></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td><b>Grand Total</b></td>
+                                        <td align="right"><b> ${'{:,.2f}'.format(object.amount_total)} </b></td>
+                                    </tr>
+                                </tbody>
+                            % endif
+                        </table>
+
+
+                        <p><br/>To view this quotation, please click on the link below:</p>
+                        <ul><li><a href='${object.get_shipmaster_order_url()}'> ${object.name} </a></li></ul>
+                        <p><br/>To track your enquiry, simply click “My Enquiry” on the website.</p>
+
+                        <p><br/><br/>Thank you.<br/><br/></p>
+                        <p>Yours Sincerely,</p>
+                        <p>BUYTAXFREE</p>
+                        <p>www.buytaxfree.com.sg</p>
+                        <p>---- This is an automatically generated message. Please do not reply to this address. You may not use, reproduce, or transfer this message or its contents into any medium without the written permission of BUYTAXFREE.</p>
+                    </body>
+                </html>
+                ]]></field>
+        </record>
+
+        <!--Notification email to Chandler upon Ship Master’s request confirmation-->
+        <record id="request_confirm_from_shipmaster_to_chandeler_email" model="email.template">
+            <field name="name">request_confirm_from_shipmaster_to_chandeler_email</field>
+            <field name="subject">BUYTAXFREE ${object.name} Quotation Accepted Successfully</field>
+            <field name="lang">${user.lang}</field>
+            <field name="email_from">admin@buytaxfree.com.sg></field>
+            <field name="email_to">${object.get_chandler().email}</field>
+            <field name="model_id" ref="sale.model_sale_order"/>
+            <field name="body_html"><![CDATA[
+            <!DOCTYPE html>
+                <html lang="en">
+                    <head>
+                      <meta charset="utf-8">
+                      <meta name="viewport" content="width=device-width, initial-scale=1">
+                      <style>
+                        thead{background-color: #cccccc;}
+                        table {border-collapse: collapse;}
+                        table, td, th {border: 1px solid black;}
+                      </style>
+                    </head>
+                    <body>
+                        <p> Dear ${object.get_chandler().name},<br><br></p>
+                        <p> Your quotation has been accepted by <b>${object.partner_id.name}</b> </p>
+                        <p> Quotation: ${object.name}</p>
+                        <p> This quotation is based on <b> ${object.dp_currency_id.name} </b></p>
+                        <table class="table table-bordered" style="border:2px bold;">
+                            % if ctx.get('has_foc'):
+                                <thead>
+                                    <tr>
+                                        <th>Product</th>
+                                        <th></th>
+                                        <th>Quantity</th>
+                                        <th>UOM</th>
+                                        <th>Unit Price</th>
+                                        <th>Item Discount(%)</th>
+                                        <th>Subtotal</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    % for l in object.order_line:
+                                        <tr>
+                                            <td> ${l.name} </td>
+                                            <td style="text-transform: uppercase!important;"> ${l.item_type_product or ''} </td>
+                                            <td align="right"> ${'{:,.0f}'.format(l.product_uom_qty)}</td>
+                                            <td> ${l.product_uom.name} </td>
+                                            <td align="right"> ${'{:,.2f}'.format(l.price_unit)}</td>
+                                            <td align="right"> ${l.discount} </td>
+                                            <td align="right"> ${'{:,.2f}'.format(l.price_subtotal)}</td>
+                                        </tr>
+                                    % endfor
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                        <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td><b>Total Amount</b></td>
+                                        <td align="right"><b>${'{:,.2f}'.format(object.total_before_discount)}</b></td>
+                                    </tr>
+                                        <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td><b>Overall Discount</b></td>
+                                        <td align="right"><b> ${'{:,.2f}'.format(object.amount_discount)} </b></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td><b>Grand Total</b></td>
+                                        <td align="right"><b> ${'{:,.2f}'.format(object.amount_total)} </b> </td>
+                                    </tr>
+                                </tbody>
+                            % else:
+                                 <thead>
+                                    <tr>
+                                        <th>Product</th>
+                                        <th>Quantity</th>
+                                        <th>UOM</th>
+                                        <th>Unit Price</th>
+                                        <th>Item Discount(%)</th>
+                                        <th>Subtotal</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    % for l in object.order_line:
+                                        <tr>
+                                            <td> ${l.name} </td>
+                                            <td align="right"> ${'{:,.0f}'.format(l.product_uom_qty)}</td>
+                                            <td> ${l.product_uom.name} </td>
+                                            <td align="right"> ${'{:,.2f}'.format(l.price_unit)}</td>
+                                            <td align="right"> ${l.discount} </td>
+                                            <td align="right"> ${'{:,.2f}'.format(l.price_subtotal)}</td>
+                                        </tr>
+                                    % endfor
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td><b>Total Amount</b></td>
+                                        <td align="right"><b>${'{:,.2f}'.format(object.total_before_discount)}</b></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td><b>Overall Discount</b></td>
+                                        <td align="right"><b> ${'{:,.2f}'.format(object.amount_discount)} </b></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td><b>Grand Total</b></td>
+                                        <td align="right"><b> ${'{:,.2f}'.format(object.amount_total)} </b> </td>
+                                    </tr>
+                                </tbody>
+                            % endif
+                        </table>
+
+
+                        <p><br/>To view this quotation, please click on the link below:</p>
+                        <ul><li><a href='${object.get_chandler_order_url()}'> ${object.name} </a></li></ul>
+
+                        <p><br/><br/>Thank you.<br/><br/></p>
+                        <p>Yours Sincerely,</p>
+                        <p>BUYTAXFREE</p>
+                        <p>www.buytaxfree.com.sg</p>
+                        <p>---- This is an automatically generated message. Please do not reply to this address. You may not use, reproduce, or transfer this message or its contents into any medium without the written permission of BUYTAXFREE.</p>
+                    </body>
+                </html>
+                ]]></field>
+        </record>
+
+
+        <!--Notification Email on Quote Expiry-->
+        <!--Notification Email to Ship Chandler when the quotation has expired-->
+        <record id="quotation_expired_to_chandler_email" model="email.template">
+            <field name="name">quotation_expired_to_chandler_email</field>
+            <field name="subject">BUYTAXFREE ${object.name}: Request For Quote Expired</field>
+            <field name="lang">${user.lang}</field>
+            <field name="model_id" ref="sale.model_sale_order"/>
+            <field name="email_from">admin@buytaxfree.com.sg</field>
+            <field name="email_to">${object.user_id.email |safe}</field>
+            <field name="body_html"><![CDATA[
+            <p>Dear ${object.user_id.name},<br><br></p>
+            <p>You have an expired Request for Quote ${object.name} from <b>${object.partner_id.name}</b>.</p>
+            <p><br/>Thank you.<br/><br/></p>
+            <p>Yours Sincerely,</p>
+            <p>BUYTAXFREE</p>
+            <p>www.buytaxfree.sg</p>
+            <p><br><br></p>
+            <p>---- This is an automatically generated message. Please do not reply to this address. You may not use, reproduce, or transfer this message or its contents into any medium without the written permission of BUYTAXFREE.</p>
+                ]]></field>
+        </record>
+
+        <!--Notification Email to Ship Chandler when the request for quotation has expired-->
+        <record id="quotation_expired_to_shipmaster_email" model="email.template">
+            <field name="name">quotation_expired_to_shipmaster_email</field>
+            <field name="subject">BUYTAXFREE ${object.name}: Request For Quote Expired</field>
+            <field name="lang">${user.lang}</field>
+            <field name="model_id" ref="sale.model_sale_order"/>
+            <field name="email_from">admin@buytaxfree.com.sg</field>
+            <field name="email_to">${object.partner_id.email |safe}</field>
+            <field name="body_html"><![CDATA[
+            <p>Dear ${object.partner_id.name},<br><br></p>
+            <p>You have an expired Request for Quote ${object.name} with <b>${object.user_id.partner_id.name}</b>.</p>
+            <p>To track your enquiry, simply click "My Enquiry" on the website.
+            <p><br/>Thank you.<br/><br/></p>
+            <p>Yours Sincerely,</p>
+            <p>BUYTAXFREE</p>
+            <p>www.buytaxfree.sg</p>
+            <p><br><br></p>
+            <p>---- This is an automatically generated message. Please do not reply to this address. You may not use, reproduce, or transfer this message or its contents into any medium without the written permission of BUYTAXFREE.</p>
+                ]]></field>
+        </record>
+
+
+
+        <!--Notification Email when Ship Master input OTHER chandler in the system during enquiry process-->
+        <!--Notification email to OTHER chandler when OTHER chandler is input-->
+
+        <!--Developer Notes-->
+        <!--Please provide in email_to as new email id of chandler currently its used user_id-->
+        <record id="notification_to_other_chander_from_shipmaster_email" model="email.template">
+            <field name="name">notification_to_other_chander_from_shipmaster_email</field>
+            <field name="subject">Hi There, ${object.partner_id.name} Has Invited You To Join BUYTAXFREE As A Ship Chandler</field>
+            <field name="lang">${user.lang}</field>
+            <field name="model_id" ref="sale.model_sale_order"/>
+            <field name="email_from">admin@buytaxfree.com.sg</field>
+            <field name="email_to">${ctx['email_to'] if ctx.get('email_to') else object.pending_user_id.email |safe}</field>
+            <field name="body_html"><![CDATA[
+            <p>Dear ${object.pending_user_id.name},<br><br></p>
+            <p>Welcome to BUYTAXFREE, an online destination to all your bonded needs. The perfect place to stay up-to-date with the ever-expanding range of products, exciting offers and latest stock availability. BUYTAXFREE aims to provide a comprehensive E-catalogue to Ship Owners, Masters and Crews on a voyage passing through the Port of Singapore. </p>
+            <p><b>${object.partner_id.name}</b> has invited you to join BUYTAXFREE and there is already an order pending for your quotation.</p>
+            <p>Please contact our friendly administrator at hello@buytaxfree.com.sg for your account creation now.</p>
+            <p><br/>Thank you.<br/><br/></p>
+            <p>Yours Sincerely,</p>
+            <p>BUYTAXFREE</p>
+            <p>www.buytaxfree.com.sg</p>
+            <p><br></p>
+            <p>---- This is an automatically generated message. Please do not reply to this address. You may not use, reproduce, or transfer this message or its contents into any medium without the written permission of BUYTAXFREE.</p>
+                ]]></field>
+        </record>
+
+<!--        &lt;!&ndash;Notification email to BUYTAXFREE admin when OTHER chandler is input&ndash;&gt;-->
+
+<!--        &lt;!&ndash;Developer Notes&ndash;&gt;-->
+<!--        &lt;!&ndash;Please provide specific model for this template&ndash;&gt;-->
+<!--        &lt;!&ndash;Here mentioned static new chandler name as XYZ and its email please provide accordingly your model's column.&ndash;&gt;-->
+<!--        &lt;!&ndash;'BUYTAXFREE Administrator,' is the static content no need to change as per Esther advice.&ndash;&gt;-->
+<!--        <record id="notify_other_chandler_from_shipmaster_digitaplatform_email" model="email.template">-->
+<!--            <field name="name">notify_other_chandler_from_shipmaster_digitaplatform_email</field>-->
+<!--            <field name="subject">New Chandler XYZ To Create Account</field>-->
+<!--            <field name="lang">${user.lang}</field>-->
+<!--            <field name="model_id" ref="sale.model_sale_order"/>-->
+<!--            <field name="email_from">${user.email|safe}></field>-->
+<!--            <field name="email_to">${object.user_id.email |safe}</field>-->
+<!--            <field name="body_html"><![CDATA[-->
+<!--            <p> BUYTAXFREE Administrator,</p>-->
+<!--            <p> Please contact XYZ at email: enquiry@xyz.com.sg.</p>-->
+<!--            <p> A Ship Master has opted this chandler at the preferred chandler for his request placement.</p>-->
+<!--            <p> Thanks</p>-->
+<!--            <p>&#45;&#45;&#45;&#45; This is a system generated email. Please do not respond to this email.</p>-->
+<!--                ]]></field>-->
+<!--        </record>-->
+
+
+
+        <!-- Notification email to Chandler upon Ship Master’s change order line-->
+        <record id="adjust_order_line_to_chandler_from_shipmaster" model="email.template">
+            <field name="name">adjust_order_line_to_chandler_from_shipmaster</field>
+            <field name="subject">Adjustment from Shipmaster of ${object.name}</field>
+            <field name="lang">${user.lang}</field>
+            <field name="email_from">admin@buytaxfree.com.sg></field>
+            <field name="email_to">${object.user_id.email |safe}</field>
+            <field name="model_id" ref="sale.model_sale_order"/>
+            <field name="body_html"><![CDATA[
+            <!DOCTYPE html>
+                <html lang="en">
+                    <head>
+                      <meta charset="utf-8">
+                      <meta name="viewport" content="width=device-width, initial-scale=1">
+                      <style>
+                        thead{background-color: #cccccc;}
+                        table {border-collapse: collapse;}
+                        table, td, th {border: 1px solid black;}
+                      </style>
+                    </head>
+                    <body>
+                        <p>Dear ${object.user_id.name} ,<br><br></p>
+                        <p> You have an adjustment from  <b>${object.partner_id.name}</b>: <br><br></p>
+                        <p> Quotation: ${object.name} </p>
+                        <p> Date: ${format_tz(object.date_order, tz=user.tz, format='%Y-%m-%d %H:%M:%S')} </p>
+                        <p> Quotation valid till: ${format_tz(object.expire_quote_date, tz=user.tz, format='%Y-%m-%d %H:%M:%S')}</p>
+                        <p> This quotation is based on the currency of <b> ${object.dp_currency_id.name} </b></p>
+                        <table class="table table-bordered" style="border:2px bold;">
+                            <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Quantity</th>
+                                    <th>UOM</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                % for l in object.order_line:
+                                    <tr>
+                                        <td> ${l.name} </td>
+                                        <td align="right"> ${'{:,.0f}'.format(l.product_uom_qty)} </td>
+                                        <td> ${l.product_uom.name} </td>
+                                    </tr>
+                                % endfor
+                                <tr>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                    <td><b>Total</b></td>
+                                    <td align="right"><b> ${'{:,.2f}'.format(object.amount_total)} </b></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <p> To Review, cancel or adjust, please click the link below: </p>
+                        <ul><li><a href='${object.get_chandler_order_url()}'> ${object.name} </a></li></ul>
+                        <p><br></p>
+                        <p>Best Regards</p>
+                        <p>BUYTAXFREE</p>
+                        <p><br></p>
+                        <p>---- This is an automatically generated message. Please do not reply to this address. You may not use, reproduce, or transfer this message or its contents into any medium without the written permission of BUYTAXFREE.</p>
+                    </body>
+                </html>
+                ]]></field>
+        </record>
+
+    </data>
+</openerp>

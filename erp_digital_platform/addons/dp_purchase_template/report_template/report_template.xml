@@ -1,0 +1,33 @@
+<openerp>
+    <data>
+        <report
+            id="purchase_order_pdf"
+            model="purchase.order"
+            string="Purchase Order"
+            report_type="qweb-pdf"
+            name="dp_purchase_template.np_purchase_order_template"
+            file="dp_purchase_template.np_purchase_order_template"
+            attachment="'BUYTAXFREE_'+ object.name"/>
+
+
+        <report
+            string="Purchase Order"
+            id="purchase.action_report_purchase_order"
+            model="purchase.order"
+            menu="False"
+            report_type="qweb-pdf"
+            name="purchase.report_purchaseorder"
+            file="purchase.report_purchaseorder"
+        />
+
+        <report
+            string="Request for Quotation"
+            id="purchase.report_purchase_quotation"
+            model="purchase.order"
+            menu="False"
+            report_type="qweb-pdf"
+            name="purchase.report_purchasequotation"
+            file="purchase.report_purchasequotation"
+        />
+    </data>
+</openerp>

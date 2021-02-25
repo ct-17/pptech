@@ -1,0 +1,124 @@
+.report-font {
+    font-family: Utopia;
+    font-size: 12pt;
+    color: #000000 !important;
+}
+
+.font-size {
+    font-size: 12pt;
+}
+
+.right-info-font {
+    font-size: 10pt;
+}
+
+.report-table td, .report-table th{
+    padding: 2pt 5pt;
+    vertical-align: middle;
+}
+
+.report-table td{
+    vertical-align: top;
+}
+
+.report-company-title {
+    text-align: center;
+    font-size: 20pt;
+    padding-top: 15pt !important;
+    text-align:center;
+    text-transform: uppercase;
+    font-weight: bold
+}
+
+.header-table {
+    width: 100%;
+}
+
+.header-table td{
+    vertical-align: top;
+}
+
+.content-table {
+    width: 100%;
+}
+
+.table-header {
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+}
+
+.content-table th {
+    padding-top: 8pt;
+    padding-bottom: 8pt;
+    border-bottom: solid #000000 0.5pt;
+    border-top: solid #000000 1pt;
+}
+
+.content-table td {
+    padding-bottom: 4pt;
+    padding-top: 6pt;
+}
+
+.report-title {
+    text-align: center;
+    font-size: 20pt;
+    font-weight: bold;
+    padding-bottom: 10pt !important;
+    text-transform: uppercase;
+}
+
+.report-title-underline {
+    text-align: center;
+    font-size: 16pt;
+    font-weight: bold;
+    text-decoration: underline;
+    padding-bottom: 10pt !important;
+    text-transform: uppercase;
+}
+
+.barcode-label {
+    letter-spacing: 9px;
+    font-size: 14px;
+}
+
+.bottom-border {
+    border-bottom: 1px solid black;
+}
+
+.top-border {
+    border-top: 1px solid black;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.text-left {
+    text-align: left;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.text-strong {
+    font-weight: bold;
+}
+
+.table-end {
+    margin-top: 25pt;
+}
+.content-end {
+    border-top: 1px solid black;
+    padding-top: 6pt;
+    padding-bottom: 6pt;
+}
+
+tfoot {
+    display: table-row-group;
+    page-break-inside: avoid !important;
+}
+
+tr {
+    page-break-inside: avoid;
+}

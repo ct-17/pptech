@@ -1,0 +1,20 @@
+<openerp>
+    <data>
+        <record model="ir.ui.view" id="product_product_form_view_inh">
+			<field name="name">product.product.form.inh</field>
+			<field name="model">product.product</field>
+			<field name="inherit_id" ref="product.product_normal_form_view" />
+			<field name="arch" type="xml">
+				<xpath expr="//page[@string='Sales']" position="after">
+                    <page string="Suggest Products">
+                        <group>
+					        <field name="suggest_product" widget="many2many_tags"  options="{'no_create': True, 'no_create_edit':True}"/>
+					        <field name="image_resized" invisible="1"/>
+                        </group>
+                    </page>
+				</xpath>
+
+			</field>
+		</record>
+    </data>
+</openerp>

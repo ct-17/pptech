@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <record id="gts_view_partner_form_inherit" model="ir.ui.view">
+            <field name="name">gts_view_partner_form_inherit</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form" />
+            <field name="arch" type="xml">
+                <page name="sales_purchases" position="after">
+                    <page string="Bank Information" col="4" name="bank_infor">
+                        <group>
+                            <group>
+                                <field name="bank_name" />
+                                <field name="bank_address" />
+                            </group>
+                            <group>
+                                <field name="swift_code"/>
+                                <field name="account_no"/>
+                            </group>
+                        </group>
+                    </page>
+                </page>
+                <page string="Accounting" position="attributes">
+					<attribute name="string">Bank Information/ Accounting</attribute>
+				</page>
+            </field>
+        </record>
+    </data>
+</openerp>

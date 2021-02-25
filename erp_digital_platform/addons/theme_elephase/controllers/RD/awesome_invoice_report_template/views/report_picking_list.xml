@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <template id="custom_report_picking_list_document">
+            <t t-call="report.html_container">
+                <t t-name="report.my_layout">
+                    <t t-foreach="docs" t-as="doc" class="trs">
+                        <div class="page" style="margin:50px">
+                            <style>
+                                table{
+                                border-collapse: collapse;
+
+                                }
+                                td,th{
+
+                                }
+                                .tds, .ths {
+                                border: 1px solid #dddddd;
+                                text-align: center;
+                                padding: 8px;
+                                }
+                                .ths{
+                                background: #a71e1e;
+                                color:#fff;
+                                }
+                                .trs:nth-child(even) {
+                                background-color: #eee;
+                                }
+                                 .line_wrap{
+                            white-space: nowrap; 
+						    width: 95%; 
+						    overflow: hidden;
+						    text-overflow: ellipsis;
+						    margin-top: 0;
+						    margin-bottom: 0;
+						    padding-top: 0;
+						    padding-bottom: 0;
+						 }
+						 .c_info{
+                            font-size: 12px;
+							
+                        }
+                            </style>
+                            <table class="c_info">
+                                <tbody>
+                                    <tr>
+                                        <td align="center" style="width: 100px;" colspan="1">
+                                            <img t-if="company.logo"
+                                                 t-att-src="'data:image/png;base64,%s' % company.logo"
+                                                 style="max-width: 100px;width: 100%;display:inline-block;margin-right:110px;margin-top: 65px;"/>
+                                        </td>
+                                        <td align="center" colspan="6">
+                                            <table width="100%" style="margin-bottom:30px;">
+                                                <tbody>
+                                                    <tr>
+                                                        <td><t t-esc="company.name"/></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><p class="line_wrap">
+													<t t-if="company.street"><t t-esc="company.street" /> ,</t>
+													<t t-if="company.city"><t t-esc="company.city" /> ,</t>
+													<t t-if="company.state_id"><t t-esc="company.state_id.name" /> ,</t>
+													<t t-if="company.country_id"><t t-esc="company.country_id.name" /></t>
+												</p></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><t t-esc="company.rtn_no"/></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>T: <t t-esc="company.phone"/> / <t t-esc="company.phone2"/></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>M: <t t-esc="company.mobile"/></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="tds" align="center" colspan="8">
+                                            <b>Lista de Empaque / Packing List (PL)</b>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th class="ths">Bulto</th>
+                                        <th width="25%" class="ths">DESCRIPCIÓN</th>
+                                        <th width="18%" class="ths">ITEM(S)
+                                            CORRESPONDIEN
+                                            TES EN FACTURA
+                                            <t t-esc="doc.x_invoice"></t>
+                                        </th>
+                                        <th class="ths">PESO TOTAL (kg)</th>
+                                        <th class="ths">ANCHO
+                                            (metros)
+                                        </th>
+                                        <th class="ths">ALTO
+                                            (metros)
+                                        </th>
+                                        <th class="ths">PROFUN
+                                            (metros)
+                                        </th>
+                                        <th class="ths">VOLUMEN
+                                            m3 (metros
+                                            cubicos)
+                                        </th>
+                                    </tr>
+                                    <t t-set="count" t-value="1"/>
+                                    <t t-set="total_weight" t-value="0"/>
+                                    <t t-set="total_volume" t-value="0"/>
+                                    <tr t-foreach="doc.move_lines" t-as="line" class="trs">
+                                        <td class="tds">
+                                            <t t-esc="count"></t>
+                                        </td>
+                                        <td width="100px" class="tds" style="text-align:left !important">
+                                            <t t-esc="line.product_id.name"></t>
+                                            <t t-set="flag" t-value="0"/>
+                                            <t t-if="line.product_id.attribute_value_ids">
+	                                            ( <t t-foreach="line.product_id.attribute_value_ids" t-as="attribute_value">
+	                                            	<t t-if="flag">,</t>
+	                                            	<t t-set="flag" t-value="1"/>
+	                                            	<t t-esc="attribute_value.attribute_id.name"></t>: <t t-esc="attribute_value.name"></t>
+	                                            </t>)
+                                            </t>
+                                        </td>
+                                        <td class="tds">Item #
+                                            <t t-esc="line.product_uom_qty"></t>
+                                        </td>
+                                        <t t-set="count" t-value="count+1"/>
+                                        <td class="tds">
+                                            <t t-esc="line.product_id.weight * line.product_uom_qty"></t>
+                                        </td>
+                                        <t t-set="total_weight"
+                                           t-value="total_weight+(line.product_id.weight * line.product_uom_qty)"/>
+                                        <td class="tds">
+                                            <t t-esc="line.product_id.width"></t>
+                                        </td>
+                                        <td class="tds">
+                                            <t t-esc="line.product_id.height"></t>
+                                        </td>
+                                        <td class="tds">
+                                            <t t-esc="line.product_id.depth"></t>
+                                        </td>
+                                        <td class="tds">
+                                            <t t-esc="line.product_id.volume"></t>
+                                        </td>
+                                        <t t-set="total_volume" t-value="total_volume+line.product_id.volume"/>
+                                    </tr>
+
+                                    <tr style="background: yellow;" class="trs">
+                                        <td class="tds"></td>
+                                        <td class="tds" style="text-align:left !important">Total
+                                        </td>
+                                        <td class="tds"></td>
+                                        <td class="tds">
+                                            <t t-esc="total_weight"></t>
+                                        </td>
+                                        <td class="tds"></td>
+                                        <td class="tds"></td>
+                                        <td class="tds"></td>
+                                        <td class="tds">
+                                            <t t-esc="total_volume"></t>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="8" border="0" style="padding:25px"></td>
+                                    </tr>
+                                    <tr class="trs_red">
+                                        <td class="ths" colspan="2" style="border-top: 0;">TOTAL DE BULTOS</td>
+                                        <td class="tds">
+                                            <t t-esc="count-1"></t>
+                                        </td>
+                                        <td border="0" style="border-collapse: none;"></td>
+                                        <td class="ths" colspan="2">PESO TOTAL</td>
+                                        <td class="tds" colspan="8">
+                                            <t t-esc="total_weight"></t>
+                                            kg
+                                        </td>
+                                    </tr>
+                                    <tr class="trs_red">
+                                        <td class="ths" colspan="2">VALOR COMERCIAL</td>
+                                        <td class="tds">
+                                            <t t-if="doc.sale_id">
+                                                <t t-esc="doc.sale_id.pricelist_id.currency_id.symbol"></t>
+                                                <t t-esc="doc.sale_id.amount_total"></t>
+                                            </t>
+                                        </td>
+                                        <td></td>
+                                        <td class="ths" colspan="2">VOLUMEN TOTAL</td>
+                                        <td class="tds" colspan="8">
+                                            <t t-esc="total_volume"></t>
+                                        </td>
+                                    </tr>
+                                    <tr class="trs_red">
+                                        <td class="ths" colspan="2">INCOTERM FACTURA</td>
+                                        <td class="tds">
+                                            <t t-if="doc.incoterms_id">
+                                                <t t-esc="doc.incoterms_id.code"></t>
+                                            </t>
+                                        </td>
+                                        <td></td>
+                                        <td class="ths" colspan="2">ENSAMBLAJE</td>
+                                        <td class="tds" colspan="8">
+                                            <t t-esc="doc.assembly"></t>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+        <template id="custom_report_purchase">
+            <t t-call="report.html_container">
+                <t t-foreach="doc_ids" t-as="doc_id">
+                    <t t-raw="translate_doc(doc_id, doc_model, 'partner_id.lang', 'awesome_invoice_report_template.custom_report_purchase_document')"/>
+                </t>
+            </t>
+        </template>
+
+    </data>
+</openerp>

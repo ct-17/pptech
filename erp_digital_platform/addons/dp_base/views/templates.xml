@@ -1,0 +1,10 @@
+<openerp>
+    <data>
+        <template id="assets_frontend" name="website assets for Frontend" inherit_id="website.assets_backend">
+            <xpath expr="." position="inside">
+                <script type="text/javascript" src="/dp_base/static/src/js/preference_change_password.js"></script>
+                <link rel="stylesheet" href='/dp_base/static/src/less/backend.less'/>
+            </xpath>
+        </template>
+    </data>
+</openerp>

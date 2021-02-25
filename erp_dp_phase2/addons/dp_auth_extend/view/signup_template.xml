@@ -1,0 +1,281 @@
+<openerp>
+    <data>
+		<template id="signup_extend" inherit_id="dp_auth.signup">
+            <xpath expr="//input[@id='chandler_autocomplete_id1']" position="attributes">
+                <attribute name="readonly">1</attribute>
+            </xpath>
+			<xpath expr="//input[@id='vessel_name_select_id']" position="attributes">
+                <attribute name="t-att-value">invalid_vessel_name if invalid_vessel_name else ''</attribute>
+            </xpath>
+			<xpath expr="//select[@id='signup_vessel_type']/t/option" position="attributes">
+                <attribute name="t-att-selected">vessel.id == int(vessel_id) if vessel_id else ''</attribute>
+            </xpath>
+
+			<!--top error msg-->
+			<xpath expr="//p[@class='signup_missing_error_msg alert alert-danger']" position="attributes">
+                <attribute name="t-if">error and not invalid_vessel_name</attribute>
+            </xpath>
+			<xpath expr="//p[@class='signup_missing_error_msg alert alert-danger']" position="after">
+                <p class="signup_missing_error_msg_extra alert alert-danger" t-if="error and invalid_vessel_name and len(error)>1" style="color:red">
+					Please fill up the mandatory fields in asterisk (*)<br />
+					Please input the correct Vessel Name
+				</p>
+            </xpath>
+			<xpath expr="//p[@class='signup_missing_error_msg alert alert-danger']" position="after">
+                <p class="signup_missing_error_msg_extras alert alert-danger" t-if="len(error)==1 and invalid_vessel_name" style="color:red">
+					Please input the correct Vessel Name
+				</p>
+            </xpath>
+
+			<!--bottom error msg-->
+			<xpath expr="//p[@class='signup_missing_error_msg2 alert alert-danger']" position="attributes">
+                <attribute name="t-if">error and not invalid_vessel_name</attribute>
+            </xpath>
+			<xpath expr="//p[@class='signup_missing_error_msg2 alert alert-danger']" position="after">
+                <p class="signup_missing_error_msg_extra_2 alert alert-danger" t-if="error and invalid_vessel_name and len(error)>1" style="color:red">
+					Please fill up the mandatory fields in asterisk (*)<br />
+					Please input the correct Vessel Name
+				</p>
+            </xpath>
+			<xpath expr="//p[@class='signup_missing_error_msg2 alert alert-danger']" position="after">
+                <p class="signup_missing_error_msg_extras_2 alert alert-danger" t-if="len(error)==1 and invalid_vessel_name" style="color:red">
+					Please input the correct Vessel Name
+				</p>
+            </xpath>
+            <!--swap vessel type and vessel name -->
+			<xpath expr="//form[@class='oe_signup_form']/div[@class='form-row']/div[1]" position="replace">
+                <div t-attf-class="form-group #{error.get('vessel_name') and 'has-error' or ''} col-sm-6" style="display:none">
+					<label for="vessel_name">Vessel Name</label>
+					<input type="hidden" name="new_vessel"
+						   id="new_vessel_flag" value="0"/>
+					<input type="text" name="vessel_name"
+					   id="vessel_name_select_id"
+					   class="form-control"
+					   style="text-transform: uppercase;" required="required"
+					   onchange="hide_show_create_and_edit_vessel_name_signup()" autocomplete="off"/>
+					<div id="autocompletevesselnamehere"/>
+				</div>
+            </xpath>
+			<xpath expr="//form[@class='oe_signup_form']/div[@class='form-row']/div[2]" position="replace">
+                <div t-attf-class="form-group #{error.get('vessel_id') and 'has-error' or ''} col-sm-6" style="display:none">
+				  <label for="vessel_type">Vessel Type</label>
+				  <select name="vessel_id" class="form-control" required="required"
+						  style="text-transform: uppercase;" id="signup_vessel_type">
+						  <option value=""></option>
+						  <t t-foreach="vessel_obj or []" t-as="vessel">
+							<option t-att-value="vessel.id" style="text-transform: uppercase;"><t t-esc="vessel.name"/></option>
+						  </t>
+				  </select>
+				</div>
+            </xpath>
+            <!--End swap vessel type and vessel name -->
+
+			<xpath expr="//form[@class='oe_signup_form']/div[@class='form-row']/div[3]" position="replace">
+
+			</xpath>
+			<xpath expr="//form[@class='oe_signup_form']/div[@class='form-row']/div[3]" position="attributes">
+				<attribute name="style">display:none</attribute>
+			</xpath>
+			<xpath expr="//p[@class='signup_btm_note']" position="replace">
+				<p class="signup_btm_note">
+<!--					Your inquiry will be sent to your preferred ship chandler for order fulfillment <br/>-->
+					<input type="checkbox" name="checkbox_agree_to"/>
+					I agree to the <a href="/termsandconditions" target="popup" onclick="window.open('/termsandconditions','popup','width=1200,height=1200');">Terms &amp; Conditions</a> and <a href="/privacypolicy" target="popup" onclick="window.open('/privacypolicy','popup','width=1200,height=1200');">Privacy Policy</a>
+				</p>
+			</xpath>
+		</template>
+
+        <template id="fields_extend" inherit_id="dp_auth.fields">
+            <xpath expr="//input[@id='login']" position="attributes">
+				<attribute name="readonly">1</attribute>
+				<attribute name="placeholder">Email</attribute>
+            </xpath>
+		 	<xpath expr="//div/div[3]/input" position="attributes">
+				<attribute name="placeholder">Name</attribute>
+            </xpath>
+			<xpath expr="//input[@name='password']" position="attributes">
+				<attribute name="placeholder">Password</attribute>
+            </xpath>
+			<xpath expr="//input[@name='confirm_password']" position="attributes">
+				<attribute name="placeholder">Confirm Password</attribute>
+            </xpath>
+			<xpath expr="//div/div[3]" position="after">
+				<div class="form-group col-sm-6">
+				  <label for="">Contact Number</label>
+					<input type="tel" name="phone" t-att-value="phone" id="phone" class="form-control" placeholder="Number"/>
+				</div>
+            </xpath>
+		</template>
+
+		<template id="create_new_vessel__extend" inherit_id="dp_auth.create_new_vessel">
+            <xpath expr="//select[@id='vessel_type_select_id']" position="attributes">
+				<attribute name="required">required</attribute>
+            </xpath>
+			<xpath expr="//select[@id='vessel_type_select_id']" position="after">
+				<span class="ess_required" style="display: inline; position: absolute;"><b>*</b></span>
+            </xpath>
+			<xpath expr="//input[@id='vessel_name_id']" position="attributes">
+				<attribute name="t-att-value">vessel_name if vessel_name else 'nothing'</attribute>
+            </xpath>
+			<xpath expr="//select[@id='vessel_type_select_id']/t/option" position="attributes">
+				<attribute name="t-att-selected">vessel.id == int(vessel_type) if vessel_type else ''</attribute>
+            </xpath>
+		</template>
+
+		<template id="auth_signup.reset_password_extend" inherit_id="auth_signup.reset_password">
+            <xpath expr="//h2" position="replace">
+				<h2>FORGET PASSWORD?</h2>
+            </xpath>
+		</template>
+
+
+        <template id="chandler_signup_template" name="Chandler Sign Up ">
+            <t t-call="web.login_layout">
+				<div class="row">
+					<div class="col-12 quote-of-day-section log-in-section chandler_signup">
+						<div class="section-headign login-form-content">
+							<div t-if="message" class="oe_reset_password_form" style="text-align:center">
+								<p class="alert alert-success" t-if="message">
+									<t t-esc="message"/>
+								</p>
+								<a href="/web/login" class="btn btn-danger">Back to Login</a>
+							</div>
+
+							<div class="oe_reset_password_form" t-if="reset_message" >
+								<img src="/dp_auth/static/src/img/image.png" class="oe_reset_img" width="240" height="240" />
+								<p class="control-label" style="color:black;font-weight: bold;">Get verification code<br/> We will send verification code to Email:</p>
+								<p class="control-label" style="color:black;font-weight: bold;"><t t-esc="reset_message"/></p>
+								<form role="form" method="post">
+									<div class="row">
+										<input type="hidden" name="login" t-att-value="login" id="login" class="form-control" required="required"/>
+										<input type="hidden" name="reset_request" t-att-value="reset_message" id="reset_request" class="form-control" required="required"/>
+										<div style="text-align:center;">
+											<button type="submit" class="btn btn-danger">Send</button>
+										</div>
+									</div>
+								</form>
+							</div>
+
+							<p class="chandler_signup_error_msg" t-if="error_account" style="color:red">
+								<t t-esc="error_account"/>
+							</p>
+
+							<h2>CREATE ACCOUNT</h2>
+							<p class="man_field">Please fill up the mandatory fields in asterisk (*)</p>
+							<form class="oe_reset_password_form" role="form" method="post" t-if="not message and not reset_message">
+								<t t-if="token">
+									<t t-call="auth_signup.fields">
+										<t t-set="only_passwords" t-value="bool(token)"/>
+									</t>
+								</t>
+
+								<t t-if="not token">
+									<div class="form-group field-login">
+										<label for="login" class="control-label">Your Email</label>
+										<input type="text" name="login" t-att-value="login" id="login" class="form-control"
+											autofocus="autofocus" required="required"/>
+									</div>
+								</t>
+
+								<input type="hidden" name="redirect" t-att-value="redirect"/>
+								<input type="hidden" name="token" t-att-value="token"/>
+								<div class="clearfix oe_login_buttons" style="text-align:center;">
+									<button type="submit" class="btn btn-danger sign-in" style="position:relative;top:20px;width:30%%;">Create Account</button><br/><br/>
+									<a t-attf-href="/web/login?{{ keep_query() }}">Go to Sign in</a>
+								</div>
+
+							</form>
+						</div>
+					</div>
+				</div>
+            </t>
+        </template>
+
+
+<!-- 		the template below works but is standalone template so if possible use above template-->
+<!--        <template id="chandler_signup_template" name="Chandler Signup Template">-->
+<!--            <t t-call="web.login_layout">-->
+<!--				<div class="row">-->
+<!--					<div class="col-12 quote-of-day-section log-in-section">-->
+<!--						<div class="section-headign login-form-content">-->
+<!--							<div t-if="message" class="oe_reset_password_form" style="text-align:center">-->
+<!--								<p class="alert alert-success" t-if="message">-->
+<!--									<t t-esc="message"/>-->
+<!--								</p>-->
+<!--								<a href="/web/login" class="btn btn-danger">Back to Login</a>-->
+<!--							</div>-->
+
+<!--							<div class="oe_reset_password_form" t-if="reset_message" >-->
+<!--								<img src="/dp_auth/static/src/img/image.png" class="oe_reset_img" width="240" height="240" />-->
+<!--								<p class="control-label" style="color:black;font-weight: bold;">Get verification code<br/> We will send verification code to Email:</p>-->
+<!--								<p class="control-label" style="color:black;font-weight: bold;"><t t-esc="reset_message"/></p>-->
+<!--								<form role="form" method="post">-->
+<!--									<div class="row">-->
+<!--										<input type="hidden" name="login" t-att-value="login" id="login" class="form-control" required="required"/>-->
+<!--										<input type="hidden" name="reset_request" t-att-value="reset_message" id="reset_request" class="form-control" required="required"/>-->
+<!--										<div style="text-align:center;">-->
+<!--											<button type="submit" class="btn btn-danger">Send</button>-->
+<!--										</div>-->
+<!--									</div>-->
+<!--								</form>-->
+<!--							</div>-->
+
+<!--							<form class="oe_reset_password_form" role="form" method="post" t-if="not message and not reset_message">-->
+<!--                                <p class="signup_error_msg" t-if="error">-->
+<!--                                    <t t-esc="error"/>-->
+<!--                                </p>-->
+
+<!--								<h2>CREATE ACCOUNT</h2>-->
+
+<!--                                <t t-call="web.database_select"/>-->
+
+<!--                                <div class="form-group field-login">-->
+<!--                                    <div class="form-row form-group field-login">-->
+<!--                                        <div class="login_p" style="margin-bottom:0px!important;">-->
+<!--                                            <p class="notes" style="bottom:0px!important;">Note: Passwords must be at least <b>6</b> characters in length.</p>-->
+<!--                                            <p class="notes" style="bottom:0px!important;">You are advised to include at least 1 number, 1 uppercase letter and 1 special character in your password.</p>-->
+<!--                                            </div>-->
+<!--                                       <div class="form-group col-sm-6">-->
+<!--                                           <label for="login" class="control-label">Contact Email (User Login)</label>-->
+<!--                                           <input type="text" name="login" t-att-value="login" id="login" class="form-control" autofocus="autofocus"-->
+<!--                                                  required="required" t-att-readonly="'readonly' if only_passwords else None"/>-->
+<!--                                        </div>-->
+
+<!--                                        <div class="form-group col-sm-6">-->
+<!--                                          <label for="contact_person">Contact Person</label>-->
+<!--                                            <input type="text" name="name" t-att-value="name" id="name" class="form-control" placeholder="e.g. John Doe"-->
+<!--                                                                required="required" t-att-readonly="'readonly' if only_passwords else None"-->
+<!--                                                                t-att-autofocus="'autofocus' if login and not only_passwords else None" />-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+
+<!--                                <div class="form-group field-confirm_password">-->
+<!--                                    <div class="form-row">-->
+<!--                                        <div class="form-group col-sm-6 field-password">-->
+<!--                                            <label for="password" class="control-label">Password</label>-->
+<!--                                            <input type="password" name="password" id="password" class="form-control" readonly="readonly"-->
+<!--                                        required="required" t-att-autofocus="'autofocus' if only_passwords else None"/>-->
+<!--                                        </div>-->
+
+<!--                                        <div class="form-group col-sm-6 field-confirm_password">-->
+<!--                                            <label for="confirm_password" class="control-label">Confirm Password</label>-->
+<!--                                            <input type="password" name="confirm_password" id="confirm_password" class="form-control" required="required"/>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+
+<!--								<input type="hidden" name="redirect" t-att-value="redirect"/>-->
+<!--								<input type="hidden" name="token" t-att-value="token"/>-->
+<!--								<div class="clearfix oe_login_buttons" style="text-align:center;">-->
+<!--									<button type="submit" class="btn btn-danger sign-in" style="position:relative;top:20px;width:30%%;">Chandler Signup</button><br/><br/>-->
+<!--									<a t-attf-href="/web/login?{{ keep_query() }}">Go to Sign in</a>-->
+<!--								</div>-->
+<!--							</form>-->
+<!--						</div>-->
+<!--					</div>-->
+<!--				</div>-->
+<!--            </t>-->
+<!--        </template>-->
+    </data>
+</openerp>

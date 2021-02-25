@@ -1,0 +1,161 @@
+<openerp>
+    <data>
+        <record id="dp_base_saleorder_extended_phase2_form_view" model="ir.ui.view">
+            <field name="name">dp.base.saleorder.extended.phase2.form.view</field>
+            <field name="model">sale.order</field>
+            <field name="priority">18</field>
+            <field name="inherit_id" ref="dp_sale.dp_base_saleorder_extended_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='currency_rate']" position="attributes">
+                    <attribute name="readonly">0</attribute>
+                    <attribute name="context">{'edit_currency_rate': True}</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <!--Shipmaster action view Enquiries (extend)-->
+        <record id="dp_sale.dp_shipmaster_request_quotation" model="ir.actions.act_window">
+            <field name="domain">[('bid_status','not in',('confirm',)), ('state', 'not in', ('draft',))]</field>
+<!--            <field name="auto_refresh">30</field>-->
+        </record>
+        <menuitem name="My Enquiries" parent="dp_sale.shipmaster_sub_menu" id="dp_sale.dp_shipmaster_action_menu" sequence="14" action="dp_sale.dp_shipmaster_request_quotation" groups="dp_common.group_shipmaster"/>
+
+        <!--Shipmaster action view My Orders-->
+        <record id="dp_shipmaster_request_quotation_my_orders" model="ir.actions.act_window">
+            <field name="name">Shipmaster Request for Quotation My Orders</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">sale.order</field>
+            <field name="priority">180</field>
+            <field name="context">{'shipmaster_form': True, 'need_recompute_discount': 1}</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="groups">dp_common.group_shipmaster</field>
+            <field name="domain">[('bid_status','in',('confirm','done','cancel_yourself'))]</field>
+            <field name="search_view_id" ref="sale.view_sales_order_filter"/>
+        </record>
+        <record id="dp_shipmaster_form_action_my_orders" model="ir.actions.act_window.view">
+            <field name="sequence">1</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="dp_sale.shipmaster_bid_form_view"/>
+            <field name="act_window_id" ref="dp_shipmaster_request_quotation_my_orders"/>
+        </record>
+        <record id="dp_shipmaster_tree_action_my_orders" model="ir.actions.act_window.view">
+            <field name="sequence">0</field>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="dp_sale.shipmaster_bid_tree_view"/>
+            <field name="act_window_id" ref="dp_shipmaster_request_quotation_my_orders"/>
+        </record>
+        <menuitem name="My Orders" parent="dp_sale.shipmaster_sub_menu" id="dp_shipmaster_action_menu_my_orders" sequence="15" action="dp_shipmaster_request_quotation_my_orders" groups="dp_common.group_shipmaster"/>
+
+
+        <record id="sale.action_quotations" model="ir.actions.act_window">
+            <field name="view_mode">tree,form</field>
+            <field name="auto_refresh">30</field>
+        </record>
+
+        <record id="sale.action_orders" model="ir.actions.act_window">
+            <field name="view_mode">tree,form</field>
+            <field name="auto_refresh">30</field>
+        </record>
+
+        <record id="shipmaster_bid_form_view_inherit2" model="ir.ui.view">
+            <field name="name">dp.base.saleorder.extended.phase2.form.view</field>
+            <field name="model">sale.order</field>
+            <field name="priority">18</field>
+            <field name="inherit_id" ref="dp_sale.shipmaster_bid_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='total_before_discount']" position="replace">
+                </xpath>
+                <xpath expr="//field[@name='amount_discount']" position="replace">
+                    <field name="total_before_discount" widget="monetary" options="{'currency_field': 'currency_id'}"
+                    readonly="1"/>
+                        <div class="oe_form_group_cell oe_form_group_cell_label oe_form_label oe_align_right" colspan="2">
+                            <span colspan="1" style="right:12%;position:relative;">
+                                <field name="ws_discount_type" invisible="1"/>
+                                <field name="ws_discount_percent" attrs="{'invisible': [('ws_discount_type', 'in', ('amount', False))]}"  nolabel="1"
+                                style="width:25% !important; padding:0px!important" digits="(16,2)"/>
+                                <label for="ws_discount_percent" string="%"
+                                       class='special_label' attrs="{'invisible': [('ws_discount_type', 'in', ('amount', False))]}" style="content: none;padding-right:3px!important;"/>
+                                <label for="amount_discount"/>
+                            </span>
+                            <field name="amount_discount" nolabel="1"  widget="monetary" options="{'currency_field': 'dp_currency_id'}"  style="width:30% !important" colspan="1"/>
+                        </div>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="sale.action_orders" model="ir.actions.act_window">
+			<field name="context">{'search_default_my_sale_orders_filter': 0, 'need_recompute_discount': 1, 'readonly_by_pass': ['last_selling_price', 'base_purchase_price', 'currency_and_rate',], 'needaction_menu_ref': 'sale.menu_sale_order', 'chandler_form': True}</field>
+		</record>
+		<record id="sale.action_quotations" model="ir.actions.act_window">
+			<field name="context">{'search_default_my_sale_orders_filter': 0, 'need_recompute_discount': 1, 'readonly_by_pass': ['last_selling_price', 'base_purchase_price', 'currency_and_rate',], 'chandler_form': True}</field>
+        </record>
+
+        <record id="dp_base_saleorder_extended_inherit_form_view2" model="ir.ui.view">
+            <field name="name">dp.base.saleorder.extended.inherit.form.view2</field>
+            <field name="model">sale.order</field>
+            <field name="priority">17</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='expire_quote_date']" position="attributes">
+                    <attribute name="widget">warning_no_click</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="dp_base_saleorder_extended_inherit_form_view" model="ir.ui.view">
+            <field name="name">dp.base.saleorder.extended.inherit.form.view</field>
+            <field name="model">sale.order</field>
+            <field name="priority">17</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='state']" position="attributes">
+                    <attribute name="statusbar_visible">shipmaster_confirm,progress</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="shipmaster_bid_form_view_inherit" model="ir.ui.view">
+            <field name="name">dp.base.saleorder.extended.phase2.form.view</field>
+            <field name="model">sale.order</field>
+            <field name="priority">18</field>
+            <field name="inherit_id" ref="dp_sale.shipmaster_bid_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//header/field[@name='bid_status']" position="replace">
+                    <field name="bid_status" widget="statusbar"
+                           statusbar_visible="confirm,done"
+                           groups="dp_common.group_shipmaster"/>
+                </xpath>
+            </field>
+        </record>
+
+		<record id="shipmaster_bid_form_view_inherit_extend" model="ir.ui.view">
+            <field name="name">dp.base.saleorder.extended.phase2.form.view</field>
+            <field name="model">sale.order</field>
+            <field name="priority">18</field>
+            <field name="inherit_id" ref="dp_sale.shipmaster_bid_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='order_line']/tree" position="attributes">
+                    <attribute name="delete">false</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="dp_base_saleorder_extended_inherit_form_view_extend" model="ir.ui.view">
+            <field name="name">dp.base.saleorder.extended.inherit.form.view</field>
+            <field name="model">sale.order</field>
+            <field name="priority">17</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='order_line']/tree" position="attributes">
+                    <attribute name="delete">false</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- hot fix btf sales cannot see canceled orders -->
+        <record id="sale.action_orders" model="ir.actions.act_window">
+            <field name="domain">[('state', 'not in', ('draft', 'chandler_draft', 'sent',))]</field>
+        </record>
+    </data>
+</openerp>

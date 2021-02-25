@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+   <data>
+
+       <template id="custom_report_delivery_document">
+            <t t-call="report.html_container">
+                <t t-name="report.my_layout">
+					<div class="page" style="padding: 30px 25px">
+						<style type="text/css">
+                         td, th
+                        {
+                            padding: 1px 5px!important;
+                        }
+
+                        .border0
+                        {
+                            border: 0px!important;
+                        }
+
+                        .padding0
+                        {
+                            padding: 0px!important;
+                        }
+
+                        .border{
+                            border: 1px solid !important;
+                        }
+
+                        .mt15
+                        {
+                            margin-top:15px;
+                        }
+
+                        .border_left
+                        {
+                            border-left:1px solid;
+                        }
+                        .border_bottom
+                        {
+                           border-bottom:1px solid;
+                        }
+                        .c_info{
+                            font-size: 13px;
+							
+                        }
+                        .small_bold{
+                            font-size: 12px;
+                            font-weight: bold;
+							
+                        }
+						.small1{
+						font-style:italic;
+						text-align: right;	
+						}
+                        .product_p{
+                        font-size: 10px
+                        }
+                        .bg_color{
+                            background-color:#000;
+                        }
+                        .line_wrap{
+                            white-space: nowrap; 
+						    width: 95%; 
+						    overflow: hidden;
+						    text-overflow: ellipsis;
+						    margin-top: 0;
+						    margin-bottom: 0;
+						    padding-top: 0;
+						    padding-bottom: 0;
+						 } 
+						 .input_style {
+  outline: 0;
+  border-width: 0 0 1px;
+  border-color: #000;
+  width: 100%;
+}
+                    </style>
+						<t t-set="picking_id" t-value="get_picking_info(docs)" />
+						<t t-set="company_id" t-value="get_company_info(docs)" />
+						<t t-set="customer_id" t-value="get_customer_info(docs)" />
+						<t t-set="get_lines_ids" t-value="get_lines_picking(docs)" />
+						<div style="padding-top: 60px"/>
+						<table width="100%">
+							<tr>
+								<td width="15%" align="left" style="vertical-align:middle;">
+									<img t-if="company.logo" t-att-src="'data:image/png;base64,%s' % company.logo" style="max-width: 100px;width: 100%;display:inline-block" />
+								</td>
+								<td width="42%" align="center" style="text-align: center;margin-top:25px;float: right;">
+									<p style="font-size: 16px;margin-bottom:5px;margin-top:15px"><b>COMPROBANTE DE ENTREGA</b></p>
+									<p style="font-size: 16px;margin-bottom:5px" t-esc="company_id.name" />
+									<p align="center" class="c_info">
+									<!--<t t-if="company_id.street"><t t-esc="company_id.street" />,</t>-->
+									<t t-if="company_id.street2"><t t-esc="company_id.street2" /></t>
+									<br/>
+									<t t-if="company_id.city"><t t-esc="company_id.city" />,</t>
+									<t t-if="company_id.state_id"><t t-esc="company_id.state_id.name" />,</t>
+									<t t-if="company_id.country_id"><t t-esc="company_id.country_id.name" /></t>
+									<br/>
+									<t t-if="company_id.phone">Tel: <t t-esc="company_id.phone" /> / </t>
+									<t t-if="company_id.mobile"> Móvil: <t t-esc="company_id.mobile" /></t>
+									</p>
+								</td>
+								<td style="width: 21%;float: right;font-size: 16px;color:ff0009;text-align:center">
+									No. <input style="font-size: 16px;color:ff0009;border:0;border-bottom: 1px solid #000;text-align:left" t-att-value="picking_id.name" />
+								</td>
+							</tr>
+						</table>
+
+						<table class="c_info" width="100%">
+							<tr>
+								<th style="vertical-align:middle" width="20%">
+									Lugar y Fecha:
+								</th>
+								<td width="80%">
+									<p style="width:100%;border-bottom: 1px solid #000;margin-bottom:0px;margin-top:0px;padding-bottom:0px;padding-top:0px">
+										<t t-if="customer_id.street"><t t-esc="customer_id.street" /> ,</t>
+										<t t-if="customer_id.city"><t t-esc="customer_id.city" /> ,</t>
+										<t t-if="customer_id.state_id"><t t-esc="customer_id.state_id.name" /> ,</t>
+										<t t-if="customer_id.country_id"><t t-esc="customer_id.country_id.name" />, </t>
+										<t t-esc="picking_id.date" t-field-options='{"widget": "date"}'/>
+									</p>
+								</td>
+							</tr>
+							<tr>
+								<th style="vertical-align:middle" width="20%">
+									Cliente:
+								</th>
+								<td>
+									<input class="input_style" type="text" t-att-value="customer_id.name" />
+								</td>
+							</tr>
+							<tr>
+								<th style="vertical-align:middle" width="20%">
+									Orden:
+								</th>
+								<td>
+									<input class="input_style" t-att-value="picking_id.origin" />
+								</td>
+							</tr>
+							<tr>
+								<th style="vertical-align:middle" width="20%">
+									Factura:
+								</th>
+								<td>
+								<input class="input_style" t-att-value="picking_id.x_invoice"/>
+								</td>
+							</tr>
+						</table>
+						
+						<table class="product_p border mt8" width="100%">
+								<tr>
+									<th class="text-center border" width="5%"  style ="font-size: 12px;">ITEM</th>
+									<th class="text-center border" width="10%" style ="font-size: 12px;">CANTIDAD</th>
+									<th class="text-center border" width="60%"  style ="font-size: 12px;">DESCRIPCIÓN</th>
+									<th class="text-center border" width="25%"  style ="font-size: 12px;">Codigo</th>
+								</tr>
+								<tr t-foreach="get_lines_ids" t-as="lines_id">
+									<t t-set="count" t-value="1" />
+									<td class="text-center border"  style ="font-size: 12px">
+										<t t-esc="count" />
+									</td>
+										<td class="text-center border" style="font-size: 12px">
+	                                    <t t-esc="lines_id.product_uom_qty" />
+									</td>
+									<td class="text-left border" style="font-size: 12px">
+								    	<t t-esc="lines_id.name" />	
+									</td>
+									<td class="border" style="font-size: 12px;text-align: center">
+									    <t t-esc="lines_id.product_id.default_code" />
+									</td>
+									<t t-set="count" t-value="count + 1" /> 
+								</tr>
+
+
+								<t t-set="rows_vals" t-value="14 - len(get_lines_ids)" />
+								<tr t-if="rows_vals &lt; 14" height="28px">
+									<td class="border" style="vertical-align:bottom;font-size:16px;text-align:center;"><span style="color:ff0009;vertical-align:bottom">* * *</span></td>
+									<td class="border" style="vertical-align:bottom;font-size:16px;text-align:center"><span style="color:ff0009;vertical-align:bottom">* * * * * *</span></td>
+									<td class="border" style="vertical-align:top;font-size:16px;text-align:center"><span style="color:ff0009">* * * * * * * * * * * * * * * * UL * * * * * * * * * * * * * * * * *</span></td>
+									<td class="border" style="vertical-align:bottom;font-size:16px;text-align:center"><span style="color:ff0009;vertical-align:bottom">* * * * * * * * * *</span></td>
+								</tr>
+								
+								<t t-foreach="range(0,rows_vals)" t-as="row_val">
+								<tr height="20px">
+									<td class="border"></td>
+									<td class="border"></td>
+									<td class="border"></td>
+									<td class="border"></td>
+								</tr>
+								</t>
+							</table>
+							<br/>
+							
+							<t t-if="picking_id.move_type != 'direct'"><input style="width:5%" value="X" />  Entrega Completa.<br/></t>
+							<t t-if="picking_id.move_type == 'direct'"><input style="width:5%" />  Entrega Completa.<br/></t>
+							<t t-if="picking_id.move_type == 'direct'"><input style="width:5%" value="X" />  Entrega Parcial.</t>
+							<t t-if="picking_id.move_type != 'direct'"><input style="width:5%" />  Entrega Parcial.</t>
+							<br />
+								<span style="width:5%">Nota:</span>
+								<input class="input_style" style="width:94%;;float:right"/>
+							<br />
+								<span style="width:5%">  </span>
+								<input class="input_style" style="width:94%;float:right"/>
+							<br />
+							<br />     
+							<table class="mt8" width="100%">
+								<tr>
+									<td class="text-center"  style ="font-size: 14px">
+										<input class="input_style" style="border-style: dashed;width: 60%;"/>
+										<br/>
+										Entregado por:		
+									</td>
+									<td class="text-center"  style ="font-size: 14px">
+										<input class="input_style" style="border-style: dashed;width: 60%;"/>
+										<br/>
+										Recibido por:
+									</td>
+									<td class="text-center"  style ="font-size: 14px">
+								    	<input class="input_style" style="border-style: dashed;width: 60%;"/>
+										<br/>
+										Autorizado	
+									</td>
+								</tr>
+								<tr>
+									<td colspan="3">
+											<br/>
+									</td>
+								</tr>
+								<tr>
+									<td colspan="3" class="text-center"  style ="font-size: 14px">
+										<input class="input_style" style="border-style: dashed;width: 22%;" />
+										<br/>
+										<b>Recibio conforme</b>		
+									</td>
+								</tr>
+							</table>
+					</div>
+                </t>
+            </t>
+       </template>
+
+       <template id="custom_report_delivery">
+            <t t-call="report.html_container">
+                <t t-foreach="doc_ids" t-as="doc_id">
+                    <t t-raw="translate_doc(doc_id, doc_model, 'partner_id.lang', 'awesome_invoice_report_template.custom_report_delivery_document')"/>
+                </t>
+            </t>
+        </template>
+
+</data>
+</openerp>

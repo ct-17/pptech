@@ -1,0 +1,12 @@
+<openerp>
+    <data noupdate="1">
+        <record id="np_sales_email_parameter_record" model="ir.config_parameter">
+            <field name="key">np_sales_email_parameter</field>
+            <field name="value">np_sales_email_parameter</field>
+        </record>
+        <record id="btf_support_email_parameter_record" model="ir.config_parameter">
+            <field name="key">btf_support_email_parameter</field>
+            <field name="value">btf_support_email_parameter</field>
+        </record>
+    </data>
+</openerp>

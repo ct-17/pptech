@@ -1,0 +1,8 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+res_partner_chandler_currency_rate,chandler.currency.rate,model_chandler_currency_rate,dp_common.group_chandler,1,1,1,1
+res_partner_chandler_currency_rate,chandler.currency.rate,model_chandler_currency_rate,dp_common.group_chandler_admin,1,1,1,1
+chandler_invitation_user_chandler_invite,shipmaster.invitation,model_shipmaster_invitation,dp_common.group_chandler,1,1,1,0
+chandler_invitation_user,dp.shipmaster.invitation,model_dp_shipmaster_invitation,dp_common.group_chandler,1,1,1,1
+chandler_currency_rate_chandler,res.user,model_chandler_currency_rate,dp_common.group_chandler,1,1,1,1
+chandler_access_purchase_order,purchase.order,purchase.model_purchase_order,dp_common.group_chandler,1,1,1,0
+chandler_access_purchase_order_line,purchase.order.line,purchase.model_purchase_order_line,dp_common.group_chandler,1,1,1,0

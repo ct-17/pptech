@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+sale_line_track_chandler,sale.line.track.chandler,dp_sale_extend.model_sale_line_track,dp_common.group_chandler,1,1,1,1
+sale_line_track_shipmaster,sale.line.track.shipmaster,dp_sale_extend.model_sale_line_track,dp_common.group_shipmaster,1,1,1,1

@@ -1,0 +1,8 @@
+<openerp>
+    <data>
+        <!-- unlink then set new links for warehouse manager -->
+        <record model="ir.ui.menu" id="sales_team.menu_sales_team_act">
+            <field eval="[(6,0, [ref('dp_common.group_super_admin')])]" name="groups_id"/>
+        </record>
+    </data>
+</openerp>

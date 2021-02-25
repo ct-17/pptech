@@ -1,0 +1,45 @@
+<openerp>
+    <data>
+
+        <record id="dp_shipmaster_invitation_tree_view" model="ir.ui.view">
+            <field name="name">dp.shipmaster.invitation.tree</field>
+            <field name="model">dp.shipmaster.invitation</field>
+            <field name="arch" type="xml">
+                <tree create="false" edit="false">
+                    <field name="shipmaster_name"/>
+                    <field name="shipmaster_email"/>
+                    <field name="state" string="Status"/>
+                    <field name="invitation_date" invisible="context.get('accepted_view', False)"/>
+                    <field name="joined_date" invisible="context.get('pending_view', False)"/>
+                    <field name="last_session" invisible="context.get('pending_view', False)"/>
+                    <button name="send_invitation" type="object" class="oe_button oe_form_button oe_highlight" string="Resend Invitation" attrs="{'invisible': [('state', '=', 'accepted')]}"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_dp_shipmaster_invitation_accepted_view" model="ir.actions.act_window">
+            <field name="name">Invitation List - Accepted</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">dp.shipmaster.invitation</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree</field>
+            <field name="context">{'view_self': True, 'accepted_view': True}</field>
+            <field name="domain">[('user_id','=',uid),('state','=','accepted')]</field>
+        </record>
+        <record id="action_dp_shipmaster_invitation_not_accpepted_view" model="ir.actions.act_window">
+            <field name="name">Invitation List - Pending</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">dp.shipmaster.invitation</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree</field>
+            <field name="context">{'view_self': True, 'pending_view': True}</field>
+            <field name="domain">[('user_id','=',uid),('state','!=','accepted')]</field>
+        </record>
+
+        <menuitem name="Invitation List - Accepted" id="shipmaster_invitation_list_accepted_menu" action="action_dp_shipmaster_invitation_accepted_view"
+                  parent="dp_common.invitation_menu"/>
+
+        <menuitem name="Invitation List - Pending" id="shipmaster_invitation_list_not_accpepted_menu" action="action_dp_shipmaster_invitation_not_accpepted_view"
+                  parent="dp_common.invitation_menu"/>
+    </data>
+</openerp>

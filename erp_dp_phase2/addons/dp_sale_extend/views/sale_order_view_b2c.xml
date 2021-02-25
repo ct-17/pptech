@@ -1,0 +1,52 @@
+<openerp>
+    <data>
+        <record id="dp_sale_order_form_view_b2c" model="ir.ui.view">
+            <field name="name">dp.sale.order.form.view.b2c</field>
+            <field name="model">sale.order</field>
+            <field name="priority">12</field>
+            <field name="inherit_id" ref="sale.view_order_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='partner_id']" position="attributes">
+                    <attribute name="string">Purchaser</attribute>
+                </xpath>
+                <xpath expr="//field[@name='partner_id']" position="before">
+                    <field name="parent_partner_id" readonly="1" string="Chandler"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="dp_view_order_tree_inherit_extend" model="ir.ui.view">
+            <field name="name">dp.view.order.tree.inherit.extend</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="dp_sale.dp_view_order_tree_inherit" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='partner_id']" position="attributes">
+                    <attribute name="string">Purchaser</attribute>
+                </xpath>
+                <xpath expr="//field[@name='partner_id']" position="after">
+                    <field name="parent_partner_id" string="Chandler"/>
+                </xpath>
+            </field>
+        </record>
+        <record id="dp_view_quotation_tree_inherit_extend" model="ir.ui.view">
+            <field name="name">dp.sale.view.quotation.tree.inherit.extend</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="dp_sale.dp_view_quotation_tree_inherit" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='partner_id']" position="attributes">
+                    <attribute name="string">Purchaser</attribute>
+                </xpath>
+                <xpath expr="//field[@name='partner_id']" position="after">
+                    <field name="parent_partner_id" string="Chandler"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="btf_sales_quotation_rule" model="ir.rule">
+            <field name="name">All Orders for BTF Sales</field>
+            <field ref="sale.model_sale_order" name="model_id"/>
+            <field name="domain_force">[(1,'=',1)]</field>
+            <field name="groups" eval="[(4, ref('dp_sale_extend.group_btf_sales'))]"/>
+        </record>
+    </data>
+</openerp>

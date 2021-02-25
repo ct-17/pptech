@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+   <data>
+
+       <template id="custom_report_purchase_document">
+            <t t-call="report.html_container">
+                <t t-name="report.my_layout">
+					<div class="page" style="padding: 40px 30px 80px 80px;">
+						<style type="text/css">
+                         td, th
+                        {
+                            padding: 1px 5px!important;
+                        }
+
+                        .border0
+                        {
+                            border: 0px!important;
+                        }
+
+                        .padding0
+                        {
+                            padding: 0px!important;
+                        }
+
+                        .border{
+                            border: 1px solid !important;
+                        }
+
+                        .mt15
+                        {
+                            margin-top:15px;
+                        }
+
+                        .border_left
+                        {
+                            border-left:1px solid;
+                        }
+                        .border_bottom
+                        {
+                           border-bottom:1px solid;
+                        }
+                        .c_info{
+                            font-size: 12px;
+							
+                        }
+                        .small_bold{
+                            font-size: 11px;
+                            font-weight: bold;
+							
+                        }
+						.small1{
+						font-style:italic;
+						text-align: right;	
+						}
+                        .product_p{
+                        font-size: 10px
+                        }
+                        .bg_color{
+                            background-color:#953634;
+                            color: #000;
+                        }
+                        .line_wrap{
+                            white-space: nowrap; 
+						    width: 95%; 
+						    overflow: hidden;
+						    text-overflow: ellipsis;
+						    margin-top: 0;
+						    margin-bottom: 0;
+						    padding-top: 0;
+						    padding-bottom: 0;
+						 } 
+                    </style>
+						<t t-set="purchase_id" t-value="get_purchase_info(docs)" />
+						<t t-set="company_id" t-value="get_company_info(docs)" />
+						<t t-set="customer_id" t-value="get_customer_info(docs)" />
+						<t t-set="get_lines_ids" t-value="get_lines_purchase(docs)" />
+						
+						<table width="100%">
+							<tr>
+								<td width="20%" align="left" style="vertical-align:middle;">
+									<img t-if="company.logo" t-att-src="'data:image/png;base64,%s' % company.logo" style="max-width: 100px;width: 100%;display:inline-block" />
+								</td>
+								<td width="34%" align="center" style="text-align: center;">
+									<b t-if="company_id.name"><p style="font-size: 16px;margin-bottom:5px;font-weight: bold;" t-esc="company_id.name" /></b>
+									<p align="center" class="c_info">
+									<!--<t t-if="company_id.street"><t t-esc="company_id.street" />,</t>-->
+									<t t-if="company_id.street2"><t t-esc="company_id.street2" /></t>
+									<br/>
+									<t t-if="company_id.city"><t t-esc="company_id.city" />,</t>
+									<t t-if="company_id.state_id"><t t-esc="company_id.state_id.name" />,</t>
+									<t t-if="company_id.country_id"><t t-esc="company_id.country_id.name" /></t>
+									<br/>
+									<t t-if="company_id.phone">Tel: <t t-esc="company_id.phone" /> / </t>
+									<t t-if="company_id.mobile"><t t-esc="company_id.mobile" /></t>
+									</p>
+								</td>
+								<td style="width: 46%;">
+									<DIV class="small_bold">
+										<p style="font-size: 13px;margin-bottom:0" class="text-right">
+										ORDEN DE COMPRA
+										<br />
+											<span style="color:#ff0009;font-size: 15px">N . <t t-esc="purchase_id.name"/></span>
+										</p>
+									</DIV>
+									<TABLE class="c_info" width="100%" align="right" style="text-align:center">
+										<TR class="border bg_color" align="center" style="text-align:center;border-color:#000;">
+											<TH  class="text-center" style="color:#fff">DIA</TH>
+											<TH  class="text-center" style="color:#fff">MES</TH>
+											<TH   class="text-center" style="color:#fff">AÑO</TH>
+										</TR>
+										<TR align="center" class="border" style="text-align:center;border-color:#000;">
+											<TD><span t-field="purchase_id.date_order" t-field-options='{"format": "d"}'/></TD>
+											<TD><span t-field="purchase_id.date_order" t-field-options='{"format": "MM"}'/></TD>
+											<TD><span t-field="purchase_id.date_order" t-field-options='{"format": "yyyy"}'/></TD>
+										</TR>
+									</TABLE>
+								</td>
+							</tr>
+						</table>
+
+						<p class="small_bold" style="margin:0" t-if="company_id.rtn_no"><b> R.T.N.: <t t-esc="company_id.rtn_no" /></b></p>
+
+						<table class="c_info border border_color" width="100%">
+							<tr>
+								<td width="54%">
+									<table width="100%" align="left">
+										<tr>
+											<th style="vertical-align:middle" width="20%">
+												Para :
+											</th>
+											<td>
+									     		   <t t-if = "customer_id.parent_id.name  is  False">
+													<t t-esc="customer_id.name" /></t>
+													<t t-if ="customer_id.parent_id.name is not False">
+													<t t-esc="customer_id.parent_id.name" /></t>
+											</td>
+										</tr>
+										<tr>
+											<th style="vertical-align:middle" width="20%">
+												Dirección:
+											</th>
+											<td width="60%">
+												<p class="line_wrap" style="max-width:270px">
+													<t t-if="customer_id.street"><t t-esc="customer_id.street" /> ,</t>
+													<t t-if="customer_id.city"><t t-esc="customer_id.city" /> ,</t>
+													<t t-if="customer_id.state_id"><t t-esc="customer_id.state_id.name" /> ,</t>
+													<t t-if="customer_id.country_id"><t t-esc="customer_id.country_id.name" /></t>
+												</p>
+											</td>
+										</tr>
+										<tr>
+											<th style="vertical-align:middle" width="20%">
+												Referencia:
+											</th>
+											<td>
+												<t t-esc="purchase_id.partner_ref" />
+											</td>
+										</tr>
+										<tr>
+											<th style="vertical-align:middle" width="20%">
+												Contacto:
+											</th>
+											<td>
+													<t t-if = "customer_id.parent_id.name  is not False">
+													<t t-esc="customer_id.name" /></t>
+													<t t-if ="customer_id.parent_id.name is  False">
+													<t t-esc="customer_id.parent_id.name" /></t>
+												<!--<t t-esc="purchase_id.x_contact.name"/>-->
+											</td>
+										</tr>
+									</table>
+								</td>
+								<td width="46%">
+									<table width="100%" align="right">
+										<tr>
+											<th style="vertical-align:middle" width="20%">
+												Solicitud:
+											</th>
+											<td width="60%">
+												<t t-esc="purchase_id.x_solicutd.name"/>
+											</td>
+										</tr>
+										<tr>
+											<th style="vertical-align:middle" width="20%">
+												Entrega:
+											</th>
+											<td width="60%">
+												<t t-esc="purchase_id.picking_type_id.name"/>
+										<!--<t t-esc="purchase_id.payment_term_id.name" />-->
+											</td>
+										</tr>
+										<tr>
+											<th style="vertical-align:middle" width="20%">
+												Crédito:
+											</th>
+											<td width="60%">
+												<t t-esc="purchase_id.payment_term_id.name" />-
+											</td>
+										</tr>
+										<tr>
+											<th style="vertical-align:middle" width="20%">
+												Incoterms:
+											</th>
+											<td width="60%">
+												<t t-esc="purchase_id.incoterm_id.code" />
+											</td>
+										</tr>
+									</table>
+								</td>
+							</tr>
+						</table>
+
+						<div style="padding: 8px 4px;position:relative">
+							<table class="product_p border" height="850px" width="100%" >
+								<div  style="position:absolute;top:60%;opacity:1.0;z-index:999;width:100%;">
+				                	<img style="width:200%;max-width:350px;display:block;margin:0px auto;" src="/awesome_invoice_report_template/static/description/sello1.png"/><!--data:image/png;base64,'+ company_id.logo" -->
+				               </div>
+								<tr height="15px" class="border">
+									<th class="border bg_color" width="4%"  style ="font-size: 12px;"><span style="color:#fff">ITEM</span></th>
+									<th class="text-center border bg_color" width="10%" style ="font-size: 12px;"><span style="color:#fff">CANTIDAD</span></th>
+									<th class="text-center border bg_color" width="12%"  style ="font-size: 12px;"><span style="color:#fff">CÓDIGO</span></th>
+									<th class="text-center border bg_color" width="49%"  style ="font-size: 12px;"><span style="color:#fff">DESCRIPCIÓN</span></th>
+									<th class="text-center border bg_color" width="14%"  style ="font-size: 12px;"><span style="color:#fff">PRECIO</span></th>
+									<th class="text-center border bg_color" width="12%"  style ="font-size: 12px;"><span style="color:#fff">VALOR</span></th>
+								</tr>
+								<t t-set="count" t-value="1" />
+								<tr height="22px" t-foreach="get_lines_ids" t-as="lines_id" style="margin-top:2px;margin-bottom:2px;">
+									
+									<td class="text-center"  style ="font-size: 12px">
+										<t t-esc="count" />
+									</td>
+										<td class="text-center" style="border-left: 1px solid #000;font-size: 12px">
+	                                    <t t-esc="lines_id.product_qty" />
+									</td>
+										<td class="text-center" style="border-left: 1px solid #000;font-size: 12px">
+										<t t-if="lines_id.product_id">
+										<t t-esc="lines_id.product_id.default_code" />
+										</t>
+									</td>
+										<td class="text-left" style="border-left: 1px solid #000;font-size: 12px">
+								    	<t t-esc="lines_id.name" />	
+									</td>
+										<td style="border-left: 1px solid #000;font-size: 12px;text-align: left">
+									    <span t-field="purchase_id.currency_id.symbol"  /> <span t-field="lines_id.price_unit" t-options='{"widget": "monetary", "display_currency": o.currency_id}' />	
+									</td>
+										<td style="border-left: 1px solid #000;font-size: 12px;text-align: left">
+								        <span t-field="purchase_id.currency_id.symbol" /> <span t-field="lines_id.price_subtotal" t-options='{"widget": "monetary", "display_currency": o.currency_id}' />		
+									</td>
+									<t t-set="count" t-value="count + 1" /> 
+								</tr>
+								<tr style="text-align:center;vertical-align: top;">
+									<td class="text-center" style ="font-size: 12px">* * *</td>
+									<td class="text-center" style="border-left: 1px solid #000;font-size: 12px">* * * * * * * * *</td>
+									<td class="text-center" style="border-left: 1px solid #000;font-size: 12px">* * * * * * * * * * *</td>
+									<td class="text-left" style="border-left: 1px solid #000;vertical-align: top;">
+							    	* * * * * * * * * * * * * * * * * * * * * * * * * * *        UL      * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * 
+									</td>
+									<td style="border-left: 1px solid #000;font-size: 12px">* * * * ** * * * * * * * </td>
+									<td style="border-left: 1px solid #000;font-size: 12px">* * * * * * * * * * </td>
+								</tr>
+								<tr class="border" height="22px" style="background-color: #d7e3bb;text-align:center;vertical-align: center;">
+									<td colspan="5">SUBTOTAL</td>
+									<td  style="text-align: right"><span t-field="purchase_id.currency_id.symbol" /><span t-field="purchase_id.amount_untaxed" t-options='{"widget": "monetary", "display_currency": o.currency_id}' /></td>
+								</tr>
+								<tr class="border" height="22px" style="background-color: #d7e3bb;text-align:center;vertical-align: center;">
+									<td colspan="5">ISV (15%)</td>
+									<td style="text-align: right"><span t-field="purchase_id.currency_id.symbol" /><span t-field="purchase_id.amount_tax" t-options='{"widget": "monetary", "display_currency": o.currency_id}' /></td>
+								</tr>
+								<tr class="border" height="22px" style="background-color: #d7e3bb;text-align:center;vertical-align: center;">
+									<td colspan="5">TOTAL (PUESTO EN BODEGA DEL CLIENTE)</td>
+									<td style ="text-align: right"><span t-field="purchase_id.currency_id.symbol" /><span t-field="purchase_id.amount_total" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/></td>
+								</tr>
+							</table>
+						</div>
+					</div>
+                </t>
+            </t>
+       </template>
+
+       <template id="custom_report_purchase">
+            <t t-call="report.html_container">
+                <t t-foreach="doc_ids" t-as="doc_id">
+                    <t t-raw="translate_doc(doc_id, doc_model, 'partner_id.lang', 'awesome_invoice_report_template.custom_report_purchase_document')"/>
+                </t>
+            </t>
+        </template>
+
+</data>
+</openerp>

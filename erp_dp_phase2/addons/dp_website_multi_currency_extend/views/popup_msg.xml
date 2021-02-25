@@ -1,0 +1,33 @@
+<openerp>
+    <data>
+         <record id="sale_order_msg_popup_confirm" model="ir.ui.view">
+            <field name="name">sale.order.msg.popup</field>
+            <field name="model">sale.order.popup.msg</field>
+            <field name="arch" type="xml">
+                <form string="Confirm Message">
+                    <field name="msg" readonly="1" nolabel="1" width="550" height="200"/>
+                    <footer>
+                        <button string="Confirm" name="confirm_run" type="object" class="oe_highlight"/>
+                            or
+                        <button string="Cancel" class="oe_link" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+<!--         <record id="shipmaster_sale_order_msg_popup_confirm" model="ir.ui.view">-->
+<!--            <field name="name">shipmaster.sale.order.msg.popup</field>-->
+<!--            <field name="model">sale.order.popup.msg</field>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <form string="Confirm Message">-->
+<!--                    <field name="msg" readonly="1" nolabel="1" width="550" height="200"/>-->
+<!--                    <footer>-->
+<!--                        <button string="Confirm" name="confirm_run_shipmaster" type="object" class="oe_highlight"/>-->
+<!--                            or-->
+<!--                        <button string="Cancel" class="oe_link" special="cancel" />-->
+<!--                    </footer>-->
+<!--                </form>-->
+<!--            </field>-->
+<!--        </record>-->
+    </data>
+</openerp>

@@ -1,0 +1,213 @@
+/*
+  ========================================
+  ==== website builder menu integration
+  ========================================
+*/
+@charset "utf-8";
+// variables
+
+#myinfo_enquiry {
+  #myinfo_title{
+    height:100%;
+    //background: #edd8da;
+    a{
+      height: 20%;
+      font-size: 16px;
+
+       &:hover{color: #7a7e8a ;}
+       &:focus  {
+         color: darken( red , 12%)!important  ;
+        background-position: 0 -15px;
+      }
+      &:active{color: blue ;}
+    }
+
+
+  }
+
+
+}
+
+#myinfo_detail  {
+  h1 > span {
+    background-color: #d21c23;
+    color: white;
+  }
+    table{
+      border: 3px solid #bf2525;
+      border-radius: 3% !important;
+      width: 100% ;
+      border-collapse:  unset;
+      padding: 20px 40px 0 0;
+      tr {
+        height: 30px !important;
+        position: relative;
+      }
+
+      td:nth-child(1){
+        color: #bf2525;
+        width: 35%;
+        text-align: right;
+      }
+      td:nth-child(2){
+        width: 10%;
+      }
+
+       td:nth-child(3){
+        text-align: left;
+        //position: relative;
+        input, span{
+          height: 25px;
+          padding: 10px;
+        }
+      }
+    }
+
+}
+#myenquiry {
+  h1 > span {
+    color: #d21c23;
+  text-decoration: underline;
+
+  }
+  table{
+    border-radius: 3% !important;
+    width: 100% ;
+    border-collapse:  unset;
+    background-color: white;
+    position: relative;
+    padding: 20px 20px 20px 20px;
+    a:hover{
+      color: blue;
+    }
+    a:active{
+      background-color: #4fbd4f;
+    }
+
+    thead {
+      tr:last-child > td:last-child{
+        border-bottom: 0.5px solid #707070 !important;
+        border-bottom-style: outset;
+        border-collapse: collapse !important;
+        color: rgba(112,112,112,0.49);
+      }
+
+
+
+    }
+    tbody{
+      td:nth-child(1){
+        width: 15%;
+        position: relative;
+      }
+      td:nth-child(2){
+        width: 30%;
+        position: relative;
+      }
+      td:nth-child(3){
+        width: 25%;
+        position: relative;
+      }
+      td:nth-child(4){
+        width: 15%;
+        position: relative;
+      }
+      td:nth-child(5){
+        width: 15%;
+        position: relative;
+      }
+    }
+  }
+}
+
+.active{
+  display: block;
+}
+
+.inactive{
+  display: none;
+}
+
+#modal_change_password{
+  h4{
+    color: #d21c23;
+    font-weight: bold;
+  }
+  table{
+    label{
+          color: #d21c23;
+        }
+    tr {
+        height: 30px !important;
+        position: relative;
+      td:nth-child(2){
+        padding-left: 20px;
+
+      }
+      input {
+          height: 25px;
+          padding: 10px;
+      }
+    }
+  }
+}
+
+.my-profile-list {
+	border: 1px solid #ddd;
+	padding: 20px;
+	margin-top: 30px;
+}
+
+.my-profile-list h2 {
+	font-size: 20px;
+	font-weight: bold;
+	margin-bottom: 15px;
+	padding-bottom: 10px;
+	border-bottom: 1px solid #ddd;
+}
+
+.my-profile-list label {
+	font-weight: 600;
+	font-size: 18px;
+	margin: 0;
+}
+
+.my-profile-list .btn {
+	margin-top: 30px;
+}
+
+.no-border-no-shadow {
+  border: none !important;
+  box-shadow: 0 0 0 0 !important;
+}
+
+.modal-body p{
+  font-size: 15px;
+  margin-bottom: 5px
+}
+
+#strength {
+  margin-left: 10px;
+}
+
+.row-space-filler-my-enquiry {
+  margin-left: -15px;
+  margin-right: -15px;
+  height: 1em;
+  width: 100%;
+}
+
+#myaccount_myAlert1>strong>center>p, #myaccount_myAlert2>strong>center>p, #novesselname>strong>center>p,#noshippingagentname>strong>center>p, #create_vessel_name_myAlert2>strong>center>p, #create_shipping_agent_myAlert2>strong>center>p{
+  font-size: 20px!important;
+  font-weight: bold!important;
+  margin-bottom: unset!important;
+}
+
+#myaccount_myAlert2, #create_vessel_name_myAlert1, #create_shipping_agent_myAlert1{
+  margin-bottom: unset!important;
+}
+
+.has-error_myaccount {
+  border: solid 5px #a94442 !important;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+}

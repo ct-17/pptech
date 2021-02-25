@@ -1,0 +1,8 @@
+<openerp>
+    <data noupdate="1">
+        <record id="cron_job_delete_parameter_record" model="ir.config_parameter">
+            <field name="key">cron_job_delete_parameter</field>
+            <field name="value">No Way</field>
+        </record>
+    </data>
+</openerp>

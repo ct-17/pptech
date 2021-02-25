@@ -1,0 +1,7 @@
+.dropdown-menu > li > a[data-menu=help] {
+    display: none!important;
+}
+
+.ui-tabs-active {
+    padding-bottom: 0px!important;
+}

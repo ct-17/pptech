@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+		<!-- Header -->
+		<template id="theme_header" inherit_id="website.layout">
+			<xpath expr="//header" position="replace">
+				<header class="header-part heade-new3">
+				   <div class="container">
+				      <div class="row align-items-center" style="padding: 15px 0px;">
+				         <div class="col-xs-12 col-sm-12 col-md-12">
+				            <div class="logo-part">             
+				               <a href="/"><img src="/logo.png" t-att-alt="'Logo of %s' % res_company.name" t-att-title="res_company.name"/></a>
+				            </div>
+				         </div>
+				         <div class="col-xs-6 col-sm-6 col-md-2 hidden-sm hidden-xs">
+				            <div class="inner_overlay" style="display: block;">
+				               <a class="button-menu"><span></span><span></span><span></span></a>
+				               <div class="menu-part">
+				                  <ul>
+				                     <li><a href="javascript:;">Beer</a></li>
+				                     <li><a href="javascript:;">Brandy</a></li>
+				                     <li><a href="javascript:;">Champagne</a></li>
+				                     <li><a href="javascript:;">Foods</a></li>
+				                     <li><a href="javascript:;">Gin</a></li>
+				                     <li><a href="javascript:;">Liquer/Aperitif</a></li>
+				                     <li><a href="javascript:;">Port</a></li>
+				                     <li><a href="javascript:;">Rum</a></li>
+				                     <li><a href="javascript:;">Ske/Sojo</a></li>
+				                     <li><a href="javascript:;">Sherry</a></li>
+				                     <li><a href="javascript:;">Tequila</a></li>
+				                     <li><a href="javascript:;">Vermouth</a></li>
+				                     <li><a href="javascript:;">Vodka</a></li>
+				                     <li><a href="javascript:;">Whisky/Bourbon</a></li>
+				                     <li><a href="javascript:;">Wines</a></li>
+				                  </ul>
+				               </div>
+				            </div>
+				         </div>
+				         <div class="col-xs-12 col-sm-12 col-md-6">
+				            <div class="header-search">
+				               <form role="search" method="get" action="">
+				                  <div class="select-category">
+				                     <div class="SumoSelect sumo_category" tabindex="0">
+				                        <select name="category" class="SlectBox SumoUnder">
+				                           <option>Select category</option>
+				                           <option>Beer</option>
+				                           <option>Brandy</option>
+				                           <option>Champagne</option>
+				                           <option>Foods</option>
+				                           <option>Gin</option>
+				                           <option>Liquer/Aperitif</option>
+				                           <option>Port</option>
+				                           <option>Rum</option>
+				                           <option>Ske/Sojo</option>
+				                           <option>Sherry</option>
+				                           <option>Tequila</option>
+				                           <option>Vermouth</option>
+				                           <option>Vodka</option>
+				                           <option>Whisky/Bourbon</option>
+				                           <option>Wines</option>
+				                        </select>
+				                     </div>
+				                  </div>
+				                  <input name="" type="text" placeholder="Search for products" value=""/>
+				                  <button type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+				               </form>
+				            </div>
+				         </div>
+				         <div class="col-xs-6 col-sm-6 col-md-2 visible-xs visible-sm">
+				            <div class="inner_overlay" style="display: block;">
+				               <a class="button-menu"><span></span><span></span><span></span></a>
+				               <div class="menu-part">
+				                  <ul>
+				                     <li><a href="javascript:;">Beer</a></li>
+				                     <li><a href="javascript:;">Brandy</a></li>
+				                     <li><a href="javascript:;">Champagne</a></li>
+				                     <li><a href="javascript:;">Foods</a></li>
+				                     <li><a href="javascript:;">Gin</a></li>
+				                     <li><a href="javascript:;">Liquer/Aperitif</a></li>
+				                     <li><a href="javascript:;">Port</a></li>
+				                     <li><a href="javascript:;">Rum</a></li>
+				                     <li><a href="javascript:;">Ske/Sojo</a></li>
+				                     <li><a href="javascript:;">Sherry</a></li>
+				                     <li><a href="javascript:;">Tequila</a></li>
+				                     <li><a href="javascript:;">Vermouth</a></li>
+				                     <li><a href="javascript:;">Vodka</a></li>
+				                     <li><a href="javascript:;">Whisky/Bourbon</a></li>
+				                     <li><a href="javascript:;">Wines</a></li>
+				                  </ul>
+				               </div>
+				            </div>
+				         </div>
+				         <div class="col-xs-6 col-sm-6 col-md-4">
+				            <div class="shopping_cart">
+				               <t t-set="website_sale_order" t-value="website.sale_get_order()"/>
+				               <a href="/shop/cart">
+				               <span class="icon-cart"><img src="/elephase_base/static/src/images/cart-icon.png" alt=""/></span>
+				               <span class="line">/</span>
+				               <span class="cart-quantity"><span class="my_cart_quantity " t-esc="website_sale_order and website_sale_order.cart_quantity or '0'"/> <b>Items</b></span>
+				               </a>
+				               <ul class="nav navbar-nav navbar-right" id="top_menu" style="margin-left: 15px;">
+				                  <li class="divider" t-ignore="true" t-if="website.user_id != user_id"/>
+				                  <li class="dropdown" t-ignore="true" t-if="website.user_id != user_id">
+				                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="padding: 0px 10px;">
+				                     <b>
+				                     <span t-esc="user_id.name"/>
+				                     <span class="caret"/>
+				                     </b>
+				                     </a>
+				                     <ul class="dropdown-menu js_usermenu" role="menu">
+				                        <li><a t-attf-href="/web/session/logout?redirect=/" role="menuitem">Logout</a></li>
+				                     </ul>
+				                  </li>
+				                  <li groups="base.group_public">
+										<a t-attf-href="/web/login" style="padding: 10px 15px;">
+						                	<b>Sign in</b>
+						            	</a>
+							 		</li>
+				               </ul>
+				            </div>
+				         </div>
+				      </div>
+				   </div>
+				</header>
+			</xpath>
+		</template>	         
+	</data>
+</openerp>

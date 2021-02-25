@@ -1,0 +1,178 @@
+<openerp>
+    <data>
+        <record model="ir.ui.menu" id="account.menu_finance">
+            <field eval="[(6,0,[ref('base.group_erp_manager')])]" name="groups_id"/>
+        </record>
+        <record model="ir.ui.menu" id="stock.menu_stock_root">
+            <field eval="[(6,0, [ref('base.group_erp_manager')]), (4, [ref('stock.group_stock_manager')]), (4, [ref('dp_common.group_chandler_admin')])]" name="groups_id"/>
+        </record>
+        <record model="ir.ui.menu" id="stock.menu_stock_product">
+            <field eval="[(6,0, [ref('dp_common.group_super_admin')]), (4, [ref('stock.group_stock_manager')])]" name="groups_id"/>
+        </record>
+        <record model="ir.ui.menu" id="stock.menu_product_by_category_stock_form">
+            <field eval="[(6,0, [ref('base.group_erp_manager')]), (4, [ref('stock.group_stock_manager')]), (4, [ref('dp_common.group_chandler_admin')])]" name="groups_id"/>
+        </record>
+        <record model="ir.ui.menu" id="stock.menu_stock_products_menu">
+            <field eval="[(6,0, [ref('base.group_erp_manager')]), (4, [ref('stock.group_stock_manager')]), (4, [ref('dp_common.group_chandler_admin')])]" name="groups_id"/>
+        </record>
+        <record model="ir.ui.menu" id="account.menu_finance">
+            <field eval="[(6,0,[ref('base.group_erp_manager')])]" name="groups_id"/>
+          </record>
+        <record model="ir.ui.menu" id="base.menu_product">
+            <field eval="[(6,0,[ref('base.group_erp_manager')])]" name="groups_id"/>
+        </record>
+        <record model="ir.ui.menu" id="base.menu_base_config">
+            <field eval="[(6,0,[ref('base.group_erp_manager')]), (4, [ref('dp_common.group_chandler_admin')])]" name="groups_id"/>
+        </record>
+        <record model="ir.ui.menu" id="base.menu_partner_form">
+            <field eval="[(6,0,[ref('base.group_erp_manager')]), (4, [ref('dp_common.group_chandler_admin')])]" name="groups_id"/>
+        </record>
+        <record model="ir.ui.menu" id="purchase.menu_purchase_rfq">
+            <field eval="[(6,0,[ref('dp_common.group_super_admin')])]" name="groups_id"/>
+        </record>
+<!--        <record model="ir.ui.menu" id="base.menu_procurement_management_supplier_name">-->
+<!--            <field eval="[(6,0,[ref('dp_common.group_super_admin')]), (4, [ref('dp_common.group_chandler_admin')])]" name="groups_id"/>-->
+<!--        </record>-->
+        <record model="ir.ui.menu" id="purchase.menu_procurement_management_inventory">
+            <field eval="[(6,0,[ref('dp_common.group_super_admin')])]" name="groups_id"/>
+        </record>
+        <record model="ir.ui.menu" id="purchase.menu_procurement_management_invoice">
+            <field eval="[(6,0,[ref('dp_common.group_super_admin')])]" name="groups_id"/>
+        </record>
+        <record model="ir.ui.menu" id="purchase.menu_procurement_management_product">
+            <field eval="[(6,0,[ref('dp_common.group_super_admin')])]" name="groups_id"/>
+        </record>
+        <record model="ir.ui.menu" id="mail.mail_feeds_main">
+            <field eval="[(6,0,[ref('base.group_erp_manager')])]" name="groups_id"/>
+        </record>
+<!--        <record model="ir.ui.menu" id="base.menu_base_partner">-->
+<!--            <field eval="[(6,0,[ref('base.group_sale_salesman_all_leads')]), (4, [ref('dp_common.group_chandler_admin')])]" name="groups_id"/>-->
+<!--        </record>-->
+        <record model="ir.ui.menu" id="website.menu_website">
+            <field eval="[(6,0, [ref('dp_common.group_super_admin')]), (4, [ref('dp_common.group_shipmaster')]), (4, [ref('dp_common.group_chandler')])]" name="groups_id"/>
+        </record>
+<!--        <record model="website.menu" id="dp_website_myaccount.menu_myenquiry">-->
+<!--            <field eval="[(6,0, [ref('dp_common.group_super_admin')]), (4, [ref('dp_common.group_shipmaster')])]" name="groups_id"/>-->
+<!--        </record>-->
+        <record model="ir.ui.menu" id="product.menu_products">
+            <field eval="[(6,0,[ref('dp_common.group_chandler_admin')])]" name="groups_id"/>
+        </record>
+        <record model="ir.ui.menu" id="product.menu_products_category">
+            <field eval="[(6,0,[ref('dp_common.group_chandler_admin')])]" name="groups_id"/>
+        </record>
+        <record model="ir.ui.menu" id="product.menu_product_uom_categ_form_action">
+            <field eval="[(6,0,[ref('dp_common.group_super_admin')])]" name="groups_id"/>
+        </record>
+        <record model="ir.ui.menu" id="product.prod_config_main">
+            <field eval="[(6,0,[ref('dp_common.group_super_admin')])]" name="groups_id"/>
+        </record>
+        <record model="ir.ui.menu" id="base.menu_config_address_book">
+            <field eval="[(6,0,[ref('dp_common.group_super_admin')])]" name="groups_id"/>
+        </record>
+        <record model="ir.ui.menu" id="base.menu_partner_category_form">
+            <field eval="[(6,0,[ref('dp_common.group_chandler_admin')])]" name="groups_id"/>
+        </record>
+        <record model="ir.ui.menu" id="base.menu_localisation">
+            <field eval="[(6,0,[ref('dp_common.group_chandler_admin')])]" name="groups_id"/>
+        </record>
+        <record model="ir.ui.menu" id="base.menu_country_partner">
+            <field eval="[(6,0,[ref('dp_common.group_chandler_admin')])]" name="groups_id"/>
+        </record>
+        <record model="ir.ui.menu" id="base.menu_country_group">
+            <field eval="[(6,0,[ref('dp_common.group_chandler_admin')])]" name="groups_id"/>
+        </record>
+        <record model="ir.ui.menu" id="base.menu_country_state_partner">
+            <field eval="[(6,0,[ref('dp_common.group_chandler_admin')])]" name="groups_id"/>
+        </record>
+        <record model="ir.ui.menu" id="base.menu_partner_title_partner">
+            <field eval="[(6,0,[ref('dp_common.group_chandler_admin')])]" name="groups_id"/>
+        </record>
+        <record model="ir.ui.menu" id="base.menu_partner_title_contact">
+            <field eval="[(6,0,[ref('dp_common.group_chandler_admin')])]" name="groups_id"/>
+        </record>
+        <record model="ir.ui.menu" id="base.menu_action_res_partner_bank_form">
+            <field eval="[(6,0,[ref('dp_common.group_chandler_admin')])]" name="groups_id"/>
+        </record>
+        <record model="ir.ui.menu" id="base.menu_action_res_bank_form">
+            <field eval="[(6,0,[ref('dp_common.group_chandler_admin')])]" name="groups_id"/>
+        </record>
+        <record model="ir.ui.menu" id="base.menu_action_res_partner_bank_typeform">
+            <field eval="[(6,0,[ref('dp_common.group_chandler_admin')])]" name="groups_id"/>
+        </record>
+        <record model="ir.ui.menu" id="purchase.menu_purchase_partner_cat">
+            <field eval="[(6,0,[ref('dp_common.group_super_admin')])]" name="groups_id"/>
+        </record>
+        <record model="ir.ui.menu" id="purchase.menu_partner_categories_in_form">
+            <field eval="[(6,0,[ref('dp_common.group_chandler_admin')])]" name="groups_id"/>
+        </record>
+        <record model="ir.ui.menu" id="purchase.menu_product_in_config_purchase">
+            <field eval="[(6,0,[ref('dp_common.group_super_admin')])]" name="groups_id"/>
+        </record>
+        <record model="ir.ui.menu" id="stock.menu_procurement_compute">
+            <field eval="[(6,0,[ref('dp_common.group_chandler_admin')])]" name="groups_id"/>
+        </record>
+        <record model="ir.ui.menu" id="account_voucher.menu_action_sale_receipt_report_all">
+            <field eval="[(6,0,[ref('dp_common.group_chandler_admin')])]" name="groups_id"/>
+        </record>
+        <record model="ir.ui.menu" id="board.menu_board_create">
+            <field eval="[(6,0,[ref('dp_common.group_chandler_admin')])]" name="groups_id"/>
+        </record>
+        <record model="ir.ui.menu" id="base.menu_reporting_config">
+            <field eval="[(6,0,[ref('dp_common.group_chandler_admin')])]" name="groups_id"/>
+        </record>
+        <record model="ir.ui.menu" id="base.menu_administration">
+            <field eval="[(6,0,[ref('dp_common.group_super_admin')]), (4, [ref('dp_common.group_chandler_admin')])]" name="groups_id"/>
+        </record>
+        <record model="ir.ui.menu" id="base.menu_custom">
+            <field eval="[(4,[ref('dp_common.group_super_admin')]), (4, [ref('dp_common.group_chandler_admin')])]" name="groups_id"/>
+        </record>
+        <record model="ir.ui.menu" id="base.menu_automation">
+            <field eval="[(4,[ref('dp_common.group_super_admin')]), (4, [ref('dp_common.group_chandler_admin')])]" name="groups_id"/>
+        </record>
+        <record model="ir.ui.menu" id="dp_common.menu_action_view_self_res_partner">
+            <field eval="[(6,0,[ref('dp_common.group_chandler')])]" name="groups_id"/>
+        </record>
+<!--        <record model="ir.ui.menu" id="dp_common.chandler_parent_menu">-->
+<!--            <field eval="[(6,0,[ref('dp_common.group_chandler')]), (4, [ref('dp_common.group_chandler_admin')])]" name="groups_id"/>-->
+<!--        </record>-->
+        <record model="ir.ui.menu" id="account.menu_finance">
+            <field eval="[(6,0,[ref('dp_common.group_super_admin')])]" name="groups_id"/>
+        </record>
+        <record model="ir.ui.menu" id="purchase.menu_purchase_config_purchase">
+            <field eval="[(6,0,[ref('dp_common.group_super_admin')]), (4,[ref('base.group_erp_manager')]),  (4,[ref('dp_common.group_chandler_admin')])]" name="groups_id"/>
+        </record>
+<!--        <record model="ir.ui.menu" id="purchase.menu_purchase_config_pricelist">-->
+<!--            <field eval="[(6,0,[ref('dp_common.group_super_admin')]), (4, [ref('product.group_purchase_pricelist')])]" name="groups_id"/>-->
+<!--        </record>-->
+        <record model="ir.ui.menu" id="product.menu_product_uom_form_action">
+            <field eval="[(6,0,[ref('dp_common.group_super_admin')])]" name="groups_id"/>
+        </record>
+        <record model="ir.ui.menu" id="product.menu_product_pricelist_main">
+            <field eval="[(6,0,[ref('dp_common.group_chandler_admin')])]" name="groups_id"/>
+        </record>
+        <record model="ir.ui.menu" id="product.menu_product_pricelist_action2">
+            <field eval="[(6,0,[ref('dp_common.group_chandler_admin')])]" name="groups_id"/>
+        </record>
+        <record model="ir.ui.menu" id="purchase.menu_purchase_pricelist_version_action">
+            <field eval="[(6,0,[ref('dp_common.group_chandler_admin')])]" name="groups_id"/>
+        </record>
+        <record model="ir.ui.menu" id="product.menu_product_price_type">
+            <field eval="[(6,0,[ref('dp_common.group_chandler_admin')])]" name="groups_id"/>
+        </record>
+        <record model="ir.ui.menu" id="dp_base.base_menu_port">
+            <field eval="[(6,0,[ref('dp_common.group_super_admin')])]" name="groups_id"/>
+        </record>
+        <record model="ir.ui.menu" id="dp_base.base_menu_vessel_name">
+            <field eval="[(6,0,[ref('dp_common.group_super_admin')])]" name="groups_id"/>
+        </record>
+        <record model="ir.ui.menu" id="dp_base.base_menu_vessel">
+            <field eval="[(6,0,[ref('dp_common.group_super_admin')])]" name="groups_id"/>
+        </record>
+        <record model="ir.ui.menu" id="dp_base.base_menu_shipping_agent">
+            <field eval="[(6,0,[ref('dp_common.group_super_admin')])]" name="groups_id"/>
+        </record>
+        <record model="ir.ui.menu" id="dp_newsletter.menu_newsletter_types">
+            <field eval="[(6,0,[ref('dp_common.group_super_admin')])]" name="groups_id"/>
+        </record>
+    </data>
+</openerp>

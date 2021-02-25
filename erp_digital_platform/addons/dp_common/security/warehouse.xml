@@ -1,0 +1,120 @@
+<openerp>
+    <data>
+        <!-- unlink then set new links for warehouse manager -->
+        <record model="ir.ui.menu" id="stock.menu_product_by_category_stock_form">
+            <field eval="[(6,0, [ref('stock.group_stock_manager')])]" name="groups_id"/>
+        </record>
+
+        <record model='ir.ui.menu' id='stock.menu_procurement_rules'>
+            <field name="groups_id" eval="[(6,0, [ref('dp_common.group_super_admin')])]"/>
+        </record>
+
+        <record model='ir.ui.menu' id='stock.menu_product_packaging_stock_action'>
+            <field name="groups_id" eval="[(6,0, [ref('dp_common.group_super_admin')])]"/>
+        </record>
+
+        <record model='ir.ui.menu' id='stock.menu_stock_proc_schedulers'>
+            <field name="groups_id" eval="[(6,0, [ref('dp_common.group_super_admin')])]"/>
+        </record>
+
+        <record model='ir.ui.menu' id='stock.menu_stock_procurement_action'>
+            <field name="groups_id" eval="[(6,0, [ref('dp_common.group_super_admin')])]"/>
+        </record>
+
+        <record model="ir.ui.menu" id="stock.menu_stock_warehouse_mgmt">
+            <field eval="[(6,0,[ref('stock.group_stock_manager')])]" name="groups_id"/>
+        </record>
+
+        <record model="ir.ui.menu" id="stock.menu_stock_inventory_control">
+            <field eval="[(6,0,[ref('stock.group_stock_manager')])]" name="groups_id"/>
+        </record>
+
+        <record model="ir.ui.menu" id="stock.menu_traceability">
+            <field eval="[(6,0,[ref('stock.group_stock_manager')])]" name="groups_id"/>
+        </record>
+
+        <record model="ir.ui.menu" id="stock.menu_stock_sched">
+            <field eval="[(6,0,[ref('stock.group_stock_manager')])]" name="groups_id"/>
+        </record>
+
+        <record model="ir.ui.menu" id="stock.menu_action_warehouse_form">
+            <field eval="[(6,0,[ref('stock.group_stock_manager')])]" name="groups_id"/>
+        </record>
+
+        <record model="ir.ui.menu" id="stock.menu_action_location_form">
+            <field eval="[(6,0,[ref('dp_common.group_super_admin')]), (4, [ref('stock.group_stock_manager')])]" name="groups_id"/>
+        </record>
+
+        <record model="ir.ui.menu" id="stock.menu_stock_configuration">
+            <field eval="[(6,0,[ref('dp_common.group_stock_assistant_manager')])]" name="groups_id"/>
+        </record>
+
+        <record model="ir.ui.menu" id="stock.menu_pickingtype">
+            <field eval="[(6,0,[ref('stock.group_stock_manager')])]" name="groups_id"/>
+        </record>
+
+        <record model="ir.ui.menu" id="stock.menu_stock_uom_categ_form_action">
+            <field eval="[(6,0,[ref('dp_common.group_stock_assistant_manager')])]" name="groups_id"/>
+        </record>
+
+        <record model="ir.ui.menu" id="stock.menu_stock_uom_form_action">
+            <field eval="[(6,0,[ref('dp_common.group_stock_assistant_manager')])]" name="groups_id"/>
+        </record>
+
+        <record model="ir.ui.menu" id="stock.menu_product_in_config_stock">
+            <field eval="[(6,0,[ref('dp_common.group_stock_assistant_manager')])]" name="groups_id"/>
+        </record>
+
+        <record model="ir.ui.menu" id="stock.menu_product_template_config_stock">
+            <field name="groups_id" eval="[(6,0,[ref('dp_common.group_stock_assistant_manager')])]"/>
+        </record>
+
+        <record model='ir.ui.menu' id='stock.menu_product_variant_config_stock'>
+            <field name="groups_id" eval="[(6,0,[ref('dp_common.group_stock_assistant_manager')])]"/>
+        </record>
+
+        <record model="ir.ui.menu" id="base.menu_reporting">
+            <field eval="[(6,0,[ref('dp_common.group_super_admin')]), (4,ref('stock.group_stock_manager'))]" name="groups_id"/>
+        </record>
+
+        <!-- Remove account and invoicing groups for warehouse manager -->
+        <record id="stock.group_stock_manager" model="res.groups">
+            <field name="implied_ids" eval="[(3, ref('account.group_account_invoice'))]"/>
+        </record>
+
+        <!-- Add warehouse manager group to menu -->
+        <record model='ir.ui.menu' id='stock.menu_product_by_category_stock_form'>
+            <field name="groups_id" eval="[(4,ref('stock.group_stock_manager'))]"/>
+        </record>
+
+        <record model='ir.ui.menu' id='base.menu_reporting_dashboard'>
+            <field name="groups_id" eval="[(4,ref('dp_common.group_super_admin'))]"/>
+        </record>
+
+        <record model='ir.ui.menu' id='stock.menu_stock_order_points'>
+            <field name="groups_id" eval="[(4,ref('dp_common.group_super_admin'))]"/>
+        </record>
+
+        <record model='ir.ui.menu' id='stock.menu_stock_routes'>
+            <field name="groups_id" eval="[(4,ref('dp_common.group_super_admin'))]"/>
+        </record>
+
+        <record model='ir.ui.menu' id='stock.menu_action_incoterm_open'>
+            <field name="groups_id" eval="[(4,ref('dp_common.group_super_admin'))]"/>
+        </record>
+
+        <record model="ir.ui.menu" id="stock.menu_quants">
+            <field name="groups_id" eval="[(4,ref('stock.group_stock_manager'))]"/>
+        </record>
+
+        <record model="ir.ui.menu" id="stock.menu_product_category_config_stock">
+            <field name="groups_id" eval="[(6,0, [ref('dp_common.group_stock_assistant_manager')])]"/>
+        </record>
+
+        <!-- Change Order of Menu-->
+        <menuitem id="report.menu_report_stock_line_date" sequence="0"/>
+        <menuitem id="stock_account.menu_action_wizard_valuation_history"
+                  action="stock_account.action_wizard_stock_valuation_history"
+                  parent="stock.next_id_61" sequence="2"/>
+    </data>
+</openerp>

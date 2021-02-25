@@ -1,0 +1,4 @@
+id,name,model_id/id,group_id/id,perm_read,perm_write,perm_create,perm_unlink
+stock_replenishment_chandler,Stock Replenishment,model_stock_replenishment,dp_common.group_chandler,1,0,0,0
+stock_replenishment_shipmaster,Stock Replenishment,model_stock_replenishment,dp_common.group_shipmaster,1,0,0,0
+stock_replenishment_warehouse_manager,Stock Replenishment,model_stock_replenishment,stock.group_stock_manager,1,1,1,0

@@ -1,0 +1,15 @@
+.new_user_pdf [data-id="type"] {
+    width: 15%;
+}
+
+.new_user_pdf [data-id="file_import"] {
+    width: 85%;
+}
+
+.new_user_pdf .field_binary {
+    min-width: 20vw!important;
+}
+
+.navbar .oe_topbar_name{
+    overflow: visible!important;
+}

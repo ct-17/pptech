@@ -1,0 +1,2 @@
+"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
+"dp_currency_chandler_res_currency","DP Currency Write","base.model_res_currency","dp_common.group_chandler",1,1,0,0

@@ -1,0 +1,60 @@
+
+.popover_products_item {
+    display: none;
+    height: 65px;
+    width: 200px;
+    font: bold 15px Sans-Serif;
+    color: white;
+    text-align: center;
+    background-color: #337ab7;
+    z-index: 99;
+    position: relative;
+    padding: 7px 0;
+    margin-left: 75px;
+    margin-top: -75px;
+}
+
+a:hover + .popover_products_item {
+    display: block;
+}
+
+
+.nav-tabs a {
+    color: #FFFFFF;
+    text-decoration: none
+}
+
+
+
+.panel-heading{
+	background-color: #337ab7;
+    height: 50px;
+    padding: 10px 1px;
+}
+
+
+
+.profile-bg {
+  width: 300px;
+  height: 100%;
+  background-color: white;
+  text-align: center;
+  margin: 0 auto;
+  padding: 0px;
+}
+
+.profile-bg img {
+  width: 200px;
+  overflow: hidden;
+  border-radius: 50%;
+}
+
+
+
+
+
+
+
+
+
+

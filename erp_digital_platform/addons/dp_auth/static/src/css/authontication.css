@@ -1,0 +1,76 @@
+.oe_signup_form, .oe_reset_password_form, .oe_login_form  {
+    /*background-color: #f6e6e8;*/
+    /*color:#a52030;*/
+    /*padding:25px 25px;*/
+    border-radius:25px;
+
+}
+
+.oe_chandler_confirm_form{
+    background-color: #f6e6e8;color:#a52030;padding:25px 25px;border-radius:25px;
+}
+
+.oe_signup_form input[type=text] {
+    width: 100%;
+    padding: 12px;
+    /*border: 1px solid #ccc;*/
+    resize: vertical;
+
+}
+
+.oe_reset_password_form input[type=text] {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    resize: vertical;
+
+}
+
+.oe_login_form > input[type=text] {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    resize: vertical;
+
+}
+
+.oe_heading_context{
+text-align: center;
+font-size:45px;
+color:#a52030;
+border:1px;
+}
+
+.oe_reset_verification_password_form{
+background-color: #f6e6e8;
+color:#a52030;
+padding:25px 25px;
+border-radius:25px;
+max-size:250px;
+font-weight:bold;
+font-size:15px;
+color:black;
+
+}
+
+/*input[type=text] {*/
+/*  width: 100%;*/
+/*  padding: 12px;*/
+/*  border: 1px solid #ccc;*/
+/*  border-radius: 4px;*/
+/*  resize: vertical;*/
+/*}*/
+
+.oe_reset_img{
+display: block;
+  margin-left: auto;
+  margin-right: auto;}
+
+
+button, input, optgroup, select, textarea {
+    font-family: inherit;
+}
+.field-login p {
+  font-size: 20px !important;
+  margin-bottom: 5px !important;
+}

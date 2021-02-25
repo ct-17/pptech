@@ -1,0 +1,74 @@
+<openerp>
+    <data>
+        <record id="erp_data_sync_form_view" model="ir.ui.view">
+            <field name="name">erp.data.sync.form.view</field>
+            <field name="model">erp.data.sync</field>
+            <field name="arch" type="xml">
+                <form create="false" edit="false">
+                    <header>
+                        <field name="state" widget="statusbar" statusbar_visible="pending,done"/>
+                    </header>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="sync_model"/>
+                            <field name="sync_model_id"/>
+                        </group>
+                        <group>
+                            <field name="init_user_id"
+                                   options="{'no_quick_create':True,'no_create_edit':True,
+                                             'no_create':True, 'no_open':True}"/>
+                            <field name="sync_action"/>
+                            <field name="priority"/>
+                            <field name="keyword"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="data"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record id="erp_data_sync_tree_view" model="ir.ui.view">
+            <field name="name">erp.data.sync.tree.view</field>
+            <field name="model">erp.data.sync</field>
+            <field name="arch" type="xml">
+                <tree create="false" edit="false">
+                    <field name="name"/>
+                    <field name="sync_model"/>
+                    <field name="sync_model_id"/>
+                    <field name="sync_action"/>
+                    <field name="priority"/>
+                    <field name="state"/>
+                    <field name="init_user_id"/>
+                    <field name="keyword"/>
+                    <field name="data"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_erp_data_synchronization" model="ir.actions.act_window">
+            <field name="name">Data Sync Priority Table</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">erp.data.sync</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <record id="action_erp_data_synchronization_form_action" model="ir.actions.act_window.view">
+            <field name="sequence">1</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="erp_data_sync_form_view"/>
+            <field name="act_window_id" ref="action_erp_data_synchronization"/>
+        </record>
+        <record id="action_erp_data_synchronization_tree_action" model="ir.actions.act_window.view">
+            <field name="sequence">0</field>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="erp_data_sync_tree_view"/>
+            <field name="act_window_id" ref="action_erp_data_synchronization"/>
+        </record>
+
+        <menuitem name="Priority Table" id="erp_data_sync_menuitem" parent="data_sync_parent_menu"
+                  action="action_erp_data_synchronization"/>
+    </data>
+</openerp>

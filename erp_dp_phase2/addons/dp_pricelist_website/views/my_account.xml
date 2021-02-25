@@ -1,0 +1,30 @@
+<openerp>
+    <data>
+<!--        my enquiry-->
+        <template id="myaccount_info_price_inherited"
+			inherit_id="dp_website_myaccount.myaccount_info" groups="dp_common.group_chandler_admin,dp_common.group_chandler">
+			<xpath expr="//div[@id='myenquiry']//tbody//td[last()-1]" position="before">
+                 <td> <b class="oe_price" style="white-space: nowrap;"
+                t-field="line.price_unit"
+                t-field-options='{
+                   "widget": "monetary",
+                   "display_currency": "website.pricelist_id.currency_id"
+               }'/>
+                 </td>
+			</xpath>
+            <xpath expr="//table[@id='order_detail']" position="after">
+                <div style="white-space: nowrap; display:inline-block;" class="myenquiry_subtotal">
+                <b>Total Amount: </b>
+                  <b class="oe_price"
+                t-field="order.total_before_discount"
+                t-field-options='{
+                   "widget": "monetary",
+                   "display_currency": "website.pricelist_id.currency_id"
+               }'/>
+                </div>
+                <a class="btn btn-default btn-primary pull-right myenquiry_confirm" style="display:none;margin-top: 15px;" onclick="myenquiry_confirm_onclick(this)"><span>Confirm</span></a>
+                <hr class="myenquiry_separate_line"></hr>
+			</xpath>
+		</template>
+    </data>
+</openerp>

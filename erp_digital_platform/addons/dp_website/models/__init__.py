@@ -1,0 +1,2 @@
+import website
+import inherited_product_template

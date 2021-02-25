@@ -1,0 +1,66 @@
+<openerp>
+    <data>
+        <record id="btf_vessel_name" model="dp.np.db.matrix">
+            <field name="dp_model">vessel.name</field>
+            <field name="np_model">np.vessel</field>
+            <field name="has_additional_fields">True</field>
+            <field name="auto_capitalize_in_dp">True</field>
+            <field name="display_name">Vessel Name</field>
+        </record>
+
+        <record id="btf_vessel_type" model="dp.np.db.matrix">
+            <field name="dp_model">vessel.type</field>
+            <field name="np_model">np.vessel.type</field>
+            <field name="has_additional_fields">True</field>
+            <field name="auto_capitalize_in_dp">True</field>
+            <field name="display_name">Vessel Type</field>
+        </record>
+
+        <record id="btf_shipping_agent" model="dp.np.db.matrix">
+            <field name="dp_model">shipping.agent</field>
+            <field name="np_model">ship.agent</field>
+            <field name="has_additional_fields">True</field>
+            <field name="auto_capitalize_in_dp">True</field>
+            <field name="display_name">Shipping Agent</field>
+        </record>
+
+        <record id="btf_product_template" model="dp.np.db.matrix">
+            <field name="dp_model">product.template</field>
+            <field name="np_model">product.template</field>
+            <field name="has_additional_fields">True</field>
+            <field name="display_name">Product</field>
+        </record>
+
+        <record id="btf_product_product" model="dp.np.db.matrix">
+            <field name="dp_model">product.product</field>
+            <field name="np_model">product.product</field>
+            <field name="display_name">Product</field>
+        </record>
+
+        <record id="btf_product_category" model="dp.np.db.matrix">
+            <field name="dp_model">product.category</field>
+            <field name="np_model">product.category</field>
+            <field name="has_additional_fields">True</field>
+            <field name="display_name">Product Category</field>
+        </record>
+
+        <record id="btf_account_account" model="dp.np.db.matrix">
+            <field name="dp_model">account.account</field>
+            <field name="np_model">account.account</field>
+            <field name="display_name">Account</field>
+        </record>
+
+        <record id="btf_product_uom" model="dp.np.db.matrix">
+            <field name="dp_model">product.uom</field>
+            <field name="np_model">product.uom</field>
+            <field name="display_name">Product UOM</field>
+        </record>
+
+        <record id="btf_account_account" model="dp.np.db.matrix">
+            <field name="dp_model">account.journal</field>
+            <field name="np_model">account.journal</field>
+            <field name="display_name">Account Journal</field>
+        </record>
+
+    </data>
+</openerp>

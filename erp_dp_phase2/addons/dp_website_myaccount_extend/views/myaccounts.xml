@@ -1,0 +1,64 @@
+<openerp>
+    <data>
+        <template id="myaccount_info_extend_layout" inherit_id="dp_website_myaccount.myaccount_info" name="dp_myaccounts_extend_layout layout">
+            <xpath expr="//div[@id='myinfo_detail']//div[@class='form-row'][last()]" position="attributes">
+                <attribute name="style">display: none;</attribute>
+            </xpath>
+
+            <xpath expr="//div[@id='myinfo_detail']//div[@class='form-row'][last()-1]" position="attributes">
+                <attribute name="style">display: none;</attribute>
+            </xpath>
+
+            <xpath expr="//label[@for='Preferred Chandler #1']" position="replace">
+                <label for="Preferred Chandler #1">Preferred Chandler:</label>
+            </xpath>
+            <xpath expr="//input[@name='Preferred Chandler #1']" position="attributes">
+                <attribute name="placeholder">Preferred Chandler</attribute>
+            </xpath>
+            <xpath expr="//li[@id='myenquiry_leftsidebar']" position="attributes">
+                <attribute name="groups">dp_common.group_shipmaster</attribute>
+            </xpath>
+            <xpath expr="//input[@id='email']" position="attributes">
+                <attribute name="readonly">1</attribute>
+            </xpath>
+            <xpath expr="//input[@id='chandler_autocomplete_id1']" position="attributes">
+                <attribute name="readonly">1</attribute>
+            </xpath>
+<!--            <xpath expr="//a[@id='order_link']" position="replace">-->
+<!--                <a id="order_link"-->
+<!--                   t-attf-href="/web#return_label=Website&amp;view_type=form&amp;model=#{order._name}&amp;id=#{order.id}&amp;action={{order.check_bid_status_to_action()}}">-->
+<!--                Enquiry #<t t-esc="order.name"/>-->
+<!--                </a>-->
+<!--            </xpath>-->
+            <xpath expr="//div[@class='my-profile-list']/div//div[@class='form-row'][2]" position="attributes">
+                <attribute name="style">display: none;</attribute>
+            </xpath>
+            <xpath expr="//div[@class='my-profile-list']/div//div[@class='form-row'][3]" position="attributes">
+                <attribute name="style">display: none;</attribute>
+            </xpath>
+            <xpath expr="//div[@class='my-profile-list']/div//div[@class='form-row'][6]" position="attributes">
+                <attribute name="style">display: none;</attribute>
+            </xpath>
+            <xpath expr="//div[@class='my-profile-list']/div//div[@class='form-row'][7]" position="attributes">
+                <attribute name="style">display: none;</attribute>
+            </xpath>
+            <xpath expr="//div[@class='my-profile-list']/div//div[@class='form-row'][8]" position="attributes">
+                <attribute name="style">display: none;</attribute>
+            </xpath>
+            <xpath expr="//select[@id='vessel_id']" position="attributes">
+                <attribute name="required">no</attribute>
+            </xpath>
+            <xpath expr="//input[@id='vessel_name_autocomplete']" position="attributes">
+                <attribute name="required">no</attribute>
+            </xpath>
+        </template>
+
+
+        <template id="dp_website_myaccount_inherit" inherit_id="dp_website_extend.theme_header_extend" >
+            <xpath expr="//ul[@id='top_menu']//ul[@class='dropdown-menu js_usermenu']/li[1]" position="before">
+                <li groups="dp_common.group_shipmaster"><a href="/myaccounts" role="menuitem">My Account</a></li>
+                <!--<li groups="dp_common.group_super_admin,dp_common.group_chandler_admin,base.group_public,dp_common.group_shipmaster"><a href="/myenquiry" role="menuitem">My Enquiry</a></li>-->
+            </xpath>
+        </template>
+    </data>
+</openerp>

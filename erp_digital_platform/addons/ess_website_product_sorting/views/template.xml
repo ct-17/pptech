@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+<template id="assets_frontend" inherit_id="website.assets_frontend" name="Shop">
+  <xpath expr="." position="inside">
+      <link rel='stylesheet' href="/ess_website_product_sorting/static/src/css/website.product.sorting.css"/>
+      <script type="text/javascript" src="/ess_website_product_sorting/static/src/js/website.product.sorting.js"></script>
+  </xpath>
+</template>
+<template id="sort_by_option" inherit_id="dp_website.breadcum_shop" active="False" customize_show="True" name="Sorting">
+  <xpath expr="//div[@id='sorting_dropdown']" position="replace">
+
+    <div class="col-md-8">
+        <div class="breadcrumb">
+            <form method="get" class="sort form-inline col-md-12 sort-by-form" style="display:inline-block;">
+<!--                <span class="col-md-1"></span>-->
+                  <span>
+                      <label class="control-label col-md-2 sort-by-label" for="sort_id">Sort By Name</label>
+                      <select name="sort_by" class="form-control oe_inline col-md-4 sort-by-dropdown" id="sort_by">
+                          <option value="name_a_z" t-att-selected="sort_by == 'name_a_z'">Name[A-Z]</option>
+                          <option value="name_z_a" t-att-selected="sort_by == 'name_z_a'" >Name[Z-A]</option>
+<!--                          <option value="country_a_z" t-att-selected="sort_by == 'country_a_z'" >Country[A-Z]</option>-->
+<!--                          <option value="country_z_a" t-att-selected="sort_by == 'country_z_a'" >Country[Z-A]</option>-->
+<!--                          <option value="price_l_h" t-att-selected="sort_by == 'price_l_h'" >Price[L-H] </option>-->
+<!--                          <option value="price_h_l" t-att-selected="sort_by == 'price_h_l'">Price[H-L] </option>-->
+                      </select>
+                  </span>
+                    <span>
+                         <label class="control-label col-md-3 filter-by-label" for="sort_id">Filter By Country</label>
+                         <select name="filter_by_country" class="form-control oe_inline col-md-3 sort-by-dropdown" id="filter_by_country" style="text-transform: uppercase;">
+                              <option value="">ALL COUNTRIES...</option>
+                              <t t-foreach="all_country_id or []" t-as="c">
+                                    <option t-att-value="c.id" t-att-selected="c.id == int(filter_by_country) if filter_by_country else None"
+                                            style="text-transform: uppercase;">
+                                        <t t-esc="c.display_name"/>
+                                    </option>
+                              </t>
+                         </select>
+                      </span>
+                 <t t-if="search">
+                 <input type="hidden" name="search" t-att-value="search"/>
+                 </t>
+                <t t-if="attrib_values">
+                  <t t-foreach="attrib_values" t-as="a">
+                    <input type="hidden" name="attrib" t-att-value="'%s-%s' % (a[0], a[1])"/>
+                  </t>
+                </t>
+            </form>
+        </div>
+    </div>
+  </xpath>
+  <xpath expr="//div[@id='products_grid_before']" position="inside">
+  		 <input type="hidden" name="sort_by" t-att-value="sort_by"/>
+  </xpath>
+</template>
+<template id="sort_by_option_filter" inherit_id="website_sale.products_attributes">
+  <xpath expr="//input[@type='hidden']" position="after">
+		 <input type="hidden" name="sort_by" t-att-value="sort_by"/>
+  </xpath>
+</template>
+<template id="sort_by_option_search" inherit_id="website_sale.search">
+  <xpath expr="//div[@class='input-group']" position="before">
+        <t t-if="sort_by">
+		 <input type="hidden" name="sort_by" t-att-value="sort_by"/>
+		 </t>
+  </xpath>
+</template>
+</data>
+</openerp>

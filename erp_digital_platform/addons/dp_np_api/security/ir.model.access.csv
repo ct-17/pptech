@@ -1,0 +1,4 @@
+id,name,model_id/id,group_id/id,perm_read,perm_write,perm_create,perm_unlink
+dp_np_api,dp.np.api,model_dp_np_api,dp_common.group_chandler,1,1,1,0
+dp_np_api_rel,dp.np.api.rel,model_dp_np_api_rel,dp_common.group_chandler,1,1,1,0
+dp_np_api_config,dp.np.api.config,model_dp_np_api_config,dp_common.group_chandler,1,1,1,0

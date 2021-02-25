@@ -1,0 +1,41 @@
+<openerp>
+    <data>
+        <record id="default_template_chandler" model="res.users">
+            <field name="name">Template Chandler</field>
+            <field name="login">templatechandler</field>
+            <field name="alias_name">_chandlertemplate</field>
+            <field name="active" eval="True"/>
+            <field name="action_id" eval="ref('sale.action_quotations')"/>
+            <!-- Avoid auto-including this user in any default group, just like a typical portal member -->
+            <field name="groups_id" eval="[(6, 0, [ref('dp_common.group_chandler'),
+                                                    ref('website_mail.group_comment'),
+                                                    ref('base.group_partner_manager'),
+                                                    ref('product.group_sale_pricelist'),
+                                                    ref('product.group_purchase_pricelist'),
+                                                    ref('stock.group_locations'),
+                                                    ref('sale_stock.group_route_so_lines'),
+                                                    ref('sale.group_discount_per_so_line'),
+                                                    ref('stock.group_stock_user'),
+                                                    ref('account.group_account_invoice'),
+                                                    ref('purchase.group_purchase_user'),
+                                                    ref('base.group_sale_salesman_all_leads'),
+                                                    ref('base.group_user')]),
+                                            (3, ref('base.group_partner_manager'))]
+                                                    "/>
+        </record>
+
+        <record id="default_template_shipmaster" model="res.users">
+            <field name="name">Template Shipmaster</field>
+            <field name="login">templateshipmaster</field>
+            <field name="alias_name">_shipmastertemplate</field>
+            <field name="active" eval="True"/>
+            <field name="action_id" eval="ref('website_sale.action_open_website')"/>
+            <!-- Avoid auto-including this user in any default group, just like a typical portal member -->
+            <field name="groups_id" eval="[(6, 0, [ref('dp_common.group_shipmaster'),
+                                                    ref('sale.group_discount_per_so_line'),
+                                                    ref('base.group_sale_salesman'),
+                                                    ref('base.group_user')])]
+                                                    "/>
+        </record>
+    </data>
+</openerp>

@@ -1,0 +1,46 @@
+<openerp>
+    <data>
+
+        <template id="dp_auth.chandler_confirm_template" name="Confirm Chandler">
+            <t t-call="website.layout">
+                <title>Wish list confirm</title>
+                <div class="oe_website_login_container">
+                    <div class="oe_heading_context" style="text-align:center;color:#a52030">
+                        <h1>Confirm Chandler</h1>
+                    </div>
+                    <form method="post" class="oe_signup_form">
+                        <div class="form-group success" t-if="success">
+                            <p class="alert alert-success" role="alert">
+                                <t t-esc="success" />
+                            </p>
+                        </div>
+                        <div class="form-group info" t-if="info">
+                            <p class="alert alert-info" role="alert">
+                                <t t-esc="info" />
+                            </p>
+                        </div>
+                        <div class="form-group danger" t-if="error">
+                            <p class="alert alert-danger" role="alert">
+                                <t t-esc="error" />
+                            </p>
+                        </div>
+                        <div class="form-group info" t-if="primary" >
+                            <p class="alert alert-info" role="alert">
+                                <t t-esc="primary" />
+                            </p>
+                        </div>
+                        <div class="form-group inv_id" t-if="info">
+                            <input type="hidden" class="form-control" id="inv_id" t-att-value="inv_id"/>
+                        </div>
+                        <div class="clearfix oe_login_buttons" >
+                            <button type="submit" class="btn btn-danger" t-if="info">Confirm</button>
+                            <a t-attf-href="/myaccounts" class="btn btn-danger" t-if="primary or success">Go to Myprofile</a>
+                            <a t-attf-href="/" class="btn btn-danger">Go to Home</a><br/><br/>
+                        </div>
+                    </form>
+                </div>
+            </t>
+        </template>
+
+    </data>
+</openerp>

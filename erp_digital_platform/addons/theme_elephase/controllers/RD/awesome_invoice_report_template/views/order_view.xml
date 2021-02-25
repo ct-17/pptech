@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+		<record id="view_sale_order_inherit_customized" model="ir.ui.view">
+			<field name="name">sale.order.customized.inwords</field>
+			<field name="model">sale.order</field>
+			<field name="inherit_id" ref="sale.view_order_form" />
+			<field name="arch" type="xml">
+				<xpath expr="//field[@name='note']" position="before">
+					<group>
+						<field name="amount_words" />
+					</group>
+				</xpath>
+			</field>
+		</record>
+	</data>
+</openerp>
+

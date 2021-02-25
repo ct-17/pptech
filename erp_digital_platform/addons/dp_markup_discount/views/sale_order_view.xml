@@ -1,0 +1,38 @@
+<openerp>
+    <data>
+        <record model="ir.ui.view" id="ess_sale_margin_sale_order">
+            <field name="name">sale.order.margin.view.form</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="np_discount.sale_order_pricelist_form_view_inh"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='amount_total']" position="after">
+                        <field name="ess_net_margin" widget='monetary' options="{'currency_field': 'dp_currency_id'}" groups="base.group_user"
+                        string="My Nett Profit" invisible="1" />
+                </xpath>
+
+                 <xpath expr="//field[@name='order_line']" position="after">
+                    <group class="oe_subtotal_footer oe_right" colspan="2" name="margin_total">
+
+                        <field name="ess_margin" widget='monetary' options="{'currency_field': 'dp_currency_id'}" groups="base.group_user"
+                        string="My Gross Profit" invisible="1" />
+                    </group>
+                </xpath>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="shipmaster_form_inherit">
+            <field name="name">shipmaster.sale.order.view.form</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="dp_sale.shipmaster_bid_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='amount_discount']" position="before">
+                    <field name="is_discounted" invisible="1"/>
+                </xpath>
+                <xpath expr="//field[@name='amount_discount']" position="attributes">
+                    <attribute name="attrs">{'invisible': [('is_discounted', '=', False)]}</attribute>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</openerp>
+

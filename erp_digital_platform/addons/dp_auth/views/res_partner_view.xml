@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<openerp>
+    <data>
+
+        <record id="portal.portal_menu" model="ir.ui.menu">
+            <field name="active">False</field>
+        </record>
+
+
+        <record id="dp_partner_inherit_form_view_inherit" model="ir.ui.view">
+            <field name="name">dp_partner_inherit_form_view_inherit</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="dp_common.dp_partner_inherit_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@string='Currency Rate']" position="after">
+                    <page string="Shipmaster">
+                        <group>
+                            <group>
+                                <field name="vessel_name" />
+                                <field name="vessel_type" />
+                            </group>
+                            <group>
+                                <field name="imo_number" />
+                                <field name="call_sign" />
+                            </group>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="chandler_list_for_shipmaster" nolabel="1"/>
+                            </group>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="dp_chandler_holding_list_view" model="ir.actions.act_window">
+            <field name="name">Chandler List</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="res_model">dp.chandler.temp</field>
+            <field name="context">{'state':'pending'}</field>
+            <field name="domain">[('state','in',('pending', 'approved','sent', 'rejected'))]</field>
+        </record>
+
+        <record id="dp_chandler_holding_list_view_draft" model="ir.actions.act_window">
+            <field name="name">Chandler List - Draft</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="res_model">dp.chandler.temp</field>
+            <field name="groups">dp_common.group_super_admin</field>
+            <field name="domain">[('state','in',('draft', ))]</field>
+        </record>
+
+        <menuitem name="Chandler List" id="chandler_pending_approval" parent="dp_common.chandler_subcateg"
+                  groups="dp_common.group_chandler_admin,dp_common.group_super_admin"
+                  action="dp_chandler_holding_list_view"/>
+
+        <menuitem name="Chandler List - Draft" id="chandler_draft_state" parent="dp_common.chandler_subcateg"
+                  groups="dp_common.group_super_admin"
+                  action="dp_chandler_holding_list_view_draft"/>
+        <!--<record id="seller_invitation_form_view" model="ir.ui.view">-->
+            <!--<feild name="name">seller.invitation.form.view</feild>-->
+            <!--<field name="model">dp.seller.invitation</field>-->
+            <!--<field name="arch" type="xml">-->
+                <!--<form>-->
+                    <!--<group>-->
+                        <!--<field name="seller_email" />-->
+                        <!--<field name="partner_id" context="{default_partner_id:active_id}"/>-->
+                    <!--</group>-->
+                <!--</form>-->
+            <!--</field>-->
+        <!--</record>-->
+
+        <record id="dp_chandler_holding_list_form_view" model="ir.ui.view">
+            <field name="name">dp.chandler.temp.form</field>
+            <field name="model">dp.chandler.temp</field>
+            <field name="arch" type="xml">
+<!--                <xpath expr="//search" position="inside">-->
+          <!-- This field will show up on the default filters
+               &lt; is the XML encoding for < and &gt; is the XML encoding for > -->
+<!--          <filter string="Total &lt; 1000" name="total_under_1000" domain="[('state', '=', 'pending')]"/>-->
+<!--        </xpath>-->
+                <form>
+                    <header>
+                        <button name="action_approve_pending_chandler" string="Approve Chandler"
+                                type="object" class="oe_highlight" style="width:15%"
+                                help="Approve Pending Chandler"
+                                attrs="{'invisible': ['|', ('state', 'not in', ('pending')),('hidden_state', '=', 'new')]}"/>
+                        <button name="action_reject_chandler" string="Reject Chandler"
+                                type="object" class="oe_highlight" style="width:10%"
+                                help="Reject Chandler"
+                                attrs="{'invisible': ['|', ('state', 'not in', ('pending')),('hidden_state', '=', 'new')]}"/>
+                    </header>
+                    <group string="Chandler">
+                        <group>
+                            <field name="name"
+                                   attrs="{'readonly': [('state', 'in', ('approved', 'rejected'))]}" required="True"/>
+                            <field name="email"
+                                   attrs="{'readonly': [('state', 'in', ('approved', 'rejected'))]}" required="True"/>
+                            <field name="user_id" readonly="False"/>
+                            <field name="chandler_priority" readonly="True"/>
+                        </group>
+                        <group>
+                            <field name="approver_id" readonly="True"/>
+                            <field name="partner_id" readonly="False"/>
+                            <field name="state" readonly="True"/>
+                            <field name="active" readonly="True"/>
+
+                            <label for="street" string="Address"/>
+                            <div>
+                                <field name="street" placeholder="Street..." required="True"/>
+                                <field name="street2"/>
+                                <div class="address_format">
+                                    <field name="city" placeholder="City" style="width: 40%%" required="True"/>
+                                    <field name="state_id" class="oe_no_button" placeholder="State" style="width: 37%%" options='{"no_open": True}' required="True"/>
+                                    <field name="zip" placeholder="ZIP" style="width: 20%%" required="True"/>
+                                </div>
+                                <field name="country_id" placeholder="Country" class="oe_no_button" options='{"no_open": True, "no_create": True}' required="True"/>
+                            </div>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="remarks"/>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="hidden_state" invisible="1"/>
+                        </group>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record id="dp_chandler_holding_list_tree_view" model="ir.ui.view">
+            <field name="name">dp.chandler.temp.tree</field>
+            <field name="model">dp.chandler.temp</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="email"/>
+                    <field name="state"/>
+                    <field name="active"/>
+                    <field name="user_id"/>
+                    <field name="chandler_priority"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_res_partner" model="ir.actions.act_window">
+            <field name="name">Partners</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="base.view_partner_form"/>
+        </record>
+        <record id="action_res_partner_view1" model="ir.actions.act_window.view">
+            <field eval="11" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="base.view_partner_tree"/>
+            <field name="act_window_id" ref="action_res_partner"/>
+        </record>
+        <record id="action_res_partner_view2" model="ir.actions.act_window.view">
+            <field eval="21" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="base.view_partner_form"/>
+            <field name="act_window_id" ref="action_res_partner"/>
+        </record>
+        <menuitem action="action_res_partner" id="menu_action_res_partner" parent="base.menu_users"/>
+
+
+
+
+
+
+
+
+
+        <!-- __  __       _ _   _       _      -->
+        <!--|  \/  |_   _| | |_(_)_ __ | | ___ -->
+        <!--| |\/| | | | | | __| | '_ \| |/ _ \-->
+        <!--| |  | | |_| | | |_| | |_) | |  __/-->
+        <!--|_|  |_|\__,_|_|\__|_| .__/|_|\___|-->
+        <!--                     |_|           -->
+        <!--    _                                    _    ______       _           _   -->
+        <!--   / \   _ __  _ __  _ __ _____   ____ _| |  / /  _ \ ___ (_) ___  ___| |_ -->
+        <!--  / _ \ | '_ \| '_ \| '__/ _ \ \ / / _` | | / /| |_) / _ \| |/ _ \/ __| __|-->
+        <!-- / ___ \| |_) | |_) | | | (_) \ V / (_| | |/ / |  _ <  __/| |  __/ (__| |_ -->
+        <!--/_/   \_\ .__/| .__/|_|  \___/ \_/ \__,_|_/_/  |_| \_\___|/ |\___|\___|\__|-->
+        <!--        |_|   |_|                                       |__/               -->
+        <record id="view_mass_approval_reject_chandler" model="ir.ui.view">
+            <field name="name">view.dp.chandler.temp.mass.approval.rejection</field>
+            <field name="model">dp.chandler.temp.mass.approve.reject.wizard</field>
+            <field name="priority">2</field>
+            <field name="arch" type="xml">
+               <form string="Multiple Approval/Reject">
+                    <group>
+                        <separator string="Are you sure you want to mass approve these chandlers?"/>
+                        <label string="
+                                        Note: If chandler state is not pending (i.e. approved/rejected) the chandler
+                                        be ignored for mass approval/rejection
+                                        " colspan="4"/>
+                    </group>
+                    <footer>
+                        <button name="action_mass_approval" string="Mass Approve" type="object"
+                                groups="dp_common.group_chandler_admin"
+                                class="oe_highlight"/>
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel" />
+                        or
+                        <button name="action_mass_reject" string="Mass Reject" type="object"
+                                groups="dp_common.group_chandler_admin"
+                                class="oe_highlight"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record  id="action_view_mass_approval_reject_chandler" model="ir.actions.act_window">
+            <field name="name">Mass Approval/Reject</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="priority">1</field>
+            <field name="res_model">dp.chandler.temp.mass.approve.reject.wizard</field>
+        </record>
+
+        <record id="action_view_mass_approval_reject_chandler_view" model="ir.actions.act_window.view">
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_mass_approval_reject_chandler"/>
+            <field name="act_window_id" ref="action_view_mass_approval_reject_chandler"/>
+        </record>
+
+        <act_window name="Mass Approval/Reject"
+                    src_model="dp.chandler.temp"
+                    res_model="dp.chandler.temp.mass.approve.reject.wizard"
+                    view_mode="form"
+                    target="new"
+                    multi="True"
+                    key2="client_action_multi"
+                    id="action_view_merge_stock_picking_ids"/>
+
+    </data>
+</openerp>

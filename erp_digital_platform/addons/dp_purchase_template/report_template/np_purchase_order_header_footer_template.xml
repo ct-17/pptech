@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <template id="purchase_order_header_footer_template">
+
+            <t t-if="o and 'company_id' in o">
+                <t t-set="company" t-value="o.company_id"/>
+            </t>
+            <t t-if="not o or not 'company_id' in o">
+                <t t-set="company" t-value="res_company"/>
+            </t>
+            <t t-set="partner" t-value="o.partner_id"/>
+
+            <t t-call="dp_purchase_template.purchase_order_header"/>
+            <t t-raw="0"/>
+            <t t-call="dp_purchase_template.purchase_order_footer"/>
+        </template>
+
+        <template id="purchase_order_header">
+            <div class="header report-tax-invoice" style="font-size: 17px !important;">
+                <style type="text/css">
+                    .report-tax-invoice {
+                        font-family: "Times New Roman", Times, serif;
+                        font-size: 12pt;
+                        color: #000000 !important;
+                    }
+
+                    .font-size {
+                        font-size: 12pt;
+                    }
+
+                    .right-info-font {
+                        font-size: 10pt;
+                    }
+
+                    .report-table td, .report-table th{
+                        padding: 2pt 5pt;
+                        vertical-align: middle;
+                    }
+
+                    .report-table td{
+                        vertical-align: top;
+                    }
+
+                    .report-company-title {
+                        text-align: center;
+                        font-size: 20pt;
+                        padding-top: 15pt !important;
+                        text-align:center;
+                        text-transform: uppercase;
+                        font-weight: bold
+                    }
+
+                    .header-table {
+                        width: 100%;
+                    }
+
+                    .header-table td{
+                        vertical-align: top;
+                    }
+
+                    .content-table {
+                        width: 100%;
+                    }
+
+                    .table-header {
+                        border-top: 1px solid black;
+                        border-bottom: 1px solid black;
+                    }
+
+                    .content-table th {
+                        padding-top: 8pt;
+                        padding-bottom: 8pt;
+                        border-bottom: solid #000000 0.5pt;
+                        border-top: solid #000000 1pt;
+                    }
+
+                    .content-table td {
+                        padding-bottom: 4pt;
+                        padding-top: 6pt;
+                    }
+
+                    .report-title {
+                        text-align: center;
+                        font-size: 20pt;
+                        font-weight: bold;
+                        padding-bottom: 10pt !important;
+                        text-transform: uppercase;
+                    }
+
+                    .report-title-underline {
+                        text-align: center;
+                        font-size: 16pt;
+                        font-weight: bold;
+                        text-decoration: underline;
+                        padding-bottom: 10pt !important;
+                        text-transform: uppercase;
+                    }
+
+                    .barcode-label {
+                        letter-spacing: 9px;
+                        font-size: 14px;
+                    }
+
+                    .bottom-border {
+                        border-bottom: 1px solid black;
+                    }
+
+                    .top-border {
+                        border-top: 1px solid black;
+                    }
+
+                    .text-center {
+                        text-align: center;
+                    }
+
+                    .text-left {
+                        text-align: left;
+                    }
+
+                    .text-right {
+                        text-align: right;
+                    }
+
+                    .text-strong {
+                        font-weight: bold;
+                    }
+
+                    .table-end {
+                        margin-top: 25pt;
+                    }
+                    .content-end {
+                        border-top: 1px solid black;
+                        padding-top: 6pt;
+                        padding-bottom: 6pt;
+                    }
+
+                    tfoot {
+                        display: table-row-group;
+                        page-break-inside: avoid !important;
+                    }
+
+                    tr {
+                        page-break-inside: avoid;
+                    }
+            </style>
+                <table class="header-table report-table">
+                    <thead>
+                        <tr>
+                            <td colspan="3" class="report-title">
+                                PURCHASE ORDER
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="57%">
+                                <b><span t-field="partner.name"/></b>
+                            </td>
+                            <td width="18%">Order No.</td>
+                            <td width="25%">: <span t-field="o.name"/></td>
+                        </tr>
+                        <tr>
+                            <td rowspan="5">
+                                <span t-field="o.partner_id" t-field-options='{"widget": "contact", "fields": ["address"], "no_marker": true}'/>
+                                <!--Tel: <span t-field="o.partner_id.phone"/><br/>-->
+                                <!--Fax: <span t-field="o.partner_id.fax"/><br/>-->
+                                <br/>
+                                <b>Remarks: </b><br/>
+                                <span t-field="o.notes"/><br/>
+                                <!--From: <span t-field="o.purchaser.partner_id" t-field-options='{"widget": "contact", "fields": ["address"], "no_marker": true}'/><br/>-->
+
+
+                            </td>
+                            <td>Order Date</td>
+                            <td style="white-space:nowrap;">: <span t-field="o.date_order"/></td>
+                        </tr>
+                        <tr>
+                            <td>ETA Date</td>
+                            <td>: <span t-field="o.estimated_arrival"/></td>
+                        </tr>
+                        <tr>
+                            <td>Currency</td>
+                            <td>: <span t-field="o.currency_id"/></td>
+                        </tr>
+                        <tr>
+                            <td style="white-space:nowrap;">Source Document</td>
+                            <td style="white-space:nowrap;">: BUYTAXFREE <span t-field="o.origin"/></td>
+                        </tr>
+                        <tr>
+                            <td>Page</td>
+                            <td>: <span class="page"/> of <span class="topage"/></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <b>Marking:</b>
+                            </td>
+                            <td width="18%">Chandler:</td>
+                            <td width="25%">: <span t-field="o.purchaser.name"/></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <b>Vessel Name     : </b><span t-field="o.vessel_name"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <b>Vessel Type     : </b><span t-field="o.vessel_id"/>
+                            </td>
+                        </tr>
+                    </thead>
+                </table>
+
+            </div>
+        </template>
+
+
+        <!--=====================footer======================-->
+        <template id="purchase_order_footer">
+            <div class="footer">
+
+            </div>
+        </template>
+
+
+     </data>
+</openerp>

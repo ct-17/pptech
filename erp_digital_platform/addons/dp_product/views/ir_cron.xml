@@ -1,0 +1,14 @@
+<openerp>
+    <data>
+        <record id="ir_cron_product_publish" model="ir.cron">
+            <field name="name">Publish Product</field>
+            <field name="interval_number">5</field>
+            <field name="interval_type">minutes</field>
+            <field name="numbercall">-1</field>
+            <field eval="'product.template'" name="model"/>
+            <field eval="'publish_products'" name="function"/>
+            <field eval="'()'" name="args"/>
+            <field name="active" eval="True" />
+        </record>
+    </data>
+</openerp>

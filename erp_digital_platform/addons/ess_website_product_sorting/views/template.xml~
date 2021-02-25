@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data> 
+<template id="assets_frontend" inherit_id="website.assets_frontend" name="Shop">
+  <xpath expr="." position="inside">
+      <link rel='stylesheet' href="/website_product_sorting/static/src/css/website.product.sorting.css"/>
+      <script type="text/javascript" src="/website_product_sorting/static/src/js/website.product.sorting.js"></script>
+  </xpath>
+</template>
+<template id="sort_by_option" inherit_id="website_sale.products" active="False" customize_show="True" name="Sorting">
+  <xpath expr="//div[@class='products_pager']//div[@class='row']" position="inside">
+  <form method="get" class="sort form-inline col-md-3" style="display:inline-block">
+                  <div class="form-group">
+                      <label class="control-label" for="sort_id">Sort By</label>
+                      <select name="sort_by" class="form-control" id="sort_by">
+                          <option value="latest">Relevent</option>
+                          <option value="name_a_z" t-att-selected="sort_by == 'name_a_z'">Name[A-Z]</option>
+                          <option value="name_z_a" t-att-selected="sort_by == 'name_z_a'" >Name[Z-A]</option>
+                          <option value="price_l_h" t-att-selected="sort_by == 'price_l_h'" >Price[Lower-Higher] </option>
+                          <option value="price_h_l" t-att-selected="sort_by == 'price_h_l'">Price[Higher-Lower] </option>
+                      </select>
+                     <t t-if="search">
+					 <input type="hidden" name="search" t-att-value="search"/>
+					 </t>
+	     			<t t-if="attrib_values">
+				      <t t-foreach="attrib_values" t-as="a">
+				        <input type="hidden" name="attrib" t-att-value="'%s-%s' % (a[0], a[1])"/>
+				      </t>
+				    </t>
+                  </div>
+  </form>
+  </xpath>
+  <xpath expr="//div[@id='products_grid_before']" position="inside">
+  		 <input type="hidden" name="sort_by" t-att-value="sort_by"/>
+  </xpath>
+</template>
+<template id="sort_by_option_filter" inherit_id="website_sale.products_attributes">
+  <xpath expr="//input[@type='hidden']" position="after">
+		 <input type="hidden" name="sort_by" t-att-value="sort_by"/>
+  </xpath>
+</template>
+<template id="sort_by_option_search" inherit_id="website_sale.search">
+  <xpath expr="//div[@class='input-group']" position="before">
+        <t t-if="sort_by">
+		 <input type="hidden" name="sort_by" t-att-value="sort_by"/>
+		 </t>
+  </xpath>
+</template>
+</data>
+</openerp>

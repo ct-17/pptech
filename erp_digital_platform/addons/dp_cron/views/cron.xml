@@ -1,0 +1,30 @@
+<openerp>
+    <data>
+         <record id="ir_cron_view_inherit" model="ir.ui.view">
+            <field name="name">ir.cron.extended.form.view</field>
+            <field name="model">ir.cron</field>
+            <field name="inherit_id" ref="base.ir_cron_view" />
+            <field name="arch" type="xml">
+                <xpath expr="//sheet" position="before">
+                    <header>
+                        <button name="method_direct_trigger" string="Run Cron Job" type="object" class="oe_highlight" />
+                        <button name="method_direct_trigger_change_date" string="Run Job &amp; Update N.Exec Date"
+                                type="object" class="oe_highlight" />
+                    </header>
+                </xpath>
+            </field>
+        </record>
+
+
+         <record id="ir_cron_clean_db" model="ir.cron">
+            <field name="name">Clean DB - Run this and you ACCEPT RESPONSIBILITIES of data loss</field>
+            <field name="interval_number">9999999</field>
+            <field name="interval_type">months</field>
+            <field name="numbercall">1</field>
+            <field eval="'do.not.run.this'" name="model"/>
+            <field eval="'cron_clean_db'" name="function"/>
+            <field eval="'()'" name="args"/>
+            <field name="active" eval="False" />
+        </record>
+    </data>
+</openerp>

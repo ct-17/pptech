@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <record id="gts_debranding_conf_form_view" model="ir.ui.view">
+            <field name="name">gts.debranding.conf.view</field>
+            <field name="model">gts.debranding.conf</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="x_active" />
+                            <field name="x_power_by" />
+                            <field name="x_title" />
+                            <field name="x_logo" widget="image" class="my_ok" width="200px" />
+                            <field name="x_icon" widget="image" class="my_ok" width="200px" />
+                            <field name="x_hide_usermenu_help" />
+                            <field name="x_hide_usermenu_odoosuport" />
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="gts_debranding_conf_tree_view" model="ir.ui.view">
+            <field name="name">gts.debranding.conf.tree.view</field>
+            <field name="model">gts.debranding.conf</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="x_power_by" />
+                </tree>
+            </field>
+        </record>
+        <record id="gts_debranding_conf_tree_action" model="ir.actions.act_window">
+            <field name="name">Debranding Conf</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">gts.debranding.conf</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="gts_debranding_conf_tree_view"/>
+            <field name="help" type="html">
+                <p></p>
+            </field>
+        </record>
+        <menuitem id="gts_debranding_conf.menu_debranding_conf"
+                  action="gts_debranding_conf_tree_action" parent="base.menu_config" sequence="10" />
+                  <!--parent="base.menu_sales" sequence="10" />-->
+                  <!--parent="base.menu_config" sequence="10" />-->
+    </data>
+</openerp>

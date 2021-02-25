@@ -1,0 +1,283 @@
+<openerp>
+    <data>
+
+        <record id="dp_np_api_tree_view" model="ir.ui.view">
+            <field name="name">dp.np.api.tree.view\</field>
+            <field name="model">dp.np.api</field>
+            <field name="groups">dp_common.group_super_admin</field>
+            <field name="priority">180</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="url"/>
+                    <field name="url_port"/>
+                    <field name="db"/>
+                    <field name="username"/>
+                    <field name="state"/>
+                    <field name="create_date"/>
+                    <field name="write_date"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="dp_np_api_form_view" model="ir.ui.view">
+            <field name="name">dp.np.api.form.view</field>
+            <field name="model">dp.np.api</field>
+            <field name="groups">dp_common.group_super_admin</field>
+            <field name="priority">180</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <field name="state" widget="statusbar"
+                               statusbar_visible="draft,done"/>
+                    </header>
+                    <group>
+                        <group>
+                            <field name="url"/>
+                            <field name="url_port"/>
+                            <field name="db"/>
+                            <field name="username"/>
+                            <field name="password" password="1"/>
+                            <field name="dp_np_api_line"/>
+                            <field name="create_date"/>
+                            <field name="write_date"/>
+                        </group>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_view_np_api_config" model="ir.actions.act_window">
+            <field name="name">DP.NP.API</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">dp.np.api</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="groups">dp_common.group_super_admin</field>
+        </record>
+        <record id="dp_np_api_form_action" model="ir.actions.act_window.view">
+            <field name="sequence">1</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="dp_np_api_form_view"/>
+            <field name="act_window_id" ref="action_view_np_api_config"/>
+        </record>
+        <record id="dp_np_api_tree_action" model="ir.actions.act_window.view">
+            <field name="sequence">0</field>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="dp_np_api_tree_view"/>
+            <field name="act_window_id" ref="action_view_np_api_config"/>
+        </record>
+
+        <menuitem id="np_api_config" name="ERP API Logs" parent="base.menu_administration" sequence="1"
+                  groups="dp_common.group_super_admin"/>
+        <menuitem id="dp_np_api_log" name="XML-RPC Logs" parent="np_api_config" sequence="2"
+                  action="action_view_np_api_config"/>
+
+
+        <record id="dp_np_api_rln_table_tree_view" model="ir.ui.view">
+            <field name="name">dp.np.api.tree.view\</field>
+            <field name="model">dp.np.api.rel</field>
+            <field name="groups">dp_common.group_super_admin</field>
+            <field name="priority">180</field>
+            <field name="arch" type="xml">
+                <tree default_order="dp_np_api_id desc, create_date desc, write_date desc">
+                    <field name="dp_np_api_id"/>
+                    <field name="dp_purchase_id"/>
+                    <field name="state"/>
+                    <field name="create_date"/>
+                    <field name="write_date"/>
+                    <field name="np_write_uid"/>
+                    <field name="np_sale_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="dp_np_api_rln_table_form_view" model="ir.ui.view">
+            <field name="name">dp.np.api.form.view</field>
+            <field name="model">dp.np.api.rel</field>
+            <field name="groups">dp_common.group_super_admin</field>
+            <field name="priority">180</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <field name="overwrite_flag" invisible="1"/>
+                        <button name="action_enable_overwrite_state" string="Enable overwrite State" attrs="{'invisible': [('overwrite_flag', '=', True)]}" type="object"/>
+                        <button name="action_overwrite_state" string="Overwrite State" attrs="{'invisible': [('overwrite_flag', '=', False)]}" type="object"/>
+                        <field name="state" widget="statusbar"
+                               statusbar_visible="draft,done"/>
+                    </header>
+                    <group>
+                        <group string="BUYTAXFREE">
+                            <field name="dp_np_api_id"/>
+                            <field name="dp_purchase_id"/>
+                            <field name="create_date"/>
+                            <field name="write_date"/>
+                        </group>
+                        <group string="New Port">
+                            <field name="np_write_uid"/>
+                            <field name="np_sale_id"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="Overwrite State" attrs="{'invisible': [('overwrite_flag', '=', False)]}">
+                            <field name="overwrite_state"/>
+                        </group>
+                        <group/>
+                    </group>
+                    <group>
+                        <group string="Error Logs">
+                            <field name="error_count" readonly="1"/>
+                            <field name="error_log" attrs="{'readonly': [('state', 'in', ('done','cancel','stock'))]}"/>
+                        </group>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <!--purchase menu-->
+        <record id="action_view_dp_np_api_purchase" model="ir.actions.act_window">
+            <field name="name">DP Purchase to ERP Sales</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">dp.np.api.rel</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">['|',('state','=','done'),('state','=','draft')]</field>
+            <field name="groups">dp_common.group_super_admin</field>
+        </record>
+        <record id="dp_np_api_purchase_tb_form_action" model="ir.actions.act_window.view">
+            <field name="sequence">1</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="dp_np_api_rln_table_form_view"/>
+            <field name="act_window_id" ref="action_view_dp_np_api_purchase"/>
+        </record>
+        <record id="dp_np_api_purchase__tb_tree_action" model="ir.actions.act_window.view">
+            <field name="sequence">0</field>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="dp_np_api_rln_table_tree_view"/>
+            <field name="act_window_id" ref="action_view_dp_np_api_purchase"/>
+        </record>
+        <menuitem id="dp_np_api_purchase" name="Purchase" parent="np_api_config" sequence="2"
+                  action="action_view_dp_np_api_purchase"/>
+
+        <!--stock replenishment menu-->
+        <record id="action_view_dp_np_api_stock_replenishment" model="ir.actions.act_window">
+            <field name="name">DP Stock Replenishment</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">dp.np.api.rel</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('state','=','stock')]</field>
+            <field name="groups">dp_common.group_super_admin</field>
+        </record>
+        <record id="dp_np_api_stock_replenishment_tb_form_action" model="ir.actions.act_window.view">
+            <field name="sequence">1</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="dp_np_api_rln_table_form_view"/>
+            <field name="act_window_id" ref="action_view_dp_np_api_stock_replenishment"/>
+        </record>
+        <record id="dp_np_api_stock_replenishment_tb_tree_action" model="ir.actions.act_window.view">
+            <field name="sequence">0</field>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="dp_np_api_rln_table_tree_view"/>
+            <field name="act_window_id" ref="action_view_dp_np_api_stock_replenishment"/>
+        </record>
+        <menuitem id="dp_np_api_stock_replenishment" name="Stock Replenishment" parent="np_api_config" sequence="3"
+                  action="action_view_dp_np_api_stock_replenishment"/>
+
+        <!--cancel menu-->
+        <record id="action_view_dp_np_api_cancel" model="ir.actions.act_window">
+            <field name="name">Cancel ERP Cron Query</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">dp.np.api.rel</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('state','=','cancel')]</field>
+            <field name="groups">dp_common.group_super_admin</field>
+        </record>
+        <record id="dp_np_api_cancel_tb_form_action" model="ir.actions.act_window.view">
+            <field name="sequence">1</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="dp_np_api_rln_table_form_view"/>
+            <field name="act_window_id" ref="action_view_dp_np_api_cancel"/>
+        </record>
+        <record id="dp_np_api_cancel__tb_tree_action" model="ir.actions.act_window.view">
+            <field name="sequence">0</field>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="dp_np_api_rln_table_tree_view"/>
+            <field name="act_window_id" ref="action_view_dp_np_api_cancel"/>
+        </record>
+        <menuitem id="dp_np_api_cancel" name="Cancel" parent="np_api_config" sequence="4"
+                          action="action_view_dp_np_api_cancel"/>
+
+        <!--Debug menu-->
+        <record id="action_view_dp_np_api_debug" model="ir.actions.act_window">
+            <field name="name">Debug Cron Query</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">dp.np.api.rel</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('state','=','debug')]</field>
+            <field name="groups">dp_common.group_super_admin</field>
+        </record>
+        <record id="dp_np_api_debug_tb_form_action" model="ir.actions.act_window.view">
+            <field name="sequence">1</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="dp_np_api_rln_table_form_view"/>
+            <field name="act_window_id" ref="action_view_dp_np_api_debug"/>
+        </record>
+        <record id="dp_np_api_debug__tb_tree_action" model="ir.actions.act_window.view">
+            <field name="sequence">0</field>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="dp_np_api_rln_table_tree_view"/>
+            <field name="act_window_id" ref="action_view_dp_np_api_debug"/>
+        </record>
+        <menuitem id="dp_np_api_debug" name="Debug" parent="np_api_config" sequence="5"
+                                  action="action_view_dp_np_api_debug"/>
+
+        <record id="dp_np_api_config_form_view" model="ir.ui.view">
+            <field name="name">dp.np.api.config.form.view</field>
+            <field name="model">dp.np.api.config</field>
+            <field name="groups">dp_common.group_super_admin</field>
+            <field name="priority">180</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <group>
+                            <field name="url"/>
+                            <field name="url_port"/>
+                            <field name="db"/>
+                            <field name="username"/>
+                            <field name="password" password="1"/>
+                            <field name="active"/>
+                        </group>
+                        <group/>
+                    </group>
+                </form>
+            </field>
+        </record>
+        <record id="dp_np_api_config_tree_view" model="ir.ui.view">
+            <field name="name">dp.np.api.config.tree.view</field>
+            <field name="model">dp.np.api.config</field>
+            <field name="groups">dp_common.group_super_admin</field>
+            <field name="priority">180</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="url"/>
+                    <field name="url_port"/>
+                    <field name="db"/>
+                    <field name="username"/>
+                    <field name="active"/>
+                </tree>
+            </field>
+        </record>
+        <record id="action_view_dp_np_api_configuration" model="ir.actions.act_window">
+            <field name="name">DP.NP.API.Configuration</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">dp.np.api.config</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="groups">dp_common.group_super_admin</field>
+        </record>
+        <menuitem id="dp_np_api_configuration" name="DP NP API Configuration" parent="np_api_config" sequence="1"
+                    action="action_view_dp_np_api_configuration"/>
+    </data>
+</openerp>

@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+		<!-- ===== Shop Page ===== -->
+		<template id="shop_page_bradcum">
+			<div class="container">
+				<h1 class="text-center mt64 mb64">
+					<span t-if="not (category and category.name)">
+						<span>Shop</span>
+					</span>
+					<span t-if="category and category.name">
+						<span t-esc="category.name" />
+					</span>
+				</h1>
+			</div>
+		</template>
+		<template id="breadcum_shop"
+			inherit_id="website_sale.products">
+			<xpath expr="//div[@id='wrap']//div[@class='oe_structure']"
+				position="before">
+				<t t-if="not website.is_breadcum">
+					<t t-if="website.bread_cum_image">
+						<t t-set="bread_cum"
+							t-value="website.image_url(website,'bread_cum_image')" />
+						<section class="home-banner-section inner-banner" role="navigation"
+							aria-label="breadcrumbs"
+							t-attf-style="background-image:url(#{bread_cum}#)">
+							<t t-call="theme_elephase.shop_page_bradcum" />
+						</section>
+					</t>
+					<t t-if="not website.bread_cum_image">
+						<section class="home-banner-section inner-banner" role="navigation"
+							aria-label="breadcrumbs" style="background-image: url(/theme_elephase/static/src/images/banner-img1.jpg);">
+							<t t-call="theme_elephase.shop_page_bradcum" />
+						</section>
+					</t>
+				</t>
+				<div class="container">
+					<ul class="breadcrumb">
+						<li>
+							<a href="/">Home</a>
+						</li>
+						<li>
+							<a href="#">Shop</a>
+						</li>
+						<t t-if="category">
+							<t t-if="website.get_category_breadcum(category)">
+								<t t-set="categ_bread"
+									t-value="website.get_category_breadcum(category)" />
+								<t t-foreach="categ_bread" t-as="categ">
+									<li>
+										<a
+											t-att-href="keep('/shop/category/%s' % slug(categ), category=0)"
+											t-field="categ.name" />
+									</li>
+								</t>
+							</t>
+						</t>
+					</ul>
+				</div>
+			</xpath>
+		</template>
+
+		<!-- ===== Product Page ===== -->
+		<template id="product_detail_page_bradcum"
+			inherit_id="website_sale.product">
+			<xpath expr="//section[@id='product_detail']" position="before">
+				<t t-if="not website.is_breadcum">
+					<t t-if="not (website.bread_cum_image)">
+						<section class="home-banner-section inner-banner" role="navigation"
+							aria-label="breadcrumbs" style="background-image: url(/theme_elephase/static/src/images/banner-img1.jpg);">
+							<div class="container">
+								<h1>
+									<span t-esc="product.name" />
+								</h1>
+							</div>
+						</section>
+					</t>
+					<t t-if="website.bread_cum_image">
+						<t t-set="bread_cum"
+							t-value="website.image_url(website,'bread_cum_image')" />
+						<section class="home-banner-section inner-banner" role="navigation"
+							aria-label="breadcrumbs"
+							t-attf-style="background-image:url(#{bread_cum}#)">
+							<div class="container">
+								<h1>
+									<span t-esc="product.name" />
+								</h1>
+							</div>
+						</section>
+					</t>
+				</t>
+				<div class="container">
+					<ul class="breadcrumb">
+						<li>
+							<a href="/">Home</a>
+						</li>
+						<li>
+							<a href="/shop">Shop</a>
+						</li>
+						<li>
+							<a href="#">
+								<span t-field="product.name" />
+							</a>
+						</li>
+					</ul>
+				</div>
+			</xpath>
+			<xpath expr="//ol[@class='breadcrumb']" position="attributes">
+				<attribute name="t-if">website.is_breadcum</attribute>
+			</xpath>
+		</template>
+
+		<!-- ===== Cart Page ===== -->
+		<template id="cart" inherit_id="website_sale.cart">
+			<xpath expr="//div[hasclass('oe_website_sale')]"
+				position="before">
+				<t t-if="not website.is_breadcum">
+					<t t-if="website.bread_cum_image">
+						<t t-set="bread_cum"
+							t-value="website.image_url(website,'bread_cum_image')" />
+						<section class="home-banner-section inner-banner" role="navigation"
+							aria-label="breadcrumbs"
+							t-attf-style="background-image:url(#{bread_cum}#)">
+							<div class="container">
+								<h1>
+									<span>Shopping Cart</span>
+								</h1>
+							</div>
+						</section>
+					</t>
+					<t t-if="not website.bread_cum_image">
+						<section class="home-banner-section inner-banner" role="navigation"
+							aria-label="breadcrumbs" style="background-image: url(/theme_elephase/static/src/images/banner-img1.jpg);">
+							<div class="container">
+								<h1>
+									<span>Shopping Cart</span>
+								</h1>
+
+							</div>
+						</section>
+					</t>
+				</t>
+			</xpath>
+		</template>
+
+		<!-- ===== Check Out Page ===== -->
+		<template id="checkout" inherit_id="website_sale.checkout">
+			<xpath expr="//div[hasclass('oe_website_sale')]"
+				position="before">
+				<t t-if="not website.is_breadcum">
+					<t t-if="not website.bread_cum_image">
+						<section class="home-banner-section inner-banner" role="navigation"
+							aria-label="breadcrumbs" style="background-image: url(/theme_elephase/static/src/images/banner-img1.jpg);">
+							<div class="container">
+								<h1>
+									<span>Checkout</span>
+								</h1>
+							</div>
+						</section>
+					</t>
+					<t t-if="website.bread_cum_image">
+						<t t-set="bread_cum"
+							t-value="website.image_url(website,'bread_cum_image')" />
+						<section class="home-banner-section inner-banner" role="navigation"
+							aria-label="breadcrumbs"
+							t-attf-style="background-image:url(#{bread_cum}#)">
+							<div class="container">
+								<h1>
+									<span>Checkout</span>
+								</h1>
+							</div>
+						</section>
+					</t>
+				</t>
+			</xpath>
+		</template>
+
+		<!-- ===== Payment Page ===== -->
+		<template id="payment" inherit_id="website_sale.payment">
+			<xpath expr="//div[hasclass('oe_website_sale')]"
+				position="before">
+				<t t-if="not website.is_breadcum">
+					<t t-if="not website.bread_cum_image">
+						<section class="home-banner-section inner-banner" role="navigation"
+							aria-label="breadcrumbs" style="background-image: url(/theme_elephase/static/src/images/banner-img1.jpg);">
+							<div class="container">
+								<h1>
+									<span>Payment</span>
+								</h1>
+
+							</div>
+						</section>
+					</t>
+					<t t-if="website.bread_cum_image">
+						<t t-set="bread_cum"
+							t-value="website.image_url(website,'bread_cum_image')" />
+						<section class="home-banner-section inner-banner" role="navigation"
+							aria-label="breadcrumbs"
+							t-attf-style="background-image:url(#{bread_cum}#)">
+							<div class="container">
+								<h1>
+									<span>Payment</span>
+								</h1>
+							</div>
+						</section>
+					</t>
+				</t>
+			</xpath>
+		</template>
+
+		<!-- ===== Confirmation Page ===== -->
+		<template id="confirmation"
+			inherit_id="website_sale.confirmation">
+			<xpath expr="//div[hasclass('oe_website_sale')]"
+				position="before">
+				<t t-if="not website.is_breadcum">
+					<t t-if="not website.bread_cum_image">
+						<section class="home-banner-section inner-banner" role="navigation"
+							aria-label="breadcrumbs" style="background-image: url(/theme_elephase/static/src/images/banner-img1.jpg);">
+							<div class="container">
+								<h1>
+									<span>Confirmation</span>
+								</h1>
+							</div>
+						</section>
+					</t>
+					<t t-if="website.bread_cum_image">
+						<t t-set="bread_cum"
+							t-value="website.image_url(website,'bread_cum_image')" />
+						<section class="home-banner-section inner-banner" role="navigation"
+							aria-label="breadcrumbs"
+							t-attf-style="background-image:url(#{bread_cum}#)">
+							<div class="container">
+								<h1>
+									<span>Confirmation</span>
+								</h1>
+							</div>
+						</section>
+					</t>
+				</t>
+			</xpath>
+		</template>
+	</data>
+</openerp>

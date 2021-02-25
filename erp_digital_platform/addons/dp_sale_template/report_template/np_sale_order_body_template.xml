@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <template id="np_sale_order_body">
+
+
+            <t t-foreach="docs" t-as="o">
+                <t t-call="dp_sale_template.sale_order_header_footer">
+                    <div class="page report-tax-invoice" style="font-size: 17px !important;">
+                        <style type="text/css">
+                            .report-tax-invoice .{
+                                font-family: "Times New Roman", Times, serif;
+                                font-size: 12pt;
+                                color: #000000 !important;
+                            }
+
+                            .font-size {
+                                font-size: 12pt;
+                            }
+
+                            .right-info-font {
+                                font-size: 10pt;
+                            }
+
+                            .report-table td, .report-table th{
+                                padding: 2pt 5pt;
+                                vertical-align: middle;
+                            }
+
+                            .report-table td{
+                                vertical-align: top;
+                            }
+
+                            .report-company-title {
+                                text-align: center;
+                                font-size: 20pt;
+                                padding-top: 15pt !important;
+                                text-align:center;
+                                text-transform: uppercase;
+                                font-weight: bold
+                            }
+
+                            .header-table {
+                                width: 100%;
+                            }
+
+                            .header-table td{
+                                vertical-align: top;
+                            }
+
+                            .content-table {
+                                width: 100%;
+                                margin:5px;
+                            }
+
+                            .table-header {
+                                border-top: 1px solid black;
+                                border-bottom: 1px solid black;
+                            }
+
+                            .content-table th {
+                                padding-top: 8pt;
+                                padding-bottom: 8pt;
+                                border-bottom: solid #000000 0.5pt;
+                                border-top: solid #000000 1pt;
+                            }
+
+                            .content-table td {
+                                padding-bottom: 4pt;
+                                padding-top: 6pt;
+                                margin:5px;
+                            }
+                            .margin {
+                                margin-top: 25pt;
+                            }
+
+                            .report-title {
+                                text-align: center;
+                                font-size: 20pt;
+                                font-weight: bold;
+                                padding-bottom: 10pt !important;
+                                text-transform: uppercase;
+                            }
+
+                            .report-title-underline {
+                                text-align: center;
+                                font-size: 16pt;
+                                font-weight: bold;
+                                text-decoration: underline;
+                                padding-bottom: 10pt !important;
+                                text-transform: uppercase;
+                            }
+
+                            .barcode-label {
+                                letter-spacing: 9px;
+                                font-size: 14px;
+                            }
+
+                            .bottom-border {
+                                border-bottom: 1px solid black;
+                            }
+
+                            .top-border {
+                                border-top: 1px solid black;
+                            }
+
+                            .text-center {
+                                text-align: center;
+                            }
+
+                            .text-left {
+                                text-align: left;
+                            }
+
+                            .text-right {
+                                text-align: right;
+                            }
+
+                            .text-strong {
+                                font-weight: bold;
+                            }
+
+                            .table-end {
+                                margin-top: 25pt;
+                            }
+                            .content-end {
+                                border-top: 1px solid black;
+                                padding-top: 6pt;
+                                padding-bottom: 6pt;
+                            }
+
+                            tfoot {
+                                display: table-row-group;
+                                page-break-inside: avoid !important;
+                            }
+
+                            tr {
+                                page-break-inside: avoid;
+                            }
+                            hr { display: block; height: 1px;
+                                 border: 0; border-top: 1px solid #ccc;
+                                 margin: 1em 0; padding: 0;
+                            }
+                        </style>
+                        <table class="content-table report-table">
+                            <thead>
+                                <tr>
+                                    <th width="6%">Seq.</th>
+                                    <th width="30%" class="text-center">Description</th>
+                                    <th width="8%" class="text-right">Quantity</th>
+                                    <th width="6%">UOM</th>
+                                    <th width="11%" class="text-right">Unit Price</th>
+                                    <th width="8%">GST</th>
+                                    <th width="8%" class="text-right">Discount</th>
+                                    <th width="12%" class="text-right">Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-set="seq" t-value="1"/>
+                                <tr t-foreach="o.order_line" t-as="l">
+                                    <td class="text-center" style="">
+                                        <span t-esc="seq"/>
+                                        <t t-set="seq" t-value="seq + 1"/>
+                                    </td>
+                                    <td class="text-left">
+                                        <span t-field="l.name"/>
+                                    </td>
+                                    <td class="text-right">
+                                        <span t-esc="'{0:,.0f}'.format(float(l.product_uom_qty))"/>
+                                    </td>
+                                    <td class="text-left">
+                                        <span t-field="l.product_uom"/>
+                                    </td>
+                                    <td class="text-right">
+                                        <span t-esc="'{0:,.2f}'.format(float(l.price_unit))"/>
+                                    </td>
+                                    <td class="text-left">
+                                        <span t-field="l.tax_id.description"/>
+                                    </td>
+                                    <td class="text-right">
+                                        <span t-if="l.discount != 0" t-esc="'{0:,.2f}'.format(float(l.discount))"/>
+                                    </td>
+                                    <td id="total_amount" class="text-right border-bottom">
+                                        <span t-esc="'{0:,.2f}'.format(float(l.product_uom_qty*l.price_unit))"/>
+                                    </td>
+                                </tr>
+                             <div class="margin">
+                                <tr class="text-strong">
+                                    <!--<td rowspan="3" style="width:300px; padding-left: 5px; vertical-align: middle"></td>-->
+                                    <td colspan="4"/>
+                                    <td colspan="3">SubTotal</td>
+
+                                    <td class="text-right" style="border-top: solid #000000 0.5pt">
+                                        <t t-if="o.ws_discount_percent">
+                                        <span t-esc="'{0:,.2f}'.format(float(o.total_before_discount))"/>
+                                        </t>
+                                        <t t-if="not o.ws_discount_percent">
+                                            <span t-esc="'{0:,.2f}'.format(float(o.amount_untaxed))"/>
+                                        </t>
+                                    </td>
+                                </tr>
+                                <tr class="text-strong">
+                                    <td colspan="4"/>
+                                    <td colspan="3">LESS DISCOUNT</td>
+                                    <td class="text-right">
+                                        <span t-esc="'{0:,.2f}'.format(float(o.amount_tax))"/>
+                                    </td>
+                                </tr>
+
+                                <tr class="text-strong">
+                                    <td colspan="4"/>
+                                    <td colspan="3">GST</td>
+                                    <td class="text-right">
+                                        <span t-esc="'{0:,.2f}'.format(float(o.amount_tax))"/>
+                                    </td>
+                                </tr>
+                                <tr class="text-strong">
+                                    <td colspan="4" />
+                                    <td colspan="3" >
+                                        TOTAL AMOUNT (<span t-field="o.dp_currency_id"/>)
+                                    </td>
+                                    <td class="text-right">
+                                        <span t-esc="'{0:,.2f}'.format(float(o.amount_total))"/>
+                                    </td>
+                                </tr>
+                             </div>
+                            </tbody>
+                        </table>
+                        <table class="table-end">
+                            <tr class="content-end">
+                                <hr width="100%" color="black"/>
+                            </tr>
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </template>
+
+        <template id="np_sale_order_body_template">
+            <t t-call="report.html_container">
+                <t t-foreach="doc_ids" t-as="doc_id">
+                    <t t-raw="translate_doc(doc_id, doc_model, 'partner_id.lang', 'dp_sale_template.np_sale_order_body')"/>
+                </t>
+            </t>
+        </template>
+    </data>
+</openerp>

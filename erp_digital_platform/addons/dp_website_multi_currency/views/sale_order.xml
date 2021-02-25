@@ -1,0 +1,90 @@
+<openerp>
+    <data>
+        <record id="dp_base_saleorder_extended_form_view" model="ir.ui.view">
+            <field name="name">dp.base.saleorder.extended.form.view</field>
+            <field name="model">sale.order</field>
+            <field name="priority">17</field>
+            <field name="inherit_id" ref="dp_sale.dp_base_saleorder_extended_form_view" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='currency_rate']" position="before">
+                    <field name="dp_currency_id" context="{'chandlerquotation': True, 'order_id': active_id}" options="{'no_open': True, 'no_create':True}"/>
+                    <label colspan="2" string="Please define your new currency at chandler details."/>
+                </xpath>
+
+                <xpath expr="//field[@name='currency_rate']" position="after">
+                    <label colspan="2" string="Please set your Sale Currency if transaction is performed outside Singapore Dollar (SGD)."/>
+                </xpath>
+
+                <xpath expr="//field[@name='currency_id']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='amount_untaxed']" position="attributes">
+                    <attribute name="options">{'currency_field': 'dp_currency_id'}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='amount_tax']" position="attributes">
+                    <attribute name="options">{'currency_field': 'dp_currency_id'}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='amount_total']" position="attributes">
+                    <attribute name="options">{'currency_field': 'dp_currency_id'}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='margin']" position="attributes">
+                    <attribute name="options">{'currency_field': 'dp_currency_id'}</attribute>
+                </xpath>
+
+                <xpath expr="//page[@string='Order Lines']/field[@name='order_line']/tree/field[@name='product_id']" position="attributes">
+                    <attribute  name="context">{'currency':parent.currency_id,'currency_rate':parent.currency_rate,'partner_id':parent.partner_id,
+                        'quantity':product_uom_qty, 'pricelist':parent.pricelist_id, 'uom':product_uom,
+                        'company_id': parent.company_id, 'price_unit': price_unit, 'item_type_product': item_type_product,
+                        'from_product_id': True, 'user_id': parent.user_id}</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="dp_currrenc_shipmaster_bid_form_view" model="ir.ui.view">
+            <field name="name">dp.base.saleorder.extended.form.view</field>
+            <field name="model">sale.order</field>
+            <field name="priority">17</field>
+            <field name="inherit_id" ref="dp_sale.shipmaster_bid_form_view" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='currency_id']" position="replace">
+
+                </xpath>
+                <xpath expr="//field[@name='expire_quote_date']" position="after">
+                    <field name="dp_currency_id" options="{'no_open': True}" readonly="1" />
+                </xpath>
+                 <xpath expr="//field[@name='total_before_discount']" position="attributes">
+                    <attribute name="options">{'currency_field': 'dp_currency_id'}</attribute>
+                </xpath>
+
+                <xpath expr="//field[@name='amount_discount']" position="attributes">
+                    <attribute name="options">{'currency_field': 'dp_currency_id'}</attribute>
+                </xpath>
+
+                <xpath expr="//field[@name='amount_untaxed']" position="attributes">
+                    <attribute name="options">{'currency_field': 'dp_currency_id'}</attribute>
+                </xpath>
+
+                <xpath expr="//field[@name='amount_tax']" position="attributes">
+                    <attribute name="options">{'currency_field': 'dp_currency_id'}</attribute>
+                </xpath>
+
+                <xpath expr="//field[@name='amount_total']" position="attributes">
+                    <attribute name="options">{'currency_field': 'dp_currency_id'}</attribute>
+                </xpath>
+            </field>
+        </record>
+        <record id="dp_currrenc_sale_order_pricelist_form_view_inh" model="ir.ui.view">
+            <field name="name">dp.base.saleorder.extended.form.view</field>
+            <field name="model">sale.order</field>
+            <field name="priority">17</field>
+            <field name="inherit_id" ref="np_discount.sale_order_pricelist_form_view_inh" />
+            <field name="arch" type="xml">
+                 <xpath expr="//field[@name='total_before_discount']" position="attributes">
+                    <attribute name="options">{'currency_field': 'dp_currency_id'}</attribute>
+                </xpath>
+            </field>
+        </record>
+
+
+    </data>
+</openerp>

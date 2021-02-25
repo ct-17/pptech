@@ -1,0 +1,13 @@
+<openerp>
+    <data>
+        <report
+            id="po_template_Xlsx"
+            model="purchase.order"
+            string="Purchase Order (Excel)"
+            report_type="xlsx"
+            name="purchase.order.xlsx"
+            file="purchase.order.xlsx"
+            attachment="'purchase_order'+ object.name"
+            groups="dp_common.group_chandler"/>
+    </data>
+</openerp>

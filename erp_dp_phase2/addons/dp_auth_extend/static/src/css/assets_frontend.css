@@ -1,0 +1,97 @@
+div.chandler_signup > div > p.man_field {
+    font-size: 12px!important;
+    position: relative!important;
+    bottom: 25px!important;
+}
+
+div.chandler_signup > div > form div.form-row.form-group.field-login > div.login_p {
+    margin-bottom: 0!important;
+    height: 0!important;
+}
+
+.chandler_signup {
+    background-size: 300px!important;
+}
+
+.login-form-content>form>h2, .login-form-content>h2{
+	margin-top: 8.6%!important;
+}
+
+.login-form-content>.signup_error_msg{
+	margin-top: 8.6%!important;
+}
+
+.chandler_signup>.login-form-content>h2{
+    margin-top: 5.6%;
+}
+
+.login-form-content>.chandler_signup_error_msg{
+    margin-top:5.6%;
+}
+
+.chandler_signup_error_msg+h2{
+    margin-top: 20px!important;
+}
+
+.oe_reset_password_form>p{
+    font-size: 20px!important;
+}
+
+.oe_reset_password_form>.alert-success{
+    margin-top: 20.6%!important;
+}
+
+@media only screen and (min-height: 900px) {
+  .oe_reset_password_form>img{
+    margin-top: 5.6%!important;
+    }
+}
+
+@media only screen and (max-height: 899px) {
+  .oe_reset_password_form>form{
+    margin-bottom: 4.6%!important;
+    }
+}
+
+#vessel_name_select_idautocomplete-list{
+    border: 1px solid #A9A9A9;
+    position: absolute;
+    background: white;
+    z-index: 1;
+    width: 565px!important;
+    max-height: 382px;
+}
+
+#ship_agent_selectautocomplete-list{
+    border: 1px solid #A9A9A9;
+    position: absolute;
+    background: white;
+    z-index: 1;
+    width: 580px!important;
+    max-height: 382px;
+}
+
+#vessel_name_select_idautocomplete-list:empty, #ship_agent_selectautocomplete-list:empty{
+    display:none;
+}
+
+#vessel_name_select_idautocomplete-list div, #ship_agent_selectautocomplete-list div{
+    font-size: 14px!important;
+}
+
+.login-form input{
+    padding: 10px 20px!important;
+    padding-top: 10px!important;
+    padding-right: 20px!important;
+    padding-bottom: 10px!important;
+    padding-left: 20px!important;
+}
+
+.form-row.form-group.field-login div:nth-of-type(2){
+    width: 100% !important;
+}
+
+.oe_signup_form{
+    width: 40vw;
+    margin: auto;
+}

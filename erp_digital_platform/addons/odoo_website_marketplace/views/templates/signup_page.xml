@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+
+		<!-- Add Extra Field in Registration page -->
+		<template id="registration_form_extend" inherit_id="auth_signup.fields" customize_show="True" name="Add Extra Fields on Registration Page">
+			<xpath expr="//div[@class='form-group field-login']" position="before">
+
+		         <div class="form-group field-type-of-registration">
+                      <label class="control-label" for="type">Type of Registration</label>
+                      <select id="type" name="type" class="form-control">
+                          <option value="consumer">Consumer</option>
+                          <option value="seller">Seller</option>
+                      </select>
+                      
+		        </div>
+		  	</xpath>
+	  
+	  </template>
+	  
+
+</data>
+</openerp>
+

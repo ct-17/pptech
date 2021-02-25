@@ -1,0 +1,734 @@
+<openerp>
+    <data>
+        <template id="dp_website_layout" inherit_id="website.layout">
+            <xpath expr="//div[@id='wrapwrap']//ul[@class='dropdown-menu js_usermenu']/li[1]" position="replace">
+                <li><a href="/myaccounts" role="menuitem">My Account</a></li>
+                <li><a href="/myenquiry" role="menuitem">My Enquiry</a></li>
+            </xpath>
+        </template>
+
+        <template id="dp_website_layout_inherit" inherit_id="dp_website.theme_header" groups="dp_common.group_super_admin,dp_common.group_chandler_admin,base.group_public,dp_common.group_shipmaster">
+            <xpath expr="//ul[@id='top_menu']//ul[@class='dropdown-menu js_usermenu']/li[1]" position="before">
+                <li><a href="/myaccounts" role="menuitem">My Account</a></li>
+                <li><a href="/myenquiry" role="menuitem">My Enquiry</a></li>
+            </xpath>
+        </template>
+
+        <template id="dp_website_theme_footer_inherit" inherit_id="dp_website.theme_footer">
+<!--            <xpath expr="//a[@href='/my/account']" position="attributes">-->
+<!--                <attribute name="href">/myaccounts</attribute>-->
+<!--            </xpath>-->
+<!--            <xpath expr="//a[@href='/orders']" position="attributes">-->
+<!--                <attribute name="href">/myenquiry</attribute>-->
+<!--            </xpath>-->
+        </template>
+
+        <!--        myaccount-->
+        <template id="myaccount_info" name="My Account">
+            <t t-call="website.layout">
+                <section class="inner-section summary-page">
+                    <div id="myinfo_enquiry" class="container">
+                        <div class="row" style="width:115%">
+                            <!-- __  __                                       _   -->
+                            <!--|  \/  |_   _  __ _  ___ ___ ___  _   _ _ __ | |_ -->
+                            <!--| |\/| | | | |/ _` |/ __/ __/ _ \| | | | '_ \| __|-->
+                            <!--| |  | | |_| | (_| | (_| (_| (_) | |_| | | | | |_ -->
+                            <!--|_|  |_|\__, |\__,_|\___\___\___/ \__,_|_| |_|\__|-->
+                            <!--        |___/                                     -->
+                            <!-- _          __ _       _     _        ____             -->
+                            <!--| |    ___ / _| |_ ___(_) __| | ___  | __ )  __ _ _ __ -->
+                            <!--| |   / _ \ |_| __/ __| |/ _` |/ _ \ |  _ \ / _` | '__|-->
+                            <!--| |__|  __/  _| |_\__ \ | (_| |  __/ | |_) | (_| | |   -->
+                            <!--|_____\___|_|  \__|___/_|\__,_|\___| |____/ \__,_|_|   -->
+                            <!--                                                       -->
+                            <!--myaccount leftside bar-->
+                            <div id="myinfo_title" class="col-12 col-md-12 col-lg-3">
+    <!--                            <h2>ELEPHAS</h2>-->
+                                <div class="left-sidebar">
+                                    <div class="edit-profile">
+                                        <span class="user-img"><i class="fa fa-user" aria-hidden="true"></i></span>
+                                        <h2 t-esc="name"/>
+                                        <a id="edit_profile2"><i class="fa fa-pencil" aria-hidden="true"></i> Edit Profile</a>
+                                    </div>
+                                    <ul>
+                                        <li id="myaccount_leftsidebar"><a href="/myaccounts">My Profile</a></li>
+                                        <li id="myenquiry_leftsidebar"><a href="/myenquiry">My Enquiry</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- __  __                                       _   -->
+                            <!--|  \/  |_   _  __ _  ___ ___ ___  _   _ _ __ | |_ -->
+                            <!--| |\/| | | | |/ _` |/ __/ __/ _ \| | | | '_ \| __|-->
+                            <!--| |  | | |_| | (_| | (_| (_| (_) | |_| | | | | |_ -->
+                            <!--|_|  |_|\__, |\__,_|\___\___\___/ \__,_|_| |_|\__|-->
+                            <!--        |___/                                     -->
+                            <!-- ____             __ _ _      -->
+                            <!--|  _ \ _ __ ___  / _(_) | ___ -->
+                            <!--| |_) | '__/ _ \| |_| | |/ _ \-->
+                            <!--|  __/| | | (_) |  _| | |  __/-->
+                            <!--|_|   |_|  \___/|_| |_|_|\___|-->
+                            <!--myaccount profile-->
+                            <div id="myinfo_detail" class="col-12 col-md-9 col-lg-9" t-if="from_enquiry == 'inactive'">
+                                <div class="my-profile-list">
+                                    <div>
+                                        <h2>My Profile</h2>
+                                        <p id="myaccount_note">Please fill up the mandatory fields in asterisk (*)</p>
+                                        <form name="my_account">
+                                        <div class="form-row" >
+                                            <div class="form-group col-sm-4" >
+                                                <label for="Email (User Login)">Email (User Login):</label>
+                                            </div>
+                                            <div class="form-group col-sm-8">
+                                                <input type="email" name="Email (User Login)" class="form-control no-border-no-shadow" t-att-value="email"
+                                                       id="email"
+                                                       placeholder="Email" required="required"/>
+
+
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-sm-4">
+                                                <label for="Vessel Name">Vessel Name:</label>
+                                            </div>
+                                            <div class="form-group col-sm-8">
+                                                <input type="text" name="Vessel Name"
+                                                       id="vessel_name_autocomplete"
+                                                       class="form-control no-border-no-shadow" placeholder="Vessel Name"
+                                                       style="text-transform: uppercase;" required="required"
+                                                       onchange="hide_show_create_and_edit_vessel_name()"
+                                                       t-att-value="vname"/>
+                                                 <!-- create vessel name-->
+                                                <div class="row-space-filler" id="vname_filler1"/>
+                                                <input type="text" name="New Vessel Name" id="vessel_name_id"
+                                                    class="form-control" placeholder="New Vessel Name"/>
+                                                <div class="row-space-filler" id="vname_filler2"/>
+                                                <input type="text" name="New IMO Number" id="imo_number_id"
+                                                    class="form-control" placeholder="New IMO Number" t-att-value="imo"/>
+                                                <div class="row-space-filler" id="vname_filler3"/>
+                                                <select name="New Vessel Type" class="form-control" placeholder="Type"
+                                                        id="vessel_type_select_id"
+                                                        style="text-transform: uppercase;">
+                                                    <option value="">New Vessel Type..</option>
+                                                    <t t-foreach="vessel_obj or []" t-as="vessel">
+                                                        <option t-att-value="vessel.id" t-att-selected="vessel.name == vtype">
+                                                            <t t-esc="vessel.name"/>
+                                                        </option>
+                                                    </t>
+                                                </select>
+                                                <div class="row-space-filler" id="vname_filler4"/>
+                                                <input type="text" name="New Vessel NRT" id="vessel_nrt_id"
+                                                    class="form-control" placeholder="New Vessel NRT"/>
+                                                <div class="row-space-filler" id="vname_filler5"/>
+                                                <input type="text" name="New Vessel Flag" id="vessel_flag_id"
+                                                    class="form-control" placeholder="New Vessel Flag" />
+                                                <div class="row-space-filler" id="vname_filler6"/>
+                                                <input type="text" name="New Vessel Crew No" id="vessel_crew_id"
+                                                    class="form-control" placeholder="New Vessel Crew No"/>
+<!--                                                <div class="row-space-filler"/>-->
+<!--                                                <select name="New Vessel Shipping Agent" class="form-control" id="shipping_agent_select_id">-->
+<!--                                                    <option value="">New Vessel Shipping Agent..</option>-->
+<!--                                                    <t t-foreach="shipping_obj or []" t-as="shipping_agent">-->
+<!--                                                        <option t-att-value="shipping_agent.id">-->
+<!--                                                            <t t-esc="shipping_agent.name"/>-->
+<!--                                                        </option>-->
+<!--                                                    </t>-->
+<!--                                                </select>-->
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-sm-4">
+                                                <label for="Vessel Type">Vessel Type:</label>
+                                            </div>
+                                            <div class="form-group col-sm-8">
+                                                <select id="vessel_id" class="form-control no-border-no-shadow" required="required" name="Vessel Type">
+<!--                                                    <option value="">Vessel Type...</option>-->
+                                                    <t t-foreach="vessel_obj or []" t-as="vessel">
+                                                    <option t-att-value="vessel.name" t-att-selected="vessel.name == vtype"
+                                                            style="text-transform: uppercase;">
+                                                        <t t-esc="vessel.name"/></option>
+                                                    </t>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-sm-4">
+                                                <label for="Contact Person">Contact Person:</label>
+                                            </div>
+                                            <div class="form-group col-sm-8">
+                                                <input type="text" name="Contact Person" class="form-control no-border-no-shadow" t-att-value="name"
+                                                       id="name" required="required"
+                                                       placeholder="Contact Person"/>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-sm-4">
+                                                <label for="Contact Number">Contact Number:</label>
+                                            </div>
+                                            <div class="form-group col-sm-8">
+                                                <input type="text" name="Contact Number" class="form-control no-border-no-shadow" t-att-value="tel"
+                                                       id="tel" placeholder="Contact Number"/>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-sm-4">
+                                                <label for="IMO Number">IMO Number:</label>
+                                            </div>
+                                            <div class="form-group col-sm-8">
+                                                <input type="text" name="IMO Number" class="form-control no-border-no-shadow" t-att-value="imo"
+                                                       id="imo" placeholder="IMO Number"/>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-sm-4">
+                                                <label for="Call Sign">Call Sign:</label>
+                                            </div>
+                                            <div class="form-group col-sm-8">
+                                                <input type="text" name="Call Sign" class="form-control no-border-no-shadow" t-att-value="call_sign"
+                                                       id="call_sign" placeholder="Call Sign"/>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-sm-4">
+                                                <label for="Preferred Chandler #1">Preferred Chandler #1:</label>
+                                            </div>
+                                            <div class="form-group col-sm-8">
+                                                <input type="text" name="Preferred Chandler #1" class="form-control no-border-no-shadow" t-att-value="pc_1"
+                                                       id="chandler_autocomplete_id1" required="required"
+                                                       placeholder="Chandler #1"/>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-sm-4">
+                                                <label for="">Preferred Chandler #2:</label>
+                                            </div>
+                                            <div class="form-group col-sm-8">
+                                                <input type="text" name="chandler_autocomplete_id2" class="form-control no-border-no-shadow" t-att-value="pc_2"
+                                                       id="chandler_autocomplete_id2"
+                                                       placeholder="Chandler #2"/>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-sm-4">
+                                                <label for="">Preferred Chandler #3: </label>
+                                            </div>
+                                            <div class="form-group col-sm-8">
+                                                <input type="text" name="chandler_autocomplete_id3" class="form-control no-border-no-shadow" t-att-value="pc_3"
+                                                       id="chandler_autocomplete_id3"
+                                                       placeholder="Chandler #3"/>
+                                            </div>
+                                       </div>
+                                        <div class="row">
+                                            <div class="col-12 text-right">
+                                                <span>
+                                                    <div class="form-group">
+                                                        <a class="btn btn-primary btn-lg a-submit"
+                                                           id="change_password" hidden="True">Change Password</a>
+                                                        <a class="btn btn-primary btn-lg mt10 js_check_product a-submit"
+                                                           id="edit_profile">Edit profile</a>
+                                                        <a class="btn btn-primary btn-lg a-submit"
+                                                           id="save_profile" hidden="True"  type="submit" >Save profile</a>
+<!--                                                        <input class="btn btn-primary btn-lg a-submit"-->
+<!--                                                           id="save_profile" hidden="True"  value="Save profile"/>-->
+                                                    </div>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <!-- __  __         _____                   _            -->
+                            <!--|  \/  |_   _  | ____|_ __   __ _ _   _(_)_ __ _   _ -->
+                            <!--| |\/| | | | | |  _| | '_ \ / _` | | | | | '__| | | |-->
+                            <!--| |  | | |_| | | |___| | | | (_| | |_| | | |  | |_| |-->
+                            <!--|_|  |_|\__, | |_____|_| |_|\__, |\__,_|_|_|   \__, |-->
+                            <!--        |___/                  |_|             |___/ -->
+                            <!--====================MYENQUIRY =========================-->
+                            <div id="myenquiry" t-if="from_enquiry == 'active'" class="col-12 col-md-9 col-lg-9">
+                                <t t-if="len(orders) == 0"><strong>Welcome</strong></t>
+                                <div class="my-enquiry-box">
+                                    <div class="table-responsive">
+                                        <script>
+                                            function commaSeparateNumber(val){
+                                                while (/(\d+)(\d{3})/.test(val.toString())){
+                                                  val = val.toString().replace(/(\d+)(\d{3})/, '$1'+','+'$2');
+                                                }
+                                                return val;
+                                            }
+
+                                            function myenquiry_edit_onclick(e) {
+                                                if ($('#myenquiry .js_quantity').length>0){
+                                                    for (var i=0;i&lt;$('#myenquiry .js_quantity').length;i++){
+                                                        if($('#myenquiry .js_quantity')[i].value == 1 &amp;&amp; $('#myenquiry .js_quantity')[i].attributes.getNamedItem('value-max').value == 1){
+                                                            $('#myenquiry .js_quantity')[i].closest('.oe_website_spinner').getElementsByTagName('a')[0].setAttribute('class', 'disabled')
+                                                            $('#myenquiry .js_quantity')[i].closest('.oe_website_spinner').getElementsByTagName('a')[1].setAttribute('class', 'disabled')
+                                                            $('#myenquiry .js_quantity')[i].readOnly = true;
+                                                        }
+                                                    }
+                                                }
+                                                if (document.getElementById('myinfo_enquiry')){
+                                                    if (document.getElementsByClassName('js_quantity')) {
+                                                        var cart_qty = document.getElementsByClassName('js_quantity')
+                                                        var cart_minus = document.getElementsByClassName('fa-minus')
+                                                        for (i = 0; i&lt;cart_qty.length; i++) {
+                                                            if (cart_qty[i].value == 1) {
+                                                                cart_minus[i].parentElement.setAttribute("class", "disabled")
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                                $(e).css({"display": "none"});
+                                                var parent = $(e).closest('.myenquiry_so');
+                                                var confirm = parent.find('.myenquiry_confirm')
+                                                var cancel = parent.find('.myenquiry_cancel')
+                                                var all_remove = parent.find('.cart-product-remove span')
+                                                for (var i=0;i&lt;all_remove.length;i++){
+                                                    if (all_remove[i].textContent != 'Cancelled'){
+                                                        var confirm_line_parent = all_remove[i].closest('.cart_item')
+                                                        var confirm_line_old_qty = $(confirm_line_parent).find('.qty-enquiry')
+                                                        var confirm_line_new_qty = $(confirm_line_parent).find('.qty-feild')
+                                                        var confirm_line_remove = $(confirm_line_parent).find('.myenquiry_remove')
+                                                        confirm_line_old_qty.css({"display": "none"})
+                                                        confirm_line_new_qty.css({"display": "block"})
+                                                        confirm_line_remove.css({"visibility": "visible"})
+                                                    }
+                                                }
+                                                if (confirm.css('display') === "none") {
+                                                    confirm.css({"display": "block"});
+                                                } else {
+                                                    confirm.css({"display": "none"});
+                                                }
+                                                if (cancel.css('display') === "none") {
+                                                    cancel.css({"display": "block"});
+                                                } else {
+                                                    cancel.css({"display": "none"});
+                                                }
+                                            }
+
+                                            function myenquiry_cancel_onclick(e){
+                                                $(e).css({"display": "none"});
+                                                var parent = $(e).closest('.myenquiry_so');
+                                                var confirm = parent.find('.myenquiry_confirm')
+                                                confirm.css({"display": "none"});
+                                                var parent_id = '#' + parent.attr('id')
+                                                var parent_id_load = ' #' + parent.attr('id') + ' > *'
+                                                $(parent_id).load(parent_id_load);
+                                            }
+
+                                            function minus_onclick(e) {
+                                                var that = e;
+                                                var line_qty = parseFloat(e.offsetParent.getElementsByTagName('input')[0].value)
+                                                var new_line_qty = line_qty - parseFloat(1)
+                                                e.offsetParent.getElementsByTagName('input')[0].value = new_line_qty
+                                                if (e.offsetParent.getElementsByTagName('input')[0].value == 1) {
+                                                    setTimeout(function () {
+                                                        {
+                                                            that.offsetParent.getElementsByTagName('a')[0].setAttribute('class', 'disabled')
+                                                        }
+                                                    }, 100);
+                                                }
+                                                var parent = $(e).closest('.myenquiry_so');
+                                                var line_parent = $(e).closest('.cart_item');
+                                                var $input = $($(e).closest('div').find('input'));
+                                                var input_qty = $(e).closest('div').find('input')[0];
+                                                var val = input_qty.value;
+                                                var confirm = parent.find('.myenquiry_confirm')
+                                                if (parseInt(input_qty.attributes.getNamedItem('value-max').value) &lt; parseInt(val)) {
+                                                    $(input_qty).closest('td').find('.insufficient_stock').css({"display": "block"});
+                                                    $(e).closest('td').find('.qty-feild').css({"position": "relative", "top": "19px"});
+                                                    $input.data('update_change', false);
+                                                    confirm.addClass("myenquiry_confirm_disabled")
+                                                    e.offsetParent.getElementsByTagName('a')[1].setAttribute('class', 'disabled')
+                                                } else {
+                                                    $(input_qty).closest('td').find('.insufficient_stock').css({"display": "none"});
+                                                    $(e).closest('td').find('.qty-feild').css({"position": "relative", "top": "unset"});
+                                                    e.offsetParent.getElementsByTagName('a')[1].classList.remove('disabled')
+                                                    if (! parent.find('.insufficient_stock').is(":visible")){
+                                                        if (! parent.find('.insufficient_stock').is(":visible")){
+                                                            if (confirm.hasClass("myenquiry_confirm_disabled")){
+                                                                confirm.removeClass("myenquiry_confirm_disabled")
+                                                                confirm.addClass("myenquiry_confirm_enabled")
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                                if (!$(e).closest('td').find('.insufficient_stock').is(":visible")){
+                                                    line_parent.find('.line_qty').val(new_line_qty)
+                                                    //var line_price = parseFloat(line_parent.find('.oe_currency_value').text().replace(/,/g, ''))
+                                                    //var total = parseFloat(parent.find('.myenquiry_subtotal .oe_currency_value').text().replace(/,/g, ''))
+                                                    //var new_total = commaSeparateNumber((total - line_price).toFixed(2))
+                                                    //parent.find('.myenquiry_subtotal .oe_currency_value').text(new_total)
+                                                    var new_total = 0
+                                                    var all_calc_tr = parent.find("tr:not(.strikeout)")
+                                                    for (i = 0; i&lt;all_calc_tr.length; i++) {
+                                                        new_total += $(all_calc_tr[i]).find('.js_quantity').val() * parseFloat($(all_calc_tr[i]).find('.oe_currency_value').text().replace(/,/g, ''))
+                                                    }
+                                                    new_total = commaSeparateNumber(new_total.toFixed(2))
+                                                    parent.find('.myenquiry_subtotal .oe_currency_value').text(new_total)
+                                                }
+                                            }
+
+                                            function plus_onclick(e) {
+                                                e.offsetParent.getElementsByTagName('a')[0].classList.remove('disabled')
+                                                e.offsetParent.getElementsByTagName('a')[0].classList.add('js_add_cart_json')
+                                                var line_qty = parseFloat(e.offsetParent.getElementsByTagName('input')[0].value)
+                                                var new_line_qty = line_qty + parseFloat(1)
+                                                var line_parent = $(e).closest('.cart_item');
+                                                e.offsetParent.getElementsByTagName('input')[0].value = new_line_qty
+                                                line_parent.find('.line_qty').val(new_line_qty)
+                                                var parent = $(e).closest('.myenquiry_so');
+
+                                                var input_qty = $(e).closest('div').find('input')[0];
+                                                var val = input_qty.value;
+                                                var $input = $($(this).closest('div').find('input'));
+                                                var confirm = parent.find('.myenquiry_confirm')
+                                                if (input_qty.attributes.getNamedItem('value-max') != null) {
+                                                    if (val != 1) {
+                                                        input_qty.offsetParent.getElementsByTagName('a')[0].classList.remove('disabled')
+                                                        input_qty.offsetParent.getElementsByTagName('a')[0].classList.add('js_add_cart_json')
+                                                    }
+                                                    if (parseInt(input_qty.attributes.getNamedItem('value-max').value) &lt;= parseInt(val)) {
+                                                        $(input_qty).closest('td').find('.insufficient_stock').css({"display": "block"});
+                                                        e.offsetParent.getElementsByTagName('a')[1].setAttribute('class', 'disabled')
+                                                        $(e).closest('td').find('.qty-feild').css({"position": "relative", "top": "19px"});
+                                                        confirm.addClass("myenquiry_confirm_disabled")
+                                                        $input.val(parseInt(val)-1).change();
+                                                        confirm.prop('disabled',true);
+                                                    } else {
+                                                        var line_price = parseFloat(line_parent.find('.oe_currency_value').text().replace(/,/g, ''))
+                                                        var total = parseFloat(parent.find('.myenquiry_subtotal .oe_currency_value').text().replace(/,/g, ''))
+                                                        var new_total = commaSeparateNumber((total + line_price).toFixed(2))
+                                                        parent.find('.myenquiry_subtotal .oe_currency_value').text(new_total)
+                                                        $(e).closest('td').find('.insufficient_stock').css({"display": "none"});
+                                                        $(e).closest('td').find('.qty-feild').css({"position": "relative", "top": "unset"});
+                                                        e.offsetParent.getElementsByTagName('a')[1].classList.remove('disabled')
+                                                        if (! parent.find('.insufficient_stock').is(":visible")){
+                                                            confirm.removeClass("myenquiry_confirm_disabled")
+                                                            confirm.addClass("myenquiry_confirm_enabled")
+                                                        }
+                                                    }
+                                                }
+                                            }
+
+                                            function input_quantity_keyup(e){
+                                                var val = e.value;
+                                                var $input = $(e);
+                                                var parent = $(e).closest('.myenquiry_so');
+                                                var confirm = parent.find('.myenquiry_confirm')
+                                                if (val &lt; 1) {
+                                                    alert('Your ADD TO CART quantity is less than minimum order limit. Please make sure the quantity is at least 1.')
+                                                    $input.data('update_change', false);
+                                                    $input.val(e.defaultValue).change();
+                                                    if (e.defaultValue == 1) {
+                                                        e.offsetParent.getElementsByTagName('a')[0].setAttribute('class', 'disabled')
+                                                    }
+                                                    val = e.defaultValue
+                                                }
+                                                if (val == 1) {
+                                                    e.offsetParent.getElementsByTagName('a')[0].setAttribute('class', 'disabled')
+                                                }
+                                                if (e.attributes.getNamedItem('value-max') != null) {
+                                                    if (val != 1) {
+                                                        e.offsetParent.getElementsByTagName('a')[0].classList.remove('disabled')
+                                                        e.offsetParent.getElementsByTagName('a')[0].classList.add('js_add_cart_json')
+                                                    }
+                                                    if (parseInt(e.attributes.getNamedItem('value-max').value) &lt;= parseInt(val)) {
+                                                        $(e).closest('td').find('.insufficient_stock').css({"display": "block"});
+                                                        e.offsetParent.getElementsByTagName('a')[1].setAttribute('class', 'disabled')
+                                                        $(e).closest('td').find('.qty-feild').css({"position": "relative", "top": "19px"});
+                                                        $input.data('update_change', false);
+                                                        confirm.addClass("myenquiry_confirm_disabled")
+                                                        confirm.prop('disabled',true);
+                                                        e.offsetParent.getElementsByTagName('a')[1].setAttribute('class', 'disabled')
+                                                    } else {
+                                                        $(e).closest('td').find('.insufficient_stock').css({"display": "none"});
+                                                        $(e).closest('td').find('.qty-feild').css({"position": "relative", "top": "unset"});
+                                                        e.offsetParent.getElementsByTagName('a')[1].classList.remove('disabled')
+                                                        if (! parent.find('.insufficient_stock').is(":visible")){
+                                                            confirm.removeClass("myenquiry_confirm_disabled")
+                                                            confirm.addClass("myenquiry_confirm_enabled")
+                                                        }
+                                                        var line_parent = $(e).closest('.cart_item');
+                                                        var old_line_qty = line_parent.find('.line_qty').val()
+                                                        var new_line_qty = line_parent.find('.js_quantity').val()
+                                                        var diff = new_line_qty - old_line_qty
+                                                        var line_price = parseFloat(line_parent.find('.oe_currency_value').text().replace(/,/g, ''))
+                                                        var total = parseFloat(parent.find('.myenquiry_subtotal .oe_currency_value').text().replace(/,/g, ''))
+                                                        var new_total = commaSeparateNumber((total + line_price * diff).toFixed(2))
+                                                        parent.find('.myenquiry_subtotal .oe_currency_value').text(new_total)
+                                                        line_parent.find('.line_qty').val(new_line_qty)
+                                                    }
+                                                }
+                                            }
+
+                                            function input_quantity_keypress(e){
+                                                e = window.event;
+                                                var charCode = (typeof e.which == "undefined") ? e.keyCode : e.which;
+                                                var charStr = String.fromCharCode(charCode);
+                                                if (/\D/.test(charStr)) {
+                                                    event.preventDefault();
+                                                }
+                                            }
+
+                                            function myenquiry_remove_onclick(e){
+                                                var line_parent = $(e).closest('.cart_item');
+                                                var old_line_qty = parseFloat(line_parent.find('.line_qty').val())
+                                                $(e).css({"display": "none"});
+                                                line_parent.find('.insufficient_stock').css({"display": "none"});
+                                                line_parent.find('.line_qty').val(0);
+                                                line_parent.find('.cart-product-remove span').text('Cancelled');
+                                                var line_price = parseFloat(line_parent.find('.oe_currency_value').text())
+                                                var parent = $(e).closest('.myenquiry_so');
+                                                //var total = parseFloat(parent.find('.myenquiry_subtotal .oe_currency_value').text().replace(/,/g, ''))
+                                                //var new_total = (total - line_price * old_line_qty).toFixed(2)
+                                                var confirm = parent.find('.myenquiry_confirm')
+                                                //parent.find('.myenquiry_subtotal .oe_currency_value').text(new_total)
+                                                var line_old_qty = line_parent.find('.qty-enquiry')
+                                                var line_new_qty = line_parent.find('.qty-feild')
+                                                line_old_qty.css({"display": "block"});
+                                                line_new_qty.css({"display": "none"});
+                                                line_parent.find('.js_quantity').val(0);
+                                                var new_total = 0
+                                                var all_calc_tr = parent.find("tr:not(.strikeout)")
+                                                for (i = 0; i&lt;all_calc_tr.length; i++) {
+                                                    new_total += $(all_calc_tr[i]).find('.js_quantity').val() * parseFloat($(all_calc_tr[i]).find('.oe_currency_value').text().replace(/,/g, ''))
+                                                }
+                                                new_total = commaSeparateNumber(new_total.toFixed(2))
+                                                parent.find('.myenquiry_subtotal .oe_currency_value').text(new_total)
+                                                if (! parent.find('.insufficient_stock').is(":visible")){
+                                                    if (! parent.find('.insufficient_stock').is(":visible")){
+                                                        if (confirm.hasClass("myenquiry_confirm_disabled")){
+                                                            confirm.removeClass("myenquiry_confirm_disabled")
+                                                            confirm.addClass("myenquiry_confirm_enabled")
+                                                        }
+                                                    }
+                                                }
+                                            }
+
+                                            function myenquiry_confirm_onclick(e){
+                                                $(e).css({"display": "none"});
+                                                var parent = $(e).closest('.myenquiry_so');
+                                                parent.find('.myenquiry_cancel').css({"display": "none"});
+                                                var order_id = parent.find('.order_id').val();
+                                                var line_id = parent.find('.line_id');
+                                                var line_qty = parent.find('.line_qty');
+                                                var a_length = line_qty.length
+                                                var line_id_qty = Array.from(Array(a_length), () => new Array(2));
+                                                for (i = 0; i &lt; a_length; ++i) {
+                                                    line_id_qty[i][0] = line_id[i].value;
+                                                    line_id_qty[i][1] = line_qty[i].value;
+                                                }
+                                                openerp.jsonRpc('/myenquiry_cancel_order', 'call', {
+                                                    'order_id': order_id,
+                                                    'order_line_ids': line_id_qty,
+                                                     context: _.extend(openerp.website.get_context())
+                                                }).then(function (result) {
+                                                    if (result == true){
+                                                        if(!alert('Your order has been updated!')){
+                                                            var parent_id = '#' + parent.attr('id')
+                                                            var parent_id_load = ' #' + parent.attr('id') + ' > *'
+                                                            $(parent_id).load(parent_id_load);
+                                                        }
+                                                    }
+                                                    else {
+                                                        alert('Update failed')
+                                                    }
+                                                 })
+                                            }
+
+                                        </script>
+                                        <t t-foreach="orders" t-as="order">
+                                            <div class="myenquiry_so" t-attf-id="order_#{order.id}">
+                                                <div class="row">
+                                                    <h2 style="float:left;margin-top:10px;">
+                                                        Enquiry
+                                                        <a id="order_link" style="color:#e40201"
+                                                           t-attf-href="/web#return_label=Website&amp;view_type=form&amp;model=#{order._name}&amp;id=#{order.id}&amp;action={{order.check_bid_status_to_action()}}">
+                                                        #<t t-esc="order.name"/>
+                                                        </a>
+                                                        <span style="float:none;font-weight:bold;font-size:20px;color:#000" t-esc="order.get_display_chandler()"/>&amp;nbsp;on&amp;nbsp;<span style="float:none;font-weight:bold;font-size:20px;color:#000" t-esc="order.date_order_user"/>
+                                                    </h2>
+                                                    <div style="padding-right:20px">
+                                                        <a t-att-class="'btn btn-default btn-primary pull-right hide_myenquiry_edit' if order.state in ('cancel','progress') else 'btn btn-default btn-primary pull-right myenquiry_edit'" onclick="myenquiry_edit_onclick(this)"><span style="color: #fff;font-weight:bold;">Edit</span></a>
+                                                        <a class="btn btn-default btn-primary pull-right myenquiry_cancel" style="display:none;" onclick="myenquiry_cancel_onclick(this)"><span style="color: #fff;font-weight:bold;">Cancel</span></a>
+                                                    </div>
+                                                </div>
+                                                <div class="row-space-filler-my-enquiry"/>
+                                                <p t-att-class="'contact_np_msg_show' if order.state in ('progress',) else 'contact_np_msg_hide'">This order has been processed. If you wish to make any amendments, please contact us directly at 6278 9196.</p>
+                                                <table id="order_detail" class="table cart">
+                                                    <tbody>
+                                                        <div t-foreach="order.website_order_line" t-as="line" >
+                                                            <tr t-att-class="'cart_item strikeout' if line.state=='cancel' else 'cart_item'" style="height: 151px;">
+                                                            <td class="cart-product-thumbnail">
+                                                                <input class="order_id" t-att-value="order.id" style="display:none"></input>
+                                                                <span t-field="line.product_id.image_small"
+                                                                        t-field-options='{"widget": "image", "class": "img-rounded"}'/>
+                                                            </td>
+                                                            <td class="cart-product-name">
+                                                                <input class="line_id" t-att-value="line.id" style="display:none"/>
+                                                                <span t-field="line.product_id.with_context(display_default_code=False).display_name"/>
+                                                            </td>
+                                                            <td class="quantity" style="text-align: center;padding-bottom: 30px;padding-top: 30px;">
+                                                                <input class="line_qty" style="display:none" t-att-value="int(line.product_uom_qty)"/>
+                                                                <div class="qty-enquiry">Qty:
+                                                                    <strong t-field="line.product_uom_qty"/>
+                                                                </div>
+                                                                <!-- hidden qty input-->
+                                                                <div class="input-group qty-feild" style="display:none;margin-right:0px;">
+                                                                    <div class="input-group oe_website_spinner">
+                                                                        <span class="input-group-addon">
+                                                                            <a t-attf-href="#/" class="mb8 js_add_cart_json" onclick="minus_onclick(this)"
+                                                                                data-no-instant="">
+                                                                                <i class="fa fa-minus"></i>
+                                                                            </a>
+                                                                        </span>
+                                                                        <input type="text" class="js_quantity form-control"
+                                                                            t-att-data-line-id="line.id"  t-att-data-product-id="line.product_id.id"
+                                                                            t-att-value="int(line.product_uom_qty)"
+                                                                            t-att-value-max="order.compute_value_max(line)"
+                                                                               onkeyup="input_quantity_keyup(this)"
+                                                                               onkeypress="input_quantity_keypress(this)"
+                                                                               style="min-width: 48px;"/>
+                                                                        <span class="input-group-addon">
+                                                                            <a t-attf-href="#/" onclick="plus_onclick(this)"
+                                                                                class="mb8 float_left js_add_cart_json"
+                                                                                data-no-instant="">
+                                                                                <i class="fa fa-plus"></i>
+                                                                            </a>
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+                                                                <div class='insufficient_stock' style="display:none">Insufficient Stock</div>
+                                                            </td>
+                                                            <td class="cart-product-remove" style="text-align: center;">
+                                                                <span t-field="line.state"/>
+<!--                                                                <span t-field="order.bid_status"/>-->
+                                                            </td>
+                                                            <td width="50%" class="myenquiry_remove" style="visibility:hidden">
+                                                                <a href="#/" title="Remove this item" style="font-size: 20px;" onclick="myenquiry_remove_onclick(this)">
+                                                                    <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+                                                        </div>
+                                                    </tbody>
+                                                </table>
+                                                <br/>
+                                            </div>
+                                        </t>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </t>
+        </template>
+
+
+
+<template id="modal" name="Change Password">
+<div id="modal_change_password" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title" id="myModalLabel">Change Password</h4>
+         </div>
+          <div class="modal-body">
+              <table align="center">
+                <tr>
+                    <p>Note: New Passwords must be at least <b>6</b> characters in length.</p>
+                </tr>
+                <tr>
+                    <p>You are advised to include at least 1 number, 1 uppercase letter and 1 special character in your password</p>
+                </tr>
+                <tr>
+                    <td class="oe_form_group_cell oe_form_group_cell_label"><label for="old_pwd" >Old Password:</label></td>
+                    <td class="oe_form_group_cell"><input type="password" name="old_pwd" required="True" string="Old Password"
+                               minlength="1" autofocus="autofocus"/></td>
+                </tr>
+                <tr>
+                <td class="oe_form_group_cell oe_form_group_cell_label"><label for="new_password">New Password:</label></td>
+                <td class="oe_form_group_cell"><input type="password" name="new_password" id="new_password" required="True" string="New Password"
+                           minlength="1" onkeyup="return passwordChanged();"/></td>
+                <td width="23%" ><span id="strength" ></span></td>
+                </tr>
+                <tr>
+                    <td class="oe_form_group_cell oe_form_group_cell_label"><label for="confirm_pwd" class="oe_form_label">Confirm New Password:</label></td>
+                    <td class="oe_form_group_cell"><input type="password" name="confirm_pwd" required="True" string="Confirm New Password"
+                                 minlength="1"/></td>
+                </tr>
+                <tr>
+                    <td colspan="2" >
+                        </td>
+                </tr>
+            </table>
+          </div>
+        <div class="modal-footer" align="right">
+          <button class='btn btn-default btn-primary change_password'>Change Password</button>
+            <span class="oe_fade oe_form_button"> or </span>
+            <button type="button" class="btn btn-default btn-primary oe_form_button_cancel oe_form_button oe_link" href="javascript:void(0)"><span>Cancel</span></button>
+        </div>
+    </div>
+
+
+  </div>
+</div>
+</template>
+
+<template id="wrong_password" name="Wrong Password">
+<div id="modal_change_password" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title" id="myModalLabel">Wrong Password</h4>
+         </div>
+          <div class="modal-body">
+              <span>Wrong Old Password! Can't change to new Password</span>
+          </div>
+    </div>
+  </div>
+</div>
+</template>
+
+<template id="change_success_password" name="Wrong Password">
+<div id="modal_change_password" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title" id="myModalLabel">Success!!</h4>
+         </div>
+          <div class="modal-body">
+              <span>Changed to new Password</span>
+          </div>
+    </div>
+  </div>
+</div>
+</template>
+
+<template id="change_success_password" name="Wrong Password">
+    <div id="modal_change_password" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">Success!!</h4>
+             </div>
+              <div class="modal-body">
+                  <span>Changed to new Password</span>
+              </div>
+        </div>
+      </div>
+    </div>
+</template>
+
+<record id="menu_myenquiry" model="website.menu">
+    <field name="name">My Enquiry</field>
+    <field name="url">/myenquiry</field>
+    <field name="parent_id" ref="website.main_menu"/>
+    <field name="sequence" type="int">30</field>
+</record>
+
+    </data>
+</openerp>

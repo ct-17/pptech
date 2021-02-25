@@ -1,0 +1,14 @@
+<openerp>
+    <data>
+         <record id="ir_cron_check_expired_quotation" model="ir.cron">
+            <field name="name">Check for Expired Quotations</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">hours</field>
+            <field name="numbercall">-1</field>
+            <field eval="'sale.order'" name="model"/>
+            <field eval="'cron_check_expire_quotation'" name="function"/>
+            <field eval="'()'" name="args"/>
+            <field name="active" eval="True" />
+        </record>
+    </data>
+</openerp>

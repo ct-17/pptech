@@ -1,0 +1,2 @@
+import inventory_indicator_config
+# import web_product_recommand

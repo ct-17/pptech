@@ -1,0 +1,67 @@
+<openerp>
+    <data>
+        <record id="dp_base_saleorder_markup_inherit_form_view" model="ir.ui.view">
+            <field name="name">dp.base.saleorder.markup.inherit.form.view</field>
+            <field name="model">sale.order</field>
+            <field name="priority">17</field>
+            <field name="inherit_id" ref="sale.view_order_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//notebook/page[@string='Order Lines']/field[@name='order_line']/form//field[@name='price_unit']" position="before">
+                    <field name="mark_up_amount" readonly="0"
+                           attrs="{'readonly': [('state','in',('confirmed'))]}"/>
+                    <field name="mark_up_percent" readonly="0"
+                           attrs="{'readonly': [('state','in',('confirmed'))]}"/>
+                    <field name="mark_up_global_amount" invisible="1" />
+                    <field name="actual_markup" invisible="1" />
+                </xpath>
+                <xpath expr="//notebook/page[@string='Order Lines']/field[@name='order_line']/tree/field[@name='price_unit']" position="before">
+                    <field name="mark_up_amount" readonly="0" invisible="1"
+                           attrs="{'readonly': ['|',('state','in',('confirmed')), ('check_readonly', '=', True)]}"
+                           context="{'markup_amount': True}"/>
+                    <field name="mark_up_percent" readonly="0" invisible="1"
+                           attrs="{'readonly': ['|',('state','in',('confirmed')), ('check_readonly', '=', True)]}"
+                           context="{'markup_percent': True}"/>
+                    <field name="mark_up_global_amount" invisible="1" />
+                    <field name="actual_markup" invisible="1" />
+                </xpath>
+                <xpath expr="//field[@name='amount_discount']" position="before">
+                    <field name="markup_amount" readonly="1" widget='monetary' invisible="1"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="dp_base_markup_form_inherit" model="ir.ui.view">
+            <field name="name">dp.base.markup.form.inherit</field>
+            <field name="model">sale.order</field>
+            <field name="priority">20</field>
+            <field name="inherit_id" ref="np_discount.sale_order_pricelist_form_view_inh" />
+            <field name="arch" type="xml">
+                <xpath expr="//button[@string='Set Discount']" position="attributes">
+                    <attribute name="attrs">{'invisible': [('state', 'not in', ('chandler_draft', 'sent'))]}</attribute>
+                </xpath>
+                <xpath expr="//button[@string='Set Discount']" position="after">
+                    <!--<button name="%(action_global_markup_wizard_form)d" string="Set Overall Mark-up" type="action"-->
+                            <!--groups="sale.group_discount_per_so_line" />-->
+
+                    <!--<br></br>-->
+
+                    <!--<group>-->
+                        <!--<group>-->
+                            <!--<field name="is_global_markup" invisible="1"/>-->
+                            <!--<field name="global_markup_type" readonly="1"-->
+                                   <!--attrs="{'invisible': [('is_global_markup', '=', False)]}"/>-->
+                            <!--<field name="global_markup_amount" readonly="1"-->
+                                   <!--attrs="{'invisible': ['|', ('global_markup_type', 'in', ('percent', False)),-->
+                                                            <!--('is_global_markup', '=', False)]}"/>-->
+                            <!--<field name="global_markup_percent" readonly="1"-->
+                                   <!--attrs="{'invisible': ['|', ('global_markup_type', 'in', ('amount', False)),-->
+                                                            <!--('is_global_markup', '=', False)]}"/>-->
+                        <!--</group>-->
+                    <!--</group>-->
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</openerp>
+

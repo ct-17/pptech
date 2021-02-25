@@ -1,0 +1,82 @@
+<openerp>
+    <data>
+        <record model="ir.ui.view" id="inherit_purchase_order_extend">
+            <field name="name">inherit.purchase.order.extend</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref = "dp_purchase.inherit_purchase_order_add_so_id"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='so_id']" position="attributes">
+                    <attribute name="string">Order No</attribute>
+                </xpath>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="inherit_purchase_order_add_fields_extend1">
+            <field name="name">purchase.order.tree1</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref = "purchase.purchase_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//sheet/group/group/field[@name='pricelist_id']" position="after">
+                    <field name="po_num"/>
+                    <field name="so_num" invisible="1"/>
+                    <field name="marking_num"/>
+                </xpath>
+                <xpath expr="//field[@name='amount_tax']" position="attributes">
+                    <attribute name="class">tax_label</attribute>
+                </xpath>
+<!--                <xpath expr="//field[@name='dest_address_id']" position="attributes">-->
+<!--                    <attribute name="string">Purchaser</attribute>-->
+<!--                </xpath>-->
+                <xpath expr="//field[@name='dest_address_id']" position="before">
+                    <field name="parent_partner_id" string="Chandler"/>
+                </xpath>
+            </field>
+        </record>
+
+        <!--PO-->
+        <record model="ir.ui.view" id="inherit_purchase_order_add_fields_extend">
+            <field name="name">purchase.order.tree</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref = "dp_base.inherit_purchase_order_add_fields"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='stay_duration']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='last_port_id']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='estimated_arrival']" position="after">
+                    <field name="estimated_departure"/>
+                     <field name="vessel_id"
+                           options="{'no_quick_create': True, 'no_create_edit':True, 'no_create': True, 'no_open':True}"
+                           readonly="1" invisible="1"/>
+                    <field name="vessel_name"
+                           options="{'no_quick_create': True, 'no_create_edit':True, 'no_create': True, 'no_open':True}"
+                           readonly="1"/>
+                    <field name="other_vessel_name"/>
+                    <field name="shipping_agent_id"
+                           options="{'no_quick_create': True, 'no_create_edit':True, 'no_create': True, 'no_open':True}"
+                           readonly="1"/>
+                    <field name="other_shipping_agent"/>
+                    <field name="order_contact_person"/>
+                    <field name="order_mobile_number"/>
+                    <field name="order_remarks"/>
+                </xpath>
+
+                <xpath expr="//field[@name='amount_untaxed']" position="replace">
+                    <field name="total_before_discount" widget="monetary" options="{'currency_field': 'currency_id'}"
+                    readonly="1"/>
+                        <div class="oe_form_group_cell oe_form_group_cell_label oe_form_label oe_align_right" colspan="2">
+                            <span colspan="1" style="right:12%;position:relative;">
+                                <field name="ws_discount_percent" attrs="{'invisible': [('ws_discount_type', 'in', ('amount', False))]}"  nolabel="1"
+                                style="width:25% !important; padding:0px!important" digits="(16,2)"/>
+                                <label for="ws_discount_percent" string="%"
+                                       class='special_label' attrs="{'invisible': [('ws_discount_type', 'in', ('amount', False))]}" style="content: none;padding-right:3px!important;"/>
+                                <label for="amount_discount"/>
+                            </span>
+                            <field name="amount_discount" nolabel="1"  widget="monetary" options="{'currency_field': 'currency_id'}"  style="width:30% !important" colspan="1"/>
+                        </div>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</openerp>

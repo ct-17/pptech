@@ -1,0 +1,18 @@
+id,name,model_id/id,group_id/id,perm_read,perm_write,perm_create,perm_unlink
+vessel_name_chandler_admin,Vessel Name,model_vessel_name,dp_common.group_chandler_admin,1,1,1,1
+
+vessel_type_chandler,Vessel Type,model_vessel_type,dp_common.group_chandler,1,0,0,0
+vessel_type_shipmaster,Vessel Type,model_vessel_type,dp_common.group_shipmaster,1,0,0,0
+vessel_type_public,Vessel Type,model_vessel_type,base.group_public,1,0,0,0
+vessel_type_chandler_admin,Vessel Type,model_vessel_type,dp_common.group_chandler_admin,1,1,1,1
+
+shipping_agent_chandler,Shipping Agent,model_shipping_agent,dp_common.group_chandler,1,0,0,0
+shipping_agent_shipmaster,Shipping Agent,model_shipping_agent,dp_common.group_shipmaster,1,0,0,0
+shipping_agent_public,Shipping Agent,model_shipping_agent,base.group_public,1,0,0,0
+shipping_agent_chandler_admin,Shipping Agent,model_shipping_agent,dp_common.group_chandler_admin,1,1,1,1
+
+access_sale_receipt_report_chandler,account.sale.receipt.report,account_voucher.model_sale_receipt_report,dp_common.group_chandler_admin,1,1,1,1
+
+custom_port_chandler,Custom Port,model_custom_port,dp_common.group_chandler,1,0,0,0
+custom_port_shipmaster,Custom Port,model_custom_port,dp_common.group_shipmaster,1,0,0,0
+custom_port_chandler_admin,Custom Port,model_custom_port,dp_common.group_chandler_admin,1,1,1,1

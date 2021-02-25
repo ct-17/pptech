@@ -1,0 +1,70 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# * elephase_shop
+# 
+# Translators:
+msgid ""
+msgstr ""
+"Project-Id-Version: e-commerce (8.0)\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-09-17 10:15+0000\n"
+"PO-Revision-Date: 2016-03-29 10:29+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: Bulgarian (http://www.transifex.com/oca/OCA-e-commerce-8-0/language/bg/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Language: bg\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#. module: elephase_shop
+#. openerp-web
+#: code:addons/elephase_shop/static/src/js/elephase_shop.js:11
+#, python-format
+msgid "My Cart"
+msgstr ""
+
+#. module: elephase_shop
+#: view:website:elephase_shop.cart_popover
+msgid "Qty:"
+msgstr ""
+
+#. module: elephase_shop
+#: view:website:elephase_shop.total
+msgid "Subtotal:"
+msgstr ""
+
+#. module: elephase_shop
+#: view:website:elephase_shop.total
+msgid "Taxes may be updated after providing shipping address"
+msgstr ""
+
+#. module: elephase_shop
+#: view:website:elephase_shop.total
+msgid "Taxes:"
+msgstr "Данъци:"
+
+#. module: elephase_shop
+#: view:website:elephase_shop.total
+msgid "Total:"
+msgstr ""
+
+#. module: elephase_shop
+#: view:website:elephase_shop.cart_popover
+msgid "View Cart ("
+msgstr ""
+
+#. module: elephase_shop
+#: view:website:elephase_shop.cart_popover
+msgid "Your cart is empty!"
+msgstr ""
+
+#. module: elephase_shop
+#: view:website:elephase_shop.cart_popover
+msgid "items)"
+msgstr ""
+
+#. module: elephase_shop
+#: view:website:elephase_shop.total
+msgid "elephase_shop.total"
+msgstr ""

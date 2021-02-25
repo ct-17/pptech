@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="dp_negotiation_wizard_form_view" model="ir.ui.view">
+            <field name="name">dp.negotiation.wizard.form.view</field>
+            <field name="model">dp.order.negotiation.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Negotiation Form">
+                    <group string="Ordered Items">
+                        <field name="sale_id" invisible="1"/>
+                        <field name="line_ids" nolabel="1">
+                            <tree editable="bottom" create="false" delete="false">
+                                <field name="dp_wiz_id" invisible="1"/>
+                                <field name="name" readonly="1"/>
+                                <field name="qty" />
+                                <field name="uom_id" readonly="1" options="{'no_open': True}"/>
+                                <field name="unit_price" />
+                                <field name="sub_total" readonly="1"/>
+                                <field name="order_line_id" invisible="1"/>
+                            </tree>
+                        </field>
+                    </group>
+                    <group string="Additional Items">
+                        <field name="new_line_ids" nolabel="1">
+                            <tree editable="bottom">
+                                <field name="dp_wiz_id" invisible="1"/>
+                                <field name="product_id" />
+                                <field name="qty" />
+                                <field name="uom_id" readonly="1" options="{'no_open': True}"/>
+                            </tree>
+                        </field>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="note" nolabel="1" placeholder="Remarks"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button name="save_and_send" string="Send" type="object" class="oe_highlight"/>
+                        or
+                        <button string="Discard" class="oe_link" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="dp_order_negotiation_wizard_action" model="ir.actions.act_window">
+            <field name="name">Negotiation Form</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">dp.order.negotiation.wizard</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+    </data>
+</openerp>

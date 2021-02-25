@@ -1,0 +1,78 @@
+<openerp>
+    <data>
+<!--         <template id="dp_website_suggproduct" inherit_id="website_sale.product">-->
+<!--            <xpath expr="//div[@id='product_full_description']" position="before">-->
+<!--             <div class="container oe_product_image suggest_product_container">-->
+<!--                <h3>YOU MAY ALSO BE INTERESTED IN THESE</h3>-->
+<!--                 <div class="scroll_suggest js-flickity">-->
+<!--                    <tr t-foreach="suggest_products" t-as="suggest_product">-->
+<!--                        <a itemprop="url" t-att-href="keep('/shop/product/%s' % slug(suggest_product.product_tmpl_id))" >-->
+<!--                            <div class="suggest_product text-center">-->
+<!--                                <span t-field="suggest_product.image_resized" t-field-options='{"widget": "image"}'/>-->
+<!--                                <span class="productName" t-field="suggest_product.name"/>-->
+<!--&lt;!&ndash;                                <img class="img img-responsive" t-attf-src="/website/image/product.product/{{suggest_product.product_tmpl_id.id}}_5fcdd89/image"/>&ndash;&gt;-->
+<!--                            </div>-->
+<!--                        </a>-->
+<!--                    </tr>-->
+<!--                 </div>- -->
+<!--            </div>-->
+<!--          </xpath>-->
+<!--        </template>-->
+        <!-- ===== Recommended Products ====== -->
+		<template id="website_sale.recommended_products"
+			inherit_id="website_sale.product" customize_show="True"
+			name="Alternative Products">
+			<xpath expr="//div[@id='product_full_description']"
+				position="after">
+<!--				<section class="featured-products-section" t-if="product.alternative_product_ids">-->
+				<section class="featured-products-section">
+					<div class="container">
+						<div class="row">
+							<div class="col-12">
+								<div class="section-headign">
+									<h2 class="wpb_heading">You may also be Interested in these</h2>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							 <t t-foreach="suggest_products" t-as="suggest_product">
+                                 <div class="col-12 col-sm-6 col-sm-2dot4 col-md-2dot4 col-lg-2dot4">
+									<div class="product-item">
+										<div class="product-item-box">
+											<div>
+												<a t-att-href="keep('/shop/product/%s' % slug(suggest_product))">
+                                                    <!--<span t-field="suggest_product.image_resized" t-field-options='{"widget": "image"}'/>-->
+													<img itemprop="image" class="img img-responsive center-block"
+														t-att-src="website.image_url(suggest_product, 'image', None if product_image_big else '250x250')"
+														 style="height:200px" />
+                                                </a>
+                                                <!--<div class="product-label">-->
+                                                    <!--<span class="sale">Sale</span>-->
+                                                <!--</div>-->
+                                                <div class="product-content">
+<!--                                                    <div class="product-rating">-->
+<!--                                                        <i class="fa fa-star" aria-hidden="true"></i>-->
+<!--                                                        <i class="fa fa-star" aria-hidden="true"></i>-->
+<!--                                                        <i class="fa fa-star" aria-hidden="true"></i>-->
+<!--                                                        <i class="fa fa-star" aria-hidden="true"></i>-->
+<!--                                                        <i class="fa fa-star" aria-hidden="true"></i>-->
+<!--                                                    </div>-->
+                                                     <h3 class="text-center">
+                                                           <a t-att-href="keep('/shop/product/%s' % slug(suggest_product))"
+                                                                            style="display: block;color:#212529">
+                                                               <span t-field='suggest_product.name' style="display: block" />
+                                                           </a>
+                                                     </h3>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                 </div>
+                             </t>
+						</div>
+					</div>
+				</section>
+			</xpath>
+		</template>
+    </data>
+</openerp>

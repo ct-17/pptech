@@ -1,0 +1,19 @@
+.you_shall_not_show {
+	display: none!important;
+}
+
+/*.oe_e {*/
+/*    display: none!important;*/
+/*}*/
+
+th[data-id="last_selling_price"]>div{
+    width:45px!important;
+}
+
+th[data-id="purchase_price"]>div{
+    width:65px!important;
+}
+
+.oe_chatter{
+    display:none;
+}

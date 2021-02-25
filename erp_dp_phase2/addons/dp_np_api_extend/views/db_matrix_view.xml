@@ -1,0 +1,132 @@
+<openerp>
+    <data>
+        <record id="dp_np_db_matrix_form_view" model="ir.ui.view">
+            <field name="name">dp.np.db.matrix.form.view</field>
+            <field name="model">dp.np.db.matrix</field>
+            <field name="groups">dp_common.group_super_admin</field>
+            <field name="priority">180</field>
+            <field name="arch" type="xml">
+                <form>
+                    <div class="oe_title">
+                        <div class="oe_edit_only">
+                            <label for="name"/>
+                        </div>
+                        <h1>
+                            <field name="name" readonly="1" default_focus="1" placeholder="Name"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="display_name"/>
+                            <field name="dp_model"/>
+                        </group>
+                        <group>
+                            <field name="np_model"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="has_additional_fields"/>
+                        <field name="auto_capitalize_in_dp"/>
+                        <group/>
+                    </group>
+                    <group string="Field ID">
+                        <field name="field_line_ids" nolabel="1">
+                            <tree>
+                                <field name="name"/>
+                                <field name="dp_field"/>
+                                <field name="np_field"/>
+                            </tree>
+                        </field>
+                    </group>
+                </form>
+            </field>
+        </record>
+        <record id="dp_np_db_matrix_tree_view" model="ir.ui.view">
+            <field name="name">dp.np.db.matrix.tree.view</field>
+            <field name="model">dp.np.db.matrix</field>
+            <field name="groups">dp_common.group_super_admin</field>
+            <field name="priority">180</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="dp_model"/>
+                    <field name="np_model"/>
+                    <field name="has_additional_fields"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_view_dp_np_db_matrix" model="ir.actions.act_window">
+            <field name="name">DP.NP.Database.Matrix</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">dp.np.db.matrix</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="groups">dp_common.group_super_admin</field>
+        </record>
+
+        <menuitem id="dp_np_db_matrix" name="DP NP Database Matrix" parent="dp_np_api.np_api_config" sequence="11"
+                    action="action_view_dp_np_db_matrix"/>
+
+
+
+        <record id="dp_np_db_field_matrix_form_view" model="ir.ui.view">
+            <field name="name">dp.np.db.field.matrix.form.view</field>
+            <field name="model">dp.np.db.field.matrix</field>
+            <field name="groups">dp_common.group_super_admin</field>
+            <field name="priority">180</field>
+            <field name="arch" type="xml">
+                <form>
+                    <div class="oe_title">
+                        <div class="oe_edit_only">
+                            <label for="name"/>
+                        </div>
+                        <h1>
+                            <field name="name" readonly="1" default_focus="1" placeholder="Name"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="matrix_id"/>
+                        </group>
+                        <group/>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="dp_field"/>
+                        </group>
+                        <group>
+                            <field name="np_field"/>
+                            <field name="is_many2one"/>
+                        </group>
+                    </group>
+                </form>
+            </field>
+        </record>
+        <record id="dp_np_db_field_matrix_tree_view" model="ir.ui.view">
+            <field name="name">dp.np.db.field.matrix.tree.view</field>
+            <field name="model">dp.np.db.field.matrix</field>
+            <field name="groups">dp_common.group_super_admin</field>
+            <field name="priority">180</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="matrix_id"/>
+                    <field name="name"/>
+                    <field name="dp_field"/>
+                    <field name="np_field"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_view_dp_np_db_field_matrix" model="ir.actions.act_window">
+            <field name="name">DP.NP.Database.Field.Matrix</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">dp.np.db.field.matrix</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="groups">dp_common.group_super_admin</field>
+        </record>
+        <menuitem id="dp_np_db_field_matrix" name="DP NP Database Field Matrix" parent="dp_np_api.np_api_config" sequence="12"
+                    action="action_view_dp_np_db_field_matrix"/>
+    </data>
+</openerp>

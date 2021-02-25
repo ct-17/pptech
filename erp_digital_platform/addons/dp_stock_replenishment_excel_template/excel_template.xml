@@ -1,0 +1,42 @@
+<openerp>
+    <data>
+        <report id="dp_stock_excel_template"
+                model="stock.replenishment"
+                string="Stock Replenishment Report"
+                report_type="xlsx"
+                name="dp_stock_replenishment_excel_template.stock_excel_template"
+                file="dp_stock_replenishment_excel_template.stock_excel_template"/>
+<!--                attachment="'DIGITAL-PLATFORM_STOCK-REPLENISHMENT-REQUEST-REPORT'+ object.name"/>-->
+
+        <record id="dp_excel_template_report" model="ir.ui.view">
+            <field name="name">dp_excel_template_report</field>
+            <field name="model">stock.replenishment</field>
+            <field name="arch" type="xml">
+                <form>
+                    <footer>
+                    <button name="%(dp_stock_excel_template)d" string="Generate Excel Report" class="oe_highlight oe_left"
+                                type="action" style="width:20%"/>
+                        <button name="stock_replishment_send_email" string="Send Email" class="oe_highlight oe_left"
+                                type="object" style="width:20%"/>
+                        or <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+       </record>
+
+            <record id="dp_stock_replenishment_excel_template_action" model="ir.actions.act_window">
+                <field name="name">Stock Replenishment Report</field>
+                <field name="type">ir.actions.act_window</field>
+                <field name="res_model">stock.replenishment</field>
+                <field name="view_type">form</field>
+                <field name="view_mode">form</field>
+                <field name="view_id" ref="dp_excel_template_report"/>
+                <field name="target">new</field>
+            </record>
+
+        <menuitem name="Stock Replenishment Report" parent="stock.next_id_61"
+                      id="menu_stock_excel_report" sequence="16"
+                      groups="stock.group_stock_manager" action="dp_stock_replenishment_excel_template_action"/>
+
+    </data>
+</openerp>

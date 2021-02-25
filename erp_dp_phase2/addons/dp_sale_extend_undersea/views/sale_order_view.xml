@@ -1,0 +1,21 @@
+<openerp>
+    <data>
+        <record id="shipmaster_bid_form_view_inherit_undersea" model="ir.ui.view">
+            <field name="name">dp.base.saleorder.extended.phase2.form.view</field>
+            <field name="model">sale.order</field>
+            <field name="priority">18</field>
+            <field name="inherit_id" ref="dp_sale.shipmaster_bid_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//header/button[@name='bid_confirm_order']" position="before">
+                    <field name="sm_send_amendment_flag" invisible="1"/>
+                </xpath>
+                <xpath expr="//header/button[@name='bid_confirm_order']" position="attributes">
+                    <attribute name="attrs">{'invisible': ['|', '|', ('state', 'not in', ('sent')), ('require_send_adjust_mail', '=', True), ('sm_send_amendment_flag', '=', 'sm_send')]}</attribute>
+                </xpath>
+                <xpath expr="//header/button[@name='action_send_adjustment_email']" position="attributes">
+                    <attribute name="attrs">{'invisible': ['|','|',  ('state', 'not in', ('sent')), ('require_send_adjust_mail','!=',True), ('sm_send_amendment_flag', '=', 'sm_send')]}</attribute>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</openerp>

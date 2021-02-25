@@ -1,0 +1,358 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+    
+    <!-- Layout add nav and footer -->
+    <template id="marketplace_header_footer_custom" inherit_id="website.footer_default" name="Footer Seller Link">
+        <xpath expr="//ul[@id='products']" position="inside">
+            <li><a t-attf-href="/seller">Seller</a></li>
+        </xpath>
+    </template>
+    
+    <!-- Seller page -->
+    <template id="sellers" name="Seller">
+        <t t-call="website.layout">
+            <div id="wrap">
+                <div class="oe_structure">
+                     <section class="jumbotron s_big_message">
+                        <div class="container">
+                            <h1>Welcome to Seller Page</h1>
+                            <p>
+                                Sell Online. Easily.
+                            </p>
+                            <p>
+                                <a class="btn btn-primary btn-lg" href="/seller/signup">
+                                  Join With Us
+                                </a>
+                            </p>
+                        </div>
+                    </section>
+                    
+                    <section class="s_feature_grid">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-5 text-center">
+                                    <div class="col-md-12 mt16 mb16">
+                                        <h2>List of Features</h2>
+                                        <h4 class="text-muted">Add a great slogan</h4>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <span style="min-width: 45px" class="fa fa-3x fa-comment pull-left mb16"></span>
+                                        <h3 class="mt0 mb0">Change Icons</h3>
+                                        <p>Click on the icon to adapt it to your feature</p>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <span style="min-width: 45px" class="fa fa-3x fa-columns pull-left mb16"></span>
+                                        <h3 class="mt0 mb0">Duplicate</h3>
+                                        <p>Duplicate blocks to add more features.</p>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <span style="min-width: 45px" class="fa fa-3x fa-user pull-left mb16"></span>
+                                        <h3 class="mt0 mb0">Delete Blocks</h3>
+                                        <p class="text-muted">Select and delete blocks to remove some features.</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-5 text-center col-md-offset-2">
+                                    <div class="col-md-12 mt16 mb16">
+                                        <h2>Second List</h2>
+                                        <h4 class="text-muted">Add a great slogan</h4>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <span style="min-width: 45px" class="fa fa-3x fa-magic pull-left mb16"></span>
+                                        <h3 class="mt0 mb0">Great Value</h3>
+                                        <p>Tell features the visitor would like to know, not what you'd like to say.</p>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <span style="min-width: 45px" class="fa fa-3x fa-bolt pull-left mb16"></span>
+                                        <h3 class="mt0 mb0">Change Background</h3>
+                                        <p>From the main container, you can change the background to highlight features.</p>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <span style="min-width: 45px" class="fa fa-3x fa-picture-o pull-left mb16"></span>
+                                        <h3 class="mt0 mb0">Sample images</h3>
+                                        <p>All these icons are licensed under creative commons so that you can use them.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+    
+                        <section class="s_text_image">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-md-6 mt16">
+                                        <h3>Seller's Profile</h3>
+                                        <p>
+                                            Write one or two paragraphs describing your product or
+                                            services. To be successful your content needs to be
+                                            useful to your readers.
+                                        </p><p>
+                                            Start with the customer – find out what they want
+                                            and give it to them.
+                                        </p>
+                                    </div>
+                                    <div class="col-md-6 mt16">
+                                      <img class="img img-responsive shadow mb16" src="/website/static/src/img/text_image.png" alt="Odoo text and image block"/>
+                                    </div>
+                                </div>
+                            </div>
+                      </section>
+                      
+                      <section class="s_three_columns">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <img class="img img-rounded img-responsive" src="/website/static/src/img/desert_thumb.jpg" alt="Odoo - Sample 1 for three columns"/>
+                                    <h4 class="mt16">Feature One</h4>
+                                    <p>
+                                        Adapt these three columns to fit you design need.
+                                        To duplicate, delete or move columns, select the
+                                        column and use the top icons to perform your action.
+                                    </p>
+                                </div>
+                                <div class="col-md-4">
+                                    <img class="img img-rounded img-responsive" src="/website/static/src/img/deers_thumb.jpg" alt="Odoo - Sample 2 for three columns"/>
+                                    <h4 class="mt16">Feature Two</h4>
+                                    <p>
+                                        To add a fourth column, reduce the size of these
+                                        three columns using the right icon of each block.
+                                        Then, duplicate one of the column to create a new
+                                        one as a copy.
+                                    </p>
+                                </div>
+                                <div class="col-md-4">
+                                    <img class="img img-rounded img-responsive" src="/website/static/src/img/china_thumb.jpg" alt="Odoo - Sample 3 for three columns"/>
+                                    <h4 class="mt16">Feature Three</h4>
+                                    <p>
+                                        Delete the above image or replace it with a picture
+                                        that illustrates your message. Click on the picture to
+                                        change it's <em>rounded corner</em> style.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+    
+                      
+                      
+                       <section class="s_comparisons">
+                            <div class="container">
+                              <div class="row">
+                                <div class="col-md-12 text-center mt16 mb32">
+                                    <h2>Our Offers</h2>
+                                </div>
+                              </div>
+                              <div class="row">
+                                <div class="col-md-4 col-xs-12">
+                                    <div class="panel panel-info">
+
+                                      <div class="panel-heading text-center">
+                                          <h3 style="margin: 0">Beginner</h3>
+                                          <p style="margin: 0" class="text-muted">
+                                              Starter package
+                                          </p>
+                                      </div>
+                                      <div class="panel-body text-center text-muted" style="background-color: rgba(0,0,0,0.1)">
+                                        <h3 style="margin: 0"><span>$</span><b style="font-size: 60px">35</b><small>.00</small></h3>
+                                        <div>user / month (billed annually)</div>
+                                      </div>
+
+
+                                      <ul class="list-group">
+                                        <li class="list-group-item active">Basic sales &amp; marketing for up to 2 users</li>
+                                        <li class="list-group-item">Account &amp; Sales management</li>
+                                        <li class="list-group-item">No customization</li>
+                                        <li class="list-group-item">No support</li>
+                                      </ul>
+                                      <div class="panel-footer text-center">
+                                          <p class="text-muted">
+                                              <i>Instant setup, satisfied or reimbursed.</i>
+                                          </p>
+                                          <a href="/seller/signup" class="btn btn-primary btn-lg">Order now</a>
+                                      </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-xs-12">
+                                    <div class="panel panel-primary">
+
+                                      <div class="panel-heading text-center">
+                                          <h3 style="margin: 0">Professional</h3>
+                                          <p style="margin: 0">
+                                              Enterprise package
+                                          </p>
+                                      </div>
+                                      <div class="panel-body text-center text-muted" style="background-color: rgba(0,0,0,0.1)">
+                                        <h3 style="margin: 0"><span>$</span><b style="font-size: 60px">65</b><small>.00</small></h3>
+                                        <div>user / month (billed annually)</div>
+                                      </div>
+
+
+                                      <ul class="list-group">
+                                        <li class="list-group-item active">Complete CRM for any size team</li>
+                                        <li class="list-group-item">Get access to all modules</li>
+                                        <li class="list-group-item">Limited customization</li>
+                                        <li class="list-group-item">Email support</li>
+                                      </ul>
+                                      <div class="panel-footer text-center">
+                                          <p class="text-muted">
+                                              <i>Instant setup, satisfied or reimbursed.</i>
+                                          </p>
+                                          <a href="/seller/signup" class="btn btn-primary btn-lg">Order now</a>
+                                      </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-xs-12">
+                                    <div class="panel panel-info">
+
+                                      <div class="panel-heading text-center">
+                                          <h3 style="margin: 0">Expert</h3>
+                                          <p style="margin: 0" class="text-muted">
+                                              Ultimate package
+                                          </p>
+                                      </div>
+                                      <div class="panel-body text-center text-muted" style="background-color: rgba(0,0,0,0.1)">
+                                        <h3 style="margin: 0"><span>$</span><b style="font-size: 60px">125</b><small>.00</small></h3>
+                                        <div>user / month (billed annually)</div>
+                                      </div>
+
+
+                                      <ul class="list-group">
+                                        <li class="list-group-item active">Unlimited CRM power and support</li>
+                                        <li class="list-group-item">Get access to all modules and features</li>
+                                        <li class="list-group-item">Unlimited customization</li>
+                                        <li class="list-group-item">24x7 toll-free support</li>
+                                      </ul>
+                                      <div class="panel-footer text-center">
+                                          <p class="text-muted">
+                                              <i>Instant setup, satisfied or reimbursed.</i>
+                                          </p>
+                                          <a href="/seller/signup" class="btn btn-primary btn-lg">Contact us</a>
+                                      </div>
+                                    </div>
+
+                                </div>
+                              </div>
+                            </div>
+                    </section>
+    
+             <section>
+                 <div id="myQuoteCarousel" class="carousel quotecarousel slide s_quotes_slider" data-interval="10000">
+                    <!-- Indicators -->
+                    <ol class="carousel-indicators mb0">
+                        <li data-target="#myQuoteCarousel" data-slide-to="0" class="active"></li>
+                        <li data-target="#myQuoteCarousel" data-slide-to="1"></li>
+                    </ol>
+                    <div class="carousel-inner">
+
+                        <div class="item text_only active">
+                            <div class="container">
+                                <div class="content">
+
+                                    <div class="row">
+                                        <blockquote class="mt48 mb16 col-md-4 col-md-offset-4">
+                                                <p>
+                                                    Write a quote here from one of your customers. Quotes are a
+                                                    great way to build confidence in your products or services.
+                                                </p>
+                                                <small>Author of this quote</small>
+                                        </blockquote>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="item text_only">
+                            <div class="container">
+                                <div class="content">
+
+                                    <div class="row">
+                                        <blockquote class="mt48 mb16 col-md-4 col-md-offset-4">
+                                                <p>
+                                                    Odoo provides essential platform for our project management.
+                                                    Things are better organized and more visible with it.
+                                                </p>
+                                                <small>John Doe, CEO</small>
+                                        </blockquote>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </section>
+    
+    
+    
+                </div>
+            </div>
+        </t>
+    </template>
+    
+    
+
+    <!-- Menu backend marketplace portal -->
+    <template id="my_marketplace_link" name="Link to backend marketplace portal" inherit_id="website.layout">
+        <!-- <xpath expr="//li[@id='o_logout']" position="before"> -->
+        <xpath expr="//div[@id='wrapwrap']/header/div/div/div[@class='collapse navbar-collapse navbar-top-collapse']/ul/li[@class='dropdown']/ul/li[@class='divider']" position="after">
+            
+            <t t-if="website.env.user.partner_id.seller">
+                <li><a href="/marketplace" role="menuitem">My Marketplace</a></li>
+            </t>
+
+        </xpath>
+    </template>
+        
+    
+        <!-- website_sale.product page -->
+        <template id="show_sale_count_in_product_page" inherit_id="website_sale.product">
+            
+            <xpath expr="//a[@id='add_to_cart']" position="before">
+                <!-- Seller Information Here -->
+                <t t-if="product.sudo().seller_id">
+                   <div class="panel panel-default mt48">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Seller Information</h3>
+                        </div>
+                        <div class="panel-body">
+                            
+                            <ul><li><b>Seller :</b> 
+                                    <t t-if="product.sudo().seller_id">
+                                        <a t-attf-href="/sellers/#{slug(product.sudo().seller_id)}" t-field="product.sudo().seller_id.name"></a>
+                                    </t>
+                                </li>
+
+                            </ul></div>
+                    </div>
+                </t>
+            </xpath>
+            
+        </template>
+        
+
+
+        <!-- website_sale.products_item page -->
+        <template id="product_popup_in_products_item_page" inherit_id="website_sale.products_item" active="True" customize_show="True" name="Popup hover on Product">
+            
+            <xpath expr="//div[@class='oe_product_image']" position="replace">
+                <div class="oe_product_image">
+                  <!-- <a itemprop="url" t-att-href="keep('/shop/product/%s' % slug(product), page=(pager['page']['num'] if pager['page']['num']>1 else None))">
+                      <span itemprop="image" t-field="product.image" t-field-options='{"widget": "image" #{None if product_image_big else ", \"resize\": \"300x300\""}}' t-att-alt="product.name"/>
+                  </a> -->
+
+                  <a itemprop="url" t-att-href="keep('/shop/product/%s' % slug(product), page=(pager['page']['num'] if pager['page']['num']>1 else None))">
+                      <img itemprop="image" class="img img-responsive" t-att-src="website.image_url(product, 'image', None if product_image_big else '300x300')" t-att-alt="product.name"/>
+                  </a>
+                
+            </div>  
+            </xpath>
+
+            
+        </template>
+        
+        
+        
+    </data>
+</openerp>

@@ -1,0 +1,45 @@
+<openerp>
+    <data>
+        <template id="quote_of_the_day" inherit_id="website.snippets" name="Quote of the Days">
+          <xpath expr="//div[@id='snippet_feature']" position="inside">
+              <t t-snippet="ess_quote_of_the_days.snippet_feature_quote_days"
+                 t-thumbnail="/ess_quote_of_the_days/static/src/img/quote_days.png"/>
+          </xpath>
+        </template>
+
+        <template id="snippet_feature_quote_days" name="Quotes of days">
+
+            <section class="oe_snippet_body quote-of-day-section" style="background: url('/ess_quote_of_the_days/static/src/css/../img/quote-of-day-img-bg.png') no-repeat 8% center #f9f8f4;">
+                 <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="section-headign">
+                                <h4 style="text-align: left!important;width: 100vw;
+                                         position: relative;
+                                         margin-left: -49vw;
+                                         left: 50%;">Quote of the Day</h4>
+                            </div>
+                            <div class="section-headign snippet-quote">
+                                <!--<h2>Quote Of The Day</h2>-->
+                                <p style="width: 100vw;
+                                         position: relative;
+                                         margin-left: -50vw;
+                                         left: 50%; font-family: Lato-Light"></p>
+                                <!--<img  alt=""/>-->
+                                <!--small for Author if auth available-->
+
+
+                            </div>
+<!--                            <div class="author" style="position: absolute; right: 2%">-->
+                                <p class="author" style="position: absolute; right: 2%" >
+                                    <small id="author" style="position: relative; top: -20px; transition: none 0s ease 0s; cursor: move;"/>
+                                </p>
+<!--                            </div>-->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </template>
+    </data>
+</openerp>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="dp_product_template_stock_level_indicator_config_form_view" model="ir.ui.view">
+            <field name="name">dp.product.template.stock.level.indicator.config,form.view</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_form_view" />
+            <field name="arch" type="xml">
+                <xpath expr="//notebook/page[last()]" position="after">
+                    <page string="Stock Level Indicator">
+                        <field name="stock_level_indicator" nolabel="True">
+                            <tree>
+                                <field name="name"/>
+                                <field name="img" widget="image" invisible="1"/>
+                                <field name="lower"/>
+                                <field name="upper"/>
+                            </tree>
+                            <form>
+                                <group>
+                                    <group>
+                                        <field name="name"/>
+                                        <field name="img" widget="image"
+                                               style="width:20%;vertical-align: middle;padding-left:15px;margin-left:15px;"/>
+                                        <field name="lower"/>
+                                        <field name="upper"/>
+                                    </group>
+                                    <group/>
+                                </group>
+                            </form>
+                        </field>
+                        <button name="action_get_stock_level_indicators" string="Import Stock Level Indicators"
+                                type="object" class="oe_highlight"
+                                groups="dp_common.group_super_admin"/>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+        <template id="dp_product_stock"  name="Stock Product">
+             <div id="stock_level" groups="dp_common.group_shipmaster, dp_common.group_super_admin, dp_common.group_chandler, dp_common.group_chandler_admin">
+                <b> Stock Level: <img class="img" t-attf-src="/dp_indicator_config/static/src/img/{{return_image}}.png"
+                                     alt=""
+                                    style="max-width:1em;max-height:1em;"
+                                    t-att-title="return_image"/>
+                </b>
+             </div>
+        </template>
+
+    </data>
+</openerp>

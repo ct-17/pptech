@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+		<!-- Product Details Page -->
+		<template id="inherited_product_page"
+			inherit_id="website_sale.product">
+			<xpath
+				expr="//section[@id='product_detail']/div[hasclass('row')][1]"
+				position="attributes">
+				<attribute name="class">row hidden</attribute>
+			</xpath>
+			<xpath
+				expr="//section[@id='product_detail']/div[hasclass('row')][2]/div[1]"
+				position="replace">
+				<div class="col-12 col-md-6">
+					<div class="featured-product-left">
+						<span itemprop="image" t-field="product.image"
+							t-field-options='{"widget": "image", "class": "product_detail_img", "alt-field": "name"}' />
+					</div>
+				</div>
+			</xpath>
+			<xpath
+				expr="//section[@id='product_detail']/div[hasclass('row')][2]/div[2]"
+				position="replace">
+				<div class="col-12 col-md-6 pull-right mt32">
+					<div class="product-info-right">
+						<h1 id="product_name" itemprop="name" t-field="product.name" class="mb16"
+							style="font-weight: bold;font-size: 30px;">Product Name
+						</h1>
+						<span itemprop="url" style="display:none;"
+							t-esc="'/shop/product/%s' % slug(product)" />
+
+						<form t-att-action="keep('/shop/cart/update')"
+							class="js_add_cart_variants"
+							t-att-data-attribute_value_ids="product.product_variant_ids.ids"
+							method="POST">
+							<div class="js_product">
+								<t t-placeholder="select">
+									<input type="hidden" class="product_id" name="product_id"
+										t-att-value="int(product.product_variant_ids[0]) if len(product.product_variant_ids) == 1 else '0'" />
+									<t t-call="website_sale.variants">
+										<t t-set="ul_class" t-value="'nav-stacked'" />
+									</t>
+								</t>
+								<p t-if="len(product.product_variant_ids) > 1"
+									class="css_not_available_msg bg-danger" style="padding: 15px;">Product not
+									available
+								</p>
+
+								<div id="product_description">
+									<p t-field="product.description_sale" class="hidden"></p>
+									<div t-field="product.short_description" class="text-muted" />
+								</div>
+								<div class="product_in_cart mt32">
+									<a id="add_to_cart"
+										class="btn btn-primary btn-lg mt8 js_check_product add-to-cart a-submit"
+										href="#"><i class="fa fa-shopping-cart" aria-hidden="true"></i> Add to Cart</a>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</xpath>
+		</template>
+
+		<template id="website_sale.product_attributes"
+			inherit_id="website_sale.product" customize_show="True"
+			name="Product attributes">
+			<xpath expr="//p[@t-field='product.description_sale']"
+				position="before">
+				<style>
+.product-info-right{margin-top:25px;}
+.product-info-right h2{text-transform: uppercase;text-align: left;font-size: 26px;font-weight: 700;line-height: 30px;margin-bottom: 15px;}
+.product-info-right h6{margin-bottom:20px;font-size: 14px;color: #2e38fa; }
+.product-info-right h6:after{content:''; display:inline-block; vertical-align:middle; width:10px; height:10px; border-radius:100%; background:#F00; margin-left:5px;}
+.product-info-right p{font-size:16px;}
+.product-info-right h5{text-transform: uppercase;text-align: left;font-size: 18px;font-weight: 700;line-height: 30px;margin-bottom: 10px;}
+.product-info-right ul li{margin-bottom:5px; display:inline-block; width:49%; vertical-align:top; padding-left:20px; color:#000; font-size:16px;position:relative;}
+.product-info-right ul li:before{content: "\f105"; font-family:'FontAwesome'; position:absolute; top: 2px;left:0px;font-size: 18px;-webkit-transition: all 0.3s ease; -moz-transition: all 0.3s ease; -o-transition: all 0.3s ease; transition: all 0.3s ease;}
+</style>
+				<h4 class="mt32" style="line-height: 168%;">
+					<t t-foreach="product.attribute_line_ids" t-as="variant_id">
+						<t t-if="len(variant_id.value_ids)==1">
+							<b>
+								<span t-field="variant_id.attribute_id" />
+							</b>
+							:
+							<span t-field="variant_id.value_ids[0].name" />
+							<br />
+						</t>
+					</t>
+				</h4>
+				<h4 id="" class="mt32 mb16" t-if="product.description_sale">
+					<b>Product Description:</b>
+				</h4>
+			</xpath>
+		</template>
+		<!-- ======== Cart Quantity ======== -->
+		<template id="inherited_product_quantity"
+			inherit_id="website_sale.product_quantity">
+			<xpath expr="//div[hasclass('css_quantity')]"
+				position="replace">
+				<div class="input-group qty-feild">
+                    <span class="input-group-btn">
+                        <a type="button" class="btn minus-btn btn-number js_add_cart_json" data-type="minus" data-field="quant[1]">
+                            <i class="fa fa-minus" aria-hidden="true"></i>
+                        </a>
+                    </span>
+                    <input type="text" name="quant[1]" class="form-control input-number" value="1" min="1" max="10" />
+                    <span class="input-group-btn">
+                        <a type="button" class="btn plus-btn btn-number js_add_cart_json" data-type="plus" data-field="quant[1]">
+                            <i class="fa fa-plus" aria-hidden="true"></i>
+                        </a>
+                    </span>
+                </div>				
+			</xpath>
+		</template>
+		<!-- ===== Recommended Products ====== -->
+		<template id="website_sale.recommended_products"
+			inherit_id="website_sale.product" customize_show="True"
+			name="Alternative Products">
+			<xpath expr="//div[@id='product_full_description']"
+				position="after">
+				<section class="featured-products-section" t-if="product.alternative_product_ids">
+					<div class="container">
+						<div class="row">
+							<div class="col-12">
+								<div class="section-headign">
+									<h2 class="wpb_heading">You may also be Interested in these</h2>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<t t-foreach="product.alternative_product_ids" t-as="product">
+								<div class="col-12 col-sm-6 col-md-3">
+									<div class="product-item">
+										<div class="product-item-box">
+											<div class="product-img">
+												<a href="javascript:;">
+													<span t-field="product.image"
+														t-field-options='{"widget": "image", "class": "img-rounded shadow" }' />
+												</a>
+												<div class="product-label">
+													<span class="sale">Sale</span>
+												</div>
+											</div>
+											<div class="product-content">
+												<div class="product-rating">
+													<i class="fa fa-star" aria-hidden="true"></i>
+													<i class="fa fa-star" aria-hidden="true"></i>
+													<i class="fa fa-star" aria-hidden="true"></i>
+													<i class="fa fa-star" aria-hidden="true"></i>
+													<i class="fa fa-star" aria-hidden="true"></i>
+												</div>
+												<h3 class="text-center">
+													<a t-attf-href="/shop/product/#{ slug(product) }"
+														style="display: block;color:#212529">
+														<span t-field='product.name' style="display: block" />
+													</a>
+												</h3>
+											</div>
+										</div>
+									</div>
+								</div>
+							</t>
+						</div>
+					</div>
+				</section>
+			</xpath>
+		</template>
+	</data>
+</openerp>

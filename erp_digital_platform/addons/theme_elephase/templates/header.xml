@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+		<!-- Header -->
+		<template id="theme_footer" inherit_id="website.footer_default">
+			<xpath expr="//div[@class='container hidden-print']" position="replace">
+				<div class="footer-part">
+					<div class="container">
+				        <div class="row">
+				            <div class="col-sm-6 col-md-4 col-lg-3">
+				            	<div class="footer-colum">
+				                	<h3>CONTACT INFORMATION</h3>
+				                    <p>
+				                    	<strong>EMAIL:</strong>
+				                        <a t-attf-href="mailto:#{res_company.email}"><span t-field="res_company.email"/></a>
+				                    </p>
+				                    <p>
+				                    	<strong>Mobile:</strong>
+				                        <span t-field="res_company.phone"/>
+				                    </p>
+				                </div>
+				            </div>
+				            <div class="col-sm-6 col-md-4 col-lg-3">
+				            	<div class="footer-colum">
+				                	<h3>MY ACCOUNT</h3>
+				                    <ul>
+				                    	<li><a href="/my/account">My account</a></li>
+				                        <li><a href="/orders">Orders history</a></li>
+				                        <li><a href="#">Advanced search</a></li>
+				                    </ul>
+				                </div>
+				            </div>	
+				            <div class="col-sm-0 col-md-0 col-lg-3 hide-mobile">
+				            	
+				            </div>	
+				            <div class="col-sm-6 col-md-4 col-lg-3">
+				            	<div class="footer-colum">
+				                	<h3>NEWSLETTER</h3>
+				                    <div class="newsletter">
+				                    	<input type="email" value="" placeholder="Email Address"/>
+				                        <button>SUBSCRIBE</button>
+				                    </div>
+				                </div>
+				            </div>	
+				        </div> 
+				    </div>
+				</div>
+			</xpath>
+		</template>
+
+		<!-- Footer Copy-rights -->
+		<template id="theme_copyright_footer" inherit_id="website.layout_footer_copyright">
+			<xpath expr="//div[@class='container mt16 mb8']" position="replace">		
+		        <div class="container">
+		        	<div class="row">
+		            	<div class="footer-copytext">
+		                	<p>© 2019 BuyTaxFree All Rights Reserved</p>
+		                </div>
+		            </div>
+		        </div>  
+			</xpath>
+		</template>		         
+	</data>
+</openerp>

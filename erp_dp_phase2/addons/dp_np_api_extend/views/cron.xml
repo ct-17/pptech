@@ -1,0 +1,36 @@
+<openerp>
+    <data>
+         <record id="ir_cron_synchronize_data_to_btf" model="ir.cron">
+            <field name="name">Synchronize Data ERP to BuyTaxFree</field>
+            <field name="interval_number">15</field>
+            <field name="interval_type">minutes</field>
+            <field name="numbercall">-1</field>
+            <field eval="'dp.np.api'" name="model"/>
+            <field eval="'cron_sync_data_to_btf'" name="function"/>
+            <field eval="'()'" name="args"/>
+            <field name="active" eval="True" />
+        </record>
+
+         <record id="ir_cron_synchronize_data_to_erp" model="ir.cron">
+            <field name="name">Synchronize Data BuyTaxFree to ERP</field>
+            <field name="interval_number">15</field>
+            <field name="interval_type">minutes</field>
+            <field name="numbercall">-1</field>
+            <field eval="'dp.np.api'" name="model"/>
+            <field eval="'cron_sync_data_to_erp'" name="function"/>
+            <field eval="'()'" name="args"/>
+            <field name="active" eval="True" />
+        </record>
+
+         <record id="ir_cron_create_database_field_matrix" model="ir.cron">
+            <field name="name">Create DP NP Database Field Matrix</field>
+            <field name="interval_number">9999999</field>
+            <field name="interval_type">months</field>
+            <field name="numbercall">1</field>
+            <field eval="'dp.np.db.field.matrix'" name="model"/>
+            <field eval="'cron_create_dp_np_field_matrix'" name="function"/>
+            <field eval="'()'" name="args"/>
+            <field name="active" eval="False" />
+        </record>
+    </data>
+</openerp>

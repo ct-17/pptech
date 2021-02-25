@@ -1,0 +1,17 @@
+<openerp>
+    <data>
+        <template id="ess_quote_of_the_days_assets_frontend" inherit_id="website.assets_frontend" name="Quote of the days">
+            <xpath expr="." position="inside">
+                  <link href="/ess_quote_of_the_days/static/src/css/quote_of_days.css" type="text/css" rel="stylesheet" />
+                    <script type="text/javascript" src="/ess_quote_of_the_days/static/src/js/quote_of_the_day.js" />
+
+            </xpath>
+        </template>
+
+        <template id="ess_quote_of_the_days_js" inherit_id="website_less.assets_editor" name="Quote of the days">
+          <xpath expr="script[last()]" position="after">
+            <script type="text/javascript" src="/ess_quote_of_the_days/static/src/js/quote_of_the_day.js" />
+          </xpath>
+        </template>
+    </data>
+</openerp>

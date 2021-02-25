@@ -1,0 +1,75 @@
+<openerp>
+    <data>
+        <record id="sale_line_stock_allocation_form" model="ir.ui.view">
+            <field name="name">Sale Line Stock Allocation Form View</field>
+            <field name="model">sale.line.stock.allocation</field>
+            <field name="groups">dp_common.group_super_admin</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <field name="state" widget="statusbar"
+                               statusbar_visible="ongoing,done"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="product_id"/>
+                                <field name="product_qty"/>
+                                <field name="create_date"/>
+                            </group>
+                            <group/>
+                        </group>
+                        <group>
+                            <field name="order_line"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="sale_line_stock_allocation_tree" model="ir.ui.view">
+            <field name="name">Sale Line Stock Allocation Tree View</field>
+            <field name="model">sale.line.stock.allocation</field>
+            <field name="groups">dp_common.group_super_admin</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="product_id"/>
+                    <field name="product_qty"/>
+                    <field name="state"/>
+                    <field name="create_date"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_view_sale_line_stock_allocation" model="ir.actions.act_window">
+            <field name="name">Sale Line Stock Allocation</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">sale.line.stock.allocation</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="action_view_sale_line_stock_allocation_form" model="ir.actions.act_window.view">
+            <field eval="21" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="sale_line_stock_allocation_form"/>
+            <field name="act_window_id" ref="action_view_sale_line_stock_allocation"/>
+        </record>
+
+        <record id="action_view_sale_line_stock_allocation_tree" model="ir.actions.act_window.view">
+            <field eval="11" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="sale_line_stock_allocation_tree"/>
+            <field name="act_window_id" ref="action_view_sale_line_stock_allocation"/>
+        </record>
+
+        <menuitem name="Stock Allocation"
+            id="sale_order_line_stock_allocation"
+            sequence="10000"
+            action="action_view_sale_line_stock_allocation"
+            parent="base.menu_sales"
+            groups="dp_common.group_super_admin"/>
+    </data>
+</openerp>

@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="seller_shop_form_view" model="ir.ui.view">
+            <field name="name">seller.shop.form.view</field>
+            <field name="model">seller.shop</field>
+            <field name="arch" type="xml">
+                <form string="Seller Shop" >
+                    <header>
+                        <!-- <field name="state" widget="statusbar" statusbar_visible="draft,waiting,approved,denied" /> -->
+                    </header>
+                    <sheet>
+                        <div class="oe_right oe_button_box" style="width: 300px;" name="buttons">
+                            <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-archive" string="Active"/>                           
+                        </div>
+                        <div class="oe_left" style="width: 500px;">
+                            <field name="shop_logo" widget="image" class="oe_avatar oe_left"/>
+                            <div class="oe_title" style="width: 390px;">
+                                <label class="oe_edit_only" for="name" string="Shop Name"/>
+                                <h1><field name="name" class="oe_inline"/></h1>
+                            </div>
+                        </div>
+                        <group>
+                            <field name="url_handler" class="oe_edit_only" />
+                        </group>
+                        <group>
+                            <field name="banner" widget="image" class="oe_avatar" />
+                        </group>
+                        <group>
+                            <field name="tag_line"  placeholder="Tag line for shop..."/>
+                            <field name="description"/>
+                            <field name="seller_id"  widget="selection" options="{'no_create': True}"/>
+                        </group>
+                        <group>
+                            <group>
+                                <label for="street" string="Address"/>
+                                <div class="o_address_format">
+                                    <field name="street" placeholder="Street..." class="o_address_street"/>
+                                    <field name="street2" placeholder="Street 2..." class="o_address_street"/>
+                                    <field name="city" placeholder="City" class="o_address_city"/>
+                                    <field name="state_id" class="o_address_state" placeholder="State" options="{'no_open': True}"/>
+                                    <field name="zip" placeholder="ZIP" class="o_address_zip"/>
+                                    <field name="country_id" placeholder="Country" class="o_address_country" options="{'no_open': True, 'no_create': True}"/>
+                                </div>
+                            </group>
+                            <group>
+                                <field name="phone"/>
+                                <field name="email" widget="email"/>
+                                <field name="fax"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page name="seller_products" string="Products">
+                                 <field name="seller_product_ids" widget="many2many_kanban"/>
+                            </page>
+                            <page name="terms_con_seller" string="Terms &amp; Conditions">
+                                <field name="terms_con_seller"/>
+                            </page>
+                            <page name="Policy" string="Policy">
+                                <separator string="Return Policy" />
+                                <group>
+                                    <field name="return_polocy" nolabel="1"/>
+                                </group>
+                                <separator string="Shop Policy" />
+                                <group>
+                                    <field name="shipping_policy" nolabel="1"/>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            
+            </field>
+        </record>
+        
+        <record id="seller_shop_view_tree" model="ir.ui.view">
+            <field name="name">seller.shop.tree</field>
+            <field name="model">seller.shop</field>
+            <field name="arch" type="xml">
+                <tree string="Seller's Shop">
+                    <field name="name"/>
+                    <field name="shop_url"/>
+                    <field name="seller_id"/>
+                    <field name="tag_line"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="seller_shop_view">
+            <field name="name">Seller Shop Kanban View</field>
+            <field name="model">seller.shop</field>
+            <field name="arch" type="xml">
+                <kanban class="o_kanban_mobile" >
+                    <field name="name"/>
+                    <field name="shop_logo"/>
+                    <field name="banner"/>
+                    <field name="description"/>
+                    <field name="tag_line"/>
+                    <!-- <field name="seller_product_ids"/>-->
+                    <field name="seller_id"/>
+                    <field name="color"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="oe_kanban_color_#{kanban_getcolor(record.color.raw_value)} oe_kanban_card oe_kanban_global_click">
+                                <div class="o_dropdown_kanban dropdown" >
+                                    <a class="dropdown-toggle btn" data-toggle="dropdown" href="#">
+                                        <span class="fa fa-bars fa-lg"/>
+                                    </a>
+                                    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                        <t t-if="widget.editable"><li><a type="edit">Edit Shop</a></li></t>
+                                        <t t-if="widget.deletable"><li><a type="delete">Delete</a></li></t>
+                                        <li><ul class="oe_kanban_colorpicker" data-field="color"/></li>
+                                    </ul>
+                                </div>
+                                <div class="oe_kanban_content oe_kanban_details">
+                                    <div style="margin-left: 24px;margin-right: 24px;"><b><field name="name"/></b></div>
+                                    <a type="open">
+                                        <t t-if="record.banner.raw_value">
+                                            <img t-att-src="kanban_image('seller.shop', 'banner', record.id.value)" class="oe_kanban_image" style="margin-left: 24px;max-width: 479px;max-height: 100%;"/>
+                                        </t>
+                                    </a>
+                                </div>
+                                <div class="oe_kanban_partner_links row" style="margin-left: 24px;margin-right: 24px; margin-top:5px;margin-bottom:5px;">
+                                    <span class="pull-right"><img t-att-src="kanban_image('res.partner', 'image_small', record.seller_id.raw_value)" t-att-title="record.seller_id.value" width="30" height="30" class="oe_kanban_avatar pull-right"/></span>
+                                    <span><b>Total Products: </b><field name="total_product"/></span>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        
+
+        <record id="action_all_sellers_shops" model="ir.actions.act_window">
+            <field name="name">Seller's Shop</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">seller.shop</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">kanban,tree,form</field>
+        </record>
+
+        <record id="action_my_seller_shops" model="ir.actions.act_window">
+            <field name="name">My Shop</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">seller.shop</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">kanban,tree,form</field>
+        </record>
+
+                  
+ <!--        <menuitem id= "seller_shop_menu" parent= "seller_menu" name= "Seller's Shops" 
+            action="action_all_sellers_shops" sequence="4" groups="odoo_website_marketplace.group_market_place_manager"/> -->
+         
+
+        <menuitem id= "my_shop_menu" parent= "seller_menu" name= "Seller's Shop" action="action_my_seller_shops" sequence="2" groups="odoo_website_marketplace.group_market_place_seller"/>
+
+    </data>
+</openerp>

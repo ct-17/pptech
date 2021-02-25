@@ -1,0 +1,31 @@
+<openerp>
+    <data>
+        <record id="dp_website_sale_saleorder_extended_form_view" model="ir.ui.view">
+            <field name="name">dp.website_sale.saleorder.extended.form.view</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//notebook/page[@string='Other Information']" position="after">
+                    <page string="Chandler" groups="base.group_sale_manager">
+                        <field name="many_chandler">
+                            <form>
+                                <group>
+                                    <field name="chandler"/>
+                                    <field name="seq"/>
+                                    <field name="active"/>
+                                    <field name="order_id"/>
+                                </group>
+                            </form>
+                            <tree>
+                                <field name="active"/>
+                                <field name="chandler"/>
+                                <field name="seq"/>
+                                <field name="order_id"/>
+                            </tree>
+                        </field>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</openerp>

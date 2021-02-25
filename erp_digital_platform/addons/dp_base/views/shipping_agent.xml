@@ -1,0 +1,46 @@
+<openerp>
+    <data>
+        <record model="ir.ui.view" id="shipping_agent_tree_id">
+            <field name="name">shipping.agent.tree</field>
+            <field name="model">shipping.agent</field>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="contact"/>
+                    <field name="crNum"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="shipping_agent_form_id">
+            <field name="name">shipping.agent.form</field>
+            <field name="model">shipping.agent</field>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <field name="name"/>
+                        <field name="contact"/>
+                        <field name="crNum"/>
+                        <field name="active"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+
+        <record model="ir.actions.act_window" id="shipping_agent_action">
+            <field name="name">Shipping Agent</field>
+            <field name="res_model">shipping.agent</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem name="Shipping Agent"
+            id="base_menu_shipping_agent"
+            sequence="4"
+            action="shipping_agent_action"
+            parent="base.menu_base_config" groups="dp_common.group_super_admin"/>
+    </data>
+</openerp>

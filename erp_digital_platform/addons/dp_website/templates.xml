@@ -1,0 +1,31 @@
+<openerp>
+    <data>
+        <template id="assets_frontend" name="website assets for Frontend" inherit_id="website.assets_frontend">
+            <xpath expr="." position="inside">
+				<t t-call="web.jqueryui_conflict">
+					<script type="text/javascript" src="/web/static/lib/jquery.ui/js/jquery-ui-1.9.1.custom.js"></script>
+				</t>
+                <link rel='stylesheet' href='/dp_website/static/src/less/website.less' type="text/less"/>
+              <script type="text/javascript" src="/dp_website/static/src/js/website_sale.js"></script>
+              <script type="text/javascript" src="/dp_website/static/src/js/shopping_cart.js"></script>
+                <link href="https://fonts.googleapis.com/css?family=Montserrat:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&amp;display=swap" rel="stylesheet" />
+				<link href="/dp_website/static/src/css/slick.css"
+					rel="stylesheet" type="text/css" />
+				<link href="/dp_website/static/src/css/magnific-popup.css"
+					rel="stylesheet" type="text/css" />
+				<link href="/dp_website/static/src/css/style.css"
+					rel="stylesheet" type="text/css" />
+
+				<script type="text/javascript"
+					src="/dp_website/static/src/js/slick.min.js"></script>
+				<script type="text/javascript"
+					src="/dp_website/static/src/js/megnific.js"></script>
+				<script type="text/javascript"
+					src="/dp_website/static/src/js/custome.js"></script>
+				<script type="text/javascript" src="/dp_website/static/src/js/drop_down_list.js"/>
+				<script type="text/javascript" src="/dp_website/static/src/js/camelcase.js"/>
+				<script type="text/javascript" src="/dp_website/static/src/js/hide_myenquiry_for_chandler.js"/>
+            </xpath>
+        </template>
+    </data>
+</openerp>

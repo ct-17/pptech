@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+    
+    	<record id="seller_payment_method_tree_view" model="ir.ui.view">
+            <field name="name">payment.method.tree.view</field>
+            <field name="model">seller.payment.method</field>
+            <field name="arch" type="xml">
+                <tree string="Seller Payment Method">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+        
+        <record id="payment_method_form_view" model="ir.ui.view">
+            <field name="name">payment.method.form.view</field>
+            <field name="model">seller.payment.method</field>
+            <field name="arch" type="xml">
+                <form string="Seller Payment Method">
+                	<group collspan="2">
+                        <field name="name"/>
+                    </group> 
+                </form>
+            </field>
+        </record>
+    	
+    	<record id="action_payment_method" model="ir.actions.act_window">
+            <field name="name">Seller Payment Method</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">seller.payment.method</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        
+        <menuitem id= "configuration_menu" parent= "seller_dashboard_menu" name= "Configuration" groups="odoo_website_marketplace.group_market_place_seller"/>
+        <!-- <menuitem id= "settings_menu" parent= "configuration_menu" name= "Settings" action="action_seller_approve_product" groups="odoo_website_marketplace.group_market_place_seller" /> -->
+        <menuitem id= "website_categories_menu" parent= "configuration_menu" name= "Website Categories" action="website_sale.product_public_category_action" groups="odoo_website_marketplace.group_market_place_seller"/>
+        <menuitem id= "seller_payment_menu" parent= "configuration_menu" name= "Seller Payment Methods" action="action_payment_method" groups="odoo_website_marketplace.group_market_place_seller" />
+            
+    </data>
+</openerp>

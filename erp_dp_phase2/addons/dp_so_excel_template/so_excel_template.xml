@@ -1,0 +1,13 @@
+<openerp>
+    <data>
+        <report
+            id="so_template_Xlsx"
+            model="sale.order"
+            string="Draft Purchase Order (Excel)"
+            report_type="xlsx"
+            name="sale.order.xlsx"
+            file="sale.order.xlsx"
+            attachment="'draft_purchase_order'+ object.name"
+            groups="dp_common.group_chandler"/>
+    </data>
+</openerp>

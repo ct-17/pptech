@@ -1,0 +1,88 @@
+<openerp>
+    <data>
+    <!--Website Menu 'About Us'-->
+    <template id="dp_website.aboutus" page="True">
+        <t t-call="website.layout">
+            <div id="wrap">
+                  <p style="text-align:center; font-size:30px">About Us</p>
+                  <div>
+                      <img id="about_us_image" src="/dp_website/static/src/images/About_us_page_-_V2.jpg" />
+                  </div>
+              </div>
+        </t>
+    </template>
+<!--    <record id="dp_website.menu_aboutus" model="website.menu">-->
+<!--        <field name="name">About Us</field>-->
+<!--        <field name="url">/aboutus</field>-->
+<!--        <field name="parent_id" ref="website.main_menu"/>-->
+<!--        <field name="sequence" type="int">70</field>-->
+<!--    </record>-->
+
+    <!--Website Menu 'Getting Started'-->
+    <template id="gettingstart" page="True">
+        <t t-call="website.layout">
+          <div id="wrap" class="js_sale">
+              <p style="text-align:center; font-size:30px">Getting Started</p>
+              <div>
+                  <img id="getting_start_img" src="/dp_website/static/src/images/started_page.jpg" />
+              </div>
+          </div>
+
+        </t>
+    </template>
+<!--    <record id="menu_gettingstarted" model="website.menu">-->
+<!--        <field name="name">Getting Started</field>-->
+<!--        <field name="url">/gettingstarted</field>-->
+<!--        <field name="parent_id" ref="website.main_menu"/>-->
+<!--        <field name="sequence" type="int">40</field>-->
+<!--    </record>-->
+
+    <!--Website Menu 'Terms & Conditions'-->
+    <template id="dp_website.temrsandconditions" page="True">
+        <t t-call="website.layout">
+            <div id="wrap">
+                  <p style="text-align:center; font-size:30px">Terms &amp; Conditions</p>
+                  <div>
+                      <img id="contact_us_image" src="/dp_website/static/src/images/tNc-02.jpg" />
+                  </div>
+              </div>
+        </t>
+    </template>
+<!--    <record id="menu_temrsandconditions" model="website.menu">-->
+<!--        <field name="name">Terms &amp; Conditions</field>-->
+<!--        <field name="url">/termsandconditions</field>-->
+<!--        <field name="parent_id" ref="website.main_menu"/>-->
+<!--        <field name="sequence" type="int">50</field>-->
+<!--    </record>-->
+
+    <!--Website Menu 'Privacy Policy'-->
+    <template id="dp_website.privacypolicy" page="True">
+        <t t-call="website.layout">
+            <div id="wrap">
+                  <p style="text-align:center; font-size:30px">Privacy Policy</p>
+                  <div>
+                      <img id="contact_us_image" src="/dp_website/static/src/images/privacy_policy-02.jpg" />
+                  </div>
+              </div>
+        </t>
+    </template>
+<!--    <record id="menu_privacypolicy" model="website.menu">-->
+<!--        <field name="name">Privacy Policy</field>-->
+<!--        <field name="url">/privacypolicy</field>-->
+<!--        <field name="parent_id" ref="website.main_menu"/>-->
+<!--        <field name="sequence" type="int">55</field>-->
+<!--    </record>-->
+
+           <!--Website Menu 'Contact Us'-->
+    <template id="dp_website.contactus" name="Contact us" page="True">
+            <t t-call="website.layout">
+              <div id="wrap">
+                  <p style="text-align:center; font-size:30px">Contact Us</p>
+                  <div>
+                      <img id="contact_us_image" src="/dp_website/static/src/images/contact_us_page_-02.jpg" />
+                  </div>
+              </div>
+            </t>
+    </template>
+    </data>
+</openerp>

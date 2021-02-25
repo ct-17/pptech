@@ -1,0 +1,11 @@
+id,name,model_id/id,group_id/id,perm_read,perm_write,perm_create,perm_unlink
+dp_chandler_partner_chandler_admin,dp.chandler.partner,model_dp_chandler_partner,dp_common.group_chandler_admin,1,1,1,1
+dp_chandler_temp_chandler_admin,dp.chandler.temp,model_dp_chandler_temp,dp_common.group_chandler_admin,1,1,1,1
+res_partner_chandler_admin,res.partner,model_res_partner,dp_common.group_chandler_admin,1,1,1,1
+res_users_chandler_admin,res.user,model_res_users,dp_common.group_chandler_admin,1,1,1,0
+res_partner_chandler,res.partner,model_res_partner,dp_common.group_chandler,1,1,0,0
+res_partner_shipmaster,res.partner,model_res_partner,dp_common.group_shipmaster,1,1,0,0
+res_users_chandler,res.user,model_res_users,dp_common.group_chandler,1,1,0,0
+res_users_shipmaster,res.user,model_res_users,dp_common.group_shipmaster,1,1,0,0
+dp_chandler_partner_group_shipmaster,dp.chandler.partner,model_dp_chandler_partner,dp_common.group_shipmaster,1,1,1,0
+dp_chandler_temp_group_shipmaster,dp.chandler.temp,model_dp_chandler_temp,dp_common.group_shipmaster,1,1,1,0

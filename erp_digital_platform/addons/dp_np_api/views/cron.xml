@@ -1,0 +1,36 @@
+<openerp>
+    <data noupdate="1">
+         <record id="ir_cron_dp_po_np_so" model="ir.cron">
+            <field name="name">Create ERP SO</field>
+            <field name="interval_number">5</field>
+            <field name="interval_type">minutes</field>
+            <field name="numbercall">-1</field>
+            <field eval="'dp.np.api'" name="model"/>
+            <field eval="'run_cron'" name="function"/>
+            <field eval="'()'" name="args"/>
+            <field name="active" eval="True" />
+        </record>
+
+         <record id="ir_cron_check_stock_replenishment" model="ir.cron">
+            <field name="name">Check for Stocks Replenishment</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">hours</field>
+            <field name="numbercall">-1</field>
+            <field eval="'dp.np.api'" name="model"/>
+            <field eval="'cron_check_stock_replenishment'" name="function"/>
+            <field eval="'()'" name="args"/>
+            <field name="active" eval="True" />
+        </record>
+
+         <record id="ir_cron_check_sql_query" model="ir.cron">
+            <field name="name">Debug ERP Query</field>
+            <field name="interval_number">99</field>
+            <field name="interval_type">months</field>
+            <field name="numbercall">-1</field>
+            <field eval="'dp.np.api'" name="model"/>
+            <field eval="'cron_debug_erp_query'" name="function"/>
+            <field eval="'([{}])'" name="args"/>
+            <field name="active" eval="False" />
+        </record>
+    </data>
+</openerp>

@@ -1,0 +1,71 @@
+<openerp>
+    <data>
+         <!-- Email template for new Chandlers -->
+        <record id="dp_auth.notify_new_chandler" model="email.template">
+            <field name="name">CHANDLER INVITATION</field>
+            <field name="model_id" ref="base.model_res_users"/>
+            <field name="email_from">${user.email|safe}></field>
+            <field name="email_to">${object.email|safe}</field>
+            <field name="subject">BTF: You are invited to join BUYTAXFREE.</field>
+            <field name="body_html">
+                <![CDATA[
+                    <p>
+                        Dear ${object.name},
+                    </p>
+                    <p>
+                        Welcome to BUYTAXFREE!
+                    </p>
+                    <p>
+                        An online destination to all your bonded needs. The perfect place to stay up to date with the ever-expanding range of products, exciting offers, and latest stock availability. We aim to provide a comprehensive e-catalogue to anyone on-board voyages passing through the Port of Singapore.
+                    <p/>
+                    <p>
+                        As a Ship Chandler, on behalf of ship owners and masters, join this platform and place your order. Track your status and never lose sight of sale.
+                    <p/>
+                    <p>
+                        Stay tuned as you will be rewarded with exciting rebates and loyalty programs when an order is successfully placed through this platform.
+                    </p>
+                    <p>
+                        Ready to join us on a rewarding experience? Simply click <a href="${object.chandler_signup_url}"><b>here</b></a> to set up your account.  Fill in your account information, security settings, contact preferences and more.
+                    </p>
+                    <p>
+                        Thank you and we look forward to working with you,
+                    </p>
+                    <p>BUYTAXFREE</p>
+                    <p>www.buytaxfree.com.sg</p>
+                    <p>
+                        <i>This is an automatically generated message. Please do not reply to this address. You may not use, reproduce, or transfer this message or its content into any medium without the written permission of BUYTAXFREE.</i>
+                    </p>
+                ]]>
+            </field>
+        </record>
+
+        <record id="chandler_welcome" model="email.template">
+            <field name="name">WELCOME ACCOUNT ACTIVATION</field>
+            <field name="model_id" ref="base.model_res_users"/>
+            <field name="email_from">${user.email|safe}></field>
+            <field name="email_to">${object.email|safe}</field>
+            <field name="subject">BTF: Welcome to BUYTAXFREE!</field>
+            <field name="body_html">
+                <![CDATA[
+                    <p>
+                        Dear ${object.name},
+                    </p>
+                    <p>
+                        Thank you for registering with BUYTAXFREE.
+                    </p>
+                    <p>
+                        You have activated your account.
+                    </p>
+                    <p>
+                        Thank you and we look forward to working with you,
+                    </p>
+                    <p>BUYTAXFREE</p>
+                    <p>www.buytaxfree.com.sg</p>
+                    <p>
+                        <i>This is an automatically generated message. Please do not reply to this address. You may not use, reproduce, or transfer this message or its content into any medium without the written permission of BUYTAXFREE.</i>
+                    </p>
+                ]]>
+            </field>
+        </record>
+    </data>
+</openerp>

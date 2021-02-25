@@ -1,0 +1,91 @@
+<openerp>
+    <data>
+        <template id="place_into_bar_feature_products" inherit_id="website.snippets" name="Place into bar Feature Products">
+          <xpath expr="//div[@id='snippet_structure']" position="inside">
+              <t t-snippet="dp_theme_feature_products.snippet_feature_products"
+                 t-thumbnail="/dp_theme_feature_products/static/src/img/blocks/block_portfolio.png"/>
+          </xpath>
+        </template>
+
+        <template id="snippet_feature_products" name="Feature Products Snippet">
+            <section class="featured-products-section">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="section-headign">
+                                <h2 class="wpb_heading"><span class="sub_heading">Best Collection of</span>featured products</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-sm-6 col-md-3">
+                            <div class="product-item">
+                                <div class="product-item-box">
+                                    <div class="product-img">
+                                        <a href="/shop/product/absolut-raspberri-587">
+                                            <img src="/website/image/product.template/587_56f2ea6/image" alt=""/>
+                                        </a>
+                                        <div class="product-label"><span class="sale">Sale</span></div>
+                                    </div>
+                                    <div class="product-content">
+                                        <div class="product-rating"><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i></div>
+                                        <h3><a href="javascript:;">Simple Product 010</a></h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6 col-md-3">
+                            <div class="product-item">
+                                <div class="product-item-box">
+                                    <div class="product-img">
+                                        <a href="/shop/product/ballantine-12yrs-590">
+                                            <img src="/website/image/product.template/590_56f2ea6/image" alt=""/>
+                                        </a>
+
+                                    </div>
+                                    <div class="product-content">
+                                        <div class="product-rating"><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i></div>
+                                        <h3><a href="javascript:;">Simple Product 010</a></h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6 col-md-3">
+                            <div class="product-item">
+                                <div class="product-item-box">
+                                    <div class="product-img">
+                                        <a href="/shop/product/olmeca-reposado-standard-tequila-571">
+                                            <img src="/website/image/product.template/571_56f2ea6/image" alt=""/>
+                                        </a>
+
+                                    </div>
+                                    <div class="product-content">
+                                        <div class="product-rating"><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i></div>
+                                        <h3><a href="javascript:;">Simple Product 010</a></h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-sm-6 col-md-3">
+                            <div class="product-item">
+                                <div class="product-item-box">
+                                    <div class="product-img">
+                                        <a href="/shop/product/bols-blue-curacao-538?category=36">
+                                            <img src="/website/image/product.template/538_56f2ea6/image" alt=""/>
+                                        </a>
+                                        <div class="product-label"><span class="featured">Hot</span></div>
+                                    </div>
+                                    <div class="product-content">
+                                        <div class="product-rating"><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i></div>
+                                        <h3><a href="javascript:;">Simple Product 010</a></h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+        </template>
+    </data>
+</openerp>

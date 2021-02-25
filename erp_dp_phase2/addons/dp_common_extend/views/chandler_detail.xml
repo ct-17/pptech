@@ -1,0 +1,23 @@
+<openerp>
+     <data>
+        <record id="view_self_chandler_res_partner_form_extend" model="ir.ui.view">
+			<field name="name">res.partner.chandler.detail.extend</field>
+			<field name="model">res.partner</field>
+			<field name="inherit_id" ref="dp_common.view_self_chandler_res_partner_form" />
+			<field name="arch" type="xml">
+                <xpath expr="//form" position="attributes">
+                    <attribute name="edit">false</attribute>
+                </xpath>
+                <xpath expr="//h1/field[@name='name']" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='sale_rate']" position="attributes">
+                    <attribute name="string">Exchange Rate</attribute>
+                </xpath>
+                <xpath expr="//page[@string='Currency Rate']" position="attributes">
+                    <attribute name="string">Exchange Rate</attribute>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</openerp>

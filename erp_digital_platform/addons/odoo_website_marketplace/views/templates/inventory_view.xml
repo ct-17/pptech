@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="inventory_request_action" model="ir.actions.act_window">
+            <field name="name"> Inventory Request</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">marketplace.inventory</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="product.product_template_kanban_view"/>
+            <field name="context">{"search_default_filter_state":1}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to define a new product.
+                </p><p>
+                    You must define a product for everything you sell, whether it's a physical product, a consumable or a service you offer to  customers.
+                </p><p>
+                    The product form contains information to simplify the sale process: price, notes in the quotation, accounting data, procurement methods, etc.
+                </p>
+            </field>
+        </record>
+
+     <record id="view_inventory_request_tree" model="ir.ui.view">
+        <field name="name">view.inventory.request.tree</field>
+        <field name="model">marketplace.inventory</field>
+        <field name="arch" type="xml">
+        <tree string="Marketplace Product Stock" colors="green:state=='approved'; orange:state=='requested'; blue:state=='draft';red:state=='rejected'">
+                    <field name="product_temp_id"/>
+                    <field name="product_id" />
+                    <field name="seller_id" />
+                    <field name="new_quantity"/>
+                    <field name="location_id" />
+                    <field name="state"/>
+                </tree>
+            </field>
+    </record>
+
+    <record id="view_inventory_request_form" model="ir.ui.view">
+        <field name="name">view.inventory.request.form</field>
+        <field name="model">marketplace.inventory</field>
+        <field name="arch" type="xml">
+            <form string="Marketplace Product Stock">
+                    <header>
+                        <button name="request" string="Request" type="object" states="draft" class="btn-primary"/>
+                        <button name="approve" string="Approve" type="object" states="requested"  class="btn-primary"/>
+                        <button name="reject" string="Reject" type="object" states="requested" />
+                        <button name="set_2_draft" string="Set to Draft" type="object" states="rejected" class="btn-primary"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,requested,approved,rejected"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="product_temp_id" string="Product"  options="{'no_create_edit': True, 'no_quick_create':True, 'no_open': True}" required="1" attrs="{'readonly':[('state', 'not in', ('draft'))]}" domain="[('seller_id', '!=', False),('state','=','approve')]"/>
+                            <field name="product_id"  options="{'no_create_edit': True, 'no_quick_create':True, 'no_open': True}"  attrs="{'readonly':[('state', 'not in', ('draft'))]}"/>
+                            <field name="seller_id"   options="{'no_open': True}"/>
+                            <field name="new_quantity" attrs="{'readonly':[('state', 'not in', ('draft','requested'))]}"/>
+                            <field name="location_id"  options="{'no_open': True}" attrs="{'readonly':[('state', 'not in', ('draft'))]}"/>
+                            <field name="note" placeholder="Write note..." attrs="{'readonly':[('state', 'not in', ('draft'))]}"/>
+                        </group>
+                    </sheet>
+                </form>
+        </field>
+    </record>
+
+    <record id="inherit_bi_view_delivery_order_tree" model="ir.ui.view">
+            <field name="name">inherit.bi.delivery.order.tree</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.vpicktree" />
+            <field name="arch" type="xml">
+            <field name="partner_id" position="after">
+                <field name="seller_id"/>
+            </field>
+            </field>
+    </record>
+    
+    <record id="inherit_bi_view_delivery_order_form" model="ir.ui.view">
+            <field name="name">inherit.bi.delivery.order.form</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form" />
+            <field name="arch" type="xml">
+            <field name="owner_id" position="after">
+                <field name="seller_id"/>
+            </field>
+            </field>
+    </record>
+    
+    <record id="delivery_order_filters" model="ir.ui.view">
+            <field name="name">stock.picking.filter</field>
+            <field name="model">stock.picking</field>
+            <field name="arch" type="xml">
+                <search string="Delivery Orders Filters">
+                    <group expand="0" string="Group By">
+                        <filter string="Seller" name="seller" domain="[]" context="{'group_by':'seller_id'}"/>
+                    </group>
+               </search>
+            </field>
+        </record>
+        
+    <record id="stock.action_picking_tree_all" model="ir.actions.act_window">
+            <field name="name">Stock Operations</field>
+            <field name="res_model">stock.picking</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <!--<field name="domain" eval="[('seller_id','=',True)]"/>-->
+            <field name="search_view_id" ref="delivery_order_filters"/>
+            <field name="context">{'default_seller':1,'search_default_seller':1}</field>
+        </record>
+
+    <record id="inherit_bi_view_stock_move_tree" model="ir.ui.view">
+            <field name="name">inherit.bi.stock.move.tree</field>
+            <field name="model">stock.move</field>
+            <field name="inherit_id" ref="stock.view_move_tree" />
+            <field name="arch" type="xml">
+            <field name="product_id" position="after">
+                <field name="seller_id"/>
+            </field>
+            </field>
+    </record>
+    
+    <record id="inherit_bi_view_stock_move_form" model="ir.ui.view">
+            <field name="name">inherit.bi.stock.move.form</field>
+            <field name="model">stock.move</field>
+            <field name="inherit_id" ref="stock.view_move_form" />
+            <field name="arch" type="xml">
+            <field name="product_id" position="after">
+                <field name="seller_id"/>
+            </field>
+            </field>
+    </record>
+    
+    <record id="stock_moves_filters" model="ir.ui.view">
+            <field name="name">stock.move.filter</field>
+            <field name="model">stock.move</field>
+            <field name="arch" type="xml">
+                <search string="Stock Move">
+                    <group expand="0" string="Group By">
+                        <filter string="Seller" name="seller" domain="[]" context="{'group_by':'seller_id'}"/>
+                    </group>
+               </search>
+            </field>
+        </record>
+        
+    <record id="stock.action_move_form2" model="ir.actions.act_window">
+        <field name="name">Stock Moves</field>
+        <field name="res_model">stock.move</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <!--<field name="domain" eval="[('seller_id','=',True)]"/>-->
+        <field name="search_view_id" ref="delivery_order_filters"/>
+        <field name="context">{'default_seller':1,'search_default_seller':1}</field>
+    </record>
+
+
+
+    <menuitem id="inventory_menu" parent="seller_dashboard_menu" name="Inventory" groups="odoo_website_marketplace.group_market_place_seller"/>
+    
+    <menuitem id="inventory_request_menu" parent="inventory_menu" name="Inventory Request"
+        action="inventory_request_action" groups="odoo_website_marketplace.group_market_place_seller"/>
+
+    <menuitem id="delivery_orders_menu" parent="inventory_menu" name="Delivery Orders" 
+        action="stock.action_picking_tree_all" groups="odoo_website_marketplace.group_market_place_manager"/>
+
+    <menuitem id="stock_moves_menu" parent="inventory_menu" name="Stock Moves" 
+        action="stock.action_move_form2" groups="odoo_website_marketplace.group_market_place_manager"/>
+
+
+</data>
+</openerp>

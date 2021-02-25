@@ -1,0 +1,217 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* awesome_invoice_report_template
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 8.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-05-10 17:54+0000\n"
+"PO-Revision-Date: 2016-05-10 17:54+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: awesome_invoice_report_template
+#: view:website:awesome_invoice_report_template.custom_report_invoice_document
+msgid "&nbsp;"
+msgstr ""
+
+#. module: awesome_invoice_report_template
+#: view:website:awesome_invoice_report_template.custom_report_invoice_document
+msgid ", &nbsp;"
+msgstr ""
+
+#. module: awesome_invoice_report_template
+#: view:website:awesome_invoice_report_template.custom_report_invoice_document
+msgid ",&nbsp;"
+msgstr ""
+
+#. module: awesome_invoice_report_template
+#: view:website:awesome_invoice_report_template.custom_report_invoice_document
+msgid ": &nbsp;"
+msgstr ""
+
+#. module: awesome_invoice_report_template
+#: view:website:awesome_invoice_report_template.custom_report_invoice_document
+msgid "Address"
+msgstr ""
+
+#. module: awesome_invoice_report_template
+#: view:website:awesome_invoice_report_template.custom_report_invoice_document
+msgid "Amount"
+msgstr ""
+
+#. module: awesome_invoice_report_template
+#: view:website:awesome_invoice_report_template.custom_report_invoice_document
+msgid "Base"
+msgstr ""
+
+#. module: awesome_invoice_report_template
+#: field:res.company,base_color_fg:0
+msgid "Base Color Foreground"
+msgstr ""
+
+#. module: awesome_invoice_report_template
+#: field:res.company,base_color_bg:0
+msgid "Base Color background"
+msgstr ""
+
+#. module: awesome_invoice_report_template
+#: model:ir.model,name:awesome_invoice_report_template.model_res_company
+msgid "Companies"
+msgstr ""
+
+#. module: awesome_invoice_report_template
+#: field:res.company,company_name_color:0
+msgid "Company Name Color"
+msgstr ""
+
+#. module: awesome_invoice_report_template
+#: model:ir.actions.report.xml,name:awesome_invoice_report_template.action_report_invoice
+msgid "Custom"
+msgstr ""
+
+#. module: awesome_invoice_report_template
+#: view:website:awesome_invoice_report_template.custom_report_invoice_document
+msgid "Customer Address"
+msgstr ""
+
+#. module: awesome_invoice_report_template
+#: view:website:awesome_invoice_report_template.custom_report_invoice_document
+msgid "Date"
+msgstr ""
+
+#. module: awesome_invoice_report_template
+#: view:website:awesome_invoice_report_template.custom_report_invoice_document
+msgid "Description"
+msgstr ""
+
+#. module: awesome_invoice_report_template
+#: view:website:awesome_invoice_report_template.custom_report_invoice_document
+msgid "Discount"
+msgstr ""
+
+#. module: awesome_invoice_report_template
+#: view:website:awesome_invoice_report_template.custom_report_invoice_document
+msgid "Email"
+msgstr ""
+
+#. module: awesome_invoice_report_template
+#: view:website:awesome_invoice_report_template.custom_report_invoice_document
+msgid "Email:"
+msgstr ""
+
+#. module: awesome_invoice_report_template
+#: view:website:awesome_invoice_report_template.custom_report_invoice_document
+msgid "Fax:"
+msgstr ""
+
+#. module: awesome_invoice_report_template
+#: view:website:awesome_invoice_report_template.custom_report_invoice_document
+msgid "Fiscal Position"
+msgstr ""
+
+#. module: awesome_invoice_report_template
+#: field:report.awesome_invoice_report_template.custom_report_invoice_document,id:0
+msgid "ID"
+msgstr ""
+
+#. module: awesome_invoice_report_template
+#: view:website:awesome_invoice_report_template.custom_report_invoice_document
+msgid "Invoice"
+msgstr ""
+
+#. module: awesome_invoice_report_template
+#: view:website:awesome_invoice_report_template.custom_report_invoice_document
+msgid "Invoice N°"
+msgstr ""
+
+#. module: awesome_invoice_report_template
+#: view:res.company:awesome_invoice_report_template.custom_view_company_form
+msgid "Invoice Report Settings"
+msgstr ""
+
+#. module: awesome_invoice_report_template
+#: view:website:awesome_invoice_report_template.custom_report_invoice_document
+msgid "Name"
+msgstr ""
+
+#. module: awesome_invoice_report_template
+#: view:website:awesome_invoice_report_template.custom_report_invoice_document
+msgid "Payment term"
+msgstr ""
+
+#. module: awesome_invoice_report_template
+#: view:website:awesome_invoice_report_template.custom_report_invoice_document
+msgid "Phone"
+msgstr ""
+
+#. module: awesome_invoice_report_template
+#: view:website:awesome_invoice_report_template.custom_report_invoice_document
+msgid "Phone:"
+msgstr ""
+
+#. module: awesome_invoice_report_template
+#: view:website:awesome_invoice_report_template.custom_report_invoice_document
+msgid "Quantity"
+msgstr ""
+
+#. module: awesome_invoice_report_template
+#: view:website:awesome_invoice_report_template.custom_report_invoice_document
+msgid "Remarque:"
+msgstr ""
+
+#. module: awesome_invoice_report_template
+#: field:res.company,second_color_fg:0
+msgid "Second color Foreground"
+msgstr ""
+
+#. module: awesome_invoice_report_template
+#: field:res.company,second_color_bg:0
+msgid "Second color background"
+msgstr ""
+
+#. module: awesome_invoice_report_template
+#: view:website:awesome_invoice_report_template.custom_report_invoice_document
+msgid "Shipping Address"
+msgstr ""
+
+#. module: awesome_invoice_report_template
+#: view:website:awesome_invoice_report_template.custom_report_invoice_document
+msgid "Tax"
+msgstr ""
+
+#. module: awesome_invoice_report_template
+#: view:website:awesome_invoice_report_template.custom_report_invoice_document
+msgid "Taxes"
+msgstr ""
+
+#. module: awesome_invoice_report_template
+#: field:res.company,text_color:0
+msgid "Text Color"
+msgstr ""
+
+#. module: awesome_invoice_report_template
+#: view:website:awesome_invoice_report_template.custom_report_invoice_document
+msgid "Total"
+msgstr ""
+
+#. module: awesome_invoice_report_template
+#: view:website:awesome_invoice_report_template.custom_report_invoice_document
+msgid "Total Without Taxes"
+msgstr ""
+
+#. module: awesome_invoice_report_template
+#: view:website:awesome_invoice_report_template.custom_report_invoice_document
+msgid "Unit Price"
+msgstr ""
+
+#. module: awesome_invoice_report_template
+#: view:website:awesome_invoice_report_template.custom_report_invoice_document
+msgid "Website:"
+msgstr ""
+

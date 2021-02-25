@@ -1,0 +1,23 @@
+<openerp>
+    <data>
+        <record id="data_sync_fields_product_category_form_view_inherit" model="ir.ui.view">
+            <field name="name">data.sync.fields.product.category.form.view.inherit</field>
+            <field name="model">product.category</field>
+            <field name="inherit_id" ref="product.product_category_form_view" />
+            <field name="arch" type="xml">
+                <xpath expr="//form/sheet/group" position="after">
+                    <group string="Data Synchronization">
+                        <group>
+                            <field name="source_origin" readonly="1"/>
+                            <field name="is_to_np" readonly="1"/>
+                            <field name="is_from_np" readonly="1"/>
+                            <field name="sync_status" readonly="1"/>
+                            <field name="erp_id" readonly="1"/>
+                        </group>
+                        <group/>
+                    </group>
+				</xpath>
+			</field>
+		</record>
+    </data>
+</openerp>

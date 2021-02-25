@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+   <data>
+
+       <template id="custom_report_invoice_document">
+            <t t-call="report.html_container">
+                <t t-name="report.my_layout">
+                    <div class="page" t-attf-style="margin-top:0px;" >
+                        <style type="text/css">
+                            td, th
+                            {
+                                padding: 5px !important;
+                            }
+
+                            .border0
+                            {
+                                border: 0px!important;
+                            }
+
+                            .padding0
+                            {
+                                padding: 0px!important;
+                            }
+
+                            .border{
+                                border: 1px solid;
+                            }
+
+                            .mt15
+                            {
+                                margin-top:15px;
+                            }
+
+                            .border_left
+                            {
+                                border-left:1px solid;
+                            }
+                            .border_bottom
+                            {
+                               border-bottom:1px solid;
+                            }
+                            
+                        </style>
+                        <table width="100%">
+                          <tr>
+                            <td width="20%"  align="left" style="vertical-align:middle;">
+                                <img t-if="company.logo" t-att-src="'data:image/png;base64,%s' % company.logo" style="max-width: 245px;"/>
+                            </td>
+                            <td style="width: 80%;">
+                                <table  width="100%">
+                                    <tr>
+                                        <td width="40%"><b style="font-size: 16px;">
+                                            <span t-esc="get_company_info().name"/></b>
+                                        </td>
+                                        <td><span t-esc="get_company_info().rml_header1"/></td>
+                                    </tr>
+                                    <tr>
+                                        <table  width="100%" class="border_color">
+                                            <tr>
+                                                <td colspan="3" t-attf-style="border:1px solid;text-align:center;"   class="padding0">
+                                                  <b style="font-size: 25px;">Invoice</b>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="border" rowspan="2" width="60%" >
+                                                    <b>Phone: </b><span t-esc="get_company_info().phone"/><br/>
+                                                    <b>Fax: </b><span t-esc="get_company_info().fax"/><br/>
+                                                    <b>Email: </b><span t-esc="get_company_info().phone"/><br/>
+                                                    <b>Website: </b><span t-esc="get_company_info().website"/>
+                                                </td>
+                                                <td class="border" width="20%"> <b>Invoice N°</b></td>
+                                                <td class="border" width="20%"> <span t-esc="get_invoice_info(docs).number"/></td>
+                                            </tr>
+                                            <tr>
+
+                                                <td class="border"><b>Date</b></td>
+                                                <td class="border"><span t-esc="get_invoice_info(docs).date_invoice"/></td>
+                                            </tr>
+                                        </table>
+                                    </tr>
+                                </table>
+                            </td>
+                          </tr>
+                        </table>
+
+                        <table  width="100%">
+                            <tr>
+                                <td>
+                                    <span t-esc="get_company_info().street"/> <span t-esc="get_company_info().street2"/> <span t-esc="get_company_info().city"/> <span t-esc="get_company_info().zip"/>
+                                </td>
+                            </tr>
+                        </table>
+                        <table  width="100%">
+                          <tr>
+                              <td width="50%" class="padding0">
+                                  <table  width="90%" class="border_color">
+                                      <tr>
+                                          <td align="center" class="border" style="font-size: 15px;"  colspan="2">
+                                              <b>Customer Address</b>
+                                          </td>
+                                      </tr>
+                                      <tr>
+                                          <td class="border" style="vertical-align:middle" width="30%"><b>Name</b></td>
+                                          <td class="border"><span t-esc="get_customer_info(docs).name"/></td>
+                                      </tr>
+                                      <tr>
+                                          <td class="border" style="vertical-align:middle" width="30%"><b>Address</b></td>
+                                          <td class="border">
+                                              <t t-if="get_customer_info(docs).street"><span t-esc="get_customer_info(docs).street"/>&amp;nbsp;</t>
+                                              <t t-if="get_customer_info(docs).street2"><span  t-esc="get_customer_info(docs).street2"/>, &amp;nbsp;</t>
+                                              <t t-if="get_customer_info(docs).city"><span  t-esc="get_customer_info(docs).city"/>&amp;nbsp;</t>
+                                              <t t-if="get_customer_info(docs).zip"><span  t-esc="get_customer_info(docs).zip"/>&amp;nbsp;</t>
+                                              <t t-if="get_customer_info(docs).zip"><span  t-esc="get_customer_info(docs).country_id.name"/></t>
+                                          </td>
+                                      </tr>
+                                      <tr>
+                                          <td class="border" style="vertical-align:middle" width="30%"><b>Phone</b></td>
+                                          <td class="border">
+                                              <span t-esc="get_customer_info(docs).phone"/>
+                                              <span t-if="get_customer_info(docs).phone and get_customer_info(docs).mobile"> | </span>
+                                              <span t-esc="get_customer_info(docs).mobile"/>
+                                          </td>
+                                      </tr>
+                                      <tr>
+                                          <td class="border" style="vertical-align:middle" width="30%"><b>Email</b></td>
+                                          <td class="border"><span t-esc="get_customer_info(docs).email"/></td>
+                                      </tr>
+
+                                  </table>
+                              </td>
+                          </tr>
+                        </table>
+
+
+                        <table  width="100%" class="border_color mt15">
+                            <tr  class="border">
+                                <th class="border" width="40%">Description</th>
+                                <th class="text-center border" width="12%">Quantity</th>
+                                <th class="text-center border" width="12%">Unit Price</th>
+                                <th class="text-center border" width="12%" groups="sale.group_discount_per_so_line">Discount</th>
+                                <th class="text-center border" width="12%">Taxes</th>
+                                <th class="text-center border" width="12%">Amount</th>
+                            </tr>
+                            <tr t-foreach="get_lines_invoice(docs)" t-as="o">
+                                <td class="border"><span t-esc="o.name"/></td>
+                                <td class="text-center border">
+                                    <span t-esc="o.quantity"/>
+                                    <span t-esc="o.uos_id"  groups="product.group_uom"/>
+                                </td>
+                                <td class="text-center border"><span t-esc="o.price_unit"/></td>
+                                <td class="text-center border" groups="sale.group_discount_per_so_line"><span t-esc="o.discount"/></td>
+                                <td class="text-center border"><span t-esc="', '.join(map(lambda x: x.name, o.invoice_line_tax_id))"/></td>
+                                <td class="text-center border"><span t-esc="o.price_subtotal" /> <span t-esc="get_company_info().currency_id.name"/></td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" class="border_left">&amp;nbsp;</td>
+                                <td groups="sale.group_discount_per_so_line"></td>
+                                <td colspan="2" class="border" style="vertical-align:middle" ><b>Total Without Taxes</b></td>
+                                <td class="border text-center"><span t-esc="get_invoice_info(docs).amount_untaxed" /> <span t-esc="get_company_info().currency_id.name"/></td>
+                            </tr>
+
+                            <tr>
+                                <td colspan="2" class="border_left">
+                                    <b>Payment term</b>: &amp;nbsp; <span t-esc="get_invoice_info(docs).payment_term.name" />
+                                </td>
+                                <td groups="sale.group_discount_per_so_line"></td>
+                                <td colspan="2" class="border" style="vertical-align:middle" ><b>Taxes</b></td>
+                                <td class="border text-center"><span t-esc="get_invoice_info(docs).amount_tax"  /> <span t-esc="get_company_info().currency_id.name"/></td>
+                            </tr>
+
+                             <tr>
+                                 <td colspan="2" class="border_left border_bottom">
+                                    <b>Fiscal Position</b>: &amp;nbsp; <span t-esc="get_invoice_info(docs).fiscal_position.name" />
+                                 </td>
+
+                                 <td class="border_bottom" groups="sale.group_discount_per_so_line"></td>
+                                 <td colspan="2" class="border" style="vertical-align:middle" ><b>Total</b></td>
+                                 <td class="border text-center"><span t-esc="get_invoice_info(docs).amount_total"/> <span t-esc="get_company_info().currency_id.name"/></td>
+                            </tr>
+                        </table>
+
+
+                        <table width="45%" t-if="get_invoice_info(docs).tax_line" class="mt15">
+                            <thead>
+                                <tr class="border">
+                                    <th class="text-center border">Tax</th>
+                                    <th class="text-center border">Base</th>
+                                    <th class="text-center border">Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="get_invoice_info(docs).tax_line" t-as="t">
+                                    <td class="text-center border"><span t-field="t.name"/></td>
+                                    <td class="text-center border">
+                                        <span t-field="t.base"
+                                            t-field-options='{"widget": "monetary", "display_currency": "get_invoice_info(docs).currency_id"}'/>
+                                    </td>
+                                    <td class="text-center border">
+                                        <span t-field="t.amount"
+                                            t-field-options='{"widget": "monetary", "display_currency": "get_invoice_info(docs).currency_id"}'/>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <table  width="100%">
+                            <tr>
+                               <td height="2px;" class="padding0"></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <b>Remarque: </b> &amp;nbsp;<span t-esc="get_invoice_info(docs).comment" />
+                                </td>
+                            </tr>
+                        </table>
+
+					</div>
+                </t>
+            </t>
+       </template>
+
+       <template id="custom_report_invoice">
+            <t t-call="report.html_container">
+                <t t-foreach="doc_ids" t-as="doc_id">
+                    <t t-raw="translate_doc(doc_id, doc_model, 'partner_id.lang', 'awesome_invoice_report_template.custom_report_invoice_document')"/>
+                </t>
+            </t>
+        </template>
+
+
+</data>
+</openerp>

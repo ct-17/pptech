@@ -1,0 +1,81 @@
+<openerp>
+    <data>
+        <record id="dp_np_api_rln_table_form_view_inherit" model="ir.ui.view">
+            <field name="name">dp.np.api.form.view.inherit</field>
+            <field name="model">dp.np.api.rel</field>
+            <field name="inherit_id" ref="dp_np_api.dp_np_api_rln_table_form_view"/>
+            <field name="priority">180</field>
+            <field name="arch" type="xml">
+                <xpath expr="//group[@string='Overwrite State']" position="before">
+                    <group>
+                        <group>
+                            <field name="erp_record" readonly="1"/>
+                        </group>
+                        <group/>
+                    </group>
+                </xpath>
+                <xpath expr="//field[@name='np_sale_id']" position="after">
+                    <field name="np_model"/>
+                    <field name="np_id"/>
+                    <field name="dp_model"/>
+                    <field name="dp_id"/>
+                    <field name="action_type"/>
+                    <field name="data_sync_id"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="action_view_dp_np_api_extend_data_synchronize" model="ir.actions.act_window">
+            <field name="name">DP Data Synchronization to BTF</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">dp.np.api.rel</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('state','=','sync_data_to_btf')]</field>
+            <field name="groups">dp_common.group_super_admin</field>
+        </record>
+        <record id="dp_np_api_extend_data_synchronize_tb_form_action" model="ir.actions.act_window.view">
+            <field name="sequence">1</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="dp_np_api.dp_np_api_rln_table_form_view"/>
+            <field name="act_window_id" ref="action_view_dp_np_api_extend_data_synchronize"/>
+        </record>
+        <record id="dp_np_api_extend_data_synchronize_tb_tree_action" model="ir.actions.act_window.view">
+            <field name="sequence">0</field>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="dp_np_api.dp_np_api_rln_table_tree_view"/>
+            <field name="act_window_id" ref="action_view_dp_np_api_extend_data_synchronize"/>
+        </record>
+
+        <menuitem id="data_sync_parent_menu" name="Data Synchronization" parent="dp_np_api.np_api_config" sequence="20"
+                  groups="dp_common.group_super_admin"/>
+        <menuitem id="dp_np_api_extend_data_synchronize" name="ERP To BuyTaxFree" parent="data_sync_parent_menu" sequence="2"
+                  action="action_view_dp_np_api_extend_data_synchronize"/>
+
+
+        <record id="action_view_dp_np_api_extend_data_synchronize_to_erp" model="ir.actions.act_window">
+            <field name="name">DP Data Synchronization to ERP</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">dp.np.api.rel</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('state','=','sync_data_to_erp')]</field>
+            <field name="groups">dp_common.group_super_admin</field>
+        </record>
+        <record id="dp_np_api_extend_data_synchronize_to_erp_tb_form_action" model="ir.actions.act_window.view">
+            <field name="sequence">1</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="dp_np_api.dp_np_api_rln_table_form_view"/>
+            <field name="act_window_id" ref="action_view_dp_np_api_extend_data_synchronize_to_erp"/>
+        </record>
+        <record id="dp_np_api_extend_data_synchronize_to_erp_tb_tree_action" model="ir.actions.act_window.view">
+            <field name="sequence">0</field>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="dp_np_api.dp_np_api_rln_table_tree_view"/>
+            <field name="act_window_id" ref="action_view_dp_np_api_extend_data_synchronize_to_erp"/>
+        </record>
+
+        <menuitem id="dp_np_api_extend_data_synchronize_to_erp" name="BuyTaxFree To ERP" parent="data_sync_parent_menu" sequence="2"
+          action="action_view_dp_np_api_extend_data_synchronize_to_erp"/>
+    </data>
+</openerp>

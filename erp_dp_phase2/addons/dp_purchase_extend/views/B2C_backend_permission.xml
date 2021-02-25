@@ -1,0 +1,26 @@
+<openerp>
+    <data>
+        <record model="ir.ui.menu" id="purchase.menu_procurement_management">
+            <field eval="[(6,0, [ref('dp_common.group_super_admin')]), (4,[ref('dp_sale_extend.group_btf_sales')]),
+            (4,[ref('dp_common.group_chandler')]), (4, [ref('dp_common.group_chandler_admin')])]" name="groups_id"/>
+        </record>
+        <record model="ir.ui.menu" id="purchase.menu_purchase_form_action">
+            <field eval="[(6,0, [ref('dp_common.group_super_admin')]), (4,[ref('dp_sale_extend.group_btf_sales')]),
+            (4,[ref('dp_common.group_chandler')]), (4, [ref('dp_common.group_chandler_admin')])]" name="groups_id"/>
+        </record>
+
+        <record model="ir.rule" id="dp_common.purchase_order_chandler_see_own_purchase">
+            <field name="name">Purchase Order Chandler</field>
+            <field name="model_id" ref="purchase.model_purchase_order"/>
+            <field name="domain_force">['|', ('dest_address_id.id','=',user.partner_id.id),('purchaser.id','=',user.id)]</field>
+            <field name="groups" eval="[(6, 0, [ref('dp_common.group_chandler')])]"/>
+        </record>
+
+        <record model="ir.ui.menu" id="base.menu_procurement_management_supplier_name">
+            <field eval="[(6,0,[ref('dp_common.group_super_admin')])]" name="groups_id"/>
+        </record>
+        <record model="ir.ui.menu" id="purchase.menu_purchase_config_pricelist">
+            <field eval="[(6,0,[ref('dp_common.group_super_admin')])]" name="groups_id"/>
+        </record>
+    </data>
+</openerp>

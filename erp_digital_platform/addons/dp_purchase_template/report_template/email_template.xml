@@ -1,0 +1,12 @@
+<openerp>
+    <data>
+        <record id="dp_purchase.confirm_chandler_quote_to_newport_email" model="email.template">
+            <field name="report_template" ref="dp_purchase_template.purchase_order_pdf"/>
+
+        </record>
+        <record id="dp_purchase.confirm_chandler_quote_to_chandler_email" model="email.template">
+            <field name="report_template" ref="dp_purchase_template.purchase_order_pdf"/>
+        </record>
+
+    </data>
+</openerp>

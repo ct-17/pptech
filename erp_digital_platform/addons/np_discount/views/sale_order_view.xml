@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+	<data>
+
+		<record model="ir.ui.view" id="sale_order_pricelist_form_view_inh">
+			<field name="name">sale.order.pricelist.form.inh</field>
+			<field name="model">sale.order</field>
+			<field name="inherit_id" ref="sale.view_order_form" />
+			<field name="arch" type="xml">
+				<xpath expr="//field[@name='order_line']" position="after">
+					<button name="%(action_sale_global_discount_wizard_form)d"
+						string="Set Discount" type="action"
+						groups="sale.group_discount_per_so_line" />
+
+					<br></br>
+
+					<group attrs="{'invisible': [('ws_discount_type', '=', False)]}">
+						<field name="ws_discount_type" force_write="1"/>
+<!--						<field name="ws_discount_amount" attrs="{'invisible': [('ws_discount_type', '=', 'percent')]}" force_write="1"/>-->
+						<!--<field name="ws_discount_percent" attrs="{'invisible': [('ws_discount_type', '=', 'amount')]}" force_write="1"/>-->
+					</group>
+
+				</xpath>
+
+				<xpath expr="//field[@name='order_line']/tree/field[@name='price_subtotal']" position="after">
+
+					<field name="ws_discount" invisible="1"/>
+					<field name="discount_amount_line" invisible="1"/>
+					<field name="discount_amount" invisible="1"/>
+				</xpath>
+
+				<xpath expr="//field[@name='amount_untaxed']" position="before">
+					<field name="total_before_discount" widget="monetary" options="{'currency_field': 'currency_id'}"
+					readonly="1"/>
+						<div class="oe_form_group_cell oe_form_group_cell_label oe_form_label oe_align_right" colspan="2">
+							<span colspan="1" style="right:12%;position:relative;">
+								<field name="ws_discount_percent" attrs="{'invisible': [('ws_discount_type', 'in', ('amount', False))]}"  nolabel="1"
+								style="width:25% !important; padding:0px!important" digits="(16,2)"/>
+								<label for="ws_discount_percent" string="%"
+									   class='special_label' attrs="{'invisible': [('ws_discount_type', 'in', ('amount', False))]}" style="content: none;padding-right:3px!important;"/>
+								<label for="amount_discount"/>
+							</span>
+								<field name="amount_discount" nolabel="1"  widget="monetary" options="{'currency_field': 'dp_currency_id'}"  style="width:30% !important" colspan="1"/>
+
+						</div>
+
+
+
+				</xpath>
+			</field>
+		</record>
+		<record id="view_partner_form_inherit" model="ir.ui.view">
+            <field name="name">res.partner.form</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form" />
+            <field name="arch" type="xml">
+				<xpath expr="//page[@name='sales_purchases']" position="after">
+					<page name="discount" string="Global Discount">
+						<group>
+							<field name="partner_discount_type"/>
+							<field name="partner_discount"/>
+						</group>
+					</page>
+				</xpath>
+
+			</field>
+		</record>
+
+		<record id="sale.action_orders" model="ir.actions.act_window">
+			<field name="context">{'search_default_my_sale_orders_filter': 1, 'need_recompute_discount': 1, 'readonly_by_pass': True, 'needaction_menu_ref': 'sale.menu_sale_order'}</field>
+		</record>
+		<record id="sale.action_quotations" model="ir.actions.act_window">
+			<field name="context">{'search_default_my_sale_orders_filter': 1, 'need_recompute_discount': 1, 'readonly_by_pass': True}</field>
+        </record>
+	</data>
+</openerp>

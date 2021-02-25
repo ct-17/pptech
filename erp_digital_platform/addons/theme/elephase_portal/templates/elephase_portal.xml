@@ -1,0 +1,381 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <data>
+
+	<!-- Bread-Crum Image -->
+	<template id="breadcrum_image" name="Bread-Crum Image">
+		<t t-if="not website.is_breadcum">
+			<t t-if="not (website.bread_cum_image)">
+				<section class="home-banner-section inner-banner" style="background-image: url(/elephase_base/static/src/images/banner-img1.jpg);">
+					<h1><t t-esc="breadcrum_title"/></h1>
+				</section>
+			</t>
+			<t t-if="website.bread_cum_image">
+				<t t-set="bread_cum" t-value="website.image_url(website,'bread_cum_image')" />
+				<section class="home-banner-section inner-banner" t-attf-style="background-image:url(#{bread_cum}#)">
+					<h1><t t-esc="breadcrum_title"/></h1>
+				</section>
+			</t>
+		</t>
+	</template>		
+	
+	<!-- Account -->
+    <template id="account" name="Account">
+        <t t-call="website.layout">
+        	<t t-call="elephase_portal.breadcrum_image">
+	            <t t-set="breadcrum_title" t-value="'Account'"/>
+	        </t>
+			
+			<section class="inner-section summary-page">
+			   <div class="container">
+			      <div class="row">
+			         <div class="col-12">
+			            <nav class="breadcrumb-part">
+			               <ol class="breadcrumb">
+			                  <li class="breadcrumb-item"><a href="/my/home">Home</a></li>
+			                  <li class="breadcrumb-item active" aria-current="page">Account</li>
+			               </ol>
+			            </nav>
+			         </div>
+			      </div>
+			      <div class="row">
+			         <div class="col-12 col-md-12 col-lg-3">
+			            <div class="left-sidebar">
+			               <div class="edit-profile">
+			                  <span class="user-img"><i class="fa fa-user" aria-hidden="true"></i></span>
+			                  <h2 t-esc="user.partner_id.name"/>
+			                  <a href="/my/account"><i class="fa fa-pencil" aria-hidden="true"></i> Edit Profile</a>
+			               </div>
+			               <ul>
+			                  <li class="active"><a href="/my/home">My Profile</a></li>
+			                  <li><a href="/my/home/quotations">My Enquiry</a></li>
+			               </ul>
+			            </div>
+			         </div>
+			         <div class="col-12 col-md-12 col-lg-9">
+			            <div class="my-profile-list">
+			               <h2>My Profile</h2>
+			               <div class="form-row">
+			                  <div class="form-group col-sm-6">
+			                     <label for="">Email (User Login):</label>
+			                  </div>
+			                  <div class="form-group col-sm-6">
+			                     <label for=""><t t-esc="user.partner_id.email"/></label>
+			                  </div>
+			               </div>
+			               <div class="form-row">
+			                  <div class="form-group col-sm-6">
+			                     <label for="">Vessel Name:</label>
+			                  </div>
+			                  <div class="form-group col-sm-6">
+			                     <label for=""><t t-esc="user.partner_id.name"/></label>
+			                  </div>
+			               </div>
+			               <div class="form-row">
+			                  <div class="form-group col-sm-6">
+			                     <label for="">Vessel Type:</label>
+			                  </div>
+			                  <div class="form-group col-sm-6">
+			                     <label for="">Elephas</label>
+			                  </div>
+			               </div>
+			               <div class="form-row">
+			                  <div class="form-group col-sm-6">
+			                     <label for="">Contact Person:</label>
+			                  </div>
+			                  <div class="form-group col-sm-6">
+			                     <label for="">0123456789</label>
+			                  </div>
+			               </div>
+			               <div class="form-row">
+			                  <div class="form-group col-sm-6">
+			                     <label for="">Contact Number:</label>
+			                  </div>
+			                  <div class="form-group col-sm-6">
+			                     <label for="">123456789</label>
+			                  </div>
+			               </div>
+			               <div class="form-row">
+			                  <div class="form-group col-sm-6">
+			                     <label for="">IMO Number:</label>
+			                  </div>
+			                  <div class="form-group col-sm-6">
+			                     <label for="">0000</label>
+			                  </div>
+			               </div>
+			               <div class="form-row">
+			                  <div class="form-group col-sm-6">
+			                     <label for="">Call Sign:</label>
+			                  </div>
+			                  <div class="form-group col-sm-6">
+			                     <label for="">0000</label>
+			                  </div>
+			               </div>
+			               <div class="form-row">
+			                  <div class="form-group col-sm-6">
+			                     <label for="">Preferred Chandler #1:</label>
+			                  </div>
+			                  <div class="form-group col-sm-6">
+			                     <label for="">Newport 1</label>
+			                  </div>
+			               </div>
+			               <div class="form-row">
+			                  <div class="form-group col-sm-6">
+			                     <label for="">Preferred Chandler #2:</label>
+			                  </div>
+			                  <div class="form-group col-sm-6">
+			                     <label for="">Newport 1</label>
+			                  </div>
+			               </div>
+			               <div class="form-row">
+			                  <div class="form-group col-sm-6">
+			                     <label for="">Preferred Chandler #3: </label>
+			                  </div>
+			                  <div class="form-group col-sm-6">
+			                     <label for="">Newport 1</label>
+			                  </div>
+			               </div>
+			               <div class="row clearfix">
+			                  <div class="col-12 text-right">
+			                     <a href="/my/account" class="btn">Edit profile</a>
+			                  </div>
+			               </div>
+			            </div>
+			         </div>
+			      </div>
+			   </div>
+			</section>
+        </t>
+    </template>
+
+    <!-- <template id="elephase_portal.custom_panel" inherit_id='elephase_portal.account' customize_show="True" name="Editable Panel" active="False">
+        <xpath expr="//div[contains(@class,'o_my_sidebar')]" position="inside">
+            <div class="oe_structure">
+              <h3 class="page-header">Custom Panel</h3>
+              <p>Place your content here.</p>
+            </div>
+        </xpath>
+    </template>
+
+    <template id="contact" name="Contact">
+        <h3 class="page-header">Contact</h3>
+          <h5 t-esc="sales_rep.name"/>
+          <p><a t-att-href="'mailto:'+sales_rep.email" t-esc="sales_rep.email"/></p>
+          <p t-esc="sales_rep.phone"/>
+          <p t-esc="sales_rep.city"/>
+    </template> -->
+
+    <template id="details">
+        <t t-call="website.layout">
+        	<t t-call="elephase_portal.breadcrum_image">
+	            <t t-set="breadcrum_title" t-value="'Account'"/>
+	        </t>
+			
+			<section class="inner-section summary-page">
+			   <div class="container">
+			      <div class="row">
+			         <div class="col-12">
+			            <nav class="breadcrumb-part">
+			               <ol class="breadcrumb">
+			                  <li class="breadcrumb-item"><a href="/my/home">Home</a></li>
+			                  <li class="breadcrumb-item active" aria-current="page">Edit Profile</li>
+			               </ol>
+			            </nav>
+			         </div>
+			      </div>
+			      <div class="row">
+			         <div class="col-12 col-md-12 col-lg-3">
+			            <div class="left-sidebar">
+			               <div class="edit-profile">
+			                  <span class="user-img"><i class="fa fa-user" aria-hidden="true"></i></span>
+			                  <h2 t-esc="partner.name"/>
+			                  <a href="/my/account"><i class="fa fa-pencil" aria-hidden="true"></i> Edit Profile</a>
+			               </div>
+			               <ul>
+			                  <li class="active"><a href="/my/home">My Profile</a></li>
+			                  <li><a href="/my/home/quotations">My Enquiry</a></li>
+			               </ul>
+			            </div>
+			         </div>
+			         <div class="col-12 col-md-12 col-lg-9">
+			            <div class="my-profile-list">
+			               <h2>Edit Profile</h2>
+			               <form action="/my/account" method="post">
+								<div class="form-row">
+									<div class="col-md-12">
+										<div t-if="error_message" class="alert alert-danger">
+											<t t-foreach="error_message" t-as="err"><t t-esc="err"/><br /></t>
+										</div>
+									</div>
+								</div>
+								<div t-attf-class="form-row #{error.get('email') and 'has-error' or ''}">
+								   <div class="form-group col-sm-6">
+								      <label for="contact_name">Email (User Login):</label>
+								   </div>
+								   <div class="form-group col-sm-6">
+								      <input type="email" name="email" class="form-control" t-att-value="email or partner.email" placeholder="Elephas"/>
+								   </div>
+								</div>
+								<div t-attf-class="form-row #{error.get('name') and 'has-error' or ''}">
+								   <div class="form-group col-sm-6">
+								      <label for="contact_name">Vessel Name:</label>
+								   </div>
+								   <div class="form-group col-sm-6">
+								      <input type="text" name="name" class="form-control" t-att-value="name or partner.name" placeholder="Elephas"/>
+								   </div>
+								</div>
+								<div class="form-row">
+								   <div class="form-group col-sm-6">
+								      <label for="">Vessel Type:</label>
+								   </div>
+								   <div class="form-group col-sm-6">
+								      <input type="text" class="form-control" placeholder="Elephas"/>
+								   </div>
+								</div>
+								<div class="form-row">
+								   <div class="form-group col-sm-6">
+								      <label for="">Contact Person:</label>
+								   </div>
+								   <div class="form-group col-sm-6">
+								      <input type="text" class="form-control" placeholder="1234567890"/>
+								   </div>
+								</div>
+								<div t-attf-class="form-row #{error.get('phone') and 'has-error' or ''}">
+								   <div class="form-group col-sm-6">
+								      <label for="phone">Contact Number:</label>
+								   </div>
+								   <div class="form-group col-sm-6">
+								      <input type="tel" name="phone" class="form-control" t-att-value="phone or partner.phone" placeholder="9876543210"/>
+								   </div>
+								</div>
+								<div class="form-row">
+								   <div class="form-group col-sm-6">
+								      <label for="">IMO Number:</label>
+								   </div>
+								   <div class="form-group col-sm-6">
+								      <input type="text" class="form-control" placeholder="0000"/>
+								   </div>
+								</div>
+								<div class="form-row">
+								   <div class="form-group col-sm-6">
+								      <label for="">Call Sign:</label>
+								   </div>
+								   <div class="form-group col-sm-6">
+								      <input type="text" class="form-control" placeholder="0000"/>
+								   </div>
+								</div>
+								<div class="form-row">
+								   <div class="form-group col-sm-6">
+								      <label for="">Preferred Chandler #1:</label>
+								   </div>
+								   <div class="form-group col-sm-6">
+								      <input type="text" class="form-control" placeholder="Newport 1"/>
+								   </div>
+								</div>
+								<div class="form-row">
+								   <div class="form-group col-sm-6">
+								      <label for="">Preferred Chandler #2:</label>
+								   </div>
+								   <div class="form-group col-sm-6">
+								      <input type="text" class="form-control" placeholder="Newport 1"/>
+								   </div>
+								</div>
+								<div class="form-row">
+								   <div class="form-group col-sm-6">
+								      <label for="">Preferred Chandler #3: </label>
+								   </div>
+								   <div class="form-group col-sm-6">
+								      <input type="text" class="form-control" placeholder="Newport 1"/>
+								   </div>
+								</div>
+								
+								<!-- Odoo Fields -->
+								<div t-attf-class="form-row #{error.get('street') and 'has-error' or ''}">
+								   <div class="form-group col-sm-6">
+								      <label for="street">Street: </label>
+								   </div>
+								   <div class="form-group col-sm-6">
+								      <input type="text" name="street" class="form-control" t-att-value="street or partner.street" placeholder="Street"/>
+								   </div>
+								</div>
+								<div t-if="has_check_vat" t-attf-class="form-row #{error.get('vat') and 'has-error' or ''}">
+								   <div class="form-group col-sm-6">
+								      <label for="vat">VAT Number: </label>
+								   </div>
+								   <div class="form-group col-sm-6">
+								      <input type="text" name="vat" class="form-control" t-att-value="vat or partner.vat" />
+								   </div>
+								</div>
+								<div t-attf-class="form-row #{error.get('street2') and 'has-error' or ''}">
+								   <div class="form-group col-sm-6">
+								      <label for="street2">Street2: </label>
+								   </div>
+								   <div class="form-group col-sm-6">
+								      <input type="text" name="street2" class="form-control" t-att-value="street2 or partner.street2" />
+								   </div>
+								</div>
+								<div t-attf-class="form-row #{error.get('city') and 'has-error' or ''}">
+								   <div class="form-group col-sm-6">
+								      <label for="City">City: </label>
+								   </div>
+								   <div class="form-group col-sm-6">
+								      <input type="text" name="city" class="form-control" t-att-value="city or partner.city" />
+								   </div>
+								</div>
+								<div t-attf-class="form-row #{error.get('zip') and 'has-error' or ''}">
+								   <div class="form-group col-sm-6">
+								      <label for="zipcode">Zip / Postal Code: </label>
+								   </div>
+								   <div class="form-group col-sm-6">
+								      <input type="text" name="zipcode" class="form-control" t-att-value="zipcode or partner.zip" />
+								   </div>
+								</div>
+								<div t-attf-class="form-row #{error.get('country_id') and 'has-error' or ''}">
+								   <div class="form-group col-sm-6">
+								      <label for="country_id">Country: </label>
+								   </div>
+								   <div class="form-group col-sm-6">
+										<select name="country_id" class="form-control">
+											<option value="">Country...</option>
+												<t t-foreach="countries or []" t-as="country">
+													<option t-att-value="country.id" t-att-selected="country.id == partner.country_id.id">
+												<t t-esc="country.name" />
+											</option>
+											</t>
+										</select>
+								   </div>
+								</div>								
+								<div t-attf-class="form-row #{error.get('state_id') and 'has-error' or ''}">
+								   <div class="form-group col-sm-6">
+								      <label for="state_id">State / Province: </label>
+								   </div>
+								   <div class="form-group col-sm-6">
+										<select name="state_id" class="form-control">
+									        <option value="">select...</option>
+									        <t t-foreach="states or []" t-as="state">
+									            <option t-att-value="state.id" style="display:none;" t-att-data-country_id="state.country_id.id" t-att-selected="state.id == partner.state_id.id">
+									                <t t-esc="state.name" />
+									            </option>
+									        </t>
+									    </select>
+								   </div>
+								</div>
+								<input type="hidden" name="redirect" t-att-value="redirect"/>
+								
+								<div class="row clearfix">
+								   <div class="col-12 text-right">
+										<button type="submit" class="btn">
+										     Save Profile
+										 </button>
+								   </div>
+								</div>
+			               </form>
+			            </div>
+			         </div>
+			      </div>
+			   </div>
+			</section>
+        </t>
+    </template>
+  </data>
+</openerp>

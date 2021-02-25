@@ -1,0 +1,67 @@
+<openerp>
+    <data>
+        <record id="ess_product_template_only_form_view" model="ir.ui.view">
+           <field name="name">ess.product.normal.form.view</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_only_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='default_code']" position="replace">
+             	</xpath>
+                <xpath expr="//div[@class='oe_title']" position="inside">
+                        <label for="default_code" string='Product Code' class="oe_edit_only"/>
+                        <field name="default_code" required="1"/>
+             	</xpath>
+                <xpath expr="//page[@string='Information']" position="after">
+                    <page name="uom" string="UOM">
+                        <field name="dp_uom" widget="many2many"/>
+                    </page>
+                </xpath>
+                <xpath expr="//field[@name='uom_id']" position="attributes">
+                    <attribute name="options">{'no_quick_create':True, 'no_create_edit': True, 'no_create':True, 'no_open':True}</attribute>
+                </xpath>
+                <xpath expr="//notebook/page[@string='Inventory']/group[@name='inventory']" position="after">
+                        <group>
+                            <group string="Rules">
+                                <field name="dp_minimum_qty" />
+                                <field name="dp_maximum_qty" />
+                                <field name="dp_allocated_qty" />
+                                <field name="percent_allocate" />
+                            </group>
+                        </group>
+                    </xpath>
+            </field>
+        </record>
+
+        <record id="ess_website_sale_only_form_view" model="ir.ui.view">
+           <field name="name">ess.product.normal.form.view</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="website_sale.product_template_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='website_published']" position="before">
+                    <field name="publish_time"/>
+             	</xpath>
+
+            </field>
+        </record>
+
+
+        <record id="product.product_template_action" model="ir.actions.act_window">
+            <field name="domain">[('website_published','=',1)]</field>
+        </record>
+
+        <record id="product_unpublished_template_action" model="ir.actions.act_window">
+            <field name="name">Products - Unpublished</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.template</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="product.product_template_kanban_view"/>
+            <field name="domain">[('website_published','=',0)]</field>
+        </record>
+
+        <menuitem action="product_unpublished_template_action"
+            id="menu_product_unpublished_template_action"
+            parent="stock.menu_stock_product" sequence="2"
+            groups="dp_common.group_chandler_admin,dp_common.group_super_admin"/>
+    </data>
+</openerp>

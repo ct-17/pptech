@@ -1,0 +1,13 @@
+<openerp>
+  <data>
+      <template id="inherit_purchase_report_document" inherit_id="purchase.report_purchaseorder_document">
+          <xpath expr="//table[@class='table table-condensed']" position="after">
+                <div t-if="o.aiw_report" class="col-xs-8 pull-left mt64" style="padding-left:0px; padding-right:0px; page-break-inside: avoid;">
+                    <p style="font-size:12px;">
+                    <strong>Total in Words: </strong><span style="text-decoration:underline;" t-field="o.amount_words"/>
+                    </p>
+                </div>
+          </xpath>
+      </template>
+  </data>
+</openerp>

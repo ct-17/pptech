@@ -1,0 +1,673 @@
+<openerp>
+    <data>
+            <delete model="ir.ui.view" id="stock.product_search_form_view_stock"/>
+
+            <delete model="ir.ui.view" id="stock.product_template_search_form_view_stock"/>
+            <delete model="ir.ui.view" id="product.product_search_form_view"/>
+            <delete model="ir.ui.view" id="purchase.product_template_search_view_purchase"/>
+
+        <!--product tree-->
+        <record id="product_search_form_view" model="ir.ui.view">
+            <field name="name">product.product.search</field>
+            <field name="model">product.product</field>
+            <field name="mode">primary</field>
+            <field name="inherit_id" ref="product.product_template_search_view"/>
+            <field name="arch" type="xml">
+                <field name="product_variant_ids" position="replace">
+                </field>
+
+            </field>
+        </record>
+       <record id="view_sale_product_tree" model="ir.ui.view">
+        <field name="name">product.stock.tree.inherit</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="stock.view_stock_product_tree"/>
+        <field name="arch" type="xml">
+            <field name="lst_price" position="attributes">
+               <attribute name="invisible">1</attribute>
+            </field>
+            <field name="price" position="attributes">
+               <attribute name="invisible">1</attribute>
+            </field>
+            <field name="attribute_value_ids" position="attributes">
+               <attribute name="invisible">1</attribute>
+            </field>
+            <field name="ean13" position="attributes">
+               <attribute name="invisible">1</attribute>
+            </field>
+            <field name="qty_available" position="attributes">
+               <attribute name="invisible">1</attribute>
+            </field>
+            <field name="virtual_available" position="attributes">
+               <attribute name="invisible">1</attribute>
+            </field>
+
+        </field>
+    </record>
+    <record id="product_template_search_view_inherit" model="ir.ui.view">
+        <field name="name">product.stock.tree.inherit</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_search_view"/>
+        <field name="arch" type="xml">
+            <filter string="Services" position="attributes">
+               <attribute name="invisible">1</attribute>
+            </filter>
+            <filter string="Consumable" position="attributes">
+               <attribute name="invisible">1</attribute>
+            </filter>
+            <filter name="filter_to_sell" position="attributes">
+               <attribute name="invisible">1</attribute>
+            </filter>
+            <field name="categ_id" position="attributes">
+               <attribute name="invisible">1</attribute>
+            </field>
+            <field   name="product_variant_ids" position="attributes">
+               <attribute name="invisible">1</attribute>
+            </field>
+            <group string='Group by...' position="attributes">
+               <attribute name="invisible">1</attribute>
+            </group>
+
+            <field name="company_id" position="attributes">
+               <attribute name="invisible">1</attribute>
+            </field>
+            <field name="pricelist_id" position="attributes">
+               <attribute name="invisible">1</attribute>
+            </field>
+
+        </field>
+    </record>
+
+        <!-- ____  _     _                           _            -->
+        <!--/ ___|| |__ (_)_ __  _ __ ___   __ _ ___| |_ ___ _ __ -->
+        <!--\___ \| '_ \| | '_ \| '_ ` _ \ / _` / __| __/ _ \ '__|-->
+        <!-- ___) | | | | | |_) | | | | | | (_| \__ \ ||  __/ |   -->
+        <!--|____/|_| |_|_| .__/|_| |_| |_|\__,_|___/\__\___|_|   -->
+        <!--              |_|                                     -->
+        <!--Shipmaster views started-->
+        <!--Shipmaster list view-->
+        <record id="shipmaster_bid_tree_view" model="ir.ui.view">
+            <field name="name">shipmaster.bid.tree.view</field>
+            <field name="model">sale.order</field>
+            <field name="groups">base.group_sale_salesman</field>
+            <field name="priority">180</field>
+            <field name="arch" type="xml">
+                <tree string="Quotation" fonts="bold:message_unread==True"
+                      colors="grey:state=='cancel';blue:state in ('waiting_date','manual');red:state in ('invoice_except','shipping_except')"
+                      create="false" edit="false">
+                    <field name="message_unread" invisible="1"/>
+                    <field name="name" string="Order Number"/>
+                    <field name="date_order"/>
+                    <field name="partner_id" invisible="1"/>
+                    <field name="user_id" string="Supplier"/>
+                    <field name="amount_total" sum="Total Tax Included"/>
+                    <field name="bid_status" string="Status"/>
+                    <field name="state" invisible="1" />
+                </tree>
+            </field>
+        </record>
+
+        <!--Shipmaster form view-->
+        <record id="shipmaster_bid_form_view" model="ir.ui.view">
+            <field name="name">shipmaster.bid.form.view</field>
+            <field name="model">sale.order</field>
+            <field name="groups">base.group_sale_salesman</field>
+            <field name="priority">180</field>
+            <field name="arch" type="xml">
+                <form string="Request for Quotation" create="false" edit="true">
+                    <header>
+                        <field name="require_send_adjust_mail" invisible="1"/>
+                        <button name="action_send_adjustment_email" string="Send Amendment" type="object" class="oe_highlight"
+                                attrs="{'invisible': ['|', ('state','not in',('sent')),('require_send_adjust_mail','!=',True)]}"
+                                groups="dp_common.group_shipmaster"/>
+<!--                        <button name="action_send_adjustment_email" string="Send Adjustment Email" type="object"-->
+<!--                                attrs="{'invisible': ['|', ('state','not in',('sent')),('require_send_adjust_mail','!=',False)]}"-->
+<!--                                groups="dp_common.group_shipmaster"/>-->
+                        <button name="bid_confirm_order" string="Confirm Order" type="object" class="oe_highlight"
+                                attrs="{'invisible': [('state','not in',('sent'))]}"
+                                groups="dp_common.group_shipmaster"/>
+                        <button name="bid_cancel" string="Cancel" type="object" class="oe_highlight"
+                                attrs="{'invisible': [('bid_status','not in',('draft','bid_received'))]}"
+                                groups="dp_common.group_shipmaster"/>
+                        <button name="%(dp_order_negotiation_wizard_action)d" string="Negotiate" type="action"
+                                class="oe_highlight" context="{'sale_id':active_id}"
+                                attrs="{'invisible':[('bid_status', 'not in', ('negotiation', 'draft'))]}"
+                                groups="dp_common.group_shipmaster"
+                                invisible="1"/>
+                        <field name="bid_status" widget="statusbar" statusbar_visible="draft,bid_received,confirm,done"
+                               groups="dp_common.group_shipmaster"/>
+                        <field name="state"
+                               groups="dp_common.group_shipmaster"
+                               invisible="1" />
+                    </header>
+                    <sheet>
+                        <h1>
+                            <label string="My Orders "/>
+                            <field name="name" class="oe_inline" readonly="1"/>
+                        </h1>
+                        <group>
+                            <group>
+                                <field name="show_street" invisible="1"/>
+                                <field name="show_street2" invisible="1"/>
+                                <field name="show_zip" invisible="1"/>
+                                <label for="user_id" string="Supplier"/>
+                                <div readonly="1">
+                                    <field name="user_id" context="{'search_default_customer':1, 'show_address': 1}" options="{'always_reload': True, 'no_open': True}" readonly="1"/>
+<!--                                    <field name="street" nolabel="1" attrs="{'invisible': [('show_street', '=', False)]}" readonly="1"/>-->
+<!--                                    <field name="street2" nolabel="1" attrs="{'invisible': [('show_street2', '=', False)]}" readonly="1" />-->
+<!--                                    <field name="zip" nolabel="1" attrs="{'invisible': [('show_zip', '=', False)]}" readonly="1"/>-->
+
+                                </div>
+                                <field name="currency_id" readonly="1" />
+                                <field name="currency_rate" readonly="1" invisible="1"/>
+                            </group>
+                            <group>
+                                <field name="date_order" readonly="1" />
+                                <field name="expire_quote_date" readonly="1" />
+                                <field name="expire_quote_state" invisible="1" />
+                                <field name="pricelist_id" readonly="1" groups="product.group_sale_pricelist" invisible="1"/>
+                            </group>
+                        </group>
+                        <group attrs="{'invisible': [('bid_status', 'in', ('draft','bid_received','negotiation','confirm'))]}">
+                            <div>
+                                <div>
+                                    <p><span style="color: red;text-weight:700;">This order has been processed. If you wish to make any amendments, please contact us directly at 6278 9196.</span></p>
+                                </div>
+                            </div>
+                        </group>
+                        <notebook>
+                            <page string="Products">
+                                <field name="order_line" context="{'shipmaster_form': True, 'parent_state': bid_status}">
+                                    <tree string="Sales Order Lines" editable="bottom" create="false">
+                                        <field name="sequence" widget="handle"/>
+                                        <field name="bid_status" invisible="1"/>
+                                        <field name="from_website" invisible="1"/>
+                                        <field name="state" invisible="1"/>
+                                        <field name="th_weight" invisible="1"/>
+                                        <!--<field name="item_type_product" invisible="1"/>-->
+                                        <!--<field name="product_id" attrs="{'readonly': ['|', ('from_website', '=', True), ('item_type_product', '=', 'foc'), '|', ('bid_status', 'not in', ('draft','bid_received','negotiation',))]}"/>-->
+                                        <field name="product_id" readonly="1"
+                                               options="{'no_quick_create': True, 'no_create_edit':True, 'no_create': True, 'no_open':True}"/>
+<!--                                        <field name="name" attrs="{'readonly': ['|','|',('from_website', '=', True), ('item_type_product', '=', 'foc'), ('bid_status', 'not in', ('draft','bid_received','negotiation',))]}"/>-->
+                                        <field name="item_type_product" string="Item Type (FOC)" readonly="1" invisible="1"/>
+                                        <field name="sm_qty" string="Quantity" invisible="1"/>
+                                        <field name="product_uom_qty" string="Quantity" attrs="{'readonly': ['|',('item_type_product', '=', 'foc'), ('bid_status', 'not in', ('draft','bid_received','negotiation',))]}"/>
+                                        <field name="product_uom" string="Unit of Measure" readonly="1"
+                                               options="{'no_quick_create': True, 'no_create_edit':True, 'no_create': True, 'no_open':True}"/>
+                                        <field name="shipmaster_state"  invisible="1"/>
+                                        <field name="price_unit" string="Unit Price" readonly="1"
+                                              attrs="{'invisible': [('shipmaster_state', '=', 'draft')]}" />
+                                        <field name="discount" invisible="1" attrs="{'invisible': [('shipmaster_state', '=', 'draft')]}"/>
+                                        <field name="tax_id" widget="many2many_tags" domain="[('parent_id','=',False),('type_tax_use','&lt;&gt;','purchase')]"
+                                        readonly="1" />
+                                        <field name="price_subtotal" string="Subtotal" readonly="1"
+                                        attrs="{'invisible': [('shipmaster_state', '=', 'draft')]}"/>
+                                    </tree>
+                                </field>
+                                <group class="oe_subtotal_footer oe_right" colspan="3" name="sale_total">
+                                    <field name="total_before_discount" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                                    <field name="amount_discount" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                                    <field name="amount_untaxed" widget='monetary' options="{'currency_field': 'currency_id'}" invisible="1"/>
+                                    <field name="amount_tax" class="tax_label" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                                    <div class="oe_subtotal_footer_separator oe_inline">
+                                        <label for="amount_total" />
+                                    </div>
+                                    <field name="amount_total" nolabel="1" class="oe_subtotal_footer_separator" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                                </group>
+                                <div class="oe_clear"/>
+
+                            </page>
+                        </notebook>
+                    </sheet>
+
+                </form>
+            </field>
+        </record>
+
+        <!--Shipmaster action view-->
+        <record id="dp_shipmaster_request_quotation" model="ir.actions.act_window">
+            <field name="name">Shipmaster Request for Quotation</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">sale.order</field>
+            <field name="priority">180</field>
+            <field name="context">{'shipmaster_form': True, 'need_recompute_discount': 1}</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="groups">dp_common.group_shipmaster</field>
+            <field name="search_view_id" ref="sale.view_sales_order_filter"/>
+        </record>
+        <record id="dp_shipmaster_form_action" model="ir.actions.act_window.view">
+            <field name="sequence">1</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="shipmaster_bid_form_view"/>
+            <field name="act_window_id" ref="dp_shipmaster_request_quotation"/>
+        </record>
+        <record id="dp_shipmaster_tree_action" model="ir.actions.act_window.view">
+            <field name="sequence">0</field>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="shipmaster_bid_tree_view"/>
+            <field name="act_window_id" ref="dp_shipmaster_request_quotation"/>
+        </record>
+        <!--Ship master negotiation menu-->
+        <menuitem name="Shipmaster" id="shipmaster_parent_menu" groups="dp_common.group_shipmaster"/>
+        <menuitem name="Shipmaster" id="shipmaster_sub_menu" parent="shipmaster_parent_menu" groups="dp_common.group_shipmaster"/>
+        <menuitem name="My Enquiry" parent="shipmaster_sub_menu" id="dp_shipmaster_action_menu" sequence="14" action="dp_shipmaster_request_quotation" groups="dp_common.group_shipmaster"/>
+
+        <record model="ir.ui.menu" id="shipmaster_parent_menu">
+            <field eval="[(3, ref('base.group_sale_manager'))]" name="groups_id"/>
+        </record>
+        <record model="ir.ui.menu" id="shipmaster_sub_menu">
+            <field eval="[(3, ref('base.group_sale_manager'))]" name="groups_id"/>
+        </record>
+        <record model="ir.ui.menu" id="dp_shipmaster_action_menu">
+            <field eval="[(3, ref('base.group_sale_manager'))]" name="groups_id"/>
+        </record>
+
+        <!-- ____        _         ___          _           -->
+        <!--/ ___|  __ _| | ___   / _ \ _ __ __| | ___ _ __ -->
+        <!--\___ \ / _` | |/ _ \ | | | | '__/ _` |/ _ \ '__|-->
+        <!-- ___) | (_| | |  __/ | |_| | | | (_| |  __/ |   -->
+        <!--|____/ \__,_|_|\___|  \___/|_|  \__,_|\___|_|   -->
+        <record id="margin_sale_order_form_view" model="ir.ui.view">
+            <field name="name">margin.sale.order.form.view</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale_margin.sale_margin_sale_order" />
+            <field name="arch" type="xml">
+                <xpath expr="//group[@name='sale_margin_grp']" position="replace" />
+            </field>
+        </record>
+
+        <record id="dp_base_saleorder_extended_form_view" model="ir.ui.view">
+            <field name="name">dp.base.saleorder.extended.form.view</field>
+            <field name="model">sale.order</field>
+            <field name="priority">17</field>
+            <field name="inherit_id" ref="sale.view_order_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//form[@string='Sales Order']" position="attributes">
+                    <attribute name="duplicate">0</attribute>
+                    <attribute name="create">0</attribute>
+                </xpath>
+                <xpath expr="//tree/field[@name='product_id']" position="attributes">
+                    <attribute name="options">{'no_create': True, 'no_open': True}</attribute>
+                    <attribute name="domain">[('website_published','=',True)]</attribute>
+                    <attribute  name="context">{'tree_view_id': 'dp_sale.dp_view_product_product_tree',
+                        'currency':parent.currency_id,'currency_rate':parent.currency_rate,'partner_id':parent.partner_id,
+                        'quantity':product_uom_qty, 'pricelist':parent.pricelist_id, 'uom':product_uom,
+                        'company_id': parent.company_id, 'price_unit': price_unit, 'item_type_product': item_type_product,
+                        'from_product_id': True, 'user_id': parent.user_id,}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='state']" position="attributes">
+                    <attribute name="statusbar_visible">chandler_draft,sent,shipmaster_confirm,progress,done</attribute>
+
+<!--                    <attribute name="attrs">{'invisible': [('state', '=', 'cancel')]}</attribute>-->
+                </xpath>
+                <xpath expr="//field[@name='partner_id']" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                    <attribute name="options">{'no_quick_create': True, 'no_create_edit':True, 'no_create': True, 'no_open':True}</attribute>
+
+                </xpath>
+
+                <xpath expr="//field[@name='pricelist_id']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+
+                </xpath>
+                <xpath expr="//button[@name='action_button_confirm' and @states='draft']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//button[@name='action_button_confirm' and @states='sent']" position="attributes">
+                    <attribute name="states">shipmaster_confirm</attribute>
+                </xpath>
+                <xpath expr="//label[@string='Quotation ']" position="attributes">
+                    <attribute name="attrs">{'invisible': [('state','not in',('chandler_draft','sent'))]}</attribute>
+                </xpath>
+                <xpath expr="//label[@string='Sales Order ']" position="attributes">
+                    <attribute name="attrs">{'invisible': [('state','in',('chandler_draft','sent'))]}</attribute>
+                </xpath>
+                <xpath expr="//button[@name='action_quotation_send' and @states='draft']" position="attributes">
+                    <attribute name="states">chandler_draft</attribute>
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//button[@name='action_quotation_send' and @states='sent,progress,manual']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//button[@name='action_quotation_send' and @states='chandler_draft']" position="before">
+                    <field name="show_confirm_prompt" invisible="1"/>
+                    <button name="action_dp_quotation_send" string="Send by Email" type="object" groups="base.group_user"
+                            class="oe_highlight dp_send_noconfirm"
+                            attrs="{'invisible': ['|', ('show_confirm_prompt','=',True), ('state','not in',('chandler_draft'))]}"/>
+                    <button name="action_dp_quotation_send" string="Send by Email" type="object" groups="base.group_user"
+                            class="oe_highlight dp_send_confirm"
+                            attrs="{'invisible': ['|', ('show_confirm_prompt','=',False), ('state','not in',('chandler_draft'))]}"
+                            confirm="Your products has line margin &#8804; $0 and product item type is not FOC and/or total amount = $0"/>
+                    <button name="action_dp_quotation_send_again" string="Re-Send by Email" type="object" states="sent"
+                            attrs="{'invisible': ['|', ('show_confirm_prompt','=',True)]}"
+                            groups="base.group_user" class="oe_highlight dp_send_again_noconfirm"
+                            confirm="Are you sure you want to send this revised quotation to the shipmaster again?"/>
+                    <button name="action_dp_quotation_send_again" string="Re-Send by Email" type="object" states="sent"
+                            attrs="{'invisible': ['|', ('show_confirm_prompt','=',False)]}"
+                            groups="base.group_user" class="oe_highlight dp_send_again_confirm"
+                            confirm="Your products has line margin &#8804; $0 and product item type is not FOC and/or total amount = $0.
+                                    Are you sure you want to send this revised quotation to the shipmaster again?"/>
+                </xpath>
+                <xpath expr="//button[@name='cancel' and @states='draft,sent']" position="attributes">
+                    <attribute name="states">chandler_draft,sent</attribute>
+                </xpath>
+                <xpath expr="//field[@name='client_order_ref']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='date_order']" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='warehouse_id']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='currency_id']" position="attributes">
+                    <attribute name="invisible">0</attribute>
+                    <attribute name="readonly">0</attribute>
+                    <attribute name="context">{'chandlerquotation': True, 'order_id': active_id}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='currency_id']" position="before">
+                    <field name="expire_quote_date" />
+                </xpath>
+                <xpath expr="//field[@name='currency_id']" position="after">
+                    <field name="currency_rate" readonly="1"/>
+                </xpath>
+                <xpath expr="//field[@name='order_line']/tree" position="attributes">
+                    <attribute name="editable">bottom</attribute>
+                    <attribute name="delete">false</attribute>
+                    <attribute name="create">false</attribute>
+                    <attribute name="readonly">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='order_line']" position="attributes">
+                    <attribute name="context">{'current_state': state, 'readonly_by_pass': True, 'chan_partner_id': user_id, 'sm_partner_id': partner_id}</attribute>
+                </xpath>
+                <xpath expr="//notebook/page[@string='Order Lines']/field[@name='order_line']/tree/field[@name='product_uom_qty']" position="attributes">
+                    <attribute name="string">Qty</attribute>
+                </xpath>
+                <xpath expr="//notebook/page[@string='Order Lines']/field[@name='order_line']/tree/field[@name='product_uom']" position="attributes">
+                    <attribute name="string">UOM</attribute>
+                </xpath>
+                <xpath expr="//notebook/page[@string='Order Lines']/field[@name='order_line']/tree/field[@name='name']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//notebook/page[@string='Order Lines']/field[@name='order_line']/tree/field[@name='discount']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//notebook/page[@string='Order Lines']/field[@name='order_line']/tree/field[@name='price_unit']" position="attributes">
+                    <attribute name="string">Your Selling Price</attribute>
+                </xpath>
+                <xpath expr="//notebook/page[@string='Order Lines']/field[@name='order_line']/tree/field[@name='price_subtotal']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//notebook/page[@string='Order Lines']/field[@name='order_line']/form//field[@name='product_uom']" position="after">
+                    <field name="last_selling_price"
+                           readonly="1"/>
+<!--                           attrs="{'readonly': [('state','in',('confirmed'))]}"/>-->
+                    <field name="purchase_price"
+                           readonly="1"  groups="base.group_user" />
+                    <field name="base_purchase_price" readonly="1" groups="base.group_user" />
+
+<!--                           attrs="{'readonly': [('state','in',('confirmed'))]}"-->
+<!--                    <field name="mark_up_amount" />-->
+<!--                    <field name="mark_up_percent" />-->
+                    <field name="counter_offer_qty" invisible="1"/>
+                    <field name="counter_offer_price" invisible="1"/>
+                    <field name="counter_offer_sub_total" invisible="1"/>
+                </xpath>
+                 <xpath expr="//notebook/page[@string='Order Lines']/field[@name='order_line']/tree/field[@name='tax_id']" position="attributes">
+                     <attribute name="readonly">1</attribute>
+                </xpath>
+                 <xpath expr="//notebook/page[@string='Order Lines']/field[@name='order_line']/tree/field[@name='product_uom']" position="attributes">
+                     <attribute name="readonly">1</attribute>
+                </xpath>
+                <xpath expr="//notebook/page[@string='Order Lines']/field[@name='order_line']/tree/field[@name='price_unit']" position="after">
+                    <field name="shipmaster_update" invisible="1"/>
+                    <field name="counter_offer_qty" invisible="1"/>
+                    <field name="counter_offer_price" invisible="1"/>
+                    <field name="counter_offer_sub_total" invisible="1"/>
+                </xpath>
+
+                <xpath expr="//notebook/page[@string='Order Lines']/field[@name='order_line']/tree/field[@name='product_uom']" position="after">
+                    <field name="last_selling_price"
+                           readonly="1" invisible="1"/>
+<!--                           attrs="{'readonly': [('state','in',('confirmed'))]}"/>-->
+                    <field name="currency_and_rate" string="Last Selling Currency Rate" readonly="1" invisible="1"></field>
+                    <field name="base_purchase_price" readonly="1" groups="dp_common.group_super_admin" invisible="1"/>
+
+                    <field name="purchase_price" invisible="1"
+                           readonly="1"  groups="base.group_user" />
+
+<!--                           attrs="{'readonly': [('state','in',('confirmed'))]}"-->
+
+<!--                    <field name="mark_up_amount" />-->
+<!--                    <field name="mark_up_percent" />-->
+                </xpath>
+                <xpath expr="//notebook/page[@string='Order Lines']/field[@name='order_line']/tree/field[@name='price_subtotal']" position="after">
+                    <field name="chandler_price_subtotal"/>
+                    <field name="margin_amount" string="Line Profit ($)" invisible="1"/>
+                </xpath>
+                <xpath expr="//notebook/page[@string='Order Lines']/field[@name='order_line']/tree[@string='Sales Order Lines']" position="attributes">
+                    <attribute name="colors">red:line_amend_state=='decrease';blue:line_amend_state=='increase'</attribute>
+                </xpath>
+                <xpath expr="//notebook/page[@string='Order Lines']/group[@name='sale_total']/field[@name='amount_total']" position="after">
+                    <field name="margin" invisible="1" widget='monetary' options="{'currency_field': 'currency_id'}" />
+                </xpath>
+                <xpath expr="//notebook/page[@string='Other Information']" position="attributes">
+                    <attribute name="groups">base.group_sale_salesman_all_leads</attribute>
+                </xpath>
+<!--                <xpath expr="//field[@name='amount_discount']" position="after">-->
+<!--                    <field name="markup_amount" readonly="1" widget='monetary' />-->
+<!--                </xpath>-->
+                <xpath expr="//field[@name='state']" position="after">
+                    <field name="expire_quote_state" widget="statusbar"
+                           statusbar_visible="active,expired"
+                           groups="dp_common.group_super_admin"/>
+                </xpath>
+                <xpath expr="//field[@name='user_id']" position="after">
+                    <field name="pending_user_id" options="{'no_quick_create': True, 'no_create_edit':True, 'no_create': True, 'no_open':True}" readonly="1"/>
+                </xpath>
+                <xpath expr="//field[@name='user_id']" position="attributes">
+                    <attribute name="options">{'no_quick_create': True, 'no_create_edit':True, 'no_create': True, 'no_open':True}</attribute>
+                    <attribute name="readonly">1</attribute>
+                </xpath>
+                <xpath expr="//button[@name='action_view_delivery']" position="attributes">
+                    <attribute name="groups">base.group_erp_manager</attribute>
+                </xpath>
+                <xpath expr="//button[@name='action_cancel']" position="attributes">
+                    <attribute name="groups">base.group_erp_manager</attribute>
+                </xpath>
+                <xpath expr="//button[@name='print_quotation' and @states='sent,progress,manual']" position="attributes">
+                    <attribute name="groups">base.group_erp_manager</attribute>
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//button[@name='print_quotation' and @states='draft']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//notebook/page[@string='Order Lines']/field[@name='order_line']/tree/field[@name='price_unit']" position="before">
+                    <field name="chandler_state" invisible="1"/>
+                 </xpath>
+                <xpath expr="//tree/field[@name='product_id']" position="before">
+                    <field name="id" invisible="1"/>
+                    <field name="check_readonly" invisible="1"/>
+                    <field name="check_readonly_shipmaster" invisible="1"/>
+                    <field name="state" string="State" invisible="1"/>
+                    <field name="chandler_state" string="Chandler State" invisible="1"/>
+                    <field name="item_type_product" class="oe_inline" string="Item Type" invisible="1"
+                           attrs="{'readonly': ['|',('id', '!=', False),
+                           '|',('check_readonly', '!=', False),('chandler_state', 'in', ('cancel','waiting_date','shipmaster_confirm','progress','manual', 'shipping_except', 'invoice_except', 'done'))]}" />
+<!--                                               attrs="{'readonly': [('state','in',('confirmed','shipmaster_confirm'))]}"-->
+<!--                    <button name="update_item_type"-->
+<!--                       string="FOC or Non-FOC" type="object"-->
+<!--                       icon="terp-gtk-jump-to-ltr" context="{'foc': True}"-->
+<!--                       attrs="{'invisible': [('chandler_state', 'in', ('cancel','waiting_date','shipmaster_confirm','progress','manual', 'shipping_except', 'invoice_except', 'done'))]}"/>-->
+
+
+                </xpath>
+                 <xpath expr="//notebook/page[@string='Order Lines']/field[@name='order_line']/tree/field[@name='price_unit']" position="attributes">
+                     <attribute name="attrs">{'readonly': ['|', ('check_readonly', '=', True),
+                                            ('chandler_state', 'in', ('cancel','waiting_date','shipmaster_confirm','progress','manual', 'shipping_except', 'invoice_except', 'done'))]}</attribute>
+                     <attribute name="context">{'price_unit': True}</attribute>
+                 </xpath>
+                <xpath expr="//notebook/page[@string='Order Lines']/field[@name='order_line']/tree/field[@name='discount']" position="attributes">
+                     <attribute name="attrs">{'readonly': ['|',('state','not in',('draft')), ('check_readonly', '=', True)]}</attribute>
+                 </xpath>
+
+
+                <xpath expr="//field[@name='amount_untaxed']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='amount_tax']" position="attributes">
+                    <attribute name="invisible">0</attribute>
+                    <attribute name="class">tax_label</attribute>
+                </xpath>
+                <xpath expr="//tree[@string='Sales Order Lines']/field[@name='tax_id']" position="attributes">
+                    <attribute name="invisible">0</attribute>
+                </xpath>
+<!--                <xpath expr="//div[@class='oe_chatter']" position="replace"/>-->
+<!--                <xpath expr="//field[@name='message_ids']" position="attributes">-->
+<!--                    <attribute name="invisible">1</attribute>-->
+<!--                </xpath>-->
+<!--                <xpath expr="//field[@name='message_follower_ids']" position="attributes">-->
+<!--                    <attribute name="invisible">1</attribute>-->
+<!--                </xpath>-->
+                <xpath expr="//field[@name='company_id']" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                    <attribute name="options">{'no_quick_create': True, 'no_create_edit':True, 'no_create': True, 'no_open':True}</attribute>
+                </xpath>
+                <xpath expr="//button[@name='button_dummy']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='note']" position="attributes">
+                    <attribute name="attrs">{'invisible': [('state', 'not in', ('shipmaster_confirm'))]}</attribute>
+                    <attribute name="placeholder">Remarks...</attribute>
+                </xpath>
+            </field>
+        </record>
+
+<!--        <record id="shipmaster_hide_page" model="ir.ui.view">-->
+<!--            <field name="name">shipmaster.hide.page</field>-->
+<!--            <field name="model">sale.order</field>-->
+<!--            <field name="inherit_id" ref="website_quote.sale_order_form_quote"/>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <xpath expr="//page[@string='Suggested Products']" position="attributes">-->
+<!--                    <attribute name="groups">base.group_sale_manager</attribute>-->
+<!--                </xpath>-->
+<!--                <xpath expr="//fields[@name='template_id']" position="attributes">-->
+<!--                    <attribute name="invisible">1</attribute>-->
+<!--                </xpath>-->
+<!--                <xpath expr="//fields[@name='validity_date']" position="attributes">-->
+<!--                    <attribute name="invisible">1</attribute>-->
+<!--                </xpath>-->
+<!--            </field>-->
+<!--        </record>-->
+
+        <record id="sale_margin_sale_order_line_override_form" model="ir.ui.view">
+            <field name="name">sale.order.line.tree.margin.override.view.form</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale_margin.sale_margin_sale_order_line_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//notebook/page[@string='Order Lines']/field[@name='order_line']/tree/field[@name='purchase_price']" position="replace"/>
+                <xpath expr="//field[@name='purchase_price']" position="attributes">
+                    <attribute name="readonly">1</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="dp_view_order_form_inherit2" model="ir.ui.view">
+            <field name="name">dp.view.order.form.inherit2.extended</field>
+            <field name="model">sale.order.line</field>
+            <field name="priority">22</field>
+            <field name="inherit_id" ref="sale_stock.view_order_form_inherit2"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='route_id']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="dp_view_order_line_tree_inherit" model="ir.ui.view">
+            <field name="name">dp.view.order.line.tree.inherit.extended</field>
+            <field name="model">sale.order.line</field>
+            <field name="priority">22</field>
+            <field name="inherit_id" ref="sale_stock.view_order_line_tree_inherit"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='route_id']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+            </field>
+        </record>
+
+
+        <record id="sale.action_quotations" model="ir.actions.act_window">
+            <field name="domain">[('state','in',('draft', 'chandler_draft','sent', 'cancel'))]</field>
+        </record>
+        <record id="sale.action_orders" model="ir.actions.act_window">
+            <field name="domain">[('state', 'not in', ('draft', 'chandler_draft', 'sent', 'cancel'))]</field>
+        </record>
+
+
+        <record id="dp_base_view_order_form_inherit" model="ir.ui.view">
+            <field name="name">dp.base.view.order.form.inherit</field>
+            <field name="model">sale.order</field>
+            <field name="priority">20</field>
+            <field name="inherit_id" ref="sale_stock.view_order_form_inherit" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='order_line']/tree/field[@name='route_id']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='order_line']/form/group/group/field[@name='route_id']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <menuitem name="Sales"
+            id="base.menu_base_partner"
+            groups="base.group_sale_salesman_all_leads"
+            sequence="20"/>
+
+        <menuitem action="sale_stock.outgoing_picking_list_to_invoice"
+                  id="sale_stock.menu_action_picking_list_to_invoice"
+                  parent="base.menu_invoiced"
+                  groups="dp_common.group_super_admin"
+                  sequence="20"/>
+
+        <record id="dp_view_order_tree_inherit" model="ir.ui.view">
+            <field name="name">dp.sale.order.tree.inherit</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_tree" />
+            <field name="arch" type="xml">
+                <xpath expr="//tree[@string='Sales Orders']" position="attributes">
+                    <attribute name="create">false</attribute>
+                    <attribute name="edit">false</attribute>
+                </xpath>
+                <xpath expr="//field[@name='partner_id']" position="attributes">
+                    <attribute name="string">Chandler</attribute>
+                </xpath>
+                <xpath expr="//field[@name='user_id']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="dp_view_quotation_tree_inherit" model="ir.ui.view">
+            <field name="name">dp.sale.view.quotation.tree.inherit</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_quotation_tree" />
+            <field name="arch" type="xml">
+                <xpath expr="//tree[@string='Quotation']" position="attributes">
+                    <attribute name="create">false</attribute>
+                    <attribute name="edit">false</attribute>
+                </xpath>
+                <xpath expr="//field[@name='partner_id']" position="attributes">
+                    <attribute name="string">Ship Master</attribute>
+                </xpath>
+                <xpath expr="//field[@name='user_id']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</openerp>
+

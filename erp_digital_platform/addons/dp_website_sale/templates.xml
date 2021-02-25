@@ -1,0 +1,19 @@
+<openerp>
+    <data>
+        <template id="assets_frontend" name="website assets for Frontend" inherit_id="website.assets_frontend">
+            <xpath expr="." position="inside">
+                <script type="text/javascript" src="/dp_website_sale/static/src/js/website_sale.js"></script>
+                <script type="text/javascript" src="/dp_website_sale/static/src/js/website_sale_cart_preview.js"></script>
+                <script type="text/javascript" src="/dp_website_sale/static/src/js/website_sale_empty_cart.js"></script>
+                <script type="text/javascript" src="/dp_website_sale/static/src/js/datepicker.js"/>
+                <script type="text/javascript" src="/dp_website_sale/static/src/js/datepicker_main.js"/>
+                <script type="text/javascript" src="/dp_website_sale/static/src/js/add_zero_quantity.js"/>
+                <link rel='stylesheet' href='/dp_website_sale/static/src/less/website.less' type="text/less"/>
+                <link rel='stylesheet' href='/dp_website_sale/static/src/css/website_sale_cart_preview.css'/>
+				<link rel='stylesheet' href='/dp_website_sale/static/src/css/home_banner.css'/>
+                <link rel='stylesheet' href='/dp_website_sale/static/src/css/datepicker.css'/>
+				
+            </xpath>
+        </template>
+    </data>
+</openerp>

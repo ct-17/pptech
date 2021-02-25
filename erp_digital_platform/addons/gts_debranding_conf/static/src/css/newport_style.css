@@ -1,0 +1,8 @@
+.openerp .my_ok > img {max-width: 200px !important; }
+
+
+.openerp .oe_form_sheet_width {
+  min-width: 650px;
+  max-width: 1130px;
+  margin: 0 auto;
+}

@@ -1,0 +1,34 @@
+<openerp>
+    <data>
+        <record id="dp_website_multi_currency_extended_phase2_form_view" model="ir.ui.view">
+            <field name="name">dp.website.multi.currency.saleorder.extended.phase2.form.view</field>
+            <field name="model">sale.order</field>
+            <field name="priority">18</field>
+            <field name="inherit_id" ref="dp_sale.dp_base_saleorder_extended_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='currency_rate']" position="before">
+                    <field name="currency_readonly_filter" invisible="1"/>
+                </xpath>
+                <xpath expr="//field[@name='currency_rate']" position="attributes">
+                    <attribute name="attrs">{'readonly': [('currency_readonly_filter', '=', 'SGD')]}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='show_confirm_prompt']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='show_confirm_prompt']" position="after">
+                    <field name="is_sale_order_edited_exchange_rate" invisible="1"/>
+                </xpath>
+                <xpath expr="//button[@name='action_dp_quotation_send' and @class='oe_highlight dp_send_noconfirm']" position="attributes">
+                    <attribute name="attrs"/>
+                    <attribute name="states">chandler_draft</attribute>
+                </xpath>
+                <xpath expr="//button[@name='action_dp_quotation_send' and @class='oe_highlight dp_send_confirm']" position="replace"/>
+                <xpath expr="//button[@name='action_dp_quotation_send_again' and @class='oe_highlight dp_send_again_noconfirm']" position="replace">
+                    <button name="action_dp_quotation_send_again" string="Re-Send by Email" type="object" states="sent"
+                            groups="base.group_user" class="oe_highlight dp_send_again_noconfirm"/>
+                </xpath>
+                <xpath expr="//button[@name='action_dp_quotation_send_again' and @class='oe_highlight dp_send_again_confirm']" position="replace"/>
+            </field>
+        </record>
+    </data>
+</openerp>

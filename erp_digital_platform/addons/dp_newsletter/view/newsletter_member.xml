@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<openerp>
+  <data>
+    <record model="ir.ui.view" id="tree_newsletter_member">
+      <field name="name">form.newsletter.type</field>
+      <field name="model">newsletter.member</field>
+      <field name="arch" type="xml">
+          <tree editable="top">
+              <field name="name"/>
+          </tree>
+      </field>
+    </record>
+
+      <act_window res_model="newsletter.member"
+                  id="action_newsletter_member"
+                  name="Newsletter Member"
+                  view_type="form"
+                  view_mode="tree"/>
+      <menuitem parent="base.menu_base_config" id="menu_newsletter_member"
+          action="action_newsletter_member" />
+  </data>
+</openerp>

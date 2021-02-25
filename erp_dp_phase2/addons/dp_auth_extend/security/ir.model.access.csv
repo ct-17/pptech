@@ -1,0 +1,3 @@
+id,name,model_id/id,group_id/id,perm_read,perm_write,perm_create,perm_unlink
+new_user_attachment_guide_wizard_chandler_admin,new.user.attachment.guide.wizard,model_new_user_attachment_guide_wizard,dp_common.group_chandler_admin,1,1,1,1
+new_user_attachment_guide_wizard_chandler_admin_line,new.user.attachment.guide.wizard.line,model_new_user_attachment_guide_wizard_line,dp_common.group_chandler_admin,1,1,1,1

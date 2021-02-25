@@ -1,0 +1,185 @@
+<openerp>
+    <data>
+        <record id="view_self_chandler_res_partner_form" model="ir.ui.view">
+            <field name="name">View Self Res Partner</field>
+            <field name="model">res.partner</field>
+            <field name="arch" type="xml">
+                <form string="Partners" create="false" edit="true"  >
+                    <sheet>
+                        <field name="image" widget='image' class="oe_left oe_avatar" options='{"preview_image": "image_medium", "size": [90, 90]}'/>
+                        <div class="oe_title oe_left">
+                            <div class="oe_edit_only">
+                                <label for="name"/>
+                                <field name="is_company" on_change="onchange_type(is_company)" class="oe_inline" invisible="1"/> <label for="is_company" string="Is a Company?" invisible="1"/>
+                            </div>
+                            <h1>
+                                <field name="name" default_focus="1" placeholder="Name" />
+                            </h1>
+                            <field name="parent_id"
+                                placeholder="Company"
+                                domain="[('is_company', '=', True)]" context="{'default_is_company': True, 'default_supplier': supplier, 'default_customer': customer}"
+                                attrs="{'invisible': [('is_company','=', True),('parent_id', '=', False)]}"
+                                on_change="onchange_address(use_parent_address, parent_id)" invisible="1"/>
+                            <field name="category_id" widget="many2many_tags" placeholder="Tags..." invisible="1" />
+                        </div>
+                        <div class="oe_right oe_button_box" name="buttons"> </div>
+
+                        <group>
+                            <group>
+                                <label for="type" attrs="{'invisible': [('parent_id','=', False)]}"/>
+                                <div attrs="{'invisible': [('parent_id','=', False)]}" name="div_type">
+                                    <field class="oe_inline"
+                                        name="type"/>
+                                </div>
+
+                                <label for="street" string="Address"/>
+                                <div>
+                                    <div class="oe_edit_only">
+                                        <field name="use_parent_address" class="oe_inline"
+                                               on_change="onchange_address(use_parent_address, parent_id)"
+                                               attrs="{'invisible': ['|', ('is_company', '=', True),('parent_id', '=', False)]}"/>
+                                        <label for="use_parent_address" attrs="{'invisible': ['|', ('is_company', '=', True), ('parent_id', '=', False)]}"/>
+                                    </div>
+                                    <button name="open_parent" type="object" string="(edit company address)" class="oe_link oe_edit_only"
+                                            attrs="{'invisible': ['|',('parent_id','=', False),('use_parent_address','=',False)]}" />
+                                    <field name="street" placeholder="Street..."  attrs="{'readonly': [('use_parent_address','=',True)]}" readonly="1"/>
+                                    <field name="street2"  attrs="{'readonly': [('use_parent_address','=',True)]}" readonly="1"/>
+                                    <div class="address_format">
+                                        <field name="city" placeholder="City" style="width: 40%%" attrs="{'readonly': [('use_parent_address','=',True)]}" readonly="1"/>
+                                        <field name="state_id" class="oe_no_button" placeholder="State" style="width: 37%%" options='{"no_open": True}' on_change="onchange_state(state_id)" attrs="{'readonly': [('use_parent_address','=',True)]}" readonly="1"/>
+                                        <field name="zip" placeholder="ZIP" style="width: 20%%" attrs="{'readonly': [('use_parent_address','=',True)]}" readonly="1"/>
+                                    </div>
+                                    <field name="country_id" placeholder="Country" class="oe_no_button" options='{"no_open": True, "no_create": True}' attrs="{'readonly': [('use_parent_address','=',True)]}" readonly="1"/>
+                                </div>
+                                <field name="website" widget="url" placeholder="e.g. www.odoo.com" invisible="1"/>
+                            </group>
+                            <group>
+                                <field name="function" placeholder="e.g. Sales Director"
+                                    attrs="{'invisible': [('is_company','=', True)]}" invisible="1"/>
+                                <field name="phone" invisible="1"/>
+                                <field name="mobile" readonly="1"/>
+                                <field name="fax" invisible="1"/>
+                                <field name="user_ids" invisible="1"/>
+                                <field name="email" widget="email" attrs="{'required': [('user_ids','!=', [])]}" readonly="1"/>
+                                <field name="title" options='{"no_open": True}' invisible="1"/>
+                            </group>
+                        </group>
+                        <notebook colspan="4">
+                            <page string="Currency Rate">
+                                <group>
+                                    <field name="currency_line" nolabel="1">
+                                        <tree editable="bottom" create="false" delete="false">
+                                            <field name="currency_id" options="{'no_quick_create': True, 'no_create_edit':True,
+                                                                                'no_create': True, 'no_open': True}" readonly="1"/>
+                                            <field name="sale_rate" attrs="{'readonly':[('is_SGD', '=', True)]}"/>
+                                            <field name="is_SGD" invisible="1"/>
+<!--                                            <field name="purchase_rate" invisible="1"/>-->
+                                        </tree>
+                                    </field>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_self_chandler_res_partner_tree" model="ir.ui.view">
+            <field name="name">res.partner.tree</field>
+            <field name="model">res.partner</field>
+            <field name="arch" type="xml">
+                <tree string="Contacts" create="false" import="false">
+                    <field name="display_name"/>
+                    <field name="function" invisible="1"/>
+                    <field name="phone"/>
+                    <field name="email"/>
+                    <field name="user_id" invisible="1"/>
+                    <field name="is_company" invisible="1"/>
+                    <field name="country_id" invisible="1"/>
+                    <field name="parent_id" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_view_self_chandler_res_partner_form" model="ir.actions.act_window">
+            <field name="name">Chandler Details</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'view_self': True}</field>
+            <field name="domain">[('user_ids','=',uid)]</field>
+        </record>
+
+        <report
+            id="account.action_report_print_overdue"
+            model="res.partner"
+            report_type="qweb-pdf"
+            string="Due Payments"
+            groups="dp_common.group_super_admin"
+            name="account.report_overdue"
+            file="account.report_overdue"
+        />
+
+        <record model="ir.actions.act_window" id="account.action_account_partner_ledger">
+            <field eval="[(6,0, [ref('dp_common.group_super_admin')])]" name="groups_id"/>
+        </record>
+
+        <record id="action_res_partner_view_self2" model="ir.actions.act_window.view">
+            <field eval="21" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_self_chandler_res_partner_form"/>
+            <field name="act_window_id" ref="action_view_self_chandler_res_partner_form"/>
+        </record>
+
+        <record id="action_res_partner_view_self1" model="ir.actions.act_window.view">
+            <field eval="11" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="view_self_chandler_res_partner_tree"/>
+            <field name="act_window_id" ref="action_view_self_chandler_res_partner_form"/>
+        </record>
+
+        <record id="action_shipmaster_invitation" model="ir.actions.act_window">
+            <field name="name">Shipmaster Invitation</field>
+            <field name="res_model">shipmaster.invitation</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+
+
+        <menuitem name="Chandler" id="chandler_parent_menu" groups="group_chandler"/>
+        <menuitem name="Invitation" id="invitation_menu" parent="chandler_parent_menu" sequence="10" />
+        <menuitem name="Ship Master Invitation" id="shipmaster_invitation_menu" action="action_shipmaster_invitation"
+                  parent="invitation_menu"/>
+
+        <menuitem name="Chandler" id="chandler_subcateg" parent="chandler_parent_menu" sequence="1"/>
+
+        <menuitem id="menu_action_view_self_res_partner"
+                  action="action_view_self_chandler_res_partner_form"
+                  parent="chandler_subcateg"/>
+
+        <record id="dp_partner_inherit_form_view" model="ir.ui.view">
+            <field name="name">dp.partner.inherit.form.view</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//notebook/page[last()]" position="after">
+                    <page string="Currency Rate" attrs="{'invisible':[('supplier','=',False)]}">
+                        <group>
+                            <field name="currency_line" nolabel="1" >
+                                <tree editable="bottom">
+                                    <field name="currency_id" options="{'no_quick_create': True, 'no_create_edit':True,
+                                                                        'no_create': True, 'no_open': True}"/>
+                                    <field name="sale_rate" />
+                                    <!--<field name="purchase_rate" />-->
+                                </tree>
+                            </field>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</openerp>

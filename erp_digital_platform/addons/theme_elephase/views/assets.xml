@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+		<!-- Assets, css, js -->
+		<template id="assent_front"
+			inherit_id="website.assets_frontend">
+			<xpath expr="." position="inside">
+				<link href="/theme_elephase/static/src/css/slick.css"
+					rel="stylesheet" type="text/css" />
+				<link href="/theme_elephase/static/src/css/magnific-popup.css"
+					rel="stylesheet" type="text/css" />
+				<link href="/theme_elephase/static/src/css/style.css"
+					rel="stylesheet" type="text/css" />
+
+				<script type="text/javascript"
+					src="/theme_elephase/static/src/js/slick.min.js"></script>
+				<script type="text/javascript"
+					src="/theme_elephase/static/src/js/megnific.js"></script>
+				<script type="text/javascript"
+					src="/theme_elephase/static/src/js/custome.js"></script>
+			</xpath>
+		</template>
+	</data>
+</openerp>

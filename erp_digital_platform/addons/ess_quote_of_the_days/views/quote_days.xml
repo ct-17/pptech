@@ -1,0 +1,45 @@
+<openerp>
+    <data>
+        <record model="ir.ui.view" id="quote_days_tree">
+            <field name="name">quote.days.tree</field>
+            <field name="model">quote.days</field>
+            <field name="priority" eval="16"/>
+            <field name="arch" type="xml">
+                <tree editable="bottom">
+                    <field name="name"/>
+                    <field name="autho"/>
+                    <field name="date"/>
+                    <field name="img" widget="image"/>
+                </tree>
+            </field>
+        </record>
+
+        <!--<record model="ir.ui.view" id="quote_days_form">-->
+            <!--<field name="name">quote.days.form</field>-->
+            <!--<field name="model">quote.days</field>-->
+            <!--<field name="priority" eval="16"/>-->
+            <!--<field name="arch" type="xml">-->
+                <!--<form>-->
+                    <!--<group>-->
+                        <!--<field name="code"/>-->
+                        <!--<field name="name"/>-->
+                    <!--</group>-->
+                <!--</form>-->
+
+            <!--</field>-->
+        <!--</record>-->
+
+        <record model="ir.actions.act_window" id="quote_days_action">
+            <field name="name">Quote of The Days</field>
+            <field name="res_model">quote.days</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem name="Quote of The Days"
+            id="menu_quote_days_action"
+            sequence="3"
+            action="quote_days_action"
+            parent="dp_base.menu_website_global_configuration"/>
+    </data>
+</openerp>

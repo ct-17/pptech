@@ -1,0 +1,44 @@
+<openerp>
+    <data>
+		<record id="inherited_product_template_view_extend" model="ir.ui.view">
+			<field name="name">product.template.customized.extend</field>
+			<field name="model">product.template</field>
+			<field name="inherit_id" ref="product.product_template_only_form_view" />
+			<field name="arch" type="xml">
+				<xpath expr="//field[@name='short_description']" position="before">
+                    <field name="country_id"
+                           options="{'no_quick_create': True, 'no_create_edit':True, 'no_create': True, 'no_open':True}"/>
+					<field name="country_name" invisible="1"/>
+				</xpath>
+				<xpath expr="//field[@name='website_sequence']" position="after">
+                    <field name="hot_selling" />
+				</xpath>
+				<xpath expr="//field[@name='public_categ_ids']" position="attributes">
+					<attribute name="options">{'no_quick_create': True, 'no_create_edit':True, 'no_create': True, 'no_open':True}</attribute>
+				</xpath>
+			</field>
+		</record>
+
+		<record id="data_sync_fields_product_template_form_view_inherit" model="ir.ui.view">
+            <field name="name">data.sync.fields.product.template.form.view.inherit</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_form_view" />
+            <field name="arch" type="xml">
+                <xpath expr="//notebook/page[last()]" position="after">
+                    <page string="Data Synchronization">
+						<group>
+							<group>
+                                <field name="source_origin" readonly="1"/>
+                                <field name="is_to_np" readonly="1"/>
+                                <field name="is_from_np" readonly="1"/>
+                                <field name="sync_status" readonly="1"/>
+                                <field name="erp_id" readonly="1"/>
+							</group>
+							<group/>
+						</group>
+                    </page>
+				</xpath>
+			</field>
+		</record>
+    </data>
+</openerp>
