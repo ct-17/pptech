@@ -2896,3 +2896,17 @@ footer {
 .oe_signup_form{
   max-height:705px;
 }
+
+.field-icon {
+  float: right;
+  margin-left: -25px;
+  margin-top: -25px;
+  position: relative;
+  z-index: 2;
+  width: 2.5em;
+}
+
+.container{
+  padding-top:50px;
+  margin: auto;
+}

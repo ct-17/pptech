@@ -1,0 +1,25 @@
+#icon-wish-list {
+    color: #5f9c1e;
+}
+
+#wish_list {
+    float: left;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    margin-left: calc(100vw * .62)!important;
+}
+
+.wish_list_header .icon-wish-list {
+	width: 40px;
+	height: 40px;
+	border: 1px dashed rgba(0, 0, 0, .7);
+	-webkit-border-radius: 50%;
+	-moz-border-radius: 50%;
+	-ms-border-radius: 50%;
+	border-radius: 50%;
+	text-align: center;
+	padding: 7px 9px;
+	line-height: 24px;
+	margin: 0 5px 0 0;
+}

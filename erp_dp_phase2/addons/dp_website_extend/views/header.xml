@@ -203,13 +203,20 @@
 							</form>
 						</div>
 					</div>
-					<div class="col-xs-6 col-sm-6 col-md-3 col-centered" groups="dp_common.group_super_admin,dp_common.group_chandler_admin,dp_common.group_shipmaster" id="cart_part">
+					<div class="col-xs-4 col-sm-4 col-md-2 col-centered" groups="dp_common.group_super_admin,dp_common.group_chandler_admin,dp_common.group_shipmaster" id="cart_part">
 						<div class="shopping_cart">
 							<t t-set="website_sale_order" t-value="website.sale_get_order()"/>
 							<a href="/shop/cart">
 							   <span class="icon-cart"><img src="/dp_website/static/src/images/cart-icon.png" alt=""/></span>
 							   <span class="line">/</span>
 							   <span class="cart-quantity"><span class="my_cart_quantity " t-esc="website_sale_order and website_sale_order.cart_quantity or '0'"/> <b>Items</b></span>
+							</a>
+						</div>
+					</div>
+					<div class="col-xs-1 col-sm-1 col-md-1 col-centered" id="wish_list">
+						<div class="wish_list_header">
+							<a href="/shop/cart">
+							   <span class="icon-wish-list"><i class="fa fa-heart" id="icon-wish-list" aria-hidden="true"></i></span>
 							</a>
 						</div>
 					</div>

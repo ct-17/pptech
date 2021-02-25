@@ -3,6 +3,8 @@
         <template id="assets_frontend" name="website assets for Frontend" inherit_id="website.assets_frontend">
             <xpath expr="." position="inside">
                 <link rel="stylesheet" href='/dp_website_extend/static/src/less/website.less'/>
+                <link rel="stylesheet" href='/dp_website_extend/static/src/css/header_extend.css'/>
+                <script type="text/javascript" src="/dp_website_extend/static/src/js/header_extend.js"></script>
             </xpath>
         </template>
         <template id="dp_website_extend_layout" inherit_id="website.layout" name="dp_website_extend layout" priority="17">
