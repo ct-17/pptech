@@ -7,7 +7,6 @@
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    margin-left: calc(100vw * .62)!important;
 }
 
 .wish_list_header .icon-wish-list {

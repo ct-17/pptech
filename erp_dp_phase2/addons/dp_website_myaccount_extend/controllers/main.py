@@ -17,3 +17,16 @@ class website_myaccount_extend(http.Controller):
                 vtype = ''
         rtn_dict = {"vessel_type": vtype}
         return json.dumps(rtn_dict)
+
+    @http.route(['/mywishlist'], type='http', auth='user', website=True)
+    def get_wish_list(self, **kwargs):
+        product_obj = request.env['wish.list']
+
+        values = {
+            'product_name': product_obj.name or '',
+            'contact': product_obj.contact or '',
+            'crNum': product_obj.crNum or '',
+            'active': product_obj.active or ''
+        }
+
+        return request.website.render("dp_website_myaccount_extend.wish_list", values)

@@ -213,9 +213,9 @@
 							</a>
 						</div>
 					</div>
-					<div class="col-xs-1 col-sm-1 col-md-1 col-centered" id="wish_list">
-						<div class="wish_list_header">
-							<a href="/shop/cart">
+					<div class="col-xs-1 col-sm-1 col-md-1 col-centered" groups="dp_common.group_super_admin,dp_common.group_chandler_admin,dp_common.group_shipmaster" id="wish_list">
+						<div class="wish_list_header" role="menu">
+							<a href="/mywishlist" role="menuitem">
 							   <span class="icon-wish-list"><i class="fa fa-heart" id="icon-wish-list" aria-hidden="true"></i></span>
 							</a>
 						</div>

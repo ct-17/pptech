@@ -60,5 +60,10 @@
                 <!--<li groups="dp_common.group_super_admin,dp_common.group_chandler_admin,base.group_public,dp_common.group_shipmaster"><a href="/myenquiry" role="menuitem">My Enquiry</a></li>-->
             </xpath>
         </template>
+        <template id="dp_website_layout_inherit" inherit_id="dp_website.theme_header" groups="dp_common.group_super_admin,dp_common.group_chandler_admin,base.group_public,dp_common.group_shipmaster">
+            <xpath expr="//ul[@id='top_menu']//ul[@class='dropdown-menu js_usermenu']/li[1]" position="before">
+                <li><a href="/mywishlist" role="menuitem">My Wish List</a></li>
+            </xpath>
+        </template>
     </data>
 </openerp>
